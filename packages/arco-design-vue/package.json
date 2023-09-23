@@ -1,0 +1,9 @@
+{
+  "name": "@harbor-design/arco-design-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "yiwwhl <yiwwhl@qq.com>",
+  "license": "MIT"
+}

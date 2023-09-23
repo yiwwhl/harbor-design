@@ -1,0 +1,13 @@
+{
+  "name": "harbor-design",
+  "version": "1.0.0",
+  "description": "accumulation of personal experience in component encapsulation",
+  "author": "yiwwhl <yiwwhl@qq.com>",
+  "scripts": {
+    "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.3.4"
+  }
+}
