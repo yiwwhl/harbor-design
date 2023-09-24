@@ -4,7 +4,8 @@
   "description": "accumulation of personal experience in component encapsulation",
   "author": "yiwwhl <yiwwhl@qq.com>",
   "scripts": {
-    "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev"
+    "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev",
+    "build:arco-vue": "pnpm --filter=@harbor-design/playground build"
   },
   "license": "MIT",
   "dependencies": {

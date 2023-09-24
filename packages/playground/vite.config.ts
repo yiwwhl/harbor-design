@@ -7,6 +7,7 @@ import { vitePluginForArco } from "@arco-plugins/vite-vue";
 
 export default defineConfig(() => {
   return {
+    base: ".",
     plugins: [
       vue(),
       vueJSX(),
