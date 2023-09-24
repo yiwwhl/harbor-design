@@ -24,7 +24,7 @@ jobs:
           name: sourceCode
           path: ./
 
-  build_playground:
+  build_playground_dist:
     needs: install
     runs-on: ubuntu-latest
     steps:
