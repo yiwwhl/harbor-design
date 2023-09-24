@@ -1,4 +1,4 @@
-name: build
+name: build_playground
 on:
   push:
     branches:
@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dist
-          path: ./dist/
+          path: ./packages/playground/dist
 
   build_image:
     needs: build_dist
