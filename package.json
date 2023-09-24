@@ -9,5 +9,15 @@
   "license": "MIT",
   "dependencies": {
     "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "sass": "^1.68.0",
+    "@types/node": "^20.6.3",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-svg-loader": "^4.0.0",
+    "vue-tsc": "^1.8.5"
   }
 }

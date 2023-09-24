@@ -1,0 +1,25 @@
+.header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $bg-color-secondary;
+  padding: 0 16px;
+
+  .logo {
+    width: 32px;
+    height: 32px;
+    fill: $primary;
+  }
+
+  .title {
+    min-width: 210px;
+    display: flex;
+    align-items: center;
+    font-size: $font-size-22;
+    font-weight: bold;
+    gap: 12px;
+    color: $text-color-primary;
+    font-family: "@harbor-design/title";
+  }
+}

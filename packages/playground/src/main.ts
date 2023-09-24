@@ -1,5 +1,15 @@
 import { createApp } from "vue";
-import "./style.css";
 import App from "./App";
+import ArcoVue from "@arco-design/web-vue";
+import "@arco-design/web-vue/dist/arco.css";
+import "@/assets/style/global.scss";
+import router from "@/router";
+import { createPinia } from "pinia";
 
-createApp(App).mount("#app");
+const app = createApp(App);
+const store = createPinia();
+
+app.use(ArcoVue);
+app.use(router);
+app.use(store);
+app.mount("#app");
