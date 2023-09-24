@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  install:
+  build_dist:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
           path: ./dist/
 
   build_image:
-    needs: build_playground_dist
+    needs: build_dist
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
