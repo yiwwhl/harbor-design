@@ -11,6 +11,9 @@ export default defineComponent({
             <Logo class={styles.logo} />
             Harbor Design
           </div>
+          <div class={styles.meta}>
+            <a href="https://github.com/yiwwhl/harbor-design">Github Repo</a>
+          </div>
         </div>
       );
     };
