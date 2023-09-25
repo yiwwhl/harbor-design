@@ -4,7 +4,7 @@ import { PageWrapper } from "@harbor-design/arco-design-vue/components/Page/inde
 export default defineComponent({
   setup() {
     return () => {
-      return <PageWrapper>关于</PageWrapper>;
+      return <PageWrapper>Harbor Design About</PageWrapper>;
     };
   },
 });
