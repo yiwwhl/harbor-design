@@ -80,5 +80,5 @@ jobs:
             cd ${{ secrets.DEV_TARGET }} && \
             sed -i '/builder:/,+1s|image:.*|image: ${{ needs.magic_version.outputs.VERSION }}|' ${{ secrets.DEV_TARGET_FILE }}.yml && \
             docker-compose down && \
-            docker-compose up -d \
+            docker-compose up -d --build \
           "
