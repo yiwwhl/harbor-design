@@ -78,8 +78,7 @@ jobs:
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
             cd ${{ secrets.DEV_TARGET }} && \
-            echo "image tag is ${{ needs.magic_version.outputs.VERSION }}" && \
-            sed -i '/builder:/,+1s|image:.*|image: '${{needs.magic_version.outputs.VERSION}}' ${{ secrets.DEV_TARGET_FILE }}.yml && \
+            sed -i '/builder:/,+1s|image:.*|image: \\\"${{ needs.magic_version.outputs.VERSION }}\\\"|' ${{ secrets.DEV_TARGET_FILE }}.yml && \
             docker-compose down && \
             docker-compose up -d \
           "
