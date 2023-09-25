@@ -67,6 +67,7 @@ jobs:
 
   server_update:
     runs-on: ubuntu-latest
+    needs: [build_image]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,8 +77,8 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            cd ${{ secrets.DEV_TARGET }} \
-            sed -i "s|image:.*|image: ${{ needs.magic_version.outputs.VERSION }}|g" ${{ secrets.DEV_TARGET_FILE }}.yml \
-            docker-compose down \
+            cd ${{ secrets.DEV_TARGET }} && \
+            sed -i "s|image:.*|image: ${{ needs.magic_version.outputs.VERSION }}|g" ${{ secrets.DEV_TARGET_FILE }}.yml && \
+            docker-compose down && \
             docker-compose up -d \
           "
