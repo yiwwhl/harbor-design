@@ -65,22 +65,16 @@ jobs:
           push: true
           tags: ${{ needs.magic_version.outputs.VERSION }}
 
-  server_update:
+  webhooks:
     runs-on: ubuntu-latest
     needs: [build_image, magic_version]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: SSH
+      - name: trigger webhook
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-            rm -rf /harbor-design-volumns && \
-            mkdir /harbor-design-volumns && \
-            cd ${{ secrets.DEV_TARGET }} && \
-            sed -i '/builder:/,+1s|image:.*|image: ${{ needs.magic_version.outputs.VERSION }}|' ${{ secrets.DEV_TARGET_FILE }}.yml && \
-            docker-compose down && \
-            docker-compose up -d --build \
-          "
+          curl -X POST \
+               "${{WEB_HOOK_TARGET}}" \
+               -H "Content-Type: application/json" \
+               -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}" }'
