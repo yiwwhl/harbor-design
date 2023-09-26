@@ -75,6 +75,6 @@ jobs:
       - name: trigger webhook
         run: |
           curl -X POST \
-               "${{WEB_HOOK_TARGET}}" \
+               "${{ secrets.WEB_HOOK_TARGET }}" \
                -H "Content-Type: application/json" \
                -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}" }'
