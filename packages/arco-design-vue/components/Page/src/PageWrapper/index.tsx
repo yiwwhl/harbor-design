@@ -1,6 +1,7 @@
-import { computed, defineComponent, ref, watchEffect } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import styles from "./index.module.scss";
 import { basicProps } from "./props";
+import { HeightMode } from "./type";
 
 export default defineComponent({
   props: {
@@ -10,13 +11,19 @@ export default defineComponent({
     const pageWrapperRef = ref();
     const isPageWrapperHeaderShow = computed(() => !!props.title);
 
-    watchEffect(() => {
-      if (pageWrapperRef.value) {
-        pageWrapperRef.value.style.setProperty(
-          "--pagewrapper-margin",
-          `${props.spaceAround}px`
-        );
-      }
+    const heightByMode: Record<HeightMode, string> = {
+      [HeightMode.FLEX_FIT]: "unset",
+    };
+
+    onMounted(() => {
+      pageWrapperRef.value.style.setProperty(
+        "--pagewrapper-margin",
+        `${props.spaceAround}px`
+      );
+      pageWrapperRef.value.style.setProperty(
+        "--pagewrapper-height",
+        heightByMode[props.heightMode]
+      );
     });
 
     return () => {

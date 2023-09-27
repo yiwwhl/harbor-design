@@ -25,7 +25,7 @@ export default defineComponent({
             <LayoutSider collapsed={basicSetting.sidebarMenu.collapse}>
               <Menu />
             </LayoutSider>
-            <LayoutContent>
+            <LayoutContent class={styles.content}>
               <RouterView />
             </LayoutContent>
           </Layout>
