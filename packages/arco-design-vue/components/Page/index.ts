@@ -1,1 +1,1 @@
-export { default as PageWrapper } from "./src/PageWrapper/index";
+export { default as Wrapper } from "./src/Wrapper/index";
