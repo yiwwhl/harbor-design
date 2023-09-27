@@ -29,20 +29,19 @@ export default defineComponent({
         overflow: "auto",
       },
       fit: {
-        width: `calc(100% - ${pxOfSpaceArround}`,
-        height: `calc(100% - ${pxOfSpaceArround}`,
+        width: `calc(100% - ${pxOfSpaceArround})`,
+        height: `calc(100% - ${pxOfSpaceArround})`,
         overflow: "scroll",
       },
       fixed: {
-        width: `calc(100% - ${pxOfSpaceArround}`,
-        height: `calc(100vh - ${pxOfSpaceArround} - ${pxOfFixedHeight}`,
+        width: `calc(100% - ${pxOfSpaceArround})`,
+        height: `calc(100vh - ${pxOfSpaceArround} - ${pxOfFixedHeight})`,
         overflow: "scroll",
       },
     };
 
     onMounted(() => {
-      const { width, height, overflow } =
-        presetByHeightMode[props.heightMode] ?? {};
+      const { width, height, overflow } = presetByHeightMode[props.heightMode];
 
       pageWrapperRef.value.style.setProperty("--pagewrapper-width", width);
       pageWrapperRef.value.style.setProperty("--pagewrapper-height", height);
