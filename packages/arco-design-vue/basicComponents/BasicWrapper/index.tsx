@@ -1,15 +1,26 @@
-import { CSSProperties, computed, defineComponent, onMounted, ref } from "vue";
+import {
+  CSSProperties,
+  computed,
+  defineComponent,
+  inject,
+  onMounted,
+  ref,
+} from "vue";
 import styles from "./index.module.scss";
 import { basicProps } from "./props";
 import { HeightMode } from "./type";
+import { globalConfigSymbol } from "../../components/GlobalConfig/index";
 
 export default defineComponent({
   props: {
     ...basicProps,
   },
   setup(props, { slots }) {
+    const globalConfig = inject(globalConfigSymbol) as any;
     const pageWrapperRef = ref();
     const isPageWrapperHeaderShow = computed(() => !!props.title);
+    const pxOfSpaceArround = `${props.spaceAround * 2}px`;
+    const pxOfFixedHeight = `${globalConfig.headerHeight}px`;
 
     const presetByHeightMode: Record<HeightMode, CSSProperties> = {
       flex: {
@@ -17,15 +28,21 @@ export default defineComponent({
         height: "unset",
         overflow: "auto",
       },
-      flex_fit: {
-        width: `calc(100% - 2 * ${props.spaceAround}px)`,
-        height: `calc(100% - 2 * ${props.spaceAround}px)`,
+      fit: {
+        width: `calc(100% - ${pxOfSpaceArround}`,
+        height: `calc(100% - ${pxOfSpaceArround}`,
+        overflow: "scroll",
+      },
+      fixed: {
+        width: `calc(100% - ${pxOfSpaceArround}`,
+        height: `calc(100vh - ${pxOfSpaceArround} - ${pxOfFixedHeight}`,
         overflow: "scroll",
       },
     };
 
     onMounted(() => {
-      const { width, height, overflow } = presetByHeightMode[props.heightMode];
+      const { width, height, overflow } =
+        presetByHeightMode[props.heightMode] ?? {};
 
       pageWrapperRef.value.style.setProperty("--pagewrapper-width", width);
       pageWrapperRef.value.style.setProperty("--pagewrapper-height", height);

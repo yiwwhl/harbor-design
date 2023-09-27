@@ -1,61 +1,53 @@
-import { Wrapper } from "@harbor-design/arco-design-vue/components/Page";
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
-import useBasicSettingStore from "../../../store/modules/basicSetting";
+import { BasicWrapper } from "@harbor-design/arco-design-vue/basicComponents/index";
+import { PageWrapper } from "@harbor-design/arco-design-vue/components/Page";
 
 export default defineComponent({
   setup() {
-    const basicSetting = useBasicSettingStore();
     return () => {
       return (
-        <div
-          class={styles.boxWithMaxHeight}
-          style={{
-            height: `calc(100vh - ${basicSetting.headerHeight}px)`,
-          }}
-        >
-          <Wrapper heightMode="flex_fit">
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-            <Wrapper class={styles.wrapperWithClass}>
-              带 class 覆盖的 wrapper
-            </Wrapper>
-          </Wrapper>
-        </div>
+        <PageWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+          <BasicWrapper class={styles.wrapperWithClass}>
+            带 class 覆盖的 BasicWrapper
+          </BasicWrapper>
+        </PageWrapper>
       );
     };
   },
