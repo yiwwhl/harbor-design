@@ -1,9 +1,13 @@
-.wrapperWithClass {
-  width: 200px;
-  height: 200px;
-  border-radius: 20px;
-  box-shadow: 0 0 10px #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.boxWithMaxHeight {
+  width: 100%;
+
+  .wrapperWithClass {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

@@ -1,7 +1,8 @@
 .pageWrapper {
-  width: 100%;
+  width: var(--pagewrapper-width);
   height: var(--pagewrapper-height);
   margin: var(--pagewrapper-margin);
+  overflow: var(--pagewrapper-overflow);
   background-color: var(--color-bg-1);
   border: 1px solid var(--color-border-1);
   border-radius: 4px;

@@ -11,6 +11,6 @@ export const basicProps = {
   },
   heightMode: {
     type: String as PropType<HeightMode>,
-    default: HeightMode.FLEX_FIT,
+    default: "flex",
   },
 };
