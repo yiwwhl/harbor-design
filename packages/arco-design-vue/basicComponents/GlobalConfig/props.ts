@@ -1,6 +1,6 @@
 export const basicProps = {
-  headerHeight: {
-    type: Number,
+  systemConfig: {
+    type: Object,
     required: true,
   },
 };

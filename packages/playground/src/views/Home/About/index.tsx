@@ -1,10 +1,18 @@
-import { PageWrapper } from "@harbor-design/arco-design-vue/components/Page";
+import { PageWrapper } from "@harbor-design/arco-design-vue/Components/Page";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
     return () => {
-      return <PageWrapper>关于</PageWrapper>;
+      return (
+        <PageWrapper title="关于">
+          {{
+            headerRright() {
+              return "Header Right";
+            },
+          }}
+        </PageWrapper>
+      );
     };
   },
 });

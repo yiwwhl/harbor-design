@@ -1,15 +1,17 @@
 import { defineComponent, provide } from "vue";
-import { basicProps } from "./props";
 
 export const globalConfigSymbol = Symbol("globalConfig");
 
 export default defineComponent({
   props: {
-    ...basicProps,
+    systemConfig: {
+      type: Object,
+      required: true,
+    },
   },
   setup(props, { slots }) {
     provide(globalConfigSymbol, {
-      headerHeight: props.headerHeight,
+      ...props.systemConfig,
     });
     return () => {
       return <>{slots.default?.()}</>;

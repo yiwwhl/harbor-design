@@ -13,4 +13,10 @@ export const basicProps = {
     type: String as PropType<HeightMode>,
     default: "flex",
   },
+  headerHeight: {
+    type: Number,
+  },
+  headerPadding: {
+    type: String,
+  },
 };

@@ -1,10 +1,22 @@
-.pageWrapper {
-  width: var(--pagewrapper-width);
-  height: var(--pagewrapper-height);
-  margin: var(--pagewrapper-margin);
-  overflow: var(--pagewrapper-overflow);
+.basicWrapper {
+  width: var(--basicwrapper-width);
+  height: var(--basicwrapper-height);
+  margin: var(--basicwrapper-margin);
+  overflow: var(--basicwrapper-overflow);
   background-color: var(--color-bg-1);
   border: 1px solid var(--color-border-1);
   border-radius: 4px;
   box-sizing: border-box;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--basicwrapper-header-height);
+    padding: var(--basicwrapper-header-padding);
+    border-bottom: 1px solid var(--color-border-1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

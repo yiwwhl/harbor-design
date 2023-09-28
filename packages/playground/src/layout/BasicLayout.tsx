@@ -10,11 +10,21 @@ import Header from "@/layout/components/Header";
 import Menu from "@/layout/components/Menu";
 import { RouterView } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
-import GlobalConfig from "@harbor-design/arco-design-vue/components/GlobalConfig";
+import GlobalConfig from "@harbor-design/arco-design-vue/BasicComponents/GlobalConfig";
 
 export default defineComponent({
   setup() {
     const basicSetting = useBasicSettingStore();
+    const systemConfig = {
+      System: {
+        headerHeight: basicSetting.headerHeight,
+      },
+      BasicComponents: {
+        BasicWrapper: {
+          headerHeight: 50,
+        },
+      },
+    };
 
     return () => {
       return (
@@ -27,7 +37,7 @@ export default defineComponent({
               <Menu />
             </LayoutSider>
             <LayoutContent class={styles.content}>
-              <GlobalConfig headerHeight={basicSetting.headerHeight}>
+              <GlobalConfig systemConfig={systemConfig}>
                 <RouterView />
               </GlobalConfig>
             </LayoutContent>
