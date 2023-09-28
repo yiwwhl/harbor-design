@@ -4,7 +4,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   setup() {
     return () => {
-      return <PageWrapper>动态表单</PageWrapper>;
+      return <PageWrapper title="form">动态表单</PageWrapper>;
     };
   },
 });
