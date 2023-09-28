@@ -6,7 +6,7 @@ import {
   onMounted,
   ref,
 } from "vue";
-import styles from "./index.module.scss";
+import styles from "../../assets/index.module.scss";
 import { basicProps } from "./props";
 import { HeightMode } from "./type";
 import { globalConfigSymbol } from "../../components/GlobalConfig/index";
@@ -57,7 +57,7 @@ export default defineComponent({
 
     return () => {
       return (
-        <div ref={pageWrapperRef} class={styles.pageWrapper}>
+        <div ref={pageWrapperRef} class={[styles.pageWrapper, styles.hello]}>
           {isPageWrapperHeaderShow.value && <div>header: {props.title}</div>}
           {slots.default?.()}
         </div>
