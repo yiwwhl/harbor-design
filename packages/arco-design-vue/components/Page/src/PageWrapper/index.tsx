@@ -1,5 +1,5 @@
-import { basicProps } from "../../../../BasicComponents/BasicWrapper/props";
-import BasicWrapper from "../../../../BasicComponents/BasicWrapper/index";
+import { basicProps } from "../../../../basicComponents/BasicWrapper/props";
+import BasicWrapper from "../../../../basicComponents/BasicWrapper/index";
 import { defineComponent } from "vue";
 
 export default defineComponent({
