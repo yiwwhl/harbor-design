@@ -10,7 +10,7 @@ import Header from "@/layout/components/Header";
 import Menu from "@/layout/components/Menu";
 import { RouterView } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
-import GlobalConfig from "@harbor-design/arco-design-vue/BasicComponents/GlobalConfig";
+import GlobalConfig from "@harbor-design/arco-design-vue/basicComponents/GlobalConfig";
 
 export default defineComponent({
   setup() {
