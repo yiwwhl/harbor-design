@@ -1,12 +1,12 @@
 import BasicLayout from "@/layout/BasicLayout";
-import Form from "@harbor-design/icons/menus/form.svg";
+import Table from "@harbor-design/icons/menus/table.svg";
 
 const table = {
   path: "/table",
   name: "Table",
   meta: {
     locale: "表格",
-    icon: <Form />,
+    icon: <Table />,
     order: 1,
   },
   component: BasicLayout,
