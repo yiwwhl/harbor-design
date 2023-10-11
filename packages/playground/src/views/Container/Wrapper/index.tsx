@@ -7,7 +7,7 @@ export default defineComponent({
   setup() {
     return () => {
       return (
-        <PageWrapper title="容器 Wrapper 更新测试 2">
+        <PageWrapper title="容器 Wrapper">
           <BasicWrapper class={styles.wrapperWithClass}>
             带 class 覆盖的 BasicWrapper
           </BasicWrapper>
