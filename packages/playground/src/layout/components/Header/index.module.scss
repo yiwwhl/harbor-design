@@ -22,4 +22,17 @@
     color: $text-color-primary;
     font-family: "@harbor-design/title";
   }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
 }

@@ -41,6 +41,8 @@ importers:
 
   packages/icons: {}
 
+  packages/mock: {}
+
   packages/playground:
     dependencies:
       '@arco-plugins/vite-vue':
@@ -65,6 +67,12 @@ importers:
       '@harbor-design/arco-design-vue':
         specifier: workspace:^
         version: link:../arco-design-vue
+      '@types/lodash':
+        specifier: ^4.14.199
+        version: 4.14.199
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       pinia:
         specifier: ^2.1.6
         version: 2.1.6(typescript@5.0.2)(vue@3.3.4)
@@ -621,6 +629,10 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
+  /@types/lodash@4.14.199:
+    resolution: {integrity: sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==}
+    dev: true
+
   /@types/node@16.18.54:
     resolution: {integrity: sha512-oTmGy68gxZZ21FhTJVVvZBYpQHEBZxHKTsGshobMqm9qWpbqdZsA5jvsuPZcHu0KwpmLrOHWPdEfg7XDpNT9UA==}
     dev: false
@@ -1147,6 +1159,10 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+    dev: true
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
   /lru-cache@5.1.1:

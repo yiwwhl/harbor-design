@@ -17,6 +17,8 @@
   "devDependencies": {
     "@arco-design/web-vue": "^2.52.0",
     "@harbor-design/arco-design-vue": "workspace:^",
+    "@types/lodash": "^4.14.199",
+    "lodash": "^4.17.21",
     "pinia": "^2.1.6"
   }
 }
