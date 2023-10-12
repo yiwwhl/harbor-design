@@ -53,7 +53,11 @@ export function useSetProperty(props: Record<string, any>) {
     }
     domRef.value.style.setProperty(
       "--basicwrapper-header-height",
-      `${globalConfig.BasicComponents?.BasicWrapper?.headerHeight ?? 50}px`
+      `${
+        props.title
+          ? globalConfig.BasicComponents?.BasicWrapper?.headerHeight ?? 50
+          : 0
+      }px`
     );
   }
 

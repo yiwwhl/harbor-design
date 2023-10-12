@@ -2,7 +2,7 @@
   width: var(--basicwrapper-width);
   height: var(--basicwrapper-height);
   margin: var(--basicwrapper-margin);
-  overflow: var(--basicwrapper-overflow);
+  overflow: hidden;
   background-color: var(--color-bg-1);
   border: 1px solid var(--color-border-1);
   border-radius: 4px;
@@ -12,11 +12,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: var(--color-bg-1);
     height: var(--basicwrapper-header-height);
     padding: var(--basicwrapper-header-padding);
     border-bottom: 1px solid var(--color-border-1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: sticky;
+    top: 0;
+  }
+
+  .content {
+    height: calc(100% - var(--basicwrapper-header-height));
+    overflow: var(--basicwrapper-overflow);
   }
 }

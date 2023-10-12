@@ -8,7 +8,18 @@ export default defineComponent({
       return (
         <PageWrapper title="容器 Wrapper 测试2">
           <BasicWrapper class={styles.wrapperWithClass}>
-            带 class 覆盖的 BasicWrapper
+            带 class 覆盖的 BasicWrapper 带 class 覆盖的 BasicWrapper 带 class
+            覆盖的 BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper 带 class 覆盖的
+            BasicWrapper 带 class 覆盖的 BasicWrapper
           </BasicWrapper>
           <BasicWrapper class={styles.wrapperWithClass}>
             带 class 覆盖的 BasicWrapper

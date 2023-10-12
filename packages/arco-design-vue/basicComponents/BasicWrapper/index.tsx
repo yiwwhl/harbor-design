@@ -37,7 +37,7 @@ export default defineComponent({
               <div class={styles.headerRight}>{slots.headerRight?.()}</div>
             </div>
           )}
-          {slots.default?.()}
+          <div class={styles.content}>{slots.default?.()}</div>
         </div>
       );
     };
