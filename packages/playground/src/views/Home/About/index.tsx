@@ -7,7 +7,7 @@ export default defineComponent({
       return (
         <PageWrapper title="关于">
           {{
-            headerRright() {
+            headerRight() {
               return "Header Right";
             },
           }}
