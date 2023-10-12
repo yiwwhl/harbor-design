@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { PageWrapper } from "@harbor-design/arco-design-vue/components/Page";
+import { PageWrapper } from "@harbor-design/arco-design-vue";
 
 export default defineComponent({
   setup() {

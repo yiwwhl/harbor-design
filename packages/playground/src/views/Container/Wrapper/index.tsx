@@ -1,7 +1,6 @@
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
-import { BasicWrapper } from "@harbor-design/arco-design-vue/basicComponents";
-import { PageWrapper } from "@harbor-design/arco-design-vue/components/Page";
+import { BasicWrapper, PageWrapper } from "@harbor-design/arco-design-vue";
 
 export default defineComponent({
   setup() {

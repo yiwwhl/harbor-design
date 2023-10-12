@@ -1,4 +1,4 @@
-import { PageWrapper } from "@harbor-design/arco-design-vue/components/Page";
+import { PageWrapper } from "@harbor-design/arco-design-vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -6,7 +6,7 @@ export default defineComponent({
     return () => {
       return (
         <PageWrapper title="计划" headerHeight={100} headerPadding="0 40px">
-          测试自定义 headerHeight 与 headerPadding
+          测试自定义 headerHeight [100px] 与 headerPadding [0 40px]
         </PageWrapper>
       );
     };
