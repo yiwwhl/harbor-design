@@ -42,10 +42,10 @@ export default defineComponent({
               </BasicWrapper>
             </div>
             <BasicWrapper
-              title="heightMode: fixed, 高度为当前可视区域剩余空间的高度，也是 PageWrapper 的默认高度"
+              title="heightMode: fixed, 高度为当前 Layout Content 剩余的高度，也是 PageWrapper 的默认高度，换言之 PageWrapper 即是 heightMode 为 fixed 的 BasicWrapper"
               heightMode="fixed"
             >
-              可视区域剩余空间的高度
+              当前 Layout Content 剩余的高度
             </BasicWrapper>
           </PageWrapper>
         </>
