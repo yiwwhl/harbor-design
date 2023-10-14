@@ -8,10 +8,10 @@ export default defineComponent({
         <PageWrapper title="关于">
           {{
             headerRight() {
-              return "Header Right";
+              return "harbor pagewrapper right";
             },
             default() {
-              return "default";
+              return "关于项目";
             },
           }}
         </PageWrapper>
