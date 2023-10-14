@@ -9,11 +9,13 @@ function getImageName(name: string) {
 function getImageAbsolutePath(module: GlobModuleType) {
   return module.default;
 }
-function isCacheHits() {
+
+function retriveCached() {
   const storeImages = getLocalItem(IMAGE_STORE_NAME);
-  if (!storeImages) return;
-  ImageCollector.imageStore = storeImages;
-  return Object.keys(storeImages).length > 0;
+  ImageCollector.imageStore = Object.assign(
+    ImageCollector.imageStore,
+    storeImages
+  );
 }
 
 export class ImageCollector {
@@ -22,8 +24,7 @@ export class ImageCollector {
   static collectAllImages(storageNamespace: string = "") {
     storageNamespace !== "" && (IMAGE_STORE_NAME = storageNamespace);
 
-    // TODO: happy path. consider refactor
-    if (isCacheHits()) return;
+    retriveCached();
 
     const images_png = import.meta.glob("@/assets/image/**/*.png", {
       eager: true,
