@@ -29,13 +29,15 @@ export default defineComponent({
               <div>组件内部</div>
               <div>组件内部</div>
             </BasicWrapper>
-            <BasicWrapper
-              title="heightMode: fit, 撑满整个父容器但不超过整个父容器"
-              heightMode="fit"
-            >
-              <div>组件内部</div>
-              <div>组件内部</div>
-            </BasicWrapper>
+            <div class={styles.parent}>
+              <BasicWrapper
+                title="heightMode: fit, 撑满整个父容器但不超过整个父容器，父容器宽 300px 高 300px"
+                heightMode="fit"
+              >
+                <div>组件内部</div>
+                <div>组件内部</div>
+              </BasicWrapper>
+            </div>
             <BasicWrapper
               title="heightMode: fixed, 高度为当前可视区域剩余空间的高度，也是 PageWrapper 的默认高度"
               heightMode="fixed"
