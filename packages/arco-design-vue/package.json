@@ -6,5 +6,9 @@
   "module": "index.ts",
   "keywords": [],
   "author": "yiwwhl <yiwwhl@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash": "^4.14.199",
+    "lodash": "^4.17.21"
+  }
 }

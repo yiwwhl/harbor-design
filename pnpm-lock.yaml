@@ -37,7 +37,14 @@ importers:
         specifier: ^1.8.5
         version: 1.8.5(typescript@5.0.2)
 
-  packages/arco-design-vue: {}
+  packages/arco-design-vue:
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.199
+        version: 4.14.199
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
 
   packages/icons: {}
 

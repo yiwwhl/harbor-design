@@ -1,6 +1,7 @@
 import { basicProps } from "../../../../basicComponents/BasicWrapper/props";
 import BasicWrapper from "../../../../basicComponents/BasicWrapper/index";
 import { defineComponent } from "vue";
+import { merge } from "lodash";
 
 export default defineComponent({
   props: {
@@ -9,7 +10,7 @@ export default defineComponent({
   setup(props, { slots }) {
     return () => {
       return (
-        <BasicWrapper {...props} heightMode="fixed">
+        <BasicWrapper {...merge({ heightMode: "fixed" }, props)}>
           {{
             ...slots,
           }}

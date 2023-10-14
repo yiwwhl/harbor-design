@@ -10,6 +10,9 @@ export default defineComponent({
             headerRight() {
               return "Header Right";
             },
+            default() {
+              return "default";
+            },
           }}
         </PageWrapper>
       );

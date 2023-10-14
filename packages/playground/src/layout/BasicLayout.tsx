@@ -22,6 +22,7 @@ export default defineComponent({
       BasicComponents: {
         BasicWrapper: {
           headerHeight: 50,
+          spaceAround: 12,
         },
       },
     };

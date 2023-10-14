@@ -7,11 +7,9 @@ export const basicProps = {
   },
   spaceAround: {
     type: Number,
-    default: 12,
   },
   heightMode: {
     type: String as PropType<HeightMode>,
-    default: "flex",
   },
   headerHeight: {
     type: Number,

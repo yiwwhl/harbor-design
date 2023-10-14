@@ -4,26 +4,35 @@ import { CSSProperties, inject, ref } from "vue";
 export function useSetProperty(props: Record<string, any>) {
   const domRef = ref();
   const globalConfig = inject(globalConfigSymbol) as any;
-  const pxOfSpaceArround = `${props.spaceAround * 2}px`;
+  let spaceAround = "0px";
+  if (globalConfig.BasicComponents?.BasicWrapper?.spaceAround) {
+    spaceAround = `${
+      globalConfig.BasicComponents?.BasicWrapper?.spaceAround * 2
+    }px`;
+  }
+  if (props.spaceAround) {
+    spaceAround = `${props.spaceAround * 2}px`;
+  }
   const pxOfFixedHeight = `${globalConfig.System.headerHeight}px`;
   const presetByHeightMode: Record<string, CSSProperties> = {
     flex: {
-      width: "100%",
-      height: "unset",
+      width: `calc(100% - ${spaceAround})`,
+      height: "none",
       overflow: "auto",
     },
     fit: {
-      width: `calc(100% - ${pxOfSpaceArround})`,
-      height: `calc(100% - ${pxOfSpaceArround})`,
+      width: `calc(100% - ${spaceAround})`,
+      height: `calc(100% - ${spaceAround})`,
       overflow: "scroll",
     },
     fixed: {
-      width: `calc(100% - ${pxOfSpaceArround})`,
-      height: `calc(100vh - ${pxOfSpaceArround} - ${pxOfFixedHeight})`,
+      width: `calc(100% - ${spaceAround})`,
+      height: `calc(100vh - ${spaceAround} - ${pxOfFixedHeight})`,
       overflow: "scroll",
     },
   };
-  const { width, height, overflow } = presetByHeightMode[props.heightMode];
+  const { width, height, overflow } =
+    presetByHeightMode[props.heightMode ?? "flex"];
 
   function setWidth() {
     domRef.value.style.setProperty("--basicwrapper-width", width);
@@ -34,9 +43,15 @@ export function useSetProperty(props: Record<string, any>) {
   }
 
   function setMargin() {
-    domRef.value.style.setProperty(
+    if (props.spaceAround) {
+      return domRef.value.style.setProperty(
+        "--basicwrapper-margin",
+        `${props.spaceAround}px`
+      );
+    }
+    return domRef.value.style.setProperty(
       "--basicwrapper-margin",
-      `${props.spaceAround}px`
+      `${globalConfig.BasicComponents?.BasicWrapper?.spaceAround ?? 0}px`
     );
   }
 
