@@ -7,7 +7,10 @@ export default defineComponent({
     return () => {
       return (
         <>
-          <PageWrapper title="PageWrapper 下的 BasicWrapper">
+          <PageWrapper
+            title="PageWrapper 下的 BasicWrapper，但 PageWrapper 是被指定了 flex 的 heightMode 的，所以会根据内部内容撑开"
+            heightMode="flex"
+          >
             <BasicWrapper class={styles.wrapperWithClass}>
               带 class 覆盖的 BasicWrapper
             </BasicWrapper>
