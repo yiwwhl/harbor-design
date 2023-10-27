@@ -128,16 +128,24 @@ export default defineComponent({
       ],
     });
 
-    hydrate({
-      sdlfjlkdsj: [
-        {
-          test1: "evan huang",
-        },
-        {
-          test2: "holy",
-        },
-      ],
-    });
+    function getDetail() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            sdlfjlkdsj: [
+              {
+                test1: "evan huang",
+              },
+              {
+                test2: "holy",
+              },
+            ],
+          });
+        }, 200);
+      });
+    }
+
+    hydrate(getDetail);
 
     return () => {
       return (

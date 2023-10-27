@@ -10,6 +10,7 @@ import {
   ListTypeSchemaItem,
   ItemTypeSchemaItem,
 } from "../types/form";
+import { handleAsyncOrSync } from "../services";
 
 function useForm(props: UseFormProps): UseForm {
   const registerInstance = reactive({}) as RegisterInstance;
@@ -76,15 +77,17 @@ function useForm(props: UseFormProps): UseForm {
   /* The `isFunction` function is used to check if a value is a function or not. It returns
 `true` if the value is a function, and `false` otherwise. */
 
-  function hydrate(data: Record<PropertyKey, any>) {
-    Object.keys(data).forEach((field) => {
-      if (mutableModel[field].length < data[field].length) {
-        while (data[field].length - mutableModel[field].length > 0) {
-          mutableModel[field].push(deepClone(immutableModel[field][0]));
+  function hydrate(data: any) {
+    handleAsyncOrSync(data, (res) => {
+      Object.keys(res).forEach((field) => {
+        if (mutableModel[field].length < res[field].length) {
+          while (res[field].length - mutableModel[field].length > 0) {
+            mutableModel[field].push(deepClone(immutableModel[field][0]));
+          }
         }
-      }
+      });
+      deepAssign(mutableModel, res);
     });
-    deepAssign(mutableModel, data);
   }
 
   return [

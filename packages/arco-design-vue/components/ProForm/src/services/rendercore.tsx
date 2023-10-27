@@ -6,7 +6,7 @@ import {
   FormRegister,
 } from "../types/form";
 import { reactive, ref } from "vue";
-import { isFunction, isUndefined } from "../utils";
+import { isUndefined } from "../utils";
 import { FormItem, Space, Form } from "@arco-design/web-vue";
 import {
   GroupTypeSchemaItem,
@@ -15,6 +15,7 @@ import {
   RenderSchema,
 } from "../types/form";
 import styles from "../../../../assets/components/ProForm/index.module.scss";
+import { handleAsyncOrSync } from "../services";
 
 export function rendercore(props: { register: FormRegister }) {
   const formRef = ref();
@@ -35,30 +36,15 @@ export function rendercore(props: { register: FormRegister }) {
     list: renderList,
   };
 
-  // should refactor later !!! 有空再弄
   function processComponentProps(props: Record<PropertyKey, any>) {
     const reactiveProps = reactive({});
     const keys = Object.keys(props);
     for (let i = 0; i < keys.length; i++) {
-      // should refactor
-      if (isFunction(props[keys[i]])) {
-        const fnResult = props[keys[i]]();
-        if (fnResult instanceof Promise) {
-          fnResult.then((promiseResult) => {
-            Object.assign(reactiveProps, {
-              [keys[i]]: promiseResult,
-            });
-          });
-        } else {
-          Object.assign(reactiveProps, {
-            [keys[i]]: props[keys[i]](),
-          });
-        }
-      } else {
+      handleAsyncOrSync(props[keys[i]], (res) =>
         Object.assign(reactiveProps, {
-          [keys[i]]: props[keys[i]],
-        });
-      }
+          [keys[i]]: res,
+        })
+      );
     }
 
     return reactiveProps;
