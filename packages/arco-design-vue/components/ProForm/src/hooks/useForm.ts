@@ -15,7 +15,7 @@ import {
 function useForm(props: UseFormProps): UseForm {
   const registerInstance = reactive({}) as RegisterInstance;
   const { isArray, isArrayEmpty } = useIsCheck();
-  const { immutableModel, initialModel } = setupModel(
+  const { mutableModel, immutableModel } = setupModel(
     props.schemas,
     reactive({})
   );
@@ -24,7 +24,7 @@ function useForm(props: UseFormProps): UseForm {
     schemas: Schemas,
     model: FormModel
   ): {
-    initialModel: FormModel;
+    mutableModel: FormModel;
     immutableModel: FormModel;
   } {
     schemas.map((schema) => {
@@ -50,7 +50,7 @@ function useForm(props: UseFormProps): UseForm {
     });
     // happy path
     return {
-      initialModel: model,
+      mutableModel: model,
       immutableModel: deepClone(model),
     };
   }
@@ -59,7 +59,7 @@ function useForm(props: UseFormProps): UseForm {
     Object.assign(registerInstance, _registerInstance);
 
     return {
-      model: Object.assign(initialModel),
+      model: Object.assign(mutableModel),
       immutableModel,
       schemas: props.schemas,
     };
@@ -71,15 +71,20 @@ function useForm(props: UseFormProps): UseForm {
         if (errors) {
           return reject(errors);
         }
-        return resolve(initialModel);
+        return resolve(mutableModel);
       });
     });
+  }
+
+  function hydrate(data: Record<PropertyKey, any>) {
+    Object.assign(mutableModel, data);
   }
 
   return [
     register,
     {
       submit,
+      hydrate,
     },
   ];
 }

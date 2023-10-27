@@ -23,7 +23,7 @@ export default defineComponent({
         }, 500);
       });
     }
-    const [register, { submit }] = useForm({
+    const [register, { submit, hydrate }] = useForm({
       schemas: [
         {
           type: "list",
@@ -124,6 +124,17 @@ export default defineComponent({
               message: "密码必填",
             },
           ],
+        },
+      ],
+    });
+
+    hydrate({
+      sdlfjlkdsj: [
+        {
+          test1: "evan huang",
+        },
+        {
+          test2: "holy",
         },
       ],
     });

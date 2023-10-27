@@ -62,6 +62,7 @@ export type FormRegister = (registerInstance: RegisterInstance) => Register;
 
 export interface FormUtils {
   submit: () => Promise<FormModel>;
+  hydrate: (data: Record<string, any>) => void;
 }
 
 export type UseForm = [register: FormRegister, formUtils: FormUtils];
