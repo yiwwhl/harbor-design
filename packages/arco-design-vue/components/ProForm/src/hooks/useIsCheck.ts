@@ -3,12 +3,24 @@ export function useIsCheck() {
     return {}.toString.call(data);
   }
 
-  function isUndefined(data: any): data is undefined {
-    return data === undefined;
+  function isArray(data: any): data is any[] {
+    return typeChecker(data) === "[object Array]";
   }
 
-  function isArray(data: any): data is any[] {
-    return typeChecker(data).includes(`Array`);
+  function isFunction(data: any): data is (...args: any) => any {
+    return typeChecker(data).includes("Function");
+  }
+
+  function isAsyncFunction(data: any): data is (...args: any) => Promise<any> {
+    let valid = false;
+    if (typeChecker(data) === "[object AsyncFunction]") {
+      valid = true;
+    }
+    return valid;
+  }
+
+  function isUndefined(data: any): data is undefined {
+    return data === undefined;
   }
 
   function isArrayEmpty(data: any[]) {
@@ -20,8 +32,10 @@ export function useIsCheck() {
   }
 
   return {
-    isUndefined,
     isArray,
+    isFunction,
+    isAsyncFunction,
+    isUndefined,
     isArrayEmpty,
     isObjectEmpty,
   };

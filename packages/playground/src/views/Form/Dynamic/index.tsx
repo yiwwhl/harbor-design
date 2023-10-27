@@ -1,4 +1,4 @@
-import { Button, Input, InputPassword } from "@arco-design/web-vue";
+import { Button, Input, InputPassword, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent, ref } from "vue";
 import styles from "./index.module.scss";
@@ -6,6 +6,22 @@ import styles from "./index.module.scss";
 export default defineComponent({
   setup() {
     const modelPreview = ref();
+    function getOptions() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve([
+            {
+              label: "选项1",
+              value: "options1",
+            },
+            {
+              label: "选项2",
+              value: "options2",
+            },
+          ]);
+        }, 500);
+      });
+    }
     const [register, { submit }] = useForm({
       schemas: [
         {
@@ -29,6 +45,37 @@ export default defineComponent({
                   message: "测试列表2必填",
                 },
               ],
+            },
+            {
+              label: "测试异步列表下拉",
+              field: "asyncTreeSelect",
+              component: Select,
+              componentProps: {
+                options: getOptions,
+                multiple: true,
+              },
+            },
+            {
+              label: "测试非异步列表下拉",
+              field: "treeSelectNoAsync",
+              component: Select,
+              defaultValue: "noAsync1",
+              componentProps: {
+                options: [
+                  {
+                    label: "非异步选项",
+                    value: "noAsync1",
+                  },
+                ],
+              },
+            },
+            {
+              label: "测试标准属性：禁用",
+              field: "treeSelect",
+              component: Select,
+              componentProps: {
+                disabled: true,
+              },
             },
           ],
         },

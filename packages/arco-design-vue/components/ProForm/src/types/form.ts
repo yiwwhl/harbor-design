@@ -14,10 +14,11 @@ export interface GroupTypeSchemaItem {
 export interface ItemTypeSchemaItem {
   type?: "item";
   rules?: Array<FieldRule>;
-  defaultValue?: any;
   field: string;
   label: string;
   component: any;
+  defaultValue?: any;
+  componentProps?: Record<string, any>;
 }
 
 export interface GroupTypeSchemaItem {

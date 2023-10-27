@@ -1,4 +1,11 @@
-import { Fragment, PropType, defineComponent, inject, ref } from "vue";
+import {
+  Fragment,
+  PropType,
+  defineComponent,
+  inject,
+  reactive,
+  ref,
+} from "vue";
 import { Button, Form, FormItem, Space } from "@arco-design/web-vue";
 import {
   FormModel,
@@ -23,7 +30,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { isUndefined } = useIsCheck();
+    const { isUndefined, isFunction, isAsyncFunction } = useIsCheck();
     const globalConfig = inject(globalConfigSymbol) as any;
     const formRef = ref();
     const registerInstance = {
@@ -63,18 +70,48 @@ export default defineComponent({
         return <Button onClick={handleDeleteClick}>删除</Button>;
       });
 
+    // should refactor later !!! 有空再弄
+    function processComponentProps(props: Record<PropertyKey, any>) {
+      const reactiveProps = reactive({});
+      const keys = Object.keys(props);
+      for (let i = 0; i < keys.length; i++) {
+        // should refactor
+        if (isFunction(props[keys[i]])) {
+          const fnResult = props[keys[i]]();
+          if (fnResult instanceof Promise) {
+            fnResult.then((promiseResult) => {
+              Object.assign(reactiveProps, {
+                [keys[i]]: promiseResult,
+              });
+            });
+          } else {
+            Object.assign(reactiveProps, {
+              [keys[i]]: props[keys[i]](),
+            });
+          }
+        } else {
+          Object.assign(reactiveProps, {
+            [keys[i]]: props[keys[i]],
+          });
+        }
+      }
+      return reactiveProps;
+    }
+
     function renderItem(
       schema: ItemTypeSchemaItem,
       model: any,
       parentSchema?: ListTypeSchemaItem,
       index?: number
     ) {
+      const props =
+        schema.componentProps && processComponentProps(schema.componentProps);
       const uniqueField = isUndefined(index)
         ? schema.field
         : `${parentSchema?.field}.${index}.${schema.field}`;
       return (
         <FormItem label={schema.label} field={uniqueField} rules={schema.rules}>
-          <schema.component v-model={model[schema.field]} />
+          <schema.component {...props} v-model={model[schema.field]} />
         </FormItem>
       );
     }
