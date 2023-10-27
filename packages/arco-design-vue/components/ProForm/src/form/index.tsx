@@ -30,7 +30,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { isUndefined, isFunction, isAsyncFunction } = useIsCheck();
+    const { isUndefined, isFunction } = useIsCheck();
     const globalConfig = inject(globalConfigSymbol) as any;
     const formRef = ref();
     const registerInstance = {
