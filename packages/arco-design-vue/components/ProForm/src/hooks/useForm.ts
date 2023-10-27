@@ -1,6 +1,5 @@
 import { reactive } from "vue";
-import { useIsCheck } from "./useIsCheck";
-import { deepClone, deepAssign } from "../utils/index";
+import { deepClone, deepAssign, isArray, isArrayEmpty } from "../utils";
 import {
   UseFormProps,
   UseForm,
@@ -14,7 +13,6 @@ import {
 
 function useForm(props: UseFormProps): UseForm {
   const registerInstance = reactive({}) as RegisterInstance;
-  const { isArray, isArrayEmpty } = useIsCheck();
   const { mutableModel, immutableModel } = setupModel(
     props.schemas,
     reactive({})
@@ -75,6 +73,8 @@ function useForm(props: UseFormProps): UseForm {
       });
     });
   }
+  /* The `isFunction` function is used to check if a value is a function or not. It returns
+`true` if the value is a function, and `false` otherwise. */
 
   function hydrate(data: Record<PropertyKey, any>) {
     Object.keys(data).forEach((field) => {
