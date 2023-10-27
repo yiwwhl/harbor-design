@@ -7,6 +7,7 @@ export default defineComponent({
   setup() {
     const modelPreview = ref();
     function getOptions() {
+      console.log("有且仅有执行了一次异步函数");
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve([
@@ -26,13 +27,12 @@ export default defineComponent({
       schemas: [
         {
           type: "list",
-          field: "arr12312",
+          field: "sdlfjlkdsj",
           label: "列表测试",
           children: [
             {
               label: "测试列表1",
               field: "test1",
-              defaultValue: "hello2",
               component: Input,
             },
             {
@@ -50,6 +50,7 @@ export default defineComponent({
               label: "测试异步列表下拉",
               field: "asyncTreeSelect",
               component: Select,
+              defaultValue: "options1",
               componentProps: {
                 options: getOptions,
                 multiple: true,

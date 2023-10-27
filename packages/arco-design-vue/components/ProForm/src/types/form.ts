@@ -19,6 +19,7 @@ export interface ItemTypeSchemaItem {
   component: any;
   defaultValue?: any;
   componentProps?: Record<string, any>;
+  cachedComponentProps?: Record<string, any>;
 }
 
 export interface GroupTypeSchemaItem {

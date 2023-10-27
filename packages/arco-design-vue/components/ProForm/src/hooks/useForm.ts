@@ -14,11 +14,19 @@ import {
 
 function useForm(props: UseFormProps): UseForm {
   const registerInstance = reactive({}) as RegisterInstance;
-  const initialModel: FormModel = reactive({});
   const { isArray, isArrayEmpty } = useIsCheck();
-  const { immutableModel } = setupModel(props.schemas, initialModel);
+  const { immutableModel, initialModel } = setupModel(
+    props.schemas,
+    reactive({})
+  );
 
-  function setupModel(schemas: Schemas, model: FormModel) {
+  function setupModel(
+    schemas: Schemas,
+    model: FormModel
+  ): {
+    initialModel: FormModel;
+    immutableModel: FormModel;
+  } {
     schemas.map((schema) => {
       if (isArray(model)) {
         if (isArrayEmpty(model)) {
@@ -42,7 +50,8 @@ function useForm(props: UseFormProps): UseForm {
     });
     // happy path
     return {
-      immutableModel: deepClone(initialModel),
+      initialModel: model,
+      immutableModel: deepClone(model),
     };
   }
 

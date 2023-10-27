@@ -95,7 +95,18 @@ export default defineComponent({
           });
         }
       }
+
       return reactiveProps;
+    }
+
+    function cacheComponentProps(
+      schema: Record<PropertyKey, any>,
+      propsShouldBeCached?: Record<PropertyKey, any>
+    ) {
+      propsShouldBeCached &&
+        Object.assign(schema, {
+          cachedComponentProps: propsShouldBeCached,
+        });
     }
 
     function renderItem(
@@ -104,8 +115,14 @@ export default defineComponent({
       parentSchema?: ListTypeSchemaItem,
       index?: number
     ) {
-      const props =
-        schema.componentProps && processComponentProps(schema.componentProps);
+      // point: 对于远程调用的请求来说，每次是否都获取最新值还是永远只获取一次是两种都合理的需求，目前先只做成永远获取一次，而永远都获取最新值比较小众，交互方式待定
+      let props;
+      if (!schema.cachedComponentProps) {
+        props =
+          schema.componentProps && processComponentProps(schema.componentProps);
+        cacheComponentProps(schema, props);
+      }
+      props = schema.cachedComponentProps;
       const uniqueField = isUndefined(index)
         ? schema.field
         : `${parentSchema?.field}.${index}.${schema.field}`;
