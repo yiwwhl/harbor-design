@@ -13,6 +13,7 @@ import {
 } from "../types/form";
 import styles from "../../../../assets/components/ProForm/index.module.scss";
 import { globalConfigSymbol } from "../../../../basicComponents/GlobalConfig";
+import { useIsCheck } from "../hooks/useIsCheck";
 
 export default defineComponent({
   props: {
@@ -22,13 +23,13 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { isUndefined } = useIsCheck();
     const globalConfig = inject(globalConfigSymbol) as any;
     const formRef = ref();
     const registerInstance = {
       formRef,
     } as unknown as RegisterInstance;
     const register = props.register(registerInstance);
-    console.log("register", register);
     const schemaHandlerByType: Record<
       SchemaItemType,
       | RenderSchema<ItemTypeSchemaItem>
@@ -46,7 +47,6 @@ export default defineComponent({
     const AddButton =
       globalConfig.Components.ProForm.opt?.AddButton ??
       (({ schema, model }: any) => {
-        console.log("dataModel", schema);
         function handleAddClick() {
           model[schema.field].push({
             ...register.immutableModel[schema.field][0],
@@ -63,13 +63,17 @@ export default defineComponent({
         return <Button onClick={handleDeleteClick}>删除</Button>;
       });
 
-    function renderItem(schema: ItemTypeSchemaItem, model: any) {
+    function renderItem(
+      schema: ItemTypeSchemaItem,
+      model: any,
+      parentSchema?: ListTypeSchemaItem,
+      index?: number
+    ) {
+      const uniqueField = isUndefined(index)
+        ? schema.field
+        : `${parentSchema?.field}.${index}.${schema.field}`;
       return (
-        <FormItem
-          label={schema.label}
-          field={schema.field}
-          rules={schema.rules}
-        >
+        <FormItem label={schema.label} field={uniqueField} rules={schema.rules}>
           <schema.component v-model={model[schema.field]} />
         </FormItem>
       );
@@ -91,7 +95,7 @@ export default defineComponent({
           <ListWrapper label={schema.label}>
             {listModel.map((m: any, index: number) => (
               <Space direction="vertical" fill>
-                {schema.children.map((s) => renderItem(s, m))}
+                {schema.children.map((s) => renderItem(s, m, schema, index))}
                 {showDeleteButton &&
                   DeleteButton({
                     schema,

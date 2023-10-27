@@ -8,7 +8,6 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    console.log(props);
     return () => {
       return (
         <div class={styles.group}>

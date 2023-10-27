@@ -44,7 +44,6 @@ export function useSetProperty(props: Record<string, any>) {
   }
 
   function setMargin() {
-    console.log("props", props.spaceAround);
     if (!isUndefined(props.spaceAround)) {
       return domRef.value.style.setProperty(
         "--basicwrapper-margin",

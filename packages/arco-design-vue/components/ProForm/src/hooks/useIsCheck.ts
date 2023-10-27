@@ -3,6 +3,10 @@ export function useIsCheck() {
     return {}.toString.call(data);
   }
 
+  function isUndefined(data: any): data is undefined {
+    return data === undefined;
+  }
+
   function isArray(data: any): data is any[] {
     return typeChecker(data).includes(`Array`);
   }
@@ -16,6 +20,7 @@ export function useIsCheck() {
   }
 
   return {
+    isUndefined,
     isArray,
     isArrayEmpty,
     isObjectEmpty,

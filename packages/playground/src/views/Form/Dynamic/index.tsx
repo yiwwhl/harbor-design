@@ -23,6 +23,12 @@ export default defineComponent({
               label: "测试列表2",
               field: "test2",
               component: Input,
+              rules: [
+                {
+                  required: true,
+                  message: "测试列表2必填",
+                },
+              ],
             },
           ],
         },
