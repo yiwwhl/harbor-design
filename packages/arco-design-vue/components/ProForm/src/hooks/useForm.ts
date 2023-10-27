@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 import { useIsCheck } from "./useIsCheck";
-import { deepClone } from "../utils/index";
+import { deepClone, deepAssign } from "../utils/index";
 import {
   UseFormProps,
   UseForm,
@@ -77,7 +77,14 @@ function useForm(props: UseFormProps): UseForm {
   }
 
   function hydrate(data: Record<PropertyKey, any>) {
-    Object.assign(mutableModel, data);
+    Object.keys(data).forEach((field) => {
+      if (mutableModel[field].length < data[field].length) {
+        while (data[field].length - mutableModel[field].length > 0) {
+          mutableModel[field].push(deepClone(immutableModel[field][0]));
+        }
+      }
+    });
+    deepAssign(mutableModel, data);
   }
 
   return [
