@@ -39,6 +39,9 @@ importers:
 
   packages/arco-design-vue:
     devDependencies:
+      '@arco-design/web-vue':
+        specifier: ^2.52.0
+        version: 2.52.0(vue@3.3.4)
       '@types/lodash':
         specifier: ^4.14.199
         version: 4.14.199

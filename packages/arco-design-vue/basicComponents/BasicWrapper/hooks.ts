@@ -1,5 +1,6 @@
 import { globalConfigSymbol } from "../GlobalConfig";
 import { CSSProperties, inject, ref } from "vue";
+import { isUndefined } from "lodash";
 
 export function useSetProperty(props: Record<string, any>) {
   const domRef = ref();
@@ -10,7 +11,7 @@ export function useSetProperty(props: Record<string, any>) {
       globalConfig.BasicComponents?.BasicWrapper?.spaceAround * 2
     }px`;
   }
-  if (props.spaceAround) {
+  if (!isUndefined(props.spaceAround)) {
     spaceAround = `${props.spaceAround * 2}px`;
   }
   const pxOfFixedHeight = `${globalConfig.System.headerHeight}px`;
@@ -43,7 +44,8 @@ export function useSetProperty(props: Record<string, any>) {
   }
 
   function setMargin() {
-    if (props.spaceAround) {
+    console.log("props", props.spaceAround);
+    if (!isUndefined(props.spaceAround)) {
       return domRef.value.style.setProperty(
         "--basicwrapper-margin",
         `${props.spaceAround}px`
