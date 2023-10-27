@@ -58,9 +58,8 @@ export type RegisterInstance = {
 
 export type FormRegister = (registerInstance: RegisterInstance) => Register;
 
-export type UseForm = [
-  register: FormRegister,
-  {
-    submit: () => Promise<FormModel>;
-  }
-];
+export interface FormUtils {
+  submit: () => Promise<FormModel>;
+}
+
+export type UseForm = [register: FormRegister, formUtils: FormUtils];
