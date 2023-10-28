@@ -13,11 +13,25 @@ import {
 import { handleAsyncOrSync } from "../services";
 
 function useForm(props: UseFormProps): UseForm {
+  const clonedSchemas = deepClone(props.schemas);
   const registerInstance = reactive({}) as RegisterInstance;
-  const { mutableModel, immutableModel } = setupModel(
-    props.schemas,
+  const { mutableModel, immutableModel, proxyedSchemas } = setupModel(
+    clonedSchemas,
     reactive({})
   );
+
+  function schemaPreprocessor(schema: any) {
+    const newSchema = reactive({});
+    const keys = Object.keys(schema);
+    for (let i = 0; i < keys.length; i++) {
+      handleAsyncOrSync(schema[keys[i]], (val) => {
+        Object.assign(newSchema, {
+          [keys[i]]: val,
+        });
+      });
+    }
+    return newSchema;
+  }
 
   function setupModel(
     schemas: Schemas,
@@ -25,30 +39,37 @@ function useForm(props: UseFormProps): UseForm {
   ): {
     mutableModel: FormModel;
     immutableModel: FormModel;
+    proxyedSchemas: Schemas;
   } {
-    schemas.map((schema) => {
+    const proxyedSchemas = schemas.map((schema) => {
+      schema = schemaPreprocessor(schema) as any;
       if (isArray(model)) {
         if (isArrayEmpty(model)) {
           model.push({});
         }
         model[0][(schema as ListTypeSchemaItem).field] =
           (schema as ItemTypeSchemaItem).defaultValue ?? "";
-        return;
-      }
-      if (schema.type === "group") {
-        return setupModel((schema as GroupTypeSchemaItem).children, model);
-      }
-      if (schema.type === "list") {
+      } else if (schema.type === "group") {
+        const { proxyedSchemas: newGroupSchemas } = setupModel(
+          (schema as GroupTypeSchemaItem).children,
+          model
+        );
+        Object.assign(schema.children, newGroupSchemas);
+      } else if (schema.type === "list") {
         model[schema.field] = [];
-        return setupModel(
+        const { proxyedSchemas: newListSchemas } = setupModel(
           (schema as ListTypeSchemaItem).children,
           model[schema.field]
         );
+        Object.assign(schema.children, newListSchemas);
+      } else {
+        model[(schema as any).field] = schema.defaultValue ?? "";
       }
-      model[schema.field] = schema.defaultValue ?? "";
+      return schema;
     });
-    // happy path
+
     return {
+      proxyedSchemas,
       mutableModel: model,
       immutableModel: deepClone(model),
     };
@@ -60,7 +81,7 @@ function useForm(props: UseFormProps): UseForm {
     return {
       model: Object.assign(mutableModel),
       immutableModel,
-      schemas: props.schemas,
+      schemas: proxyedSchemas,
     };
   }
 

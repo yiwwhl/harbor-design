@@ -9,7 +9,7 @@ export function handleAsyncOrSync(asyncOrSync: any, setter: (res: any) => any) {
         setter(res);
       });
     } else {
-      setter(asyncOrSync());
+      setter(fnResult);
     }
   } else {
     setter(asyncOrSync);

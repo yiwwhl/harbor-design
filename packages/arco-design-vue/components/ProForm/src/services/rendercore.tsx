@@ -5,7 +5,7 @@ import {
   RegisterInstance,
   FormRegister,
 } from "../types/form";
-import { reactive, ref } from "vue";
+import { reactive, ref, toRaw } from "vue";
 import { isUndefined } from "../utils";
 import { FormItem, Space, Form } from "@arco-design/web-vue";
 import {
@@ -22,7 +22,7 @@ export function rendercore(props: { register: FormRegister }) {
   const registerInstance = {
     formRef,
   } as unknown as RegisterInstance;
-  const register = props.register(registerInstance);
+  const register = toRaw(props.register(registerInstance));
   const { AddButton, DeleteButton, GroupWrapper, ListWrapper } =
     bootstrap(register);
   const schemaHandlerByType: Record<
@@ -61,7 +61,7 @@ export function rendercore(props: { register: FormRegister }) {
   }
 
   function renderItem(
-    schema: ItemTypeSchemaItem,
+    schema: any,
     model: any,
     parentSchema?: ListTypeSchemaItem,
     index?: number
@@ -74,12 +74,18 @@ export function rendercore(props: { register: FormRegister }) {
       cacheComponentProps(schema, props);
     }
     props = schema.cachedComponentProps;
+    // hard code 兜底
+    !model[schema.field] &&
+      Object.assign(model, {
+        [schema.field]: schema.defaultValue,
+      });
+    const SchemaComponent = toRaw(schema.component);
     const uniqueField = isUndefined(index)
       ? schema.field
       : `${parentSchema?.field}.${index}.${schema.field}`;
     return (
       <FormItem label={schema.label} field={uniqueField} rules={schema.rules}>
-        <schema.component {...props} v-model={model[schema.field]} />
+        <SchemaComponent {...props} v-model={model[schema.field]} />
       </FormItem>
     );
   }

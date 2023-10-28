@@ -23,6 +23,31 @@ export default defineComponent({
         }, 500);
       });
     }
+
+    function getDefault() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("options1");
+        }, 0);
+      });
+    }
+
+    function getLabel() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("我不是药神");
+        }, 200);
+      });
+    }
+
+    function getComponent() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(Select);
+        }, 200);
+      });
+    }
+
     const [register, { submit, hydrate }] = useForm({
       schemas: [
         {
@@ -49,18 +74,20 @@ export default defineComponent({
             {
               label: "测试异步列表下拉",
               field: "asyncTreeSelect",
-              component: Select,
-              defaultValue: "options1",
-              componentProps: {
+              component: () => {
+                return Select;
+              },
+              defaultValue: getDefault,
+              componentProps: () => ({
                 options: getOptions,
                 multiple: true,
-              },
+              }),
             },
             {
-              label: "测试非异步列表下拉",
+              label: getLabel,
               field: "treeSelectNoAsync",
-              component: Select,
-              defaultValue: "noAsync1",
+              component: getComponent,
+              defaultValue: () => "noAsync1",
               componentProps: {
                 options: [
                   {
@@ -93,7 +120,8 @@ export default defineComponent({
             {
               label: "测试2",
               field: "tes21",
-              component: Input,
+              component: () => Input,
+              defaultValue: getDefault,
               rules: [
                 {
                   required: true,

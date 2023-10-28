@@ -11,15 +11,20 @@ export interface GroupTypeSchemaItem {
   children: Array<ItemTypeSchemaItem>;
 }
 
+export type Proxyed<T> =
+  | ((...args: any) => Promise<T>)
+  | ((...args: any) => T)
+  | T;
+
 export interface ItemTypeSchemaItem {
   type?: "item";
-  rules?: Array<FieldRule>;
-  field: string;
-  label: string;
-  component: any;
-  defaultValue?: any;
-  componentProps?: Record<string, any>;
-  cachedComponentProps?: Record<string, any>;
+  rules?: Proxyed<Array<FieldRule>>;
+  field: Proxyed<string>;
+  label: Proxyed<any>;
+  component: Proxyed<any>;
+  defaultValue?: Proxyed<any>;
+  componentProps?: Proxyed<Record<string, any>>;
+  cachedComponentProps?: Proxyed<Record<string, any>>;
 }
 
 export interface GroupTypeSchemaItem {
