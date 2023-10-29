@@ -40,14 +40,6 @@ export default defineComponent({
       });
     }
 
-    function getComponent() {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(Select);
-        }, 200);
-      });
-    }
-
     const [register, { submit, hydrate }] = useForm({
       schemas: [
         {
@@ -64,12 +56,22 @@ export default defineComponent({
               label: "测试列表2",
               field: "test2",
               component: Input,
-              rules: [
-                {
-                  required: true,
-                  message: "测试列表2必填",
-                },
-              ],
+              required: true,
+              rules: async () => {
+                await new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve("done");
+                  }, 1000);
+                });
+                return [
+                  {
+                    validator(val, callback) {
+                      console.log("va", val);
+                      return callback("有问题");
+                    },
+                  },
+                ];
+              },
             },
             {
               label: "测试异步列表下拉",
@@ -86,7 +88,7 @@ export default defineComponent({
             {
               label: getLabel,
               field: "treeSelectNoAsync",
-              component: getComponent,
+              component: Select,
               defaultValue: () => "noAsync1",
               componentProps: {
                 options: [
