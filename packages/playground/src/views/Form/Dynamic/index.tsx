@@ -56,18 +56,23 @@ export default defineComponent({
               label: "测试列表2",
               field: "test2",
               component: Input,
-              required: true,
+              required: () => {
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve(true);
+                  }, 200);
+                });
+              },
               rules: async () => {
                 await new Promise((resolve) => {
                   setTimeout(() => {
                     resolve("done");
-                  }, 1000);
+                  }, 100);
                 });
                 return [
                   {
                     validator(val, callback) {
-                      console.log("va", val);
-                      return callback("有问题");
+                      return val === "有问题" ? callback("有问题") : callback();
                     },
                   },
                 ];

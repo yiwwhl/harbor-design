@@ -85,7 +85,11 @@ export function rendercore(props: { register: FormRegister }) {
       : `${parentSchema?.field}.${index}.${schema.field}`;
     return (
       <FormItem label={schema.label} field={uniqueField} rules={schema.rules}>
-        <SchemaComponent {...props} v-model={model[schema.field]} />
+        <SchemaComponent
+          placeholder={schema.placeholder}
+          {...props}
+          v-model={model[schema.field]}
+        />
       </FormItem>
     );
   }

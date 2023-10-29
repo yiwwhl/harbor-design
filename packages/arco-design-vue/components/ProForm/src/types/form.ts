@@ -27,6 +27,7 @@ export interface ItemTypeSchemaItem {
   cachedComponentProps?: Proxyed<Record<string, any>>;
   // 一些常见的简化用户操作的配置项
   required?: Proxyed<boolean>;
+  placeholder?: Proxyed<string>;
 }
 
 export interface GroupTypeSchemaItem {
