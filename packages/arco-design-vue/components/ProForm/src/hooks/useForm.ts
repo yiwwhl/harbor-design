@@ -125,8 +125,6 @@ function useForm(props: UseFormProps): UseForm {
       });
     });
   }
-  /* The `isFunction` function is used to check if a value is a function or not. It returns
-`true` if the value is a function, and `false` otherwise. */
 
   function hydrate(data: any) {
     handleAsyncOrSync(data, (res) => {

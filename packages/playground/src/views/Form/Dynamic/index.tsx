@@ -60,18 +60,19 @@ export default defineComponent({
                 return new Promise((resolve) => {
                   setTimeout(() => {
                     resolve(true);
-                  }, 200);
+                  }, 2000);
                 });
               },
               rules: async () => {
                 await new Promise((resolve) => {
                   setTimeout(() => {
                     resolve("done");
-                  }, 100);
+                  }, 1000);
                 });
                 return [
                   {
                     validator(val, callback) {
+                      console.log("va", val);
                       return val === "有问题" ? callback("有问题") : callback();
                     },
                   },
