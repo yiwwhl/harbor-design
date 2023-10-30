@@ -22,13 +22,13 @@ function useForm(props: UseFormProps): UseForm {
 
   // 名字待优化，代码需要重构，目的是处理一些常用的配置项，如 required placeholder slot 等
   function presetProcess(schema: ItemTypeSchemaItem) {
-    if (!schema.rules) {
-      Object.assign(schema, {
-        rules: [],
-      });
-    }
     // required
     if (schema.required) {
+      if (!schema.rules) {
+        Object.assign(schema, {
+          rules: [],
+        });
+      }
       (schema.rules as any).unshift({
         required: true,
         message: `${schema.label}为必填项`,
