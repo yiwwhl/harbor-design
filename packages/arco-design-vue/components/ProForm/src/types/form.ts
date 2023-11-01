@@ -1,6 +1,8 @@
 import type { FieldRule, FormInstance } from "@arco-design/web-vue";
 import { VNode } from "vue";
 
+export type AnyObject = Record<PropertyKey, any>;
+
 export type FormModel = Record<PropertyKey, any>;
 
 export type SchemaItemType = "item" | "group" | "list";
@@ -11,9 +13,13 @@ export interface GroupTypeSchemaItem {
   children: Array<ItemTypeSchemaItem>;
 }
 
+export type AsyncOrSyncHandleMetadata = {
+  model: AnyObject;
+};
+
 export type Proxyed<T> =
-  | ((...args: any) => Promise<T>)
-  | ((...args: any) => T)
+  | ((metadata: AsyncOrSyncHandleMetadata) => Promise<T>)
+  | ((metadata: AsyncOrSyncHandleMetadata) => T)
   | T;
 
 export interface ItemTypeSchemaItem {
@@ -25,9 +31,10 @@ export interface ItemTypeSchemaItem {
   defaultValue?: Proxyed<any>;
   componentProps?: Proxyed<Record<string, any>>;
   cachedComponentProps?: Proxyed<Record<string, any>>;
-  // 一些常见的简化用户操作的配置项
+  // 一些功能性的常用配置项
   required?: Proxyed<boolean>;
   placeholder?: Proxyed<string>;
+  show?: Proxyed<boolean>;
 }
 
 export interface GroupTypeSchemaItem {

@@ -83,8 +83,35 @@ export function rendercore(props: { register: FormRegister }) {
     const uniqueField = isUndefined(index)
       ? schema.field
       : `${parentSchema?.field}.${index}.${schema.field}`;
+    const validReRenderKeys = ["show"];
+
+    // 每次更新重新处理对于每个 schema 的渲染
+    const rawKeys = Object.keys(schema.raw).filter((key) =>
+      validReRenderKeys.includes(key)
+    );
+    rawKeys.length > 0 &&
+      rawKeys.forEach((key) => {
+        handleAsyncOrSync(
+          schema.raw[key],
+          (val) => {
+            if (schema[key] === val) return;
+            Object.assign(schema, {
+              [key]: val,
+            });
+          },
+          {
+            model: register.model,
+          }
+        );
+      });
+
     return (
-      <FormItem label={schema.label} field={uniqueField} rules={schema.rules}>
+      <FormItem
+        v-show={schema.show}
+        label={schema.label}
+        field={uniqueField}
+        rules={schema.rules}
+      >
         <SchemaComponent
           placeholder={schema.placeholder}
           {...props}

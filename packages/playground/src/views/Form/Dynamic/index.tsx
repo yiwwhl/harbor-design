@@ -78,6 +78,14 @@ export default defineComponent({
                   },
                 ];
               },
+              async show({ model }) {
+                await new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve("done");
+                  }, 100);
+                });
+                return !!model.username;
+              },
             },
             {
               label: "测试异步列表下拉",

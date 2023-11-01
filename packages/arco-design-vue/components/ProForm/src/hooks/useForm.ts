@@ -1,5 +1,11 @@
 import { reactive } from "vue";
-import { deepClone, deepAssign, isArray, isArrayEmpty } from "../utils";
+import {
+  deepClone,
+  deepAssign,
+  isArray,
+  isArrayEmpty,
+  isUndefined,
+} from "../utils";
 import {
   UseFormProps,
   UseForm,
@@ -15,9 +21,10 @@ import { handleAsyncOrSync } from "../services";
 function useForm(props: UseFormProps): UseForm {
   const clonedSchemas = deepClone(props.schemas);
   const registerInstance = reactive({}) as RegisterInstance;
+  const initialModel = reactive({});
   const { mutableModel, immutableModel, proxyedSchemas } = setupModel(
     clonedSchemas,
-    reactive({})
+    initialModel
   );
 
   // 名字待优化，代码需要重构，目的是处理一些常用的配置项，如 required placeholder slot 等
@@ -42,27 +49,50 @@ function useForm(props: UseFormProps): UseForm {
         placeholder: `请输入${schema.label}`,
       });
     }
+    // show
+    if (isUndefined(schema.show)) {
+      Object.assign(schema, {
+        show: true,
+      });
+    }
   }
 
   function schemaPreprocessor(schema: any) {
     let processingProgress = 0;
-    let newSchema = reactive({}) as any;
+    let newSchema = reactive({
+      raw: {},
+    }) as any;
     const keys = Object.keys(schema);
     for (let i = 0; i < keys.length; i++) {
-      handleAsyncOrSync(schema[keys[i]], (val) => {
-        Object.assign(newSchema, {
-          [keys[i]]: val,
-        });
-        if (processingProgress === keys.length - 1) {
-          presetProcess(newSchema);
-        } else {
-          processingProgress++;
+      handleAsyncOrSync(
+        schema[keys[i]],
+        (val, raw) => {
+          Object.assign(newSchema, {
+            [keys[i]]: val,
+          });
+          raw &&
+            Object.assign(newSchema, {
+              raw: {
+                ...newSchema.raw,
+                [keys[i]]: raw,
+              },
+            });
+          if (processingProgress === keys.length - 1) {
+            presetProcess(newSchema);
+          } else {
+            processingProgress++;
+          }
+        },
+        {
+          model: initialModel,
         }
-      });
+      );
     }
+    console.log("new", newSchema);
     return newSchema;
   }
 
+  // 在 setupModel 层，需要调用 handleAsyncOrSync 方法来处理默认值
   function setupModel(
     schemas: Schemas,
     model: FormModel
@@ -73,6 +103,7 @@ function useForm(props: UseFormProps): UseForm {
   } {
     const proxyedSchemas = schemas.map((schema) => {
       schema = schemaPreprocessor(schema) as any;
+
       if (isArray(model)) {
         if (isArrayEmpty(model)) {
           model.push({});
