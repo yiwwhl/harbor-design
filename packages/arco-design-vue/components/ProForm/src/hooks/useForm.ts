@@ -88,7 +88,6 @@ function useForm(props: UseFormProps): UseForm {
         }
       );
     }
-    console.log("new", newSchema);
     return newSchema;
   }
 
