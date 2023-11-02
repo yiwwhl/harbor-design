@@ -85,7 +85,7 @@ export function rendercore(props: { register: FormRegister }) {
       : `${parentSchema?.field}.${index}.${schema.field}`;
     const validReRenderKeys = ["show"];
 
-    // 每次更新重新处理对于每个 schema 的渲染
+    // 每次更新处理对需要实时更新的元素的计算，需重构为对类属性的判断及统一操作
     const rawKeys = Object.keys(schema.raw).filter((key) =>
       validReRenderKeys.includes(key)
     );
