@@ -11,7 +11,7 @@ export default defineComponent({
               return "harbor pagewrapper right";
             },
             default() {
-              return "关于项目";
+              return "ProForm 发包";
             },
           }}
         </PageWrapper>
