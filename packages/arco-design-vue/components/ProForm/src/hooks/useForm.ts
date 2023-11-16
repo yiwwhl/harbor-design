@@ -27,7 +27,6 @@ function useForm(props: UseFormProps): UseForm {
     let newSchema = reactive({
       raw: {},
     }) as any;
-    console.log("process");
     const keys = Object.keys(schema);
     for (let i = 0; i < keys.length; i++) {
       handleAsyncOrSync(
