@@ -5,7 +5,7 @@ import {
   RegisterInstance,
   FormRegister,
 } from "../types/form";
-import { reactive, ref, toRaw } from "vue";
+import { reactive, ref, toRaw, watch } from "vue";
 import { isUndefined } from "../utils";
 import { FormItem, Space, Form } from "@arco-design/web-vue";
 import {
@@ -19,10 +19,12 @@ import { handleAsyncOrSync } from "../services";
 
 export function rendercore(props: { register: FormRegister }) {
   const formRef = ref();
+  const getFormDom = ref();
   const registerInstance = {
     formRef,
   } as unknown as RegisterInstance;
   const register = toRaw(props.register(registerInstance));
+  const { model, schemas } = register;
   const { AddButton, DeleteButton, GroupWrapper, ListWrapper } =
     bootstrap(register);
   const schemaHandlerByType: Record<
@@ -60,35 +62,18 @@ export function rendercore(props: { register: FormRegister }) {
       });
   }
 
-  function renderItem(
-    schema: any,
-    model: any,
-    parentSchema?: ListTypeSchemaItem,
-    index?: number
-  ) {
-    // point: 对于远程调用的请求来说，每次是否都获取最新值还是永远只获取一次是两种都合理的需求，目前先只做成永远获取一次，而永远都获取最新值比较小众，交互方式待定
-    let props;
-    if (!schema.cachedComponentProps) {
-      props =
-        schema.componentProps && processComponentProps(schema.componentProps);
-      cacheComponentProps(schema, props);
-    }
-    props = schema.cachedComponentProps;
-    // hard code 兜底
-    !model[schema.field] &&
-      Object.assign(model, {
-        [schema.field]: schema.defaultValue,
-      });
-    const SchemaComponent = toRaw(schema.component);
-    const uniqueField = isUndefined(index)
-      ? schema.field
-      : `${parentSchema?.field}.${index}.${schema.field}`;
-    const validReRenderKeys = ["show"];
+  function reactivePropsUpdate(schema: any) {
+    // 定义每次数据变化后需要重新计算的 schema key
+    // TODO：后续可考虑开放自定义重新计算的 key 范围
+    const validReRenderKeys: Array<keyof ItemTypeSchemaItem> = [
+      "show",
+      "label",
+    ];
 
-    // 每次更新处理对需要实时更新的元素的计算，需重构为对类属性的判断及统一操作
-    const rawKeys = Object.keys(schema.raw).filter((key) =>
-      validReRenderKeys.includes(key)
-    );
+    const rawKeys = (
+      Object.keys(schema.raw) as Array<keyof ItemTypeSchemaItem>
+    ).filter((key) => validReRenderKeys.includes(key));
+
     rawKeys.length > 0 &&
       rawKeys.forEach((key) => {
         handleAsyncOrSync(
@@ -104,6 +89,28 @@ export function rendercore(props: { register: FormRegister }) {
           }
         );
       });
+  }
+
+  function renderItem(
+    schema: any,
+    model: any,
+    parentSchema?: ListTypeSchemaItem,
+    index?: number
+  ) {
+    // point: 对于远程调用的请求来说，每次是否都获取最新值还是永远只获取一次是两种都合理的需求，目前先只做成永远获取一次，而永远都获取最新值比较小众，交互方式待定
+    let props;
+    if (!schema.cachedComponentProps) {
+      props =
+        schema.componentProps && processComponentProps(schema.componentProps);
+      cacheComponentProps(schema, props);
+    }
+    props = schema.cachedComponentProps;
+    const SchemaComponent = toRaw(schema.component);
+    const uniqueField = isUndefined(index)
+      ? schema.field
+      : `${parentSchema?.field}.${index}.${schema.field}`;
+
+    reactivePropsUpdate(schema);
 
     return (
       <FormItem
@@ -155,14 +162,26 @@ export function rendercore(props: { register: FormRegister }) {
     );
   }
 
-  function render() {
-    const { model, schemas } = register;
-    return (
-      <Form ref={formRef} class={styles.form} model={model}>
-        {schemas.map((schema) => {
+  watch(
+    () => model,
+    () => {
+      //
+      getFormDom.value = () =>
+        schemas.map((schema) => {
           schema.type = schema.type ?? "item";
           return schemaHandlerByType[schema.type](schema as any, model);
-        })}
+        });
+    },
+    {
+      immediate: true,
+      deep: true,
+    }
+  );
+
+  function render() {
+    return (
+      <Form ref={formRef} class={styles.form} model={model}>
+        {getFormDom.value()}
       </Form>
     );
   }

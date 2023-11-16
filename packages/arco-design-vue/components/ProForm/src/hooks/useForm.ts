@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive, watchEffect } from "vue";
 import {
   deepClone,
   deepAssign,
@@ -22,7 +22,7 @@ function useForm(props: UseFormProps): UseForm {
   const clonedSchemas = deepClone(props.schemas);
   const registerInstance = reactive({}) as RegisterInstance;
   const initialModel = reactive({});
-  const { mutableModel, immutableModel, proxyedSchemas } = setupModel(
+  const { mutableModel, immutableModel, proxyedSchemas } = setupModelAndSchemas(
     clonedSchemas,
     initialModel
   );
@@ -91,8 +91,8 @@ function useForm(props: UseFormProps): UseForm {
     return newSchema;
   }
 
-  // 在 setupModel 层，需要调用 handleAsyncOrSync 方法来处理默认值
-  function setupModel(
+  // 在 setupModelAndSchemas 层，需要调用 handleAsyncOrSync 方法来处理默认值
+  function setupModelAndSchemas(
     schemas: Schemas,
     model: FormModel
   ): {
@@ -107,17 +107,19 @@ function useForm(props: UseFormProps): UseForm {
         if (isArrayEmpty(model)) {
           model.push({});
         }
-        model[0][(schema as ListTypeSchemaItem).field] =
-          (schema as ItemTypeSchemaItem).defaultValue ?? "";
+        watchEffect(() => {
+          model[0][(schema as ListTypeSchemaItem).field] =
+            (schema as ItemTypeSchemaItem).defaultValue ?? "";
+        });
       } else if (schema.type === "group") {
-        const { proxyedSchemas: newGroupSchemas } = setupModel(
+        const { proxyedSchemas: newGroupSchemas } = setupModelAndSchemas(
           (schema as GroupTypeSchemaItem).children,
           model
         );
         Object.assign(schema.children, newGroupSchemas);
       } else if (schema.type === "list") {
         model[schema.field] = [];
-        const { proxyedSchemas: newListSchemas } = setupModel(
+        const { proxyedSchemas: newListSchemas } = setupModelAndSchemas(
           (schema as ListTypeSchemaItem).children,
           model[schema.field]
         );

@@ -26,7 +26,7 @@ export interface ItemTypeSchemaItem {
   type?: "item";
   rules?: Proxyed<Array<FieldRule>>;
   field: Proxyed<string>;
-  label: Proxyed<any>;
+  label?: Proxyed<string>;
   component: Proxyed<any>;
   defaultValue?: Proxyed<any>;
   componentProps?: Proxyed<Record<string, any>>;

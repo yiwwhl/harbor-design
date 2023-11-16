@@ -32,7 +32,7 @@ export default defineComponent({
       });
     }
 
-    function getLabel() {
+    function getLabel(): Promise<string> {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve("我不是药神");
@@ -88,11 +88,11 @@ export default defineComponent({
               },
             },
             {
-              label: "测试异步列表下拉",
-              field: "asyncTreeSelect",
-              component: () => {
-                return Select;
+              label({ model }) {
+                return `测试异步列表下拉${model.test1}`;
               },
+              field: "asyncTreeSelect",
+              component: Select,
               defaultValue: getDefault,
               componentProps: () => ({
                 options: getOptions,
@@ -136,7 +136,7 @@ export default defineComponent({
             {
               label: "测试2",
               field: "tes21",
-              component: () => Input,
+              component: Input,
               defaultValue: getDefault,
               rules: [
                 {
