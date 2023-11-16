@@ -25,7 +25,7 @@ export function isUndefined(data: any): data is undefined {
 }
 
 export function isArrayEmpty(data: any[]) {
-  return data.length < 1;
+  return data?.length < 1;
 }
 
 export function isObjectEmpty(data: Record<PropertyKey, any>) {

@@ -64,28 +64,29 @@ export default defineComponent({
                 });
               },
               rules: async () => {
-                await new Promise((resolve) => {
+                return await new Promise((resolve) => {
                   setTimeout(() => {
-                    resolve("done");
+                    resolve([
+                      {
+                        validator(val, callback) {
+                          console.log("va", val);
+                          return val === "有问题"
+                            ? callback("有问题")
+                            : callback();
+                        },
+                      },
+                    ]);
                   }, 1000);
                 });
-                return [
-                  {
-                    validator(val, callback) {
-                      console.log("va", val);
-                      return val === "有问题" ? callback("有问题") : callback();
-                    },
-                  },
-                ];
               },
-              async show({ model }) {
-                await new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve("done");
-                  }, 100);
-                });
-                return !!model.username;
-              },
+              // async show({ model }) {
+              //   await new Promise((resolve) => {
+              //     setTimeout(() => {
+              //       resolve("done");
+              //     }, 100);
+              //   });
+              //   return !!model.username;
+              // },
             },
             {
               label({ model }) {

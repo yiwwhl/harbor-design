@@ -1,4 +1,4 @@
-import { reactive, watchEffect } from "vue";
+import { reactive } from "vue";
 import { deepClone, deepAssign, isArray, isArrayEmpty } from "../utils";
 import {
   UseFormProps,
@@ -8,7 +8,6 @@ import {
   Schemas,
   GroupTypeSchemaItem,
   ListTypeSchemaItem,
-  ItemTypeSchemaItem,
 } from "../types/form";
 import { handleAsyncOrSync } from "../services";
 import { presetProcess } from "../services";
@@ -19,10 +18,11 @@ function useForm(props: UseFormProps): UseForm {
   const initialModel = reactive({});
   const { mutableModel, immutableModel, proxyedSchemas } = setupModelAndSchemas(
     clonedSchemas,
-    initialModel
+    initialModel,
+    {}
   );
 
-  function schemaPreprocessor(schema: any) {
+  function schemaPreprocessor(schema: any, model: any, immutable: any) {
     let processingProgress = 0;
     let newSchema = reactive({
       raw: {},
@@ -35,6 +35,24 @@ function useForm(props: UseFormProps): UseForm {
           Object.assign(newSchema, {
             [keys[i]]: val,
           });
+          if (keys[i] === "defaultValue") {
+            if (isArray(immutable)) {
+              if (isArrayEmpty(immutable)) {
+                immutable.push({});
+              }
+              immutable[0][(schema as ListTypeSchemaItem).field] = val;
+            } else {
+              immutable[(schema as any).field] = val;
+            }
+            if (isArray(model)) {
+              if (isArrayEmpty(model)) {
+                model.push({});
+              }
+              model[0][(schema as ListTypeSchemaItem).field] = val;
+            } else {
+              model[(schema as any).field] = val;
+            }
+          }
           raw &&
             Object.assign(newSchema, {
               raw: {
@@ -59,38 +77,31 @@ function useForm(props: UseFormProps): UseForm {
   // 在 setupModelAndSchemas 层，需要调用 handleAsyncOrSync 方法来处理默认值
   function setupModelAndSchemas(
     schemas: Schemas,
-    model: FormModel
+    model: FormModel,
+    immutable: FormModel
   ): {
     mutableModel: FormModel;
     immutableModel: FormModel;
     proxyedSchemas: Schemas;
   } {
     const proxyedSchemas = schemas.map((schema) => {
-      schema = schemaPreprocessor(schema) as any;
-
-      if (isArray(model)) {
-        if (isArrayEmpty(model)) {
-          model.push({});
-        }
-        watchEffect(() => {
-          model[0][(schema as ListTypeSchemaItem).field] =
-            (schema as ItemTypeSchemaItem).defaultValue ?? "";
-        });
-      } else if (schema.type === "group") {
+      schema = schemaPreprocessor(schema, model, immutable) as any;
+      if (schema.type === "group") {
         const { proxyedSchemas: newGroupSchemas } = setupModelAndSchemas(
           (schema as GroupTypeSchemaItem).children,
-          model
+          model,
+          immutable
         );
         Object.assign(schema.children, newGroupSchemas);
       } else if (schema.type === "list") {
         model[schema.field] = [];
+        immutable[schema.field] = [];
         const { proxyedSchemas: newListSchemas } = setupModelAndSchemas(
           (schema as ListTypeSchemaItem).children,
-          model[schema.field]
+          model[schema.field],
+          immutable[schema.field]
         );
         Object.assign(schema.children, newListSchemas);
-      } else {
-        model[(schema as any).field] = schema.defaultValue ?? "";
       }
       return schema;
     });
@@ -98,7 +109,7 @@ function useForm(props: UseFormProps): UseForm {
     return {
       proxyedSchemas,
       mutableModel: model,
-      immutableModel: deepClone(model),
+      immutableModel: immutable,
     };
   }
 
