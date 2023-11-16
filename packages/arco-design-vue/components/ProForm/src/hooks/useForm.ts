@@ -1,11 +1,5 @@
 import { reactive, watchEffect } from "vue";
-import {
-  deepClone,
-  deepAssign,
-  isArray,
-  isArrayEmpty,
-  isUndefined,
-} from "../utils";
+import { deepClone, deepAssign, isArray, isArrayEmpty } from "../utils";
 import {
   UseFormProps,
   UseForm,
@@ -17,6 +11,7 @@ import {
   ItemTypeSchemaItem,
 } from "../types/form";
 import { handleAsyncOrSync } from "../services";
+import { presetProcess } from "../services";
 
 function useForm(props: UseFormProps): UseForm {
   const clonedSchemas = deepClone(props.schemas);
@@ -27,41 +22,12 @@ function useForm(props: UseFormProps): UseForm {
     initialModel
   );
 
-  // 名字待优化，代码需要重构，目的是处理一些常用的配置项，如 required placeholder slot 等
-  function presetProcess(schema: ItemTypeSchemaItem) {
-    // required
-    if (schema.required) {
-      if (!schema.rules) {
-        Object.assign(schema, {
-          rules: [],
-        });
-      }
-      (schema.rules as any).unshift({
-        required: true,
-        message: `${schema.label}为必填项`,
-      });
-    }
-    // placeholder
-    if (!schema.placeholder) {
-      Object.assign(schema, {
-        // 待重构，需要不同的组件有一个映射，同时映射可以做到映射和配置关联，配置中会有默认的 placeholder prefix 获取函数，后续会在此处执行，根据
-        // 不同的配置具体情况来更灵活的控制默认提示
-        placeholder: `请输入${schema.label}`,
-      });
-    }
-    // show
-    if (isUndefined(schema.show)) {
-      Object.assign(schema, {
-        show: true,
-      });
-    }
-  }
-
   function schemaPreprocessor(schema: any) {
     let processingProgress = 0;
     let newSchema = reactive({
       raw: {},
     }) as any;
+    console.log("process");
     const keys = Object.keys(schema);
     for (let i = 0; i < keys.length; i++) {
       handleAsyncOrSync(

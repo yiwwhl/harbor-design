@@ -16,6 +16,7 @@ import {
 } from "../types/form";
 import styles from "../../../../assets/components/ProForm/index.module.scss";
 import { handleAsyncOrSync } from "../services";
+import { presetProcess } from "./preset";
 
 export function rendercore(props: { register: FormRegister }) {
   const formRef = ref();
@@ -89,6 +90,8 @@ export function rendercore(props: { register: FormRegister }) {
           }
         );
       });
+
+    presetProcess(schema, true);
   }
 
   function renderItem(
