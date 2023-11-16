@@ -151,12 +151,6 @@ export default defineComponent({
           label: "用户名",
           field: "username",
           component: Input,
-          rules: [
-            {
-              required: true,
-              message: "用户名必填",
-            },
-          ],
         },
         {
           label: "密码",

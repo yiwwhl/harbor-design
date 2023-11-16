@@ -116,18 +116,15 @@ export function rendercore(props: { register: FormRegister }) {
     reactivePropsUpdate(schema);
 
     return (
-      <FormItem
-        v-show={schema.show}
-        label={schema.label}
-        field={uniqueField}
-        rules={schema.rules}
-      >
-        <SchemaComponent
-          placeholder={schema.placeholder}
-          {...props}
-          v-model={model[schema.field]}
-        />
-      </FormItem>
+      schema.show && (
+        <FormItem label={schema.label} field={uniqueField} rules={schema.rules}>
+          <SchemaComponent
+            placeholder={schema.placeholder}
+            {...props}
+            v-model={model[schema.field]}
+          />
+        </FormItem>
+      )
     );
   }
 
