@@ -120,6 +120,7 @@ function useForm(props: UseFormProps): UseForm {
       model: Object.assign(mutableModel),
       immutableModel,
       schemas: proxyedSchemas,
+      registerInstance,
     };
   }
 

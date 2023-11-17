@@ -140,25 +140,23 @@ export function rendercore(props: { register: FormRegister }) {
     const listModel = model[schema.field];
     const showDeleteButton = listModel.length > 1;
     return (
-      <>
-        <ListWrapper label={schema.label}>
-          {listModel.map((m: any, index: number) => (
-            <Space direction="vertical" fill>
-              {schema.children.map((s) => renderItem(s, m, schema, index))}
-              {showDeleteButton &&
-                DeleteButton({
-                  schema,
-                  model,
-                  index,
-                })}
-            </Space>
-          ))}
-          {AddButton({
-            schema,
-            model,
-          })}
-        </ListWrapper>
-      </>
+      <ListWrapper label={schema.label}>
+        {listModel.map((m: any, index: number) => (
+          <Space direction="vertical" fill>
+            {schema.children.map((s) => renderItem(s, m, schema, index))}
+            {showDeleteButton &&
+              DeleteButton({
+                schema,
+                model,
+                index,
+              })}
+          </Space>
+        ))}
+        {AddButton({
+          schema,
+          model,
+        })}
+      </ListWrapper>
     );
   }
 

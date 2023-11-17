@@ -67,6 +67,7 @@ export type Register = {
   model: FormModel;
   readonly immutableModel: FormModel;
   schemas: Schemas;
+  registerInstance: RegisterInstance;
 };
 
 export type RegisterInstance = {

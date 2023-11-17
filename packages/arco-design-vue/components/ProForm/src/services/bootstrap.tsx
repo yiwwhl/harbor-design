@@ -23,6 +23,8 @@ export function bootstrap(register: Register) {
     (({ schema, model, index }: any) => {
       function handleDeleteClick() {
         model[schema.field].splice(index, 1);
+        // TODO: maybe improve
+        register.registerInstance.formRef.clearValidate();
       }
       return <Button onClick={handleDeleteClick}>删除</Button>;
     });
