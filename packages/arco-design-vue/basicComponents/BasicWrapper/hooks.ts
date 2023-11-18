@@ -1,20 +1,13 @@
-import { globalConfigSymbol } from "../GlobalConfig";
-import { CSSProperties, inject, ref } from "vue";
+import { CSSProperties, ref } from "vue";
 import { isUndefined } from "lodash";
 
 export function useSetProperty(props: Record<string, any>) {
   const domRef = ref();
-  const globalConfig = inject(globalConfigSymbol) as any;
-  let spaceAround = "0px";
-  if (globalConfig.BasicComponents?.BasicWrapper?.spaceAround) {
-    spaceAround = `${
-      globalConfig.BasicComponents?.BasicWrapper?.spaceAround * 2
-    }px`;
-  }
+  let spaceAround = "24px";
   if (!isUndefined(props.spaceAround)) {
     spaceAround = `${props.spaceAround * 2}px`;
   }
-  const pxOfFixedHeight = `${globalConfig.System.headerHeight}px`;
+  const pxOfFixedHeight = `60px`;
   const presetByHeightMode: Record<string, CSSProperties> = {
     flex: {
       width: `calc(100% - ${spaceAround})`,
@@ -50,10 +43,7 @@ export function useSetProperty(props: Record<string, any>) {
         `${props.spaceAround}px`
       );
     }
-    return domRef.value.style.setProperty(
-      "--basicwrapper-margin",
-      `${globalConfig.BasicComponents?.BasicWrapper?.spaceAround ?? 0}px`
-    );
+    return domRef.value.style.setProperty("--basicwrapper-margin", `${12}px`);
   }
 
   function setOverflow() {
@@ -69,11 +59,7 @@ export function useSetProperty(props: Record<string, any>) {
     }
     domRef.value.style.setProperty(
       "--basicwrapper-header-height",
-      `${
-        props.title
-          ? globalConfig.BasicComponents?.BasicWrapper?.headerHeight ?? 50
-          : 0
-      }px`
+      `${props.title ? 50 : 0}px`
     );
   }
 
@@ -84,10 +70,7 @@ export function useSetProperty(props: Record<string, any>) {
         `${props.headerPadding}`
       );
     }
-    domRef.value.style.setProperty(
-      "--basicwrapper-header-padding",
-      `${globalConfig.BasicComponents?.BasicWrapper?.headerPadding ?? "0 12px"}`
-    );
+    domRef.value.style.setProperty("--basicwrapper-header-padding", `0 12px`);
   }
 
   return {

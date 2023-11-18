@@ -10,32 +10,10 @@ import Header from "@/layout/components/Header";
 import Menu from "@/layout/components/Menu";
 import { RouterView } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
-import GlobalConfig from "@harbor-design/arco-design-vue/basicComponents/GlobalConfig";
-import Group from "@/layout/components/ProForm/Group";
-import List from "@/layout/components/ProForm/List";
 
 export default defineComponent({
   setup() {
     const basicSetting = useBasicSettingStore();
-    const systemConfig = {
-      System: {
-        headerHeight: basicSetting.headerHeight,
-      },
-      BasicComponents: {
-        BasicWrapper: {
-          headerHeight: 50,
-          spaceAround: 12,
-        },
-      },
-      Components: {
-        ProForm: {
-          layout: {
-            Group,
-            List,
-          },
-        },
-      },
-    };
 
     return () => {
       return (
@@ -48,9 +26,7 @@ export default defineComponent({
               <Menu />
             </LayoutSider>
             <LayoutContent class={styles.content}>
-              <GlobalConfig systemConfig={systemConfig}>
-                <RouterView />
-              </GlobalConfig>
+              <RouterView />
             </LayoutContent>
           </Layout>
         </Layout>
