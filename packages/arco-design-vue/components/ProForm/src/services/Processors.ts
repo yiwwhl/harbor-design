@@ -73,6 +73,6 @@ export default class Processors {
   }
 
   modelProcessor(schema: ProxyedSchema) {
-    //
+    console.log("schema", schema);
   }
 }
