@@ -1,4 +1,4 @@
-import { Input } from "@arco-design/web-vue";
+import { Input, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent } from "vue";
 
@@ -25,10 +25,31 @@ export default defineComponent({
           defaultValue: () => "default password",
         },
         {
-          label: "用户名2",
-          field: "username",
-          component: Input,
-          defaultValue: "default username",
+          type: "group",
+          label: "用户元数据",
+          children: [
+            {
+              label: "性别",
+              field: "gender",
+              component: Select,
+              componentProps: {
+                options: () => {
+                  return new Promise((resolve) => {
+                    resolve([
+                      {
+                        label: "男",
+                        value: "male",
+                      },
+                      {
+                        label: "女",
+                        value: "female",
+                      },
+                    ]);
+                  });
+                },
+              },
+            },
+          ],
         },
       ],
     });

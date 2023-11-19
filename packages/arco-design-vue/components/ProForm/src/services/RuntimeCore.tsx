@@ -5,7 +5,10 @@ import {
   Schema,
   FormCustomization,
   AnyObject,
-  SchemaType,
+  ItemSchema,
+  GroupSchema,
+  ListSchema,
+  ProcessorBySchemaType,
 } from "../types";
 import Processors from "./Processors";
 
@@ -13,10 +16,10 @@ export default class RuntimeCore {
   processors: Processors;
   schemas: Ref<Schema[]> = ref([]);
   model: Ref<AnyObject> = ref({});
-  processorBySchemaType: Record<SchemaType, (schema: Schema) => any> = {
-    item: this.runtimeItemProcessor,
-    group: this.runtimeGroupProcessor,
-    list: this.runtimeListProcessor,
+  processorBySchemaType: ProcessorBySchemaType = {
+    item: this.runtimeItemProcessor.bind(this),
+    group: this.runtimeGroupProcessor.bind(this),
+    list: this.runtimeListProcessor.bind(this),
   };
 
   constructor(public setup: Setup) {
@@ -28,7 +31,7 @@ export default class RuntimeCore {
     this.processors.analyzer(formCustomization);
   }
 
-  runtimeItemProcessor(schema: Schema) {
+  runtimeItemProcessor(schema: ItemSchema) {
     const Component = toRaw(schema.component);
     return (
       <Context.runtimeDoms.FormItem label={`${schema.label}:`}>
@@ -37,28 +40,25 @@ export default class RuntimeCore {
     );
   }
 
-  runtimeGroupProcessor(schema: Schema) {
-    const Component = toRaw(schema.component);
+  runtimeGroupProcessor(schema: GroupSchema) {
     return (
-      <Context.runtimeDoms.FormItem label={`${schema.label}:`}>
-        <Component />
-      </Context.runtimeDoms.FormItem>
+      <>
+        {schema.label}
+        {schema.children.map(this.runtimeItemProcessor)}
+      </>
     );
   }
 
-  runtimeListProcessor(schema: Schema) {
-    const Component = toRaw(schema.component);
-    return (
-      <Context.runtimeDoms.FormItem label={`${schema.label}:`}>
-        <Component />
-      </Context.runtimeDoms.FormItem>
-    );
+  runtimeListProcessor(schema: ListSchema) {
+    return <>{schema.label}</>;
   }
+
   runtimeProcessor(schemas: Schema[]) {
     return schemas.map((schema) => {
       if (!schema.type) {
         schema.type = "item";
       }
+      // @ts-expect-error 类型不兼容，处理成本过高，直接忽略处理
       return this.processorBySchemaType[schema.type](schema);
     });
   }
