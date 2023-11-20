@@ -14,14 +14,14 @@ export interface ItemSchema {
 export interface GroupSchema {
   type: "group";
   label: string;
-  children: ItemSchema[];
+  children: ProxyedSchema[];
 }
 
 export interface ListSchema {
   type: "list";
   field: string;
   label: string;
-  children: ItemSchema[];
+  children: ProxyedSchema[];
 }
 
 export type Schema = ItemSchema | GroupSchema | ListSchema;

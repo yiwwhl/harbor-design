@@ -28,14 +28,15 @@ export default class RuntimeCore {
   }
 
   analyze(formCustomization: FormCustomization) {
-    this.processors.analyzer(formCustomization);
+    this.processors.schemaAnalyzer(formCustomization.schemas);
   }
 
   runtimeItemProcessor(schema: ItemSchema) {
     const Component = toRaw(schema.component);
+    const props = schema.componentProps ?? {};
     return (
       <Context.runtimeDoms.FormItem label={`${schema.label}:`}>
-        <Component />
+        <Component {...props} />
       </Context.runtimeDoms.FormItem>
     );
   }
@@ -44,7 +45,7 @@ export default class RuntimeCore {
     return (
       <>
         {schema.label}
-        {schema.children.map(this.runtimeItemProcessor)}
+        {(schema.children as ItemSchema[]).map(this.runtimeItemProcessor)}
       </>
     );
   }

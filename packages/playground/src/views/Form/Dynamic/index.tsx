@@ -29,7 +29,13 @@ export default defineComponent({
           label: "用户元数据",
           children: [
             {
-              label: "性别",
+              label: () => {
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve("性别");
+                  }, 100);
+                });
+              },
               field: "gender",
               component: Select,
               componentProps: {
