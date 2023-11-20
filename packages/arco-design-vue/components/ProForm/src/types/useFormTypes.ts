@@ -1,3 +1,4 @@
+import { AnyObject } from "../types";
 import type { RuntimeCore } from "../services";
 
 export type Setup = (runtimeCore: RuntimeCore) => any;
@@ -5,6 +6,6 @@ export type Setup = (runtimeCore: RuntimeCore) => any;
 export type UseForm = [
   Setup,
   {
-    submit: any;
+    submit: () => Promise<AnyObject>;
   }
 ];

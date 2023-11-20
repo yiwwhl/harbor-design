@@ -1,4 +1,4 @@
-import { FormCustomization } from "../types";
+import { AnyObject, FormCustomization } from "../types";
 import { RuntimeCore } from "./index";
 import { toRaw } from "vue";
 
@@ -12,7 +12,7 @@ export default class FormCustomizer {
     return this.formCustomization;
   }
 
-  submit() {
+  submit(): Promise<AnyObject> {
     return new Promise((resolve, reject) => {
       this.runtimeCore.formRef.value.validate((errors: any) => {
         if (errors) {

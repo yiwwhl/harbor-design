@@ -180,7 +180,7 @@ export default defineComponent({
           <ProForm setup={setup} />
           <Button
             onClick={() => {
-              submit().then((data: any) => {
+              submit().then((data) => {
                 console.log("提交", data);
               });
             }}
