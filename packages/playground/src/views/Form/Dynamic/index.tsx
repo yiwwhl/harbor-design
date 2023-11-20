@@ -89,7 +89,11 @@ export default defineComponent({
                 });
               },
               field: "gender",
-              component: Select,
+              component: () => {
+                return new Promise((resolve) => {
+                  resolve(Select);
+                });
+              },
               componentProps: () => ({
                 options,
               }),

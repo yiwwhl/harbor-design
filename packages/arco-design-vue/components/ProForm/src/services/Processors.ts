@@ -1,4 +1,4 @@
-import { Ref, Fragment, watchEffect, isRef, isReactive, watch } from "vue";
+import { Ref, watchEffect, isRef, isReactive, watch } from "vue";
 import {
   AnyObject,
   Schema,
@@ -14,7 +14,7 @@ export default class Processors {
   public rawModel: AnyObject = {};
   public schemaDefaultValueWhenAsync: Record<keyof ItemSchema, any> = {
     type: "item",
-    component: Fragment,
+    component: undefined,
     componentProps: undefined,
     defaultValue: undefined,
     label: "",
