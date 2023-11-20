@@ -32,13 +32,17 @@ export default class Processors {
   schemaAnalyzer(
     schemas: ProxyedSchema[],
     baseSchema = this.processedSchemas.value,
-    baseRawSchema = this.rawSchemas
+    baseRawSchema = this.rawSchemas,
+    parentField?: string
   ) {
     for (let i = 0; i < schemas.length; i++) {
       let schema = schemas[i];
       this.schemaProcessor(schema, i, (processedSchema, forceUpdate) => {
         baseSchema[i] = processedSchema;
-        this.modelProcessor(processedSchema);
+        this.modelProcessor(
+          processedSchema,
+          parentField && this.processedModel.value[parentField][0]
+        );
         if (!baseRawSchema[i] || forceUpdate) {
           baseRawSchema[i] = deepClone(processedSchema);
         }
@@ -71,12 +75,14 @@ export default class Processors {
       if (processed.children) {
         that.processedSchemas.value[index] = processed as Schema;
         that.rawSchemas[index] = processed as Schema;
+        setter({ ...processed }, forceUpdate);
         that.schemaAnalyzer(
           processed.children,
           // @ts-expect-error 此处已经守卫为非 ItemSchema
           that.processedSchemas.value[index]?.children,
           // @ts-expect-error 此处已经守卫为非 ItemSchema
-          that.rawSchemas[index]?.children
+          that.rawSchemas[index]?.children,
+          processed.field
         );
         return;
       }
@@ -163,7 +169,24 @@ export default class Processors {
     }
   }
 
-  modelProcessor(schema: ProxyedSchema) {
-    console.log("schema", schema);
+  modelProcessor(schema: ProxyedSchema, baseModel = this.processedModel.value) {
+    if (IS.isListSchema(schema)) {
+      if (!baseModel[schema.field]) {
+        baseModel[schema.field] = [{}];
+      }
+      schema.children.forEach((childSchema) => {
+        this.modelProcessor(childSchema, baseModel[schema.field][0]);
+      });
+      return;
+    }
+    if (IS.isGroupSchema(schema)) {
+      schema.children.forEach((childSchema) => {
+        this.modelProcessor(childSchema, baseModel);
+      });
+      return;
+    }
+    if (IS.isItemSchema(schema)) {
+      baseModel[schema.field] = schema.defaultValue;
+    }
   }
 }

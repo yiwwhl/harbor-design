@@ -1,3 +1,4 @@
+import { GroupSchema, ItemSchema, ListSchema } from "../types";
 export default class IS {
   private static typeChecker(data: any) {
     return {}.toString.call(data);
@@ -29,5 +30,17 @@ export default class IS {
 
   static isObjectEmpty(data: Record<PropertyKey, any>) {
     return this.isArrayEmpty(Object.keys(data));
+  }
+
+  static isListSchema(data: any): data is ListSchema {
+    return data.type === "list";
+  }
+
+  static isGroupSchema(data: any): data is GroupSchema {
+    return data.type === "group";
+  }
+
+  static isItemSchema(data: any): data is ItemSchema {
+    return this.isUndefined(data.type) || data.type === "item";
   }
 }

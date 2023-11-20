@@ -4,6 +4,25 @@ import { defineComponent, onBeforeMount, reactive } from "vue";
 
 export default defineComponent({
   setup() {
+    function getPriority() {
+      return new Promise((resolve) => {
+        resolve([
+          {
+            label: "高",
+            value: "high",
+          },
+          {
+            label: "中",
+            value: "medium",
+          },
+          {
+            label: "低",
+            value: "low",
+          },
+        ]);
+      });
+    }
+
     function getOptions() {
       return new Promise((resolve) => {
         resolve([
@@ -105,6 +124,36 @@ export default defineComponent({
               componentProps: () => {
                 return new Promise((resolve) => {
                   resolve({ options: getHobby });
+                });
+              },
+            },
+          ],
+        },
+        {
+          type: "list",
+          label: "学习计划",
+          field: "studyPlan",
+          children: [
+            {
+              label: "学习内容",
+              field: "studyWhat",
+              component: Input,
+              defaultValue: () => {
+                return new Promise((resolve) => {
+                  resolve("计算机组成原理");
+                });
+              },
+            },
+            {
+              label: "优先级",
+              field: "priority",
+              component: Select,
+              componentProps: {
+                options: getPriority,
+              },
+              defaultValue: () => {
+                return new Promise((resolve) => {
+                  resolve("high");
                 });
               },
             },
