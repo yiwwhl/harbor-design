@@ -21,10 +21,11 @@ export default class RuntimeCore {
     group: this.runtimeGroupProcessor.bind(this),
     list: this.runtimeListProcessor.bind(this),
   };
+  formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
 
   constructor(public setup: Setup) {
     this.processors = new Processors(this.schemas, this.model);
-    this.analyze(this.setup());
+    this.analyze(this.setup(this));
   }
 
   analyze(formCustomization: FormCustomization) {
@@ -34,13 +35,20 @@ export default class RuntimeCore {
   runtimeItemProcessor(
     schema: ItemSchema,
     index?: number,
-    baseModel = this.model.value
+    baseModel = this.model.value,
+    parentSchema?: ListSchema
   ) {
-    console.log("index", index);
+    const field = parentSchema
+      ? `${parentSchema.field}.${index}.${schema.field}`
+      : schema.field;
     const Component = toRaw(schema.component);
     const props = schema.componentProps ?? {};
     return (
-      <Context.runtimeDoms.FormItem label={`${schema.label}:`}>
+      <Context.runtimeDoms.FormItem
+        label={`${schema.label}:`}
+        rules={schema.rules}
+        field={field}
+      >
         <Component {...props} v-model={baseModel[schema.field]} />
       </Context.runtimeDoms.FormItem>
     );
@@ -63,7 +71,7 @@ export default class RuntimeCore {
         {schema.label}
         {this.model.value[schema.field].map((listItemModel: AnyObject) =>
           (schema.children as ItemSchema[]).map((childSchema, index) =>
-            this.runtimeItemProcessor(childSchema, index, listItemModel)
+            this.runtimeItemProcessor(childSchema, index, listItemModel, schema)
           )
         )}
       </>
@@ -82,7 +90,7 @@ export default class RuntimeCore {
 
   exec() {
     return (
-      <Context.runtimeDoms.Form model={this.model.value}>
+      <Context.runtimeDoms.Form ref={this.formRef} model={this.model.value}>
         {this.runtimeProcessor(this.schemas.value)}
       </Context.runtimeDoms.Form>
     );

@@ -1,4 +1,4 @@
-import { Input, InputNumber, Select } from "@arco-design/web-vue";
+import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent, onBeforeMount, reactive } from "vue";
 
@@ -59,13 +59,19 @@ export default defineComponent({
       });
     }
 
-    const [setup] = useForm({
+    const [setup, { submit }] = useForm({
       schemas: [
         {
           label: "用户名",
           field: "username",
           component: Input,
           defaultValue: "default username",
+          rules: [
+            {
+              required: true,
+              message: "用户名必填",
+            },
+          ],
         },
         {
           label: () => {
@@ -143,6 +149,12 @@ export default defineComponent({
                   resolve("计算机组成原理");
                 });
               },
+              rules: [
+                {
+                  required: true,
+                  message: "学习内容必填",
+                },
+              ],
             },
             {
               label: "优先级",
@@ -166,6 +178,15 @@ export default defineComponent({
       return (
         <PageWrapper title="DynamicForm">
           <ProForm setup={setup} />
+          <Button
+            onClick={() => {
+              submit().then((data: any) => {
+                console.log("提交", data);
+              });
+            }}
+          >
+            提交
+          </Button>
         </PageWrapper>
       );
     };

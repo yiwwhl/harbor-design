@@ -19,6 +19,7 @@ export default class Processors {
     defaultValue: undefined,
     label: "",
     field: "warn_no_field",
+    rules: [],
   };
   public componentPropsDefaultValueWhenAsync: AnyObject = {
     options: [],

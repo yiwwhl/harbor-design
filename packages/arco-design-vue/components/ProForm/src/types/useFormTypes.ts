@@ -1,3 +1,10 @@
-export type Setup = () => any;
+import type { RuntimeCore } from "../services";
 
-export type UseForm = [Setup];
+export type Setup = (runtimeCore: RuntimeCore) => any;
+
+export type UseForm = [
+  Setup,
+  {
+    submit: any;
+  }
+];

@@ -3,5 +3,10 @@ import { FormCustomization, UseForm } from "../types";
 
 export function useForm(formCustomization: FormCustomization): UseForm {
   const formCustomizer = new FormCustomizer(formCustomization);
-  return [formCustomizer.setup.bind(formCustomizer)];
+  return [
+    formCustomizer.setup.bind(formCustomizer),
+    {
+      submit: formCustomizer.submit.bind(formCustomizer),
+    },
+  ];
 }

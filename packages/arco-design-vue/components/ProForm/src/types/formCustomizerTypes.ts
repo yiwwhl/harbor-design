@@ -2,8 +2,44 @@ import { AnyObject, DomType } from "./index";
 
 export type SchemaType = "item" | "list" | "group";
 
+export type FieldRule<T = any> = {
+  type?:
+    | "string"
+    | "number"
+    | "boolean"
+    | "array"
+    | "object"
+    | "email"
+    | "url"
+    | "ip";
+  required?: boolean;
+  message?: string;
+  length?: number;
+  maxLength?: number;
+  minLength?: number;
+  match?: RegExp;
+  uppercase?: boolean;
+  lowercase?: boolean;
+  min?: number;
+  max?: number;
+  equal?: number;
+  positive?: boolean;
+  negative?: boolean;
+  true?: boolean;
+  false?: boolean;
+  includes?: any[];
+  deepEqual?: any;
+  empty?: boolean;
+  hasKeys?: string[];
+  validator?: (
+    value: T | undefined,
+    callback: (error?: string) => void
+  ) => void;
+};
+
 export interface ItemSchema {
   type?: "item";
+  rules?: FieldRule[];
   label: string;
   field: string;
   component: DomType;
