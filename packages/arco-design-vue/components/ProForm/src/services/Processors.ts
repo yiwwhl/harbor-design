@@ -1,4 +1,4 @@
-import { Ref, Fragment } from "vue";
+import { Ref, Fragment, watchEffect, isRef, isReactive, watch } from "vue";
 import {
   AnyObject,
   Schema,
@@ -10,7 +10,7 @@ import { IS, deepClone } from "../utils";
 import { Context } from "../services";
 
 export default class Processors {
-  public rawSchemas: Schema[] = [];
+  public rawSchemas: ProxyedSchema[] = [];
   public rawModel: AnyObject = {};
   public schemaDefaultValueWhenAsync: Record<keyof ItemSchema, any> = {
     type: "item",
@@ -20,6 +20,9 @@ export default class Processors {
     label: "",
     field: "warn_no_field",
   };
+  public componentPropsDefaultValueWhenAsync: AnyObject = {
+    options: [],
+  };
 
   constructor(
     public processedSchemas: Ref<Schema[]>,
@@ -28,15 +31,16 @@ export default class Processors {
 
   schemaAnalyzer(
     schemas: ProxyedSchema[],
-    baseSchema = this.processedSchemas.value
+    baseSchema = this.processedSchemas.value,
+    baseRawSchema = this.rawSchemas
   ) {
     for (let i = 0; i < schemas.length; i++) {
       let schema = schemas[i];
       this.schemaProcessor(schema, i, (processedSchema, forceUpdate) => {
         baseSchema[i] = processedSchema;
         this.modelProcessor(processedSchema);
-        if (!this.rawSchemas[i] || forceUpdate) {
-          this.rawSchemas[i] = deepClone(processedSchema);
+        if (!baseRawSchema[i] || forceUpdate) {
+          baseRawSchema[i] = deepClone(processedSchema);
         }
       });
     }
@@ -54,13 +58,11 @@ export default class Processors {
         const processedProps = {};
         that.propsProcessor(
           processed.componentProps,
-          {
-            options: undefined,
-          },
+          that.componentPropsDefaultValueWhenAsync,
           processedProps,
-          () => {
+          (_forceUpdate) => {
             processed.componentProps = processedProps;
-            setter({ ...processed }, forceUpdate);
+            setter({ ...processed }, _forceUpdate);
           }
         );
         return;
@@ -68,10 +70,13 @@ export default class Processors {
 
       if (processed.children) {
         that.processedSchemas.value[index] = processed as Schema;
+        that.rawSchemas[index] = processed as Schema;
         that.schemaAnalyzer(
           processed.children,
           // @ts-expect-error 此处已经守卫为非 ItemSchema
-          that.processedSchemas.value[index]?.children
+          that.processedSchemas.value[index]?.children,
+          // @ts-expect-error 此处已经守卫为非 ItemSchema
+          that.rawSchemas[index]?.children
         );
         return;
       }
@@ -102,31 +107,60 @@ export default class Processors {
       return progress.every((p) => p);
     }
 
-    pendingProcessKeys.forEach((pendingProcessKey, index) => {
+    for (let i = 0; i < pendingProcessKeys.length; i++) {
+      const pendingProcessKey = pendingProcessKeys[i];
       const propertyValue = pendingProcess[pendingProcessKey];
+
       if (IS.isFunction(propertyValue)) {
         const fnExecRes = propertyValue();
         if (fnExecRes instanceof Promise) {
-          progress[index] = true;
+          progress[i] = true;
           processed[pendingProcessKey] =
             schemaDefaultValueWhenAsync[pendingProcessKey];
           isProgressDone() && update();
           fnExecRes.then((res) => {
-            progress[index] = true;
+            progress[i] = true;
             processed[pendingProcessKey] = res;
             isProgressDone() && update(true);
           });
         } else {
-          progress[index] = true;
+          progress[i] = true;
           processed[pendingProcessKey] = fnExecRes;
           isProgressDone() && update();
         }
       } else {
-        progress[index] = true;
-        processed[pendingProcessKey] = propertyValue;
-        isProgressDone() && update();
+        progress[i] = true;
+        if (isRef(propertyValue)) {
+          watch(
+            () => propertyValue.value,
+            (val) => {
+              processed[pendingProcessKey] = val;
+              isProgressDone() && update();
+            },
+            {
+              immediate: true,
+              deep: true,
+            }
+          );
+          watchEffect(() => {});
+        } else if (isReactive(propertyValue)) {
+          watch(
+            () => propertyValue,
+            (val) => {
+              processed[pendingProcessKey] = val;
+              isProgressDone() && update();
+            },
+            {
+              immediate: true,
+              deep: true,
+            }
+          );
+        } else {
+          processed[pendingProcessKey] = propertyValue;
+          isProgressDone() && update();
+        }
       }
-    });
+    }
   }
 
   modelProcessor(schema: ProxyedSchema) {
