@@ -54,7 +54,7 @@ export default defineComponent({
           children: [
             {
               label: ({ model }) => `年龄${model.gender ?? ""}`,
-              field: "age",
+              field: ({ model }) => `${model.gender ?? ""}age`,
               component: Input,
               defaultValue({ model }) {
                 return new Promise((resolve) => {
@@ -98,7 +98,6 @@ export default defineComponent({
               defaultValue: () => "默认值设定的联动效果",
               componentProps({ model }) {
                 return new Promise((resolve) => {
-                  // 异步了
                   setTimeout(() => {
                     resolve({
                       disabled: !!model.username,

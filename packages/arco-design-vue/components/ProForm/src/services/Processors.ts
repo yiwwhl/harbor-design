@@ -220,7 +220,10 @@ export default class Processors {
                   parentField === undefined
                 ) {
                   // @ts-expect-error
-                  this.processedModel.value[pendingProcess.field] = res;
+                  if (!IS.isFunction(pendingProcess.field)) {
+                    // @ts-expect-error
+                    this.processedModel.value[pendingProcess.field] = res;
+                  }
                 } else {
                   this.processedModel.value[parentField][
                     schemaIndexOrChildrenIndex
@@ -242,6 +245,7 @@ export default class Processors {
                 this.processedModel.value[pendingProcess.field] = effectRes;
               } else {
                 // list
+
                 this.processedModel.value[parentField].forEach(
                   (item: AnyObject) => {
                     // @ts-expect-error
@@ -306,6 +310,7 @@ export default class Processors {
 
   modelProcessor(schema: ProxyedSchema, baseModel = this.processedModel.value) {
     if (IS.isListSchema(schema)) {
+      if (IS.isFunction(schema.field)) return;
       if (!baseModel[schema.field]) {
         baseModel[schema.field] = [{}];
       }
@@ -321,6 +326,7 @@ export default class Processors {
       return;
     }
     if (IS.isItemSchema(schema)) {
+      if (IS.isFunction(schema.field)) return;
       baseModel[schema.field] = schema.defaultValue;
     }
   }
