@@ -57,7 +57,9 @@ export default class Processors {
 
     function updateSchema(forceUpdate = false) {
       // 同时执行 watchSchemaEffect 收集的函数
-      Array.from(Context.effects).forEach((effect) => effect());
+      Array.from(Context.schemaEffects).forEach((schemaEffect) =>
+        schemaEffect()
+      );
 
       if (processed.componentProps) {
         const processedProps = {};
