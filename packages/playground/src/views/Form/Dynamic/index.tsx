@@ -1,9 +1,25 @@
-import { Button, Input } from "@arco-design/web-vue";
+import { Button, Input, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
+    function getOptions() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve([
+            {
+              label: "男",
+              value: "male",
+            },
+            {
+              label: "女",
+              value: "female",
+            },
+          ]);
+        }, 200);
+      });
+    }
     const [setup, { submit }] = useForm({
       schemas: [
         {
@@ -37,7 +53,7 @@ export default defineComponent({
           label: "用户元数据",
           children: [
             {
-              label: "年龄",
+              label: ({ model }) => `年龄${model.gender ?? ""}`,
               field: "age",
               component: Input,
               defaultValue({ model }) {
@@ -48,6 +64,14 @@ export default defineComponent({
                     );
                   }, 200);
                 });
+              },
+            },
+            {
+              label: "性别",
+              field: "gender",
+              component: Select,
+              componentProps: {
+                options: getOptions,
               },
             },
           ],
@@ -70,8 +94,8 @@ export default defineComponent({
                 return `爱好呀${model?.listtest?.[0].hobby ?? ""}`;
               },
               field: "hobby",
-              component: Input,
-              defaultValue: "默认值设定的联动效果",
+              component: () => Input,
+              defaultValue: () => "默认值设定的联动效果",
               componentProps({ model }) {
                 return new Promise((resolve) => {
                   // 异步了

@@ -12,17 +12,33 @@ import { Effect } from "../services";
 export default class Processors {
   rawSchemas: ProxyedSchema[] = [];
   rawModel: AnyObject = {};
-  schemaDefaultValueWhenAsync: Record<keyof ItemSchema, any> = {
-    type: "item",
-    component: undefined,
-    componentProps: undefined,
-    defaultValue: undefined,
-    label: "",
-    field: "warn_no_field",
-    rules: [],
+  schemaPreset: Record<keyof ItemSchema, any> = {
+    type: {
+      defaultValueWhenAsync: "item",
+    },
+    component: {
+      defaultValueWhenAsync: undefined,
+    },
+    componentProps: {
+      defaultValueWhenAsync: undefined,
+    },
+    defaultValue: {
+      defaultValueWhenAsync: undefined,
+    },
+    label: {
+      defaultValueWhenAsync: "",
+    },
+    field: {
+      defaultValueWhenAsync: "warn_no_field",
+    },
+    rules: {
+      defaultValueWhenAsync: [],
+    },
   };
-  componentPropsDefaultValueWhenAsync: AnyObject = {
-    options: [],
+  componentPropsPreset: AnyObject = {
+    options: {
+      defaultValueWhenAsync: [],
+    },
   };
   uniqueEffectMap: any = {};
   schemaEffect = new Effect();
@@ -65,6 +81,8 @@ export default class Processors {
           if (!baseRawSchema[i] || forceUpdate) {
             baseRawSchema[i] = deepClone(processedSchema);
           }
+
+          this.schemaEffect.triggerEffects();
         },
         schemaIndex,
         parentField
@@ -87,7 +105,7 @@ export default class Processors {
         const processedProps = {};
         that.propsProcessor(
           processed.componentProps,
-          that.componentPropsDefaultValueWhenAsync,
+          that.componentPropsPreset,
           processedProps,
           (_forceUpdate) => {
             processed.componentProps = processedProps;
@@ -103,6 +121,7 @@ export default class Processors {
         that.processedSchemas.value[index] = processed as Schema;
         that.rawSchemas[index] = processed as Schema;
         setter({ ...processed }, forceUpdate);
+
         that.schemaAnalyzer(
           processed.children,
           // @ts-expect-error 此处已经守卫为非 ItemSchema
@@ -120,7 +139,7 @@ export default class Processors {
 
     this.propsProcessor<ProxyedSchema>(
       schema,
-      this.schemaDefaultValueWhenAsync,
+      this.schemaPreset,
       processed,
       updateSchema,
       index,
@@ -129,13 +148,9 @@ export default class Processors {
     );
   }
 
-  patchSchema() {}
-
-  patchModel() {}
-
   propsProcessor<T extends object = any>(
     pendingProcess: T,
-    schemaDefaultValueWhenAsync: Record<keyof T, any>,
+    preset: Record<keyof T, any>,
     processed: AnyObject,
     update: AnyFunction,
     schemaIndexOrChildrenIndex: number,
@@ -222,13 +237,17 @@ export default class Processors {
                 schemaIndexOrChildrenIndex === undefined ||
                 parentField === undefined
               ) {
+                // group
                 // @ts-expect-error
                 this.processedModel.value[pendingProcess.field] = effectRes;
               } else {
-                this.processedModel.value[parentField][
-                  schemaIndexOrChildrenIndex
-                  // @ts-expect-error
-                ][pendingProcess.field] = effectRes;
+                // list
+                this.processedModel.value[parentField].forEach(
+                  (item: AnyObject) => {
+                    // @ts-expect-error
+                    item[pendingProcess.field] = effectRes;
+                  }
+                );
               }
               this.modelEffect.clearEffects();
             }
@@ -238,7 +257,7 @@ export default class Processors {
         if (fnExecRes instanceof Promise) {
           progress[i] = true;
           processed[pendingProcessKey] =
-            schemaDefaultValueWhenAsync[pendingProcessKey];
+            preset[pendingProcessKey].defaultValueWhenAsync;
           isProgressDone() && update();
           fnExecRes.then((res) => {
             progress[i] = true;
