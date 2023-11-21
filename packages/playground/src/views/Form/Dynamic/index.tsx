@@ -1,71 +1,15 @@
-import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
+import { Button, Input } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent, onBeforeMount, reactive } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
-    function getPriority() {
-      return new Promise((resolve) => {
-        resolve([
-          {
-            label: "高",
-            value: "high",
-          },
-          {
-            label: "中",
-            value: "medium",
-          },
-          {
-            label: "低",
-            value: "low",
-          },
-        ]);
-      });
-    }
-
-    function getOptions() {
-      return new Promise((resolve) => {
-        resolve([
-          {
-            label: "男",
-            value: "male",
-          },
-          {
-            label: "女",
-            value: "female",
-          },
-        ]);
-      });
-    }
-
-    const options = reactive([]);
-
-    onBeforeMount(async () => {
-      Object.assign(options, await getOptions());
-    });
-
-    function getHobby() {
-      return new Promise((resolve) => {
-        resolve([
-          {
-            label: "打篮球",
-            value: "play busketball",
-          },
-          {
-            label: "读书",
-            value: "reading",
-          },
-        ]);
-      });
-    }
-
     const [setup, { submit }] = useForm({
       schemas: [
         {
           label: "用户名",
           field: "username",
           component: Input,
-          defaultValue: "default username",
           rules: [
             {
               required: true,
@@ -74,24 +18,19 @@ export default defineComponent({
           ],
         },
         {
-          label: () => {
+          label: ({ model }) => {
             return new Promise((resolve) => {
-              setTimeout(() => {
-                resolve("密码");
-              }, 500);
+              resolve(`用户名新版${(model.age ?? "") + "新值"}`);
             });
           },
-          field: () => "password",
-          component: () => Input,
-          defaultValue: () => "default password",
-        },
-        {
-          label: () => "测试异步",
-          component: Select,
-          field: "test",
-          componentProps: {
-            options,
-          },
+          field: "usernew",
+          component: Input,
+          rules: [
+            {
+              required: true,
+              message: "用户名必填",
+            },
+          ],
         },
         {
           type: "group",
@@ -100,36 +39,14 @@ export default defineComponent({
             {
               label: "年龄",
               field: "age",
-              component: InputNumber,
-              componentProps: {
-                max: 100,
-              },
-            },
-            {
-              label: () => {
+              component: Input,
+              defaultValue({ model }) {
                 return new Promise((resolve) => {
                   setTimeout(() => {
-                    resolve("性别");
-                  }, 100);
-                });
-              },
-              field: "gender",
-              component: () => {
-                return new Promise((resolve) => {
-                  resolve(Select);
-                });
-              },
-              componentProps: () => ({
-                options,
-              }),
-            },
-            {
-              label: "爱好",
-              field: "hobby",
-              component: Select,
-              componentProps: () => {
-                return new Promise((resolve) => {
-                  resolve({ options: getHobby });
+                    resolve(
+                      `${model?.listtest?.[0].hobby + "首次异步处理" ?? ""}`
+                    );
+                  }, 200);
                 });
               },
             },
@@ -137,35 +54,32 @@ export default defineComponent({
         },
         {
           type: "list",
-          label: "学习计划",
-          field: "studyPlan",
+          field: "listtest",
+          label: "列表",
           children: [
             {
-              label: "学习内容",
-              field: "studyWhat",
+              label: "测试改变值",
+              field: "testchange",
               component: Input,
-              defaultValue: () => {
-                return new Promise((resolve) => {
-                  resolve("计算机组成原理");
-                });
+              defaultValue({ model }) {
+                return `${model?.listtest?.[0].hobby ?? ""}`;
               },
-              rules: [
-                {
-                  required: true,
-                  message: "学习内容必填",
-                },
-              ],
             },
             {
-              label: "优先级",
-              field: "priority",
-              component: Select,
-              componentProps: {
-                options: getPriority,
+              label: ({ model }) => {
+                return `爱好呀${model?.listtest?.[0].hobby ?? ""}`;
               },
-              defaultValue: () => {
+              field: "hobby",
+              component: Input,
+              defaultValue: "默认值设定的联动效果",
+              componentProps({ model }) {
                 return new Promise((resolve) => {
-                  resolve("high");
+                  // 异步了
+                  setTimeout(() => {
+                    resolve({
+                      disabled: !!model.username,
+                    });
+                  }, 200);
                 });
               },
             },

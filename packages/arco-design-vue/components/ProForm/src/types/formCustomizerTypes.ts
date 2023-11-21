@@ -44,7 +44,7 @@ export interface ItemSchema {
   field: string;
   component: DomType;
   componentProps?: AnyObject;
-  defaultValue?: any;
+  defaultValue?: PropertyKey | object;
 }
 
 export interface GroupSchema {

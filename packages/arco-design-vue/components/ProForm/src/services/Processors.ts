@@ -7,12 +7,12 @@ import {
   AnyFunction,
 } from "../types";
 import { IS, deepClone } from "../utils";
-import { Context } from "../services";
+import { Effect } from "../services";
 
 export default class Processors {
-  public rawSchemas: ProxyedSchema[] = [];
-  public rawModel: AnyObject = {};
-  public schemaDefaultValueWhenAsync: Record<keyof ItemSchema, any> = {
+  rawSchemas: ProxyedSchema[] = [];
+  rawModel: AnyObject = {};
+  schemaDefaultValueWhenAsync: Record<keyof ItemSchema, any> = {
     type: "item",
     component: undefined,
     componentProps: undefined,
@@ -21,46 +21,68 @@ export default class Processors {
     field: "warn_no_field",
     rules: [],
   };
-  public componentPropsDefaultValueWhenAsync: AnyObject = {
+  componentPropsDefaultValueWhenAsync: AnyObject = {
     options: [],
   };
+  uniqueEffectMap: any = {};
+  schemaEffect = new Effect();
+  modelEffect = new Effect();
 
   constructor(
     public processedSchemas: Ref<Schema[]>,
     public processedModel: Ref<AnyObject>
-  ) {}
+  ) {
+    watch(
+      () => this.processedModel.value,
+      () => {
+        this.schemaEffect.triggerEffects();
+        this.modelEffect.triggerEffects();
+      },
+      {
+        deep: true,
+      }
+    );
+  }
 
   schemaAnalyzer(
     schemas: ProxyedSchema[],
     baseSchema = this.processedSchemas.value,
     baseRawSchema = this.rawSchemas,
-    parentField?: string
+    parentField?: string,
+    schemaIndex?: number
   ) {
     for (let i = 0; i < schemas.length; i++) {
       let schema = schemas[i];
-      this.schemaProcessor(schema, i, (processedSchema, forceUpdate) => {
-        baseSchema[i] = processedSchema;
-        this.modelProcessor(
-          processedSchema,
-          parentField && this.processedModel.value[parentField][0]
-        );
-        if (!baseRawSchema[i] || forceUpdate) {
-          baseRawSchema[i] = deepClone(processedSchema);
-        }
-      });
+      this.schemaProcessor(
+        schema,
+        i,
+        (processedSchema, forceUpdate) => {
+          baseSchema[i] = processedSchema;
+          this.modelProcessor(
+            processedSchema,
+            parentField && this.processedModel.value[parentField][0]
+          );
+          if (!baseRawSchema[i] || forceUpdate) {
+            baseRawSchema[i] = deepClone(processedSchema);
+          }
+        },
+        schemaIndex,
+        parentField
+      );
     }
   }
 
-  schemaProcessor(schema: ProxyedSchema, index: number, setter: AnyFunction) {
+  schemaProcessor(
+    schema: ProxyedSchema,
+    index: number,
+    setter: AnyFunction,
+    schemaIndex?: number,
+    parentField?: string
+  ) {
     const processed: AnyObject = {};
     const that = this;
 
     function updateSchema(forceUpdate = false) {
-      // 同时执行 watchSchemaEffect 收集的函数
-      Array.from(Context.schemaEffects).forEach((schemaEffect) =>
-        schemaEffect()
-      );
-
       if (processed.componentProps) {
         const processedProps = {};
         that.propsProcessor(
@@ -70,7 +92,9 @@ export default class Processors {
           (_forceUpdate) => {
             processed.componentProps = processedProps;
             setter({ ...processed }, _forceUpdate);
-          }
+          },
+          index,
+          schemaIndex
         );
         return;
       }
@@ -85,7 +109,8 @@ export default class Processors {
           that.processedSchemas.value[index]?.children,
           // @ts-expect-error 此处已经守卫为非 ItemSchema
           that.rawSchemas[index]?.children,
-          processed.field
+          processed.field,
+          index
         );
         return;
       }
@@ -97,15 +122,25 @@ export default class Processors {
       schema,
       this.schemaDefaultValueWhenAsync,
       processed,
-      updateSchema
+      updateSchema,
+      index,
+      schemaIndex,
+      parentField
     );
   }
+
+  patchSchema() {}
+
+  patchModel() {}
 
   propsProcessor<T extends object = any>(
     pendingProcess: T,
     schemaDefaultValueWhenAsync: Record<keyof T, any>,
     processed: AnyObject,
-    update: AnyFunction
+    update: AnyFunction,
+    schemaIndexOrChildrenIndex: number,
+    schemaIndex?: number,
+    parentField?: string
   ) {
     const pendingProcessKeys = Object.keys(pendingProcess) as (keyof T)[];
     const progress = Array.from({
@@ -121,7 +156,85 @@ export default class Processors {
       const propertyValue = pendingProcess[pendingProcessKey];
 
       if (IS.isFunction(propertyValue)) {
-        const fnExecRes = propertyValue();
+        const fnExecRes = propertyValue({
+          model: this.processedModel.value,
+        });
+        if (pendingProcessKey !== "defaultValue") {
+          this.schemaEffect.trackEffect(() => {
+            const effectRes = propertyValue({
+              model: this.processedModel.value,
+            });
+            if (effectRes instanceof Promise) {
+              effectRes.then((res) => {
+                if (schemaIndex === undefined) {
+                  // @ts-expect-error
+                  this.processedSchemas.value[schemaIndexOrChildrenIndex][
+                    pendingProcessKey
+                  ] = res;
+                } else {
+                  // @ts-expect-error
+                  this.processedSchemas.value[schemaIndex].children[
+                    schemaIndexOrChildrenIndex
+                  ][pendingProcessKey] = res;
+                }
+              });
+            } else {
+              if (schemaIndex === undefined) {
+                // @ts-expect-error
+                this.processedSchemas.value[schemaIndexOrChildrenIndex][
+                  pendingProcessKey
+                ] = effectRes;
+              } else {
+                // @ts-expect-error
+                this.processedSchemas.value[schemaIndex].children[
+                  schemaIndexOrChildrenIndex
+                ][pendingProcessKey] = effectRes;
+              }
+            }
+          });
+        } else {
+          this.modelEffect.trackEffect(() => {
+            const effectRes = propertyValue({
+              model: this.processedModel.value,
+            });
+            if (effectRes instanceof Promise) {
+              effectRes.then((res) => {
+                // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
+                if (
+                  schemaIndexOrChildrenIndex === undefined ||
+                  parentField === undefined
+                ) {
+                  // @ts-expect-error
+                  this.processedModel.value[pendingProcess.field] = res;
+                } else {
+                  this.processedModel.value[parentField][
+                    schemaIndexOrChildrenIndex
+                    // @ts-expect-error
+                  ][pendingProcess.field] = res;
+                }
+                this.modelEffect.clearEffects();
+              });
+            } else {
+              // @ts-expect-error
+              this.processedModel.value[pendingProcess.field] = effectRes;
+              // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
+              if (
+                schemaIndexOrChildrenIndex === undefined ||
+                parentField === undefined
+              ) {
+                // @ts-expect-error
+                this.processedModel.value[pendingProcess.field] = effectRes;
+              } else {
+                this.processedModel.value[parentField][
+                  schemaIndexOrChildrenIndex
+                  // @ts-expect-error
+                ][pendingProcess.field] = effectRes;
+              }
+              this.modelEffect.clearEffects();
+            }
+          });
+        }
+
         if (fnExecRes instanceof Promise) {
           progress[i] = true;
           processed[pendingProcessKey] =
