@@ -182,28 +182,36 @@ export default class Processors {
             if (effectRes instanceof Promise) {
               effectRes.then((res) => {
                 if (schemaIndex === undefined) {
-                  // @ts-expect-error
-                  this.processedSchemas.value[schemaIndexOrChildrenIndex][
-                    pendingProcessKey
-                  ] = res;
+                  if (!IS.isFunction(res)) {
+                    // @ts-expect-error
+                    this.processedSchemas.value[schemaIndexOrChildrenIndex][
+                      pendingProcessKey
+                    ] = res;
+                  }
                 } else {
-                  // @ts-expect-error
-                  this.processedSchemas.value[schemaIndex].children[
-                    schemaIndexOrChildrenIndex
-                  ][pendingProcessKey] = res;
+                  if (!IS.isFunction(res)) {
+                    // @ts-expect-error
+                    this.processedSchemas.value[schemaIndex].children[
+                      schemaIndexOrChildrenIndex
+                    ][pendingProcessKey] = res;
+                  }
                 }
               });
             } else {
               if (schemaIndex === undefined) {
-                // @ts-expect-error
-                this.processedSchemas.value[schemaIndexOrChildrenIndex][
-                  pendingProcessKey
-                ] = effectRes;
+                if (!IS.isFunction(effectRes)) {
+                  // @ts-expect-error
+                  this.processedSchemas.value[schemaIndexOrChildrenIndex][
+                    pendingProcessKey
+                  ] = effectRes;
+                }
               } else {
-                // @ts-expect-error
-                this.processedSchemas.value[schemaIndex].children[
-                  schemaIndexOrChildrenIndex
-                ][pendingProcessKey] = effectRes;
+                if (!IS.isFunction(effectRes)) {
+                  // @ts-expect-error
+                  this.processedSchemas.value[schemaIndex].children[
+                    schemaIndexOrChildrenIndex
+                  ][pendingProcessKey] = effectRes;
+                }
               }
             }
           });
@@ -249,16 +257,18 @@ export default class Processors {
                 // @ts-expect-error
                 this.processedModel.value[pendingProcess.field] = effectRes;
               } else {
-                // list
-
-                this.processedModel.value[parentField].forEach(
-                  (item: AnyObject) => {
-                    // @ts-expect-error
-                    if (IS.isFunction(pendingProcess.field)) return;
+                for (
+                  let i = 0;
+                  i < this.processedModel.value[parentField].length;
+                  i++
+                ) {
+                  const item = this.processedModel.value[parentField][i];
+                  // @ts-expect-error
+                  if (!IS.isFunction(pendingProcess.field)) {
                     // @ts-expect-error
                     item[pendingProcess.field] = effectRes;
                   }
-                );
+                }
               }
               this.modelEffect.clearEffects();
             }

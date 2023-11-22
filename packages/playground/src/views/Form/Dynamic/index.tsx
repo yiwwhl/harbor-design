@@ -95,9 +95,7 @@ export default defineComponent({
                 return `测试改变值，性别 ${model.gender ?? ""}`;
               },
               field: () => {
-                return new Promise((resolve) => {
-                  resolve("testssss");
-                });
+                return "test1";
               },
               component: Input,
               defaultValue() {
@@ -110,14 +108,16 @@ export default defineComponent({
               },
               field: "hobby",
               component: () => Input,
-              defaultValue: () => "默认值设定的联动效果",
+              defaultValue() {
+                return "默认值设定的联动效果";
+              },
               componentProps({ model }) {
                 return new Promise((resolve) => {
                   setTimeout(() => {
                     resolve({
                       disabled: !!model.username,
                     });
-                  }, 2000);
+                  }, 200);
                 });
               },
             },
