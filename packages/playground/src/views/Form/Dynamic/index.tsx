@@ -50,6 +50,11 @@ export default defineComponent({
             });
           },
           component: Input,
+          defaultValue({ model }) {
+            return new Promise((resolve) => {
+              resolve("测试11" + model?.listtest?.[0].hobby);
+            });
+          },
           rules: [
             {
               required: true,
@@ -82,6 +87,11 @@ export default defineComponent({
               componentProps: {
                 options: getOptions,
               },
+              defaultValue({ model }) {
+                return new Promise((resolve) => {
+                  resolve("星波12" + (model?.listtest?.[0].hobby ?? ""));
+                });
+              },
             },
           ],
         },
@@ -94,18 +104,14 @@ export default defineComponent({
               label({ model }) {
                 return `测试改变值，性别 ${model.gender ?? ""}`;
               },
-              field: () => {
-                return "test1";
+              field: ({ model }) => {
+                return model?.listtest?.[0].hobby;
               },
               component: Input,
-              componentProps({ model }) {
-                return {
-                  modelValue: model.username,
-                  disabled: true,
-                };
-              },
-              defaultValue() {
-                return "测试";
+              defaultValue({ model }) {
+                return new Promise((resolve) => {
+                  resolve("测试11" + model?.listtest?.[0].hobby);
+                });
               },
             },
             {

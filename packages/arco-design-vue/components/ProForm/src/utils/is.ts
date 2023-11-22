@@ -9,11 +9,7 @@ export default class IS {
   }
 
   static isFunction(data: any): data is (...args: any) => any {
-    return (
-      this.typeChecker(data).includes("Function") ||
-      (typeof data === "string" &&
-        data.includes("() {" || data.includes("() =>")))
-    );
+    return this.typeChecker(data).includes("Function");
   }
 
   static isAsyncFunction(data: any): data is (...args: any) => Promise<any> {

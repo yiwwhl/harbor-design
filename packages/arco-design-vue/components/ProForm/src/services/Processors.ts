@@ -72,17 +72,24 @@ export default class Processors {
       this.schemaProcessor(
         schema,
         i,
-        (processedSchema, forceUpdate) => {
-          baseSchema[i] = processedSchema;
-          this.modelProcessor(
-            processedSchema,
-            parentField && this.processedModel.value[parentField][0]
-          );
-          if (!baseRawSchema[i] || forceUpdate) {
-            baseRawSchema[i] = deepClone(processedSchema);
-          }
+        (processedSchema, forceUpdate, schemaKeyShouldUpdate) => {
+          if (schemaKeyShouldUpdate) {
+            // @ts-expect-error
+            baseRawSchema[i][schemaKeyShouldUpdate] =
+              processedSchema[schemaKeyShouldUpdate];
+          } else {
+            baseSchema[i] = processedSchema;
+            this.modelProcessor(
+              processedSchema,
+              parentField && this.processedModel.value[parentField][0]
+            );
+            if (!baseRawSchema[i] || forceUpdate) {
+              baseRawSchema[i] = deepClone(processedSchema);
+            }
 
-          this.schemaEffect.triggerEffects();
+            this.schemaEffect.triggerEffects();
+            this.modelEffect.triggerEffects();
+          }
         },
         schemaIndex,
         parentField
@@ -97,6 +104,9 @@ export default class Processors {
     schemaIndex?: number,
     parentField?: string
   ) {
+    /**
+     * 有 componentProps 的时候 defaultValue 会垮丝
+     */
     const processed: AnyObject = {};
     const that = this;
 
@@ -109,7 +119,7 @@ export default class Processors {
           processedProps,
           (_forceUpdate) => {
             processed.componentProps = processedProps;
-            setter({ ...processed }, _forceUpdate);
+            setter({ ...processed }, _forceUpdate, "componentProps");
           },
           index,
           schemaIndex
@@ -228,12 +238,44 @@ export default class Processors {
                   parentField === undefined
                 ) {
                   // @ts-expect-error
-                  if (IS.isFunction(pendingProcess.field)) return;
+                  if (IS.isFunction(pendingProcess.field)) {
+                    // @ts-expect-error
+                    const fieldRes = pendingProcess.field({
+                      model: this.processedModel.value,
+                    });
+                    if (fieldRes instanceof Promise) {
+                      fieldRes.then((resolvedFieldRes) => {
+                        this.processedModel.value[resolvedFieldRes] = res;
+                      });
+                    } else {
+                      this.processedModel.value[fieldRes] = res;
+                    }
+                    return;
+                  }
                   // @ts-expect-error
+
                   this.processedModel.value[pendingProcess.field] = res;
                 } else {
+                  // list
                   // @ts-expect-error
-                  if (IS.isFunction(pendingProcess.field)) return;
+                  if (IS.isFunction(pendingProcess.field)) {
+                    // @ts-expect-error
+                    const fieldRes = pendingProcess.field({
+                      model: this.processedModel.value,
+                    });
+                    if (fieldRes instanceof Promise) {
+                      fieldRes.then((resolvedFieldRes) => {
+                        this.processedModel.value[parentField][
+                          schemaIndexOrChildrenIndex
+                        ][resolvedFieldRes] = res;
+                      });
+                    } else {
+                      this.processedModel.value[parentField][
+                        schemaIndexOrChildrenIndex
+                      ][fieldRes] = res;
+                    }
+                    return;
+                  }
                   this.processedModel.value[parentField][
                     schemaIndexOrChildrenIndex
                     // @ts-expect-error
@@ -243,7 +285,20 @@ export default class Processors {
               });
             } else {
               // @ts-expect-error
-              if (IS.isFunction(pendingProcess.field)) return;
+              if (IS.isFunction(pendingProcess.field)) {
+                // @ts-expect-error
+                const fieldRes = pendingProcess.field({
+                  model: this.processedModel.value,
+                });
+                if (fieldRes instanceof Promise) {
+                  fieldRes.then((resolvedFieldRes) => {
+                    this.processedModel.value[resolvedFieldRes] = effectRes;
+                  });
+                } else {
+                  this.processedModel.value[fieldRes] = effectRes;
+                }
+                return;
+              }
               // @ts-expect-error
               this.processedModel.value[pendingProcess.field] = effectRes;
               // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
@@ -253,7 +308,20 @@ export default class Processors {
               ) {
                 // group
                 // @ts-expect-error
-                if (IS.isFunction(pendingProcess.field)) return;
+                if (IS.isFunction(pendingProcess.field)) {
+                  // @ts-expect-error
+                  const fieldRes = pendingProcess.field({
+                    model: this.processedModel.value,
+                  });
+                  if (fieldRes instanceof Promise) {
+                    fieldRes.then((resolvedFieldRes) => {
+                      this.processedModel.value[resolvedFieldRes] = effectRes;
+                    });
+                  } else {
+                    this.processedModel.value[fieldRes] = effectRes;
+                  }
+                  return;
+                }
                 // @ts-expect-error
                 this.processedModel.value[pendingProcess.field] = effectRes;
               } else {
@@ -264,12 +332,27 @@ export default class Processors {
                 ) {
                   const item = this.processedModel.value[parentField][i];
                   // @ts-expect-error
+
                   if (!IS.isFunction(pendingProcess.field)) {
                     // @ts-expect-error
                     item[pendingProcess.field] = effectRes;
+                  } else {
+                    // @ts-expect-error
+                    const fieldRes = pendingProcess.field({
+                      model: this.processedModel.value,
+                    });
+                    if (fieldRes instanceof Promise) {
+                      fieldRes.then((resolvedFieldRes) => {
+                        item[resolvedFieldRes] = effectRes;
+                      });
+                    } else {
+                      item[fieldRes] = effectRes;
+                    }
+                    return;
                   }
                 }
               }
+
               this.modelEffect.clearEffects();
             }
           });
