@@ -30,7 +30,6 @@ export default defineComponent({
             });
           },
           component: Input,
-          defaultValue: "测试用户名",
           rules: [
             {
               required: true,
@@ -50,11 +49,6 @@ export default defineComponent({
             });
           },
           component: Input,
-          defaultValue({ model }) {
-            return new Promise((resolve) => {
-              resolve("测试11" + model?.listtest?.[0].hobby);
-            });
-          },
           rules: [
             {
               required: true,
@@ -68,17 +62,12 @@ export default defineComponent({
           children: [
             {
               label: ({ model }) => `年龄${model.gender ?? ""}`,
-              field: ({ model }) => `${model.gender ?? ""}age`,
-              component: Input,
-              defaultValue({ model }) {
+              field: ({ model }) => {
                 return new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve(
-                      `${model?.listtest?.[0].hobby + "首次异步处理" ?? ""}`
-                    );
-                  }, 200);
+                  return resolve(`${model.gender ?? ""}age`);
                 });
               },
+              component: Input,
             },
             {
               label: "性别",
@@ -89,7 +78,7 @@ export default defineComponent({
               },
               defaultValue({ model }) {
                 return new Promise((resolve) => {
-                  resolve("星波12" + (model?.listtest?.[0].hobby ?? ""));
+                  resolve("测试1122" + model?.listtest?.[0].hobby);
                 });
               },
             },
@@ -108,11 +97,6 @@ export default defineComponent({
                 return model?.listtest?.[0].hobby;
               },
               component: Input,
-              defaultValue({ model }) {
-                return new Promise((resolve) => {
-                  resolve("测试11" + model?.listtest?.[0].hobby);
-                });
-              },
             },
             {
               label: ({ model }) => {

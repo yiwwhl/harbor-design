@@ -1,4 +1,4 @@
-import { Ref, watchEffect, isRef, isReactive, watch } from "vue";
+import { Ref, watchEffect, isRef, isReactive, watch, toRaw } from "vue";
 import {
   AnyObject,
   Schema,
@@ -158,6 +158,32 @@ export default class Processors {
     );
   }
 
+  replaceFunctionsWithUndefined(obj: AnyObject) {
+    if (typeof obj !== "object" || obj === null) {
+      return obj;
+    }
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        let value = obj[key];
+        if (typeof value === "function") {
+          obj[key] = undefined;
+        } else if (typeof value === "object") {
+          this.replaceFunctionsWithUndefined(value);
+        }
+      }
+    }
+    return obj;
+  }
+
+  runtimeMeta() {
+    const model = this.replaceFunctionsWithUndefined(
+      toRaw(this.processedModel.value)
+    );
+    return {
+      model,
+    };
+  }
+
   propsProcessor<T extends object = any>(
     pendingProcess: T,
     preset: Record<keyof T, any>,
@@ -181,14 +207,10 @@ export default class Processors {
       const propertyValue = pendingProcess[pendingProcessKey];
 
       if (IS.isFunction(propertyValue)) {
-        const fnExecRes = propertyValue({
-          model: this.processedModel.value,
-        });
+        const fnExecRes = propertyValue(this.runtimeMeta());
         if (pendingProcessKey !== "defaultValue") {
           this.schemaEffect.trackEffect(() => {
-            const effectRes = propertyValue({
-              model: this.processedModel.value,
-            });
+            const effectRes = propertyValue(this.runtimeMeta());
             if (effectRes instanceof Promise) {
               effectRes.then((res) => {
                 if (schemaIndex === undefined) {
@@ -227,9 +249,7 @@ export default class Processors {
           });
         } else {
           this.modelEffect.trackEffect(() => {
-            const effectRes = propertyValue({
-              model: this.processedModel.value,
-            });
+            const effectRes = propertyValue(this.runtimeMeta());
             if (effectRes instanceof Promise) {
               effectRes.then((res) => {
                 // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
@@ -240,9 +260,7 @@ export default class Processors {
                   // @ts-expect-error
                   if (IS.isFunction(pendingProcess.field)) {
                     // @ts-expect-error
-                    const fieldRes = pendingProcess.field({
-                      model: this.processedModel.value,
-                    });
+                    const fieldRes = pendingProcess.field(this.runtimeMeta());
                     if (fieldRes instanceof Promise) {
                       fieldRes.then((resolvedFieldRes) => {
                         this.processedModel.value[resolvedFieldRes] = res;
@@ -260,9 +278,7 @@ export default class Processors {
                   // @ts-expect-error
                   if (IS.isFunction(pendingProcess.field)) {
                     // @ts-expect-error
-                    const fieldRes = pendingProcess.field({
-                      model: this.processedModel.value,
-                    });
+                    const fieldRes = pendingProcess.field(this.runtimeMeta());
                     if (fieldRes instanceof Promise) {
                       fieldRes.then((resolvedFieldRes) => {
                         this.processedModel.value[parentField][
@@ -287,9 +303,7 @@ export default class Processors {
               // @ts-expect-error
               if (IS.isFunction(pendingProcess.field)) {
                 // @ts-expect-error
-                const fieldRes = pendingProcess.field({
-                  model: this.processedModel.value,
-                });
+                const fieldRes = pendingProcess.field(this.runtimeMeta());
                 if (fieldRes instanceof Promise) {
                   fieldRes.then((resolvedFieldRes) => {
                     this.processedModel.value[resolvedFieldRes] = effectRes;
@@ -310,9 +324,7 @@ export default class Processors {
                 // @ts-expect-error
                 if (IS.isFunction(pendingProcess.field)) {
                   // @ts-expect-error
-                  const fieldRes = pendingProcess.field({
-                    model: this.processedModel.value,
-                  });
+                  const fieldRes = pendingProcess.field(this.runtimeMeta());
                   if (fieldRes instanceof Promise) {
                     fieldRes.then((resolvedFieldRes) => {
                       this.processedModel.value[resolvedFieldRes] = effectRes;
@@ -338,9 +350,7 @@ export default class Processors {
                     item[pendingProcess.field] = effectRes;
                   } else {
                     // @ts-expect-error
-                    const fieldRes = pendingProcess.field({
-                      model: this.processedModel.value,
-                    });
+                    const fieldRes = pendingProcess.field(this.runtimeMeta());
                     if (fieldRes instanceof Promise) {
                       fieldRes.then((resolvedFieldRes) => {
                         item[resolvedFieldRes] = effectRes;
@@ -426,7 +436,7 @@ export default class Processors {
       return;
     }
     if (IS.isItemSchema(schema)) {
-      if (IS.isFunction(schema.field)) return;
+      if (IS.isFunction(schema.field) || IS.isUndefined(schema.field)) return;
       baseModel[schema.field] = schema.defaultValue;
     }
   }
