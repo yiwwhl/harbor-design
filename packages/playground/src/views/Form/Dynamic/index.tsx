@@ -98,6 +98,12 @@ export default defineComponent({
                 return "test1";
               },
               component: Input,
+              componentProps({ model }) {
+                return {
+                  modelValue: model.username,
+                  disabled: true,
+                };
+              },
               defaultValue() {
                 return "测试";
               },

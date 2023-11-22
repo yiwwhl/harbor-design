@@ -49,7 +49,7 @@ export default class RuntimeCore {
         rules={schema.rules}
         field={field}
       >
-        <Component {...props} v-model={baseModel[schema.field]} />
+        <Component v-model={baseModel[schema.field]} {...props} />
       </Context.runtimeDoms.FormItem>
     );
   }
