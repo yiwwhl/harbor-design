@@ -158,26 +158,33 @@ export default class Processors {
     );
   }
 
-  replaceFunctionsWithUndefined(obj: AnyObject) {
+  replaceFunctions(obj: AnyObject): any {
     if (typeof obj !== "object" || obj === null) {
       return obj;
     }
+    if (Array.isArray(obj)) {
+      return obj.map((item) => this.replaceFunctions(item));
+    }
+    const newObj: AnyObject = {};
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
-        let value = obj[key];
+        const value = obj[key];
         if (typeof value === "function") {
-          obj[key] = undefined;
+          newObj[key] = undefined;
         } else if (typeof value === "object") {
-          this.replaceFunctionsWithUndefined(value);
+          newObj[key] = this.replaceFunctions(value);
+        } else {
+          newObj[key] = value;
         }
       }
     }
-    return obj;
+
+    return newObj;
   }
 
   runtimeMeta() {
-    const model = this.replaceFunctionsWithUndefined(
-      toRaw(this.processedModel.value)
+    const model = this.replaceFunctions(
+      toRaw(deepClone(this.processedModel.value))
     );
     return {
       model,
@@ -286,16 +293,28 @@ export default class Processors {
                         ][resolvedFieldRes] = res;
                       });
                     } else {
-                      this.processedModel.value[parentField][
-                        schemaIndexOrChildrenIndex
-                      ][fieldRes] = res;
+                      if (
+                        this.processedModel.value[parentField][
+                          schemaIndexOrChildrenIndex
+                        ]
+                      ) {
+                        this.processedModel.value[parentField][
+                          schemaIndexOrChildrenIndex
+                        ][fieldRes] = res;
+                      }
                     }
                     return;
                   }
-                  this.processedModel.value[parentField][
-                    schemaIndexOrChildrenIndex
-                    // @ts-expect-error
-                  ][pendingProcess.field] = res;
+                  if (
+                    this.processedModel.value[parentField][
+                      schemaIndexOrChildrenIndex
+                    ]
+                  ) {
+                    this.processedModel.value[parentField][
+                      schemaIndexOrChildrenIndex
+                      // @ts-expect-error
+                    ][pendingProcess.field] = res;
+                  }
                 }
                 this.modelEffect.clearEffects();
               });

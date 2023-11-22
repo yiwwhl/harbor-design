@@ -23,50 +23,12 @@ export default defineComponent({
     const [setup, { submit }] = useForm({
       schemas: [
         {
-          label: "用户名",
-          field: () => {
-            return new Promise((resolve) => {
-              resolve("username");
-            });
-          },
-          component: Input,
-          rules: [
-            {
-              required: true,
-              message: "用户名必填",
-            },
-          ],
-        },
-        {
-          label: ({ model }) => {
-            return new Promise((resolve) => {
-              resolve(`用户名新版${(model.age ?? "") + "新值"}`);
-            });
-          },
-          field: () => {
-            return new Promise((resolve) => {
-              resolve("password");
-            });
-          },
-          component: Input,
-          rules: [
-            {
-              required: true,
-              message: "用户名必填",
-            },
-          ],
-        },
-        {
           type: "group",
           label: "用户元数据",
           children: [
             {
-              label: ({ model }) => `年龄${model.gender ?? ""}`,
-              field: ({ model }) => {
-                return new Promise((resolve) => {
-                  return resolve(`${model.gender ?? ""}age`);
-                });
-              },
+              label: "稳定",
+              field: "2",
               component: Input,
             },
             {
@@ -77,9 +39,7 @@ export default defineComponent({
                 options: getOptions,
               },
               defaultValue({ model }) {
-                return new Promise((resolve) => {
-                  resolve("测试1122" + model?.listtest?.[0].hobby);
-                });
+                return "测试1122" + (model?.listtest?.[0].hobby ?? "");
               },
             },
           ],
@@ -90,23 +50,15 @@ export default defineComponent({
           label: "列表",
           children: [
             {
-              label({ model }) {
-                return `测试改变值，性别 ${model.gender ?? ""}`;
-              },
-              field: ({ model }) => {
-                return model?.listtest?.[0].hobby;
-              },
+              label: "稳定测试2",
+              field: "3",
               component: Input,
             },
             {
-              label: ({ model }) => {
-                return `爱好呀${model?.listtest?.[0].hobby ?? ""}`;
-              },
+              label: "爱好",
               field: "hobby",
               component: () => Input,
-              defaultValue() {
-                return "默认值设定的联动效果";
-              },
+              defaultValue: "测试新",
               componentProps({ model }) {
                 return new Promise((resolve) => {
                   setTimeout(() => {
