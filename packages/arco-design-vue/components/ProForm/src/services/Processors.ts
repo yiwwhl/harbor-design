@@ -158,32 +158,26 @@ export default class Processors {
     );
   }
 
-  replaceFunctions(obj: AnyObject): any {
+  replaceFunctionsWithUndefined(obj: AnyObject) {
     if (typeof obj !== "object" || obj === null) {
       return obj;
     }
-    if (Array.isArray(obj)) {
-      return obj.map((item) => this.replaceFunctions(item));
-    }
-    const newObj: AnyObject = {};
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
-        const value = obj[key];
+        let value = obj[key];
         if (typeof value === "function") {
-          newObj[key] = undefined;
+          console.log("value", value);
+          obj[key] = undefined;
         } else if (typeof value === "object") {
-          newObj[key] = this.replaceFunctions(value);
-        } else {
-          newObj[key] = value;
+          this.replaceFunctionsWithUndefined(value);
         }
       }
     }
-
-    return newObj;
+    return obj;
   }
 
   runtimeMeta() {
-    const model = this.replaceFunctions(
+    const model = this.replaceFunctionsWithUndefined(
       toRaw(deepClone(this.processedModel.value))
     );
     return {
@@ -455,7 +449,12 @@ export default class Processors {
       return;
     }
     if (IS.isItemSchema(schema)) {
-      if (IS.isFunction(schema.field) || IS.isUndefined(schema.field)) return;
+      if (
+        IS.isFunction(schema.field) ||
+        IS.isUndefined(schema.field) ||
+        IS.isFunction(schema.defaultValue)
+      )
+        return;
       baseModel[schema.field] = schema.defaultValue;
     }
   }
