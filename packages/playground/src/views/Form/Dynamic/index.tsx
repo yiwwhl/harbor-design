@@ -24,8 +24,13 @@ export default defineComponent({
       schemas: [
         {
           label: "用户名",
-          field: "username",
+          field: () => {
+            return new Promise((resolve) => {
+              resolve("username");
+            });
+          },
           component: Input,
+          defaultValue: "测试用户名",
           rules: [
             {
               required: true,
@@ -39,7 +44,11 @@ export default defineComponent({
               resolve(`用户名新版${(model.age ?? "") + "新值"}`);
             });
           },
-          field: "usernew",
+          field: () => {
+            return new Promise((resolve) => {
+              resolve("password");
+            });
+          },
           component: Input,
           rules: [
             {
@@ -82,11 +91,17 @@ export default defineComponent({
           label: "列表",
           children: [
             {
-              label: "测试改变值",
-              field: "testchange",
+              label({ model }) {
+                return `测试改变值，性别 ${model.gender ?? ""}`;
+              },
+              field: () => {
+                return new Promise((resolve) => {
+                  resolve("testssss");
+                });
+              },
               component: Input,
-              defaultValue({ model }) {
-                return `${model?.listtest?.[0].hobby ?? ""}`;
+              defaultValue() {
+                return "测试";
               },
             },
             {
@@ -102,7 +117,7 @@ export default defineComponent({
                     resolve({
                       disabled: !!model.username,
                     });
-                  }, 200);
+                  }, 2000);
                 });
               },
             },

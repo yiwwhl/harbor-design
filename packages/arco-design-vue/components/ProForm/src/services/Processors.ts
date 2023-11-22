@@ -29,7 +29,7 @@ export default class Processors {
       defaultValueWhenAsync: "",
     },
     field: {
-      defaultValueWhenAsync: "warn_no_field",
+      defaultValueWhenAsync: "__yiwwhl_async_field_fallback",
     },
     rules: {
       defaultValueWhenAsync: [],
@@ -220,11 +220,12 @@ export default class Processors {
                   parentField === undefined
                 ) {
                   // @ts-expect-error
-                  if (!IS.isFunction(pendingProcess.field)) {
-                    // @ts-expect-error
-                    this.processedModel.value[pendingProcess.field] = res;
-                  }
+                  if (IS.isFunction(pendingProcess.field)) return;
+                  // @ts-expect-error
+                  this.processedModel.value[pendingProcess.field] = res;
                 } else {
+                  // @ts-expect-error
+                  if (IS.isFunction(pendingProcess.field)) return;
                   this.processedModel.value[parentField][
                     schemaIndexOrChildrenIndex
                     // @ts-expect-error
@@ -234,6 +235,8 @@ export default class Processors {
               });
             } else {
               // @ts-expect-error
+              if (IS.isFunction(pendingProcess.field)) return;
+              // @ts-expect-error
               this.processedModel.value[pendingProcess.field] = effectRes;
               // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
               if (
@@ -242,12 +245,16 @@ export default class Processors {
               ) {
                 // group
                 // @ts-expect-error
+                if (IS.isFunction(pendingProcess.field)) return;
+                // @ts-expect-error
                 this.processedModel.value[pendingProcess.field] = effectRes;
               } else {
                 // list
 
                 this.processedModel.value[parentField].forEach(
                   (item: AnyObject) => {
+                    // @ts-expect-error
+                    if (IS.isFunction(pendingProcess.field)) return;
                     // @ts-expect-error
                     item[pendingProcess.field] = effectRes;
                   }
