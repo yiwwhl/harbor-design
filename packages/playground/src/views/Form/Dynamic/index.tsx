@@ -1,11 +1,10 @@
-import { Button, Input } from "@arco-design/web-vue";
+import { Button, Input, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
+import styles from "./index.module.scss";
 
 export default defineComponent({
   setup() {
-    const defaultValue = ref();
-
     const [setup, { submit }] = useForm({
       schemas: [
         {
@@ -23,7 +22,14 @@ export default defineComponent({
             {
               label: "稳定",
               field: "2",
-              component: Input,
+              component: ({ model }) => {
+                return model.gender ? Input : Select;
+              },
+              componentProps({ model }) {
+                return {
+                  disabled: model.gender,
+                };
+              },
             },
             {
               label({ model }) {
@@ -32,11 +38,7 @@ export default defineComponent({
               field: "gender",
               component: Input,
               defaultValue({ model }) {
-                return (
-                  "异步默认依赖测试：" +
-                  defaultValue.value +
-                  `${model.listtest?.[0]?.hobby}`
-                );
+                return "性别" + `${model.listtest?.[0]?.hobby}`;
               },
             },
           ],
@@ -44,7 +46,7 @@ export default defineComponent({
         {
           type: "list",
           field: "listtest",
-          label: "列表",
+          label: "列表测试的 label",
           children: [
             {
               label({ model }) {
@@ -82,7 +84,7 @@ export default defineComponent({
     return () => {
       return (
         <PageWrapper title="DynamicForm">
-          <ProForm setup={setup} />
+          <ProForm class={styles.proForm} setup={setup} />
           <Button
             onClick={() => {
               submit().then((data) => {

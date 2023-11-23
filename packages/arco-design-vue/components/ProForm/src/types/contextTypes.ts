@@ -7,4 +7,8 @@ export type DomType = new (...args: any) => AnyObject & {
 export interface RuntimeDomCustomizer {
   Form: DomType;
   FormItem: DomType;
+  Item: DomType;
+  List: DomType;
+  ListItem: DomType;
+  Group: DomType;
 }

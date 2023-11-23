@@ -1,0 +1,19 @@
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px #00000020;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  padding: 10px 10px 0 10px;
+  box-sizing: border-box;
+
+  .label {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}

@@ -9,12 +9,20 @@ import { createPinia } from "pinia";
 import { ImageAutoLoader } from "@/plugins/ImageCollector";
 import { useFormRenderer } from "@harbor-design/arco-design-vue";
 import { Form, FormItem } from "@arco-design/web-vue";
+import Item from "@/Infra/ProFormRuntimeDoms/Item";
+import Group from "@/Infra/ProFormRuntimeDoms/Group";
+import List from "@/Infra/ProFormRuntimeDoms/List";
+import ListItem from "@/Infra/ProFormRuntimeDoms/ListItem";
 
 const app = createApp(App);
 const store = createPinia();
 const formRender = useFormRenderer({
   Form,
   FormItem,
+  Item,
+  Group,
+  List,
+  ListItem,
 });
 
 app.use(ArcoVue);

@@ -341,6 +341,7 @@ export default class Processors {
                         );
                       }
                     }
+                    this.rawModel = deepClone(this.processedModel.value);
                     this.modelEffect.clearEffects();
                   });
                 } else {
@@ -417,7 +418,9 @@ export default class Processors {
                       }
                     }
                   }
-
+                  if (!this.rawModel) {
+                    this.rawModel = deepClone(this.processedModel.value);
+                  }
                   this.modelEffect.clearEffects();
                 }
               })

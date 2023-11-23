@@ -11,6 +11,7 @@ import {
   ProcessorBySchemaType,
 } from "../types";
 import Processors from "./Processors";
+import { deepClone } from "../utils";
 
 export default class RuntimeCore {
   processors: Processors;
@@ -44,37 +45,86 @@ export default class RuntimeCore {
     const Component = toRaw(schema.component);
     const props = schema.componentProps ?? {};
     return (
-      <Context.runtimeDoms.FormItem
-        label={`${schema.label}:`}
-        rules={schema.rules}
-        field={field}
-      >
-        <Component v-model={baseModel[schema.field]} {...props} />
-      </Context.runtimeDoms.FormItem>
+      <Context.runtimeDoms.Item>
+        {{
+          default() {
+            return (
+              <Context.runtimeDoms.FormItem
+                label={`${schema.label}:`}
+                rules={schema.rules}
+                field={field}
+              >
+                <Component v-model={baseModel[schema.field]} {...props} />
+              </Context.runtimeDoms.FormItem>
+            );
+          },
+        }}
+      </Context.runtimeDoms.Item>
     );
   }
 
   runtimeGroupProcessor(schema: GroupSchema) {
     return (
-      <>
-        {schema.label}
+      <Context.runtimeDoms.Group schema={schema}>
         {(schema.children as ItemSchema[]).map((chlidSchema) =>
           this.runtimeItemProcessor(chlidSchema)
         )}
-      </>
+      </Context.runtimeDoms.Group>
     );
   }
 
+  addListItem(schema: AnyObject) {
+    this.model.value[schema.field].push(
+      deepClone(this.processors.rawModel[schema.field][0])
+    );
+  }
+
+  deleteListItem(schema: AnyObject, index: number) {
+    this.model.value[schema.field].splice(index, 1);
+  }
+
   runtimeListProcessor(schema: ListSchema) {
+    const that = this;
     return (
-      <>
-        {schema.label}
-        {this.model.value[schema.field].map((listItemModel: AnyObject) =>
-          (schema.children as ItemSchema[]).map((childSchema, index) =>
-            this.runtimeItemProcessor(childSchema, index, listItemModel, schema)
-          )
-        )}
-      </>
+      <Context.runtimeDoms.List schema={schema}>
+        {{
+          default() {
+            return that.model.value[schema.field].map(
+              (listItemModel: AnyObject, listItemIndex: number) => (
+                <Context.runtimeDoms.ListItem>
+                  {{
+                    default() {
+                      return (schema.children as ItemSchema[]).map(
+                        (childSchema, index) =>
+                          that.runtimeItemProcessor(
+                            childSchema,
+                            index,
+                            listItemModel,
+                            schema
+                          )
+                      );
+                    },
+                    delete({ container }: AnyObject = {}) {
+                      let Container = container ?? <button></button>;
+                      return (
+                        <Container
+                          onClick={() =>
+                            that.deleteListItem(schema, listItemIndex)
+                          }
+                        />
+                      );
+                    },
+                  }}
+                </Context.runtimeDoms.ListItem>
+              )
+            );
+          },
+          add({ container }: AnyObject = {}) {
+            let Container = container ?? <button></button>;
+            return <Container onClick={() => that.addListItem(schema)} />;
+          },
+        }}
+      </Context.runtimeDoms.List>
     );
   }
 
