@@ -211,11 +211,14 @@ export default class Processors {
         const fnExecRes = propertyValue(this.runtimeMeta());
         if (pendingProcessKey !== "defaultValue") {
           this.schemaEffect.trackEffect(() => {
-            const effectRes = propertyValue(this.runtimeMeta());
+            let effectRes = propertyValue(this.runtimeMeta());
             if (effectRes instanceof Promise) {
               effectRes.then((res) => {
                 if (schemaIndex === undefined) {
                   if (!IS.isFunction(res)) {
+                    if (typeof res === "string" && res.includes("undefined")) {
+                      res = res.replace(/undefined/g, "");
+                    }
                     // @ts-expect-error
                     this.processedSchemas.value[schemaIndexOrChildrenIndex][
                       pendingProcessKey
@@ -223,6 +226,9 @@ export default class Processors {
                   }
                 } else {
                   if (!IS.isFunction(res)) {
+                    if (typeof res === "string" && res.includes("undefined")) {
+                      res = res.replace(/undefined/g, "");
+                    }
                     // @ts-expect-error
                     this.processedSchemas.value[schemaIndex].children[
                       schemaIndexOrChildrenIndex
@@ -233,6 +239,12 @@ export default class Processors {
             } else {
               if (schemaIndex === undefined) {
                 if (!IS.isFunction(effectRes)) {
+                  if (
+                    typeof effectRes === "string" &&
+                    effectRes.includes("undefined")
+                  ) {
+                    effectRes = effectRes.replace(/undefined/g, "");
+                  }
                   // @ts-expect-error
                   this.processedSchemas.value[schemaIndexOrChildrenIndex][
                     pendingProcessKey
@@ -240,6 +252,12 @@ export default class Processors {
                 }
               } else {
                 if (!IS.isFunction(effectRes)) {
+                  if (
+                    typeof effectRes === "string" &&
+                    effectRes.includes("undefined")
+                  ) {
+                    effectRes = effectRes.replace(/undefined/g, "");
+                  }
                   // @ts-expect-error
                   this.processedSchemas.value[schemaIndex].children[
                     schemaIndexOrChildrenIndex
@@ -257,7 +275,7 @@ export default class Processors {
                 if (effectRes instanceof Promise) {
                   effectRes.then((res) => {
                     // TODO: 默认认为携带 undefined 是脏数据，这块后续重新规划，因为所谓的将 function 替换成 undefined 也是为了在一定程度上延续这种对脏数据的认知
-                    if (!res.includes("undefined")) {
+                    if (typeof res === "string" && !res.includes("undefined")) {
                       this.stopWatchEffect.triggerEffects();
                     } else {
                       res = res.replace(/undefined/g, "");
@@ -326,7 +344,10 @@ export default class Processors {
                     this.modelEffect.clearEffects();
                   });
                 } else {
-                  if (!effectRes.includes("undefined")) {
+                  if (
+                    typeof effectRes === "string" &&
+                    !effectRes.includes("undefined")
+                  ) {
                     this.stopWatchEffect.triggerEffects();
                   } else {
                     effectRes = effectRes.replace(/undefined/g, "");

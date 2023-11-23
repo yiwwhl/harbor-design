@@ -9,6 +9,14 @@ export default defineComponent({
     const [setup, { submit }] = useForm({
       schemas: [
         {
+          label({ model }) {
+            return "性别" + `${model.listtest?.[0]?.hobby}`;
+          },
+          component: Input,
+          field: "hi",
+          defaultValue: 20,
+        },
+        {
           type: "group",
           label: "用户元数据",
           children: [
@@ -18,7 +26,9 @@ export default defineComponent({
               component: Input,
             },
             {
-              label: "性别",
+              label({ model }) {
+                return "性别" + `${model.listtest?.[0]?.hobby}`;
+              },
               field: "gender",
               component: Input,
               defaultValue({ model }) {
@@ -37,7 +47,9 @@ export default defineComponent({
           label: "列表",
           children: [
             {
-              label: "稳定测试2",
+              label({ model }) {
+                return "性别2" + `${model.listtest?.[0]?.hobby}`;
+              },
               field: "3",
               component: Input,
             },
