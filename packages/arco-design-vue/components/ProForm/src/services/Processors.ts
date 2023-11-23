@@ -43,6 +43,7 @@ export default class Processors {
   uniqueEffectMap: any = {};
   schemaEffect = new Effect();
   modelEffect = new Effect();
+  stopWatchEffect = new Effect();
 
   constructor(
     public processedSchemas: Ref<Schema[]>,
@@ -166,8 +167,7 @@ export default class Processors {
       if (obj.hasOwnProperty(key)) {
         let value = obj[key];
         if (typeof value === "function") {
-          console.log("value", value);
-          obj[key] = undefined;
+          // obj[key] = undefined;
         } else if (typeof value === "object") {
           this.replaceFunctionsWithUndefined(value);
         }
@@ -250,134 +250,157 @@ export default class Processors {
           });
         } else {
           this.modelEffect.trackEffect(() => {
-            const effectRes = propertyValue(this.runtimeMeta());
-            if (effectRes instanceof Promise) {
-              effectRes.then((res) => {
-                // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
-                if (
-                  schemaIndexOrChildrenIndex === undefined ||
-                  parentField === undefined
-                ) {
-                  // @ts-expect-error
-                  if (IS.isFunction(pendingProcess.field)) {
-                    // @ts-expect-error
-                    const fieldRes = pendingProcess.field(this.runtimeMeta());
-                    if (fieldRes instanceof Promise) {
-                      fieldRes.then((resolvedFieldRes) => {
-                        this.processedModel.value[resolvedFieldRes] = res;
-                      });
+            let effectRes = propertyValue(this.runtimeMeta());
+            this.stopWatchEffect.trackEffect(
+              watchEffect(() => {
+                effectRes = propertyValue(this.runtimeMeta());
+                if (effectRes instanceof Promise) {
+                  effectRes.then((res) => {
+                    // TODO: 默认认为携带 undefined 是脏数据，这块后续重新规划，因为所谓的将 function 替换成 undefined 也是为了在一定程度上延续这种对脏数据的认知
+                    if (!res.includes("undefined")) {
+                      this.stopWatchEffect.triggerEffects();
                     } else {
-                      this.processedModel.value[fieldRes] = res;
+                      res = res.replace(/undefined/g, "");
                     }
-                    return;
-                  }
-                  // @ts-expect-error
+                    // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
+                    if (
+                      schemaIndexOrChildrenIndex === undefined ||
+                      parentField === undefined
+                    ) {
+                      // @ts-expect-error
+                      if (IS.isFunction(pendingProcess.field)) {
+                        // @ts-expect-error
+                        const fieldRes = pendingProcess.field(
+                          this.runtimeMeta()
+                        );
+                        if (fieldRes instanceof Promise) {
+                          fieldRes.then((resolvedFieldRes) => {
+                            this.processedModel.value[resolvedFieldRes] = res;
+                          });
+                        } else {
+                          this.processedModel.value[fieldRes] = res;
+                        }
+                        return;
+                      }
+                      // @ts-expect-error
 
-                  this.processedModel.value[pendingProcess.field] = res;
-                } else {
-                  // list
-                  // @ts-expect-error
-                  if (IS.isFunction(pendingProcess.field)) {
-                    // @ts-expect-error
-                    const fieldRes = pendingProcess.field(this.runtimeMeta());
-                    if (fieldRes instanceof Promise) {
-                      fieldRes.then((resolvedFieldRes) => {
-                        this.processedModel.value[parentField][
-                          schemaIndexOrChildrenIndex
-                        ][resolvedFieldRes] = res;
-                      });
+                      this.processedModel.value[pendingProcess.field] = res;
                     } else {
-                      if (
-                        this.processedModel.value[parentField][
-                          schemaIndexOrChildrenIndex
-                        ]
-                      ) {
-                        this.processedModel.value[parentField][
-                          schemaIndexOrChildrenIndex
-                        ][fieldRes] = res;
+                      // list
+                      // @ts-expect-error
+                      if (IS.isFunction(pendingProcess.field)) {
+                        // @ts-expect-error
+                        const fieldRes = pendingProcess.field(
+                          this.runtimeMeta()
+                        );
+                        if (fieldRes instanceof Promise) {
+                          fieldRes.then((resolvedFieldRes) => {
+                            this.processedModel.value[parentField][
+                              schemaIndexOrChildrenIndex
+                            ][resolvedFieldRes] = res;
+                          });
+                        } else {
+                          if (
+                            this.processedModel.value[parentField][
+                              schemaIndexOrChildrenIndex
+                            ]
+                          ) {
+                            this.processedModel.value[parentField][
+                              schemaIndexOrChildrenIndex
+                            ][fieldRes] = res;
+                          }
+                        }
+                        return;
+                      }
+
+                      if (this.processedModel.value[parentField]) {
+                        this.processedModel.value[parentField].forEach(
+                          // @ts-expect-error
+                          (childModel) => {
+                            // @ts-expect-error
+                            childModel[pendingProcess.field] = res;
+                          }
+                        );
                       }
                     }
-                    return;
-                  }
-                  if (
-                    this.processedModel.value[parentField][
-                      schemaIndexOrChildrenIndex
-                    ]
-                  ) {
-                    this.processedModel.value[parentField][
-                      schemaIndexOrChildrenIndex
-                      // @ts-expect-error
-                    ][pendingProcess.field] = res;
-                  }
-                }
-                this.modelEffect.clearEffects();
-              });
-            } else {
-              // @ts-expect-error
-              if (IS.isFunction(pendingProcess.field)) {
-                // @ts-expect-error
-                const fieldRes = pendingProcess.field(this.runtimeMeta());
-                if (fieldRes instanceof Promise) {
-                  fieldRes.then((resolvedFieldRes) => {
-                    this.processedModel.value[resolvedFieldRes] = effectRes;
+                    this.modelEffect.clearEffects();
                   });
                 } else {
-                  this.processedModel.value[fieldRes] = effectRes;
-                }
-                return;
-              }
-              // @ts-expect-error
-              this.processedModel.value[pendingProcess.field] = effectRes;
-              // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
-              if (
-                schemaIndexOrChildrenIndex === undefined ||
-                parentField === undefined
-              ) {
-                // group
-                // @ts-expect-error
-                if (IS.isFunction(pendingProcess.field)) {
-                  // @ts-expect-error
-                  const fieldRes = pendingProcess.field(this.runtimeMeta());
-                  if (fieldRes instanceof Promise) {
-                    fieldRes.then((resolvedFieldRes) => {
-                      this.processedModel.value[resolvedFieldRes] = effectRes;
-                    });
+                  if (!effectRes.includes("undefined")) {
+                    this.stopWatchEffect.triggerEffects();
                   } else {
-                    this.processedModel.value[fieldRes] = effectRes;
+                    effectRes = effectRes.replace(/undefined/g, "");
                   }
-                  return;
-                }
-                // @ts-expect-error
-                this.processedModel.value[pendingProcess.field] = effectRes;
-              } else {
-                for (
-                  let i = 0;
-                  i < this.processedModel.value[parentField].length;
-                  i++
-                ) {
-                  const item = this.processedModel.value[parentField][i];
                   // @ts-expect-error
-
-                  if (!IS.isFunction(pendingProcess.field)) {
-                    // @ts-expect-error
-                    item[pendingProcess.field] = effectRes;
-                  } else {
+                  if (IS.isFunction(pendingProcess.field)) {
                     // @ts-expect-error
                     const fieldRes = pendingProcess.field(this.runtimeMeta());
                     if (fieldRes instanceof Promise) {
                       fieldRes.then((resolvedFieldRes) => {
-                        item[resolvedFieldRes] = effectRes;
+                        this.processedModel.value[resolvedFieldRes] = effectRes;
                       });
                     } else {
-                      item[fieldRes] = effectRes;
+                      this.processedModel.value[fieldRes] = effectRes;
                     }
                     return;
                   }
-                }
-              }
+                  // @ts-expect-error
+                  this.processedModel.value[pendingProcess.field] = effectRes;
+                  // TODO: 后续重构，此处的 parentField === undefined 是用来区分 list 和 group 的
+                  if (
+                    schemaIndexOrChildrenIndex === undefined ||
+                    parentField === undefined
+                  ) {
+                    // group
+                    // @ts-expect-error
+                    if (IS.isFunction(pendingProcess.field)) {
+                      // @ts-expect-error
+                      const fieldRes = pendingProcess.field(this.runtimeMeta());
+                      if (fieldRes instanceof Promise) {
+                        fieldRes.then((resolvedFieldRes) => {
+                          this.processedModel.value[resolvedFieldRes] =
+                            effectRes;
+                        });
+                      } else {
+                        this.processedModel.value[fieldRes] = effectRes;
+                      }
+                      return;
+                    }
+                    // @ts-expect-error
+                    this.processedModel.value[pendingProcess.field] = effectRes;
+                  } else {
+                    for (
+                      let i = 0;
+                      i < this.processedModel.value[parentField].length;
+                      i++
+                    ) {
+                      const item = this.processedModel.value[parentField][i];
+                      // @ts-expect-error
 
-              this.modelEffect.clearEffects();
-            }
+                      if (!IS.isFunction(pendingProcess.field)) {
+                        // @ts-expect-error
+                        item[pendingProcess.field] = effectRes;
+                      } else {
+                        // @ts-expect-error
+                        const fieldRes = pendingProcess.field(
+                          this.runtimeMeta()
+                        );
+                        if (fieldRes instanceof Promise) {
+                          fieldRes.then((resolvedFieldRes) => {
+                            item[resolvedFieldRes] = effectRes;
+                          });
+                        } else {
+                          item[fieldRes] = effectRes;
+                        }
+                        return;
+                      }
+                    }
+                  }
+
+                  this.modelEffect.clearEffects();
+                }
+              })
+            );
           });
         }
 
@@ -452,6 +475,7 @@ export default class Processors {
       if (
         IS.isFunction(schema.field) ||
         IS.isUndefined(schema.field) ||
+        !Number.isNaN(Number(schema.field)) ||
         IS.isFunction(schema.defaultValue)
       )
         return;

@@ -1,25 +1,11 @@
-import { Button, Input, Select } from "@arco-design/web-vue";
+import { Button, Input } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   setup() {
-    function getOptions() {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve([
-            {
-              label: "男",
-              value: "male",
-            },
-            {
-              label: "女",
-              value: "female",
-            },
-          ]);
-        }, 200);
-      });
-    }
+    const defaultValue = ref();
+
     const [setup, { submit }] = useForm({
       schemas: [
         {
@@ -34,12 +20,13 @@ export default defineComponent({
             {
               label: "性别",
               field: "gender",
-              component: Select,
-              componentProps: {
-                options: getOptions,
-              },
+              component: Input,
               defaultValue({ model }) {
-                return "测试1122" + (model?.listtest?.[0].hobby ?? "");
+                return (
+                  "异步默认依赖测试：" +
+                  defaultValue.value +
+                  `${model.listtest?.[0]?.hobby}`
+                );
               },
             },
           ],
@@ -58,14 +45,20 @@ export default defineComponent({
               label: "爱好",
               field: "hobby",
               component: () => Input,
-              defaultValue: "测试新",
+              defaultValue: () => {
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve("异步默认值");
+                  }, 2000);
+                });
+              },
               componentProps({ model }) {
                 return new Promise((resolve) => {
                   setTimeout(() => {
                     resolve({
                       disabled: !!model.username,
                     });
-                  }, 200);
+                  }, 2000);
                 });
               },
             },
