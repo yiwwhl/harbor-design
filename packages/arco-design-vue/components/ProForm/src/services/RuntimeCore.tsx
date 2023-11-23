@@ -128,7 +128,7 @@ export default class RuntimeCore {
             );
           },
           add({ container }: AnyObject = {}) {
-            let Container = container ?? <button></button>;
+            let Container = container ?? <button>添加</button>;
             return <Container onClick={() => that.addListItem(schema)} />;
           },
         }}

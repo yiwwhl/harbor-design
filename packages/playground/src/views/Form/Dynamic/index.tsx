@@ -11,7 +11,9 @@ export default defineComponent({
           label({ model }) {
             return "性别" + `${model.listtest?.[0]?.hobby}`;
           },
-          component: Input,
+          component({ model }) {
+            return model.stable ? Input : Select;
+          },
           field: "hi",
           defaultValue: 20,
         },
@@ -21,14 +23,9 @@ export default defineComponent({
           children: [
             {
               label: "稳定",
-              field: "2",
+              field: "stable",
               component: ({ model }) => {
                 return model.gender ? Input : Select;
-              },
-              componentProps({ model }) {
-                return {
-                  disabled: model.gender,
-                };
               },
             },
             {
