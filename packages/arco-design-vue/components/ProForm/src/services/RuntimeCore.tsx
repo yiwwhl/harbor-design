@@ -74,9 +74,16 @@ export default class RuntimeCore {
   }
 
   addListItem(schema: AnyObject) {
-    this.model.value[schema.field].push(
-      deepClone(this.processors.rawModel[schema.field][0])
-    );
+    if (!this.processors.rawModel[schema.field]?.[0]) {
+      return Promise.reject({
+        code: `0001`,
+        message: `异步默认值数据正在处理中，请您耐心等待... `,
+      });
+    }
+    this.processors.rawModel[schema.field]?.[0] &&
+      this.model.value[schema.field].push(
+        deepClone(this.processors.rawModel[schema.field][0])
+      );
   }
 
   deleteListItem(schema: AnyObject, index: number) {
@@ -108,6 +115,7 @@ export default class RuntimeCore {
                       let Container = container ?? <button></button>;
                       return (
                         <Container
+                          v-show={that.model.value[schema.field]?.length > 1}
                           onClick={() =>
                             that.deleteListItem(schema, listItemIndex)
                           }
