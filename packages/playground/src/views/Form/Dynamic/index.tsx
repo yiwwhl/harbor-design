@@ -15,7 +15,7 @@ export default defineComponent({
             return model.stable ? Input : Select;
           },
           field: "hi",
-          defaultValue: 20,
+          defaultValue: "20",
         },
         {
           type: "group",
@@ -49,8 +49,15 @@ export default defineComponent({
               label({ model }) {
                 return "性别2" + `${model.listtest?.[0]?.hobby}`;
               },
-              field: "3",
+              field: "genderTest",
               component: Input,
+              show({ model }) {
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve(model.listtest[0].hobby);
+                  }, 100);
+                });
+              },
             },
             {
               label: "爱好",
@@ -60,7 +67,7 @@ export default defineComponent({
                 return new Promise((resolve) => {
                   setTimeout(() => {
                     resolve("异步默认值");
-                  }, 2000);
+                  }, 200);
                 });
               },
               componentProps({ model }) {
@@ -69,7 +76,7 @@ export default defineComponent({
                     resolve({
                       disabled: !!model.username,
                     });
-                  }, 2000);
+                  }, 500);
                 });
               },
             },

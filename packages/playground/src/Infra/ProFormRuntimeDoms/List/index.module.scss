@@ -4,7 +4,7 @@
   box-shadow: 0 0 10px #00000020;
   border-radius: 6px;
   margin-bottom: 20px;
-  padding: 10px 10px 0 10px;
+  padding: 10px;
   box-sizing: border-box;
 
   .label {
@@ -13,6 +13,7 @@
     font-weight: bold;
     margin-bottom: 15px;
     display: flex;
+    justify-content: space-between;
     gap: 10px;
     align-items: center;
   }

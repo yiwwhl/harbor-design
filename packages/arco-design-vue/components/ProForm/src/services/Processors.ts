@@ -34,6 +34,9 @@ export default class Processors {
     rules: {
       defaultValueWhenAsync: [],
     },
+    show: {
+      defaultValueWhenAsync: true,
+    },
   };
   componentPropsPreset: AnyObject = {
     options: {

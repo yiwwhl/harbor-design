@@ -40,6 +40,7 @@ export type FieldRule<T = any> = {
 export interface ItemSchema {
   type?: "item";
   rules?: FieldRule[];
+  show?: boolean;
   label: string;
   field: string;
   component: DomType;

@@ -44,12 +44,20 @@ export default class RuntimeCore {
       : schema.field;
     const Component = toRaw(schema.component);
     const props = schema.componentProps ?? {};
+    let show = schema.show;
+    if (show === undefined) {
+      show = true;
+    }
+    if (!show) {
+      delete baseModel[schema.field];
+    }
     return (
       <Context.runtimeDoms.Item>
         {{
           default() {
             return (
               <Context.runtimeDoms.FormItem
+                v-show={show}
                 label={`${schema.label}:`}
                 rules={schema.rules}
                 field={field}

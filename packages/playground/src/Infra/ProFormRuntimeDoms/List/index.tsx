@@ -11,9 +11,9 @@ export default defineComponent({
       return (
         <div class={styles.listWrapper}>
           <div class={styles.label}>
-            {props.schema?.label}
+            {props.schema?.label}{" "}
             {slots.add?.({
-              container: <Button>新增</Button>,
+              container: <Button type="primary">新增</Button>,
             })}
           </div>
           {slots.default?.()}
