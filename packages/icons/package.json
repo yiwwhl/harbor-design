@@ -4,5 +4,6 @@
   "description": "harbor design icons",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "private": "true"
 }

@@ -14,5 +14,6 @@
   },
   "peerDependencies": {
     "@arco-design/web-vue": "^2.52.0"
-  }
+  },
+  "private": "true"
 }
