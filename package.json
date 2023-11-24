@@ -5,17 +5,20 @@
   "author": "yiwwhl <yiwwhl@qq.com>",
   "scripts": {
     "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev",
-    "build:arco-vue": "pnpm --filter=@harbor-design/playground build"
+    "build:arco-vue": "pnpm --filter=@harbor-design/playground build",
+    "build:proform": "pnpm --filter=@harbor-design/proform build"
   },
   "license": "MIT",
   "dependencies": {
+    "@changesets/cli": "^2.26.2",
+    "vite-plugin-dts": "^3.6.3",
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "sass": "^1.68.0",
     "@types/node": "^20.6.3",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "sass": "^1.68.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-svg-loader": "^4.0.0",

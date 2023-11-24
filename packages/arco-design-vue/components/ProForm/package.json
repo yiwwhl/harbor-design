@@ -1,0 +1,32 @@
+{
+  "name": "@harbor-design/proform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "type": "module",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "build": "vue-tsc && vite build",
+    "prerelease": "pnpm build",
+    "release": "pnpm prerelease && changeset && pnpm postrelease",
+    "postrelease": "changeset version && changeset publish && git push --follow-tags"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.4"
+  },
+  "keywords": [],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "author": "yiwwhl<yiwwhl@qq.com>",
+  "license": "MIT"
+}

@@ -1,2 +1,2 @@
-export * from "./Page";
-export * from "./ProForm";
+export * from "./Page/index";
+export * from "./ProForm/index";
