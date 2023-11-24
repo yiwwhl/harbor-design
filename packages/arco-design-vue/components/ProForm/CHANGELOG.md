@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.5
+
+### Patch Changes
+
+- update pack sourcecode
+
 ## 1.0.4
 
 ### Patch Changes
