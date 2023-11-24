@@ -1,48 +1,13 @@
 import { Ref, watchEffect, isRef, isReactive, watch, toRaw } from "vue";
-import {
-  AnyObject,
-  Schema,
-  ItemSchema,
-  ProxyedSchema,
-  AnyFunction,
-} from "../types";
+import { AnyObject, Schema, ProxyedSchema, AnyFunction } from "../types";
 import { IS, deepClone } from "../utils";
-import { Effect } from "../services";
+import { Effect, Preset } from "../services";
 
 export default class Processors {
   rawSchemas: ProxyedSchema[] = [];
   rawModel: AnyObject = {};
-  schemaPreset: Record<keyof ItemSchema, any> = {
-    type: {
-      defaultValueWhenAsync: "item",
-    },
-    component: {
-      defaultValueWhenAsync: undefined,
-    },
-    componentProps: {
-      defaultValueWhenAsync: undefined,
-    },
-    defaultValue: {
-      defaultValueWhenAsync: undefined,
-    },
-    label: {
-      defaultValueWhenAsync: "",
-    },
-    field: {
-      defaultValueWhenAsync: "__yiwwhl_async_field_fallback",
-    },
-    rules: {
-      defaultValueWhenAsync: [],
-    },
-    show: {
-      defaultValueWhenAsync: true,
-    },
-  };
-  componentPropsPreset: AnyObject = {
-    options: {
-      defaultValueWhenAsync: [],
-    },
-  };
+  schemaPreset = Preset.schemaPreset;
+  componentPropsPreset = Preset.componentPropsPreset;
   uniqueEffectMap: any = {};
   schemaEffect = new Effect();
   modelEffect = new Effect();

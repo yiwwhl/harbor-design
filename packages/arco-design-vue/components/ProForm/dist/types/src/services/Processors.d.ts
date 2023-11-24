@@ -1,12 +1,12 @@
 import { Ref } from "vue";
-import { AnyObject, Schema, ItemSchema, ProxyedSchema, AnyFunction } from "../types";
+import { AnyObject, Schema, ProxyedSchema, AnyFunction } from "../types";
 import { Effect } from "../services";
 export default class Processors {
     processedSchemas: Ref<Schema[]>;
     processedModel: Ref<AnyObject>;
     rawSchemas: ProxyedSchema[];
     rawModel: AnyObject;
-    schemaPreset: Record<keyof ItemSchema, any>;
+    schemaPreset: Record<keyof import("../types").ItemSchema, any>;
     componentPropsPreset: AnyObject;
     uniqueEffectMap: any;
     schemaEffect: Effect;

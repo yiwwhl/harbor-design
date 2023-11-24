@@ -22,6 +22,7 @@ export default defineComponent({
               label: "姓名",
               field: "name",
               component: Input,
+              required: true,
             },
             {
               label: "年龄",

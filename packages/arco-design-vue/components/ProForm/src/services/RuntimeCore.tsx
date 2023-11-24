@@ -1,5 +1,5 @@
 import { Ref, ref, toRaw } from "vue";
-import { Context } from ".";
+import { Context, Preset } from ".";
 import {
   Setup,
   Schema,
@@ -43,7 +43,27 @@ export default class RuntimeCore {
       ? `${parentSchema.field}.${index}.${schema.field}`
       : schema.field;
     const Component = toRaw(schema.component);
+    const componentName = Component.name;
     const props = schema.componentProps ?? {};
+    const placeholderPresetByComponentName =
+      Preset.placeholderPresetByComponentName;
+    let placeholder = schema.placeholder;
+    if (!placeholder) {
+      const prefix =
+        // @ts-expect-error
+        placeholderPresetByComponentName[componentName] ?? "请输入";
+      placeholder = `${prefix}${schema.label}`;
+    }
+    const required = schema.required;
+    if (required) {
+      if (!schema.rules) {
+        schema.rules = [];
+      }
+      schema.rules?.push({
+        required: true,
+        message: `${schema.label}是必填项`,
+      });
+    }
     let show = schema.show;
     if (show === undefined) {
       show = true;
@@ -62,7 +82,11 @@ export default class RuntimeCore {
                 rules={schema.rules}
                 field={field}
               >
-                <Component v-model={baseModel[schema.field]} {...props} />
+                <Component
+                  v-model={baseModel[schema.field]}
+                  placeholder={placeholder}
+                  {...props}
+                />
               </Context.runtimeDoms.FormItem>
             );
           },

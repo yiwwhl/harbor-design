@@ -27,6 +27,8 @@ export interface ItemSchema {
     type?: "item";
     rules?: FieldRule[];
     show?: boolean;
+    required?: boolean;
+    placeholder?: string;
     label: string;
     field: string;
     component: DomType;

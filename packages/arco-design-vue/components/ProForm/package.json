@@ -1,16 +1,13 @@
 {
   "name": "@harbor-design/proform",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "type": "module",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "vue-tsc && vite build",
-    "prerelease": "pnpm build",
-    "release": "pnpm prerelease && changeset && pnpm postrelease",
-    "postrelease": "changeset version && changeset publish && git push --follow-tags"
+    "build": "vue-tsc && vite build"
   },
   "peerDependencies": {
     "vue": "^3.3.4"

@@ -6,7 +6,9 @@
   "scripts": {
     "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev",
     "build:arco-vue": "pnpm --filter=@harbor-design/playground build",
-    "build:proform": "pnpm --filter=@harbor-design/proform build"
+    "release:proform": "pnpm prerelease:proform && pnpm changeset && pnpm postrelease:proform",
+    "prerelease:proform": "pnpm --filter=@harbor-design/proform build",
+    "postrelease:proform": "pnpm changeset version && pnpm changeset publish && git add ."
   },
   "license": "MIT",
   "dependencies": {
