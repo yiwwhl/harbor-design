@@ -76,9 +76,6 @@ importers:
       '@harbor-design/icons':
         specifier: workspace:^
         version: link:../icons
-      '@harbor-design/proform':
-        specifier: ^1.0.0
-        version: link:../arco-design-vue/components/ProForm
       vue:
         specifier: ^3.3.4
         version: 3.3.4
