@@ -25,7 +25,9 @@
     }
   },
   "files": [
-    "dist/"
+    "dist/",
+    "./LICENSE",
+    "./CHANGELOG.md"
   ],
   "author": "yiwwhl<yiwwhl@qq.com>",
   "license": "MIT"
