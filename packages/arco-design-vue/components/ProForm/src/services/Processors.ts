@@ -149,6 +149,7 @@ export default class Processors {
       }
 
       setter({ ...processed }, forceUpdate);
+      that.rawModel = deepClone(that.processedModel.value);
     }
 
     this.propsProcessor<ProxyedSchema>(
@@ -421,9 +422,7 @@ export default class Processors {
                       }
                     }
                   }
-                  if (!this.rawModel) {
-                    this.rawModel = deepClone(this.processedModel.value);
-                  }
+                  this.rawModel = deepClone(this.processedModel.value);
                   this.modelEffect.clearEffects();
                 }
               })
@@ -460,7 +459,6 @@ export default class Processors {
               deep: true,
             }
           );
-          watchEffect(() => {});
         } else if (isReactive(propertyValue)) {
           watch(
             () => propertyValue,

@@ -1,4 +1,4 @@
-import { Button, Input, Select } from "@arco-design/web-vue";
+import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
@@ -9,76 +9,59 @@ export default defineComponent({
       schemas: [
         {
           label({ model }) {
-            return "性别" + `${model.listtest?.[0]?.hobby}`;
+            return model.hello + "Hello Form";
           },
-          component({ model }) {
-            return model.stable ? Input : Select;
-          },
-          field: "hi",
-          defaultValue: "20",
+          field: "hello",
+          component: Input,
         },
         {
           type: "group",
-          label: "用户元数据",
+          label: "用户基本信息",
           children: [
             {
-              label: "稳定",
-              field: "stable",
-              component: ({ model }) => {
-                return model.gender ? Input : Select;
-              },
+              label: "姓名",
+              field: "name",
+              component: Input,
             },
             {
-              label({ model }) {
-                return "性别" + `${model.listtest?.[0]?.hobby}`;
-              },
+              label: "年龄",
+              field: "age",
+              component: InputNumber,
+            },
+            {
+              label: "性别",
               field: "gender",
-              component: Input,
-              defaultValue({ model }) {
-                return "性别" + `${model.listtest?.[0]?.hobby}`;
+              component: Select,
+              componentProps: {
+                options: [
+                  {
+                    label: "男",
+                    value: "male",
+                  },
+                  {
+                    label: "女",
+                    value: "female",
+                  },
+                ],
               },
             },
           ],
         },
         {
           type: "list",
-          field: "listtest",
-          label: "列表测试的 label",
+          label: "经历",
+          field: "experience",
           children: [
             {
-              label({ model }) {
-                return "性别2" + `${model.listtest?.[0]?.hobby}`;
-              },
-              field: "genderTest",
+              label: "工作",
+              field: "job",
               component: Input,
-              show({ model }) {
-                return new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve(model.listtest[0].hobby);
-                  }, 100);
-                });
-              },
             },
             {
-              label: "爱好",
-              field: "hobby",
-              component: () => Input,
-              defaultValue: () => {
-                return new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve("异步默认值");
-                  }, 200);
-                });
-              },
-              componentProps({ model }) {
-                return new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve({
-                      disabled: !!model.username,
-                    });
-                  }, 500);
-                });
-              },
+              label: "学校",
+              field: "school",
+              component: Input,
+              defaultValue: "20",
             },
           ],
         },

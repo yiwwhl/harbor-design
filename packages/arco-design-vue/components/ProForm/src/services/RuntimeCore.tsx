@@ -82,6 +82,7 @@ export default class RuntimeCore {
   }
 
   addListItem(schema: AnyObject) {
+    console.log(this.processors.rawModel, schema.field);
     if (!this.processors.rawModel[schema.field]?.[0]) {
       return Promise.reject({
         code: `0001`,
