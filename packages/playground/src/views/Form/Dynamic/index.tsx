@@ -39,6 +39,11 @@ export default defineComponent({
               label: "测试0",
               field: "test0",
               component: Input,
+              defaultValue() {
+                return new Promise((resolve) => {
+                  resolve("done");
+                });
+              },
             },
             {
               label: "测试1",
@@ -75,13 +80,16 @@ export default defineComponent({
                       allowSearch: () => {
                         return new Promise((resolve) => {
                           setTimeout(() => {
-                            resolve(model.test0);
+                            resolve(!!model.test0);
                           }, 2000);
                         });
                       },
                     });
                   }, 300);
                 });
+              },
+              defaultValue() {
+                return "hi";
               },
             },
             {

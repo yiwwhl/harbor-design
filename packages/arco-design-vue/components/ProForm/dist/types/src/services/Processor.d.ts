@@ -19,9 +19,11 @@ export default class Processor {
     schemaEffect: Effect;
     defaultValueEffect: Effect;
     defaultValueInprogressMap: Map<any, any>;
+    baseDefaultValueFunctionsLength: number;
     constructor(runtimeCore: RuntimeCore);
     parse<T extends object = any>(data: T[], parentMeta?: AnyObject): void;
     initSchemas(schemas: AnyObject[]): AnyObject[];
+    countFunctionDefaultValues(input: AnyObject): number;
     parseSchemas(schemas: ProxyedSchema[], parentMeta?: AnyObject): void;
     parseStable(stable: AnyObject): AnyObject;
     stableUpdater(parseProcess?: boolean[]): void;

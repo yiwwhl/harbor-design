@@ -27,6 +27,7 @@ export default class Processor {
   schemaEffect = new Effect();
   defaultValueEffect = new Effect();
   defaultValueInprogressMap = new Map();
+  baseDefaultValueFunctionsLength!: number;
 
   constructor(runtimeCore: RuntimeCore) {
     this.processedSchemas = runtimeCore.schemas;
@@ -62,10 +63,44 @@ export default class Processor {
     });
   }
 
+  countFunctionDefaultValues(input: AnyObject) {
+    let count = 0;
+    let visited = new Set();
+
+    function traverse(current: any) {
+      if (visited.has(current)) {
+        return;
+      }
+
+      if (
+        Array.isArray(current) ||
+        (current !== null && typeof current === "object")
+      ) {
+        visited.add(current);
+
+        for (let key in current) {
+          if (current.hasOwnProperty(key)) {
+            if (key === "defaultValue" && typeof current[key] === "function") {
+              count++;
+            }
+            traverse(current[key]);
+          }
+        }
+      }
+    }
+
+    traverse(input);
+    return count;
+  }
+
   // 派生过程，用于外部应用
   parseSchemas(schemas: ProxyedSchema[], parentMeta?: AnyObject) {
     // 初始化空 schema
     if (IS.isArrayEmpty(this.processedSchemas.value)) {
+      // 收集所有的 defaultValue 处理函数长度
+      this.baseDefaultValueFunctionsLength = this.countFunctionDefaultValues(
+        deepClone(schemas)
+      );
       this.processedSchemas.value = this.initSchemas(schemas);
     }
     this.parse(schemas, parentMeta);
@@ -198,6 +233,8 @@ export default class Processor {
                     this.defaultValueInprogressMap.set(data[key], res);
                     if (
                       !IS.isProcessInprogress(res) &&
+                      this.defaultValueInprogressMap.size ===
+                        this.baseDefaultValueFunctionsLength &&
                       Array.from(this.defaultValueInprogressMap.values()).every(
                         (r) => !r.includes("undefined")
                       )
@@ -211,8 +248,11 @@ export default class Processor {
                   });
                 } else {
                   this.fieldParser(data[key], (res) => {
+                    this.defaultValueInprogressMap.set(data[key], res);
                     if (
                       !IS.isProcessInprogress(res) &&
+                      this.defaultValueInprogressMap.size ===
+                        this.baseDefaultValueFunctionsLength &&
                       Array.from(this.defaultValueInprogressMap.values()).every(
                         (r) => !r.includes("undefined")
                       )
