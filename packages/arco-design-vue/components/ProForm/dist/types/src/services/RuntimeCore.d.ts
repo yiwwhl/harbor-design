@@ -1,6 +1,7 @@
 import { Ref } from "vue";
 import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType } from "../types";
 import Processor from "./Processor";
+import Effect from "./Effect";
 export default class RuntimeCore {
     setup: Setup;
     processor: Processor;
@@ -8,6 +9,7 @@ export default class RuntimeCore {
     model: Ref<AnyObject>;
     processorBySchemaType: ProcessorBySchemaType;
     formRef: Ref<AnyObject>;
+    hydrateEffect: Effect;
     constructor(setup: Setup);
     getRuntimeMeta(): {
         model: AnyObject;

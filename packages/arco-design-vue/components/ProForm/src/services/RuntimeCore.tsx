@@ -12,6 +12,7 @@ import {
 } from "../types";
 import Processor from "./Processor";
 import { deepClone } from "../utils";
+import Effect from "./Effect";
 
 export default class RuntimeCore {
   processor: Processor;
@@ -23,6 +24,7 @@ export default class RuntimeCore {
     list: this.runtimeListProcessor.bind(this),
   };
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
+  hydrateEffect = new Effect();
 
   constructor(public setup: Setup) {
     this.processor = new Processor(this);

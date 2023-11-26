@@ -1,4 +1,5 @@
 import { AnyFunction } from "../types";
+import { TrackEffectMeta } from "../types/effectTypes";
 
 export default class Effect {
   effects = new Set<Function>();
@@ -13,8 +14,13 @@ export default class Effect {
     Array.from(this.effects).forEach((effect) => effect());
   }
 
-  trackEffect(effect: AnyFunction) {
-    effect();
+  trackEffect(
+    effect: AnyFunction,
+    meta: TrackEffectMeta = {
+      lazy: false,
+    }
+  ) {
+    !meta.lazy && effect();
     this.effects.add(effect);
     return () => this.effects.delete(effect);
   }

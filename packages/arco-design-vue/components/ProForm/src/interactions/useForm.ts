@@ -7,6 +7,7 @@ export function useForm(formCustomization: FormCustomization): UseForm {
     formCustomizer.setup.bind(formCustomizer),
     {
       submit: formCustomizer.submit.bind(formCustomizer),
+      hydrate: formCustomizer.hydrate.bind(formCustomizer),
     },
   ];
 }

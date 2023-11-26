@@ -7,6 +7,7 @@ import Effect from "./Effect";
  * 对于函数的命名，如果是动词相关，代表对过程的处理，如果是名词，代表一个处理器
  */
 export default class Processor {
+    runtimeCore: RuntimeCore;
     processedSchemas: Ref<AnyObject[]>;
     processedModel: Ref<AnyObject>;
     getRuntimeMeta: AnyFunction;

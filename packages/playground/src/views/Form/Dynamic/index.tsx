@@ -1,4 +1,4 @@
-import { Button, Input, Radio, Select } from "@arco-design/web-vue";
+import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent, onBeforeMount, reactive } from "vue";
 import styles from "./index.module.scss";
@@ -23,13 +23,30 @@ export default defineComponent({
     }
 
     const genderOptions = reactive([]);
+    const resValue = reactive({});
 
     onBeforeMount(async () => {
       const res = await getOptions();
       Object.assign(genderOptions, res);
+
+      setTimeout(() => {
+        Object.assign(resValue, {
+          test0: "he",
+          list1: [{ other: "hi" }],
+        });
+      }, 500);
+
+      setTimeout(() => {
+        Object.assign(resValue, {
+          test0: "he2",
+          list1: [{ other: "hi" }],
+        });
+      }, 1500);
+
+      hydrate(resValue);
     });
 
-    const [setup, { submit }] = useForm({
+    const [setup, { submit, hydrate }] = useForm({
       schemas: [
         {
           type: "group",
@@ -39,16 +56,27 @@ export default defineComponent({
               label: "测试0",
               field: "test0",
               component: Input,
-              defaultValue: "testdefaul",
+              defaultValue: () => {
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve("testdefault");
+                  }, 800);
+                });
+              },
+            },
+            {
+              component: InputNumber,
+              label: "222",
+              field: "211",
+              componentProps: {
+                max: 100,
+                min: 2,
+              },
             },
             {
               label: "测试1",
               field: "test1",
-              component({ model }) {
-                return new Promise((resolve) => {
-                  resolve(model.test0 ? Input : Select);
-                });
-              },
+              component: Select,
               defaultValue({ model }) {
                 return new Promise((resolve) => {
                   setTimeout(() => {
@@ -73,9 +101,7 @@ export default defineComponent({
             {
               label: ({ model }) => model.test0 + "测试更多",
               field: "testmore",
-              component({ model }) {
-                return model.test0 ? Select : Radio;
-              },
+              component: Select,
               required: true,
               componentProps({ model }) {
                 return new Promise((resolve) => {
@@ -106,7 +132,7 @@ export default defineComponent({
             },
             {
               label: "其他必填",
-              field: "other required",
+              field: "other",
               component: Input,
               required: true,
             },

@@ -1,6 +1,7 @@
 import { AnyObject, FormCustomization } from "../types";
+import { deepAssign } from "../utils";
 import { RuntimeCore } from "./index";
-import { toRaw } from "vue";
+import { isReactive, isRef, toRaw, watch } from "vue";
 
 export default class FormCustomizer {
   public runtimeCore!: RuntimeCore;
@@ -37,5 +38,41 @@ export default class FormCustomizer {
         );
       });
     });
+  }
+
+  hydrate(data: AnyObject) {
+    // TODO: 可以考虑后续将 hydrate 和 defaultValue 的关系处理得更清晰
+    this.runtimeCore.hydrateEffect.trackEffect(
+      () => {
+        if (isRef(data)) {
+          watch(
+            () => data.value,
+            () => {
+              deepAssign(this.runtimeCore.model.value, data.value);
+            },
+            {
+              deep: true,
+              immediate: true,
+            }
+          );
+        } else if (isReactive(data)) {
+          watch(
+            () => data,
+            () => {
+              deepAssign(this.runtimeCore.model.value, data);
+            },
+            {
+              deep: true,
+              immediate: true,
+            }
+          );
+        } else {
+          deepAssign(this.runtimeCore.model.value, data);
+        }
+      },
+      {
+        lazy: true,
+      }
+    );
   }
 }

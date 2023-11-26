@@ -15,6 +15,7 @@ import Effect from "./Effect";
  * 对于函数的命名，如果是动词相关，代表对过程的处理，如果是名词，代表一个处理器
  */
 export default class Processor {
+  runtimeCore!: RuntimeCore;
   processedSchemas: Ref<AnyObject[]>;
   processedModel: Ref<AnyObject>;
   getRuntimeMeta: AnyFunction;
@@ -30,6 +31,7 @@ export default class Processor {
   baseDefaultValueFunctionsLength!: number;
 
   constructor(runtimeCore: RuntimeCore) {
+    this.runtimeCore = runtimeCore;
     this.processedSchemas = runtimeCore.schemas;
     this.processedModel = runtimeCore.model;
     this.getRuntimeMeta = runtimeCore.getRuntimeMeta.bind(runtimeCore);
@@ -84,7 +86,7 @@ export default class Processor {
             if (
               key === "defaultValue" &&
               typeof current[key] === "function" &&
-              current[key].toString().includes("defaultValue")
+              !current[key].toString().includes("[native code]")
             ) {
               count++;
             }
@@ -385,6 +387,8 @@ export default class Processor {
         this.defaultValueEffect.effects.size === 0
       ) {
         this.stableModel = deepClone(this.processedModel.value);
+        this.runtimeCore.hydrateEffect.triggerEffects();
+        this.runtimeCore.hydrateEffect.clearEffects();
       }
     }
   }

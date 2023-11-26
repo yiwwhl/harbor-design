@@ -7,4 +7,5 @@ export default class FormCustomizer {
     constructor(formCustomization: FormCustomization);
     setup(_runtimeCore: RuntimeCore): FormCustomization;
     submit(): Promise<AnyObject>;
+    hydrate(data: AnyObject): void;
 }
