@@ -1,6 +1,6 @@
-import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
+import { Button, Input, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent, onBeforeMount, reactive, ref } from "vue";
+import { defineComponent, onBeforeMount, reactive } from "vue";
 import styles from "./index.module.scss";
 
 export default defineComponent({
@@ -49,7 +49,7 @@ export default defineComponent({
                 });
               },
               defaultValue({ model }) {
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve) => {
                   setTimeout(() => {
                     resolve("model: =>" + model.list1?.[0]?.testArr1);
                   }, 100);
