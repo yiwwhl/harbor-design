@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.10
+
+### Patch Changes
+
+- improve ProForm validation
+
 ## 1.0.9
 
 ### Patch Changes

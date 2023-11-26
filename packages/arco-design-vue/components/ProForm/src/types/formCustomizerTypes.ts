@@ -65,10 +65,14 @@ export interface ListSchema {
 
 export type Schema = ItemSchema | GroupSchema | ListSchema;
 
+export interface runtimeMeta {
+  model: AnyObject;
+}
+
 export type ProFormProxyRule<T> =
   | T
-  | ((...args: any) => T)
-  | ((...args: any) => Promise<T>);
+  | ((runtimeMeta: runtimeMeta) => T)
+  | ((runtimeMeta: runtimeMeta) => Promise<T>);
 
 export type ProFormProxy<T> = {
   [K in keyof T]: ProFormProxyRule<T[K]>;

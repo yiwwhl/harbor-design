@@ -65,10 +65,18 @@ export default class RuntimeCore {
       if (!schema.rules) {
         schema.rules = [];
       }
-      schema.rules?.push({
-        required: true,
-        message: `${schema.label}是必填项`,
-      });
+      const requiredIndex = schema.rules.findIndex((rule) => !!rule.required);
+      if (requiredIndex === -1) {
+        schema.rules?.push({
+          required: true,
+          message: `${schema.label}是必填项`,
+        });
+      } else {
+        schema.rules.splice(requiredIndex, 1, {
+          required: true,
+          message: `${schema.label}是必填项`,
+        });
+      }
     }
     let show = schema.show;
     if (show === undefined) {
@@ -126,6 +134,11 @@ export default class RuntimeCore {
 
   deleteListItem(schema: AnyObject, index: number) {
     this.model.value[schema.field].splice(index, 1);
+    // 处理校验效果
+    const fields = schema.children.map(
+      ({ field }: AnyObject) => `${schema.field}.${index}.${field}`
+    );
+    this.formRef.value.clearValidate(fields);
   }
 
   runtimeListProcessor(schema: ListSchema) {
@@ -143,10 +156,10 @@ export default class RuntimeCore {
                   {{
                     default() {
                       return (schema.children as ItemSchema[]).map(
-                        (childSchema, index) =>
+                        (childSchema) =>
                           that.runtimeItemProcessor(
                             childSchema,
-                            index,
+                            listItemIndex,
                             listItemModel,
                             schema
                           )

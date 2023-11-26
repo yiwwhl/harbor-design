@@ -1,4 +1,4 @@
-import { Button, Input, Select } from "@arco-design/web-vue";
+import { Button, Input, Radio, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent, onBeforeMount, reactive } from "vue";
 import styles from "./index.module.scss";
@@ -57,6 +57,12 @@ export default defineComponent({
                 });
               },
             },
+            {
+              label: "讽刺",
+              field: "hahah",
+              component: Input,
+              required: true,
+            },
           ],
         },
         {
@@ -65,9 +71,12 @@ export default defineComponent({
           label: "list label",
           children: [
             {
-              label: "测试更多",
+              label: ({ model }) => model.test0 + "测试更多",
               field: "testmore",
-              component: Select,
+              component({ model }) {
+                return model.test0 ? Select : Radio;
+              },
+              required: true,
               componentProps({ model }) {
                 return new Promise((resolve) => {
                   setTimeout(() => {
@@ -82,9 +91,6 @@ export default defineComponent({
                   }, 300);
                 });
               },
-              defaultValue() {
-                return "male";
-              },
             },
             {
               label: "测试数组1",
@@ -97,6 +103,12 @@ export default defineComponent({
                   }, 1000);
                 });
               },
+            },
+            {
+              label: "其他必填",
+              field: "other required",
+              component: Input,
+              required: true,
             },
           ],
         },
