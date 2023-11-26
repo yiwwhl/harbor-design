@@ -33,17 +33,13 @@ export default defineComponent({
       schemas: [
         {
           type: "group",
-          label: "list label",
+          label: ({ model }) => model.test1 + "list label",
           children: [
             {
               label: "测试0",
               field: "test0",
               component: Input,
-              defaultValue() {
-                return new Promise((resolve) => {
-                  resolve("done");
-                });
-              },
+              defaultValue: "testdefaul",
             },
             {
               label: "测试1",
@@ -79,9 +75,7 @@ export default defineComponent({
                       options: getOptions,
                       allowSearch: () => {
                         return new Promise((resolve) => {
-                          setTimeout(() => {
-                            resolve(!!model.test0);
-                          }, 2000);
+                          resolve(!!model.test0);
                         });
                       },
                     });
@@ -89,7 +83,7 @@ export default defineComponent({
                 });
               },
               defaultValue() {
-                return "hi";
+                return "male";
               },
             },
             {

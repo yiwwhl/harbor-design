@@ -32,6 +32,7 @@ export default class RuntimeCore {
 
   getRuntimeMeta() {
     const model = toRaw(deepClone(this.model.value));
+
     return {
       model,
     };

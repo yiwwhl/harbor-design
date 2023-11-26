@@ -80,7 +80,12 @@ export default class Processor {
 
         for (let key in current) {
           if (current.hasOwnProperty(key)) {
-            if (key === "defaultValue" && typeof current[key] === "function") {
+            // 很坑，像 InputNumber 等组件存在有一些 native code 的 defaultValue，会产生冲突
+            if (
+              key === "defaultValue" &&
+              typeof current[key] === "function" &&
+              current[key].toString().includes("defaultValue")
+            ) {
               count++;
             }
             traverse(current[key]);

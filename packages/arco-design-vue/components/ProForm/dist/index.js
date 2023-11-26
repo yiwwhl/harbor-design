@@ -1,7 +1,7 @@
 var x = Object.defineProperty;
 var D = (l, e, t) => e in l ? x(l, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : l[e] = t;
 var o = (l, e, t) => (D(l, typeof e != "symbol" ? e + "" : e, t), t);
-import { toRaw as S, watch as E, isRef as M, isReactive as U, ref as I, createVNode as d, withDirectives as v, mergeProps as R, vShow as O, createTextVNode as k, isVNode as L, defineComponent as F } from "vue";
+import { toRaw as j, watch as E, isRef as M, isReactive as U, ref as I, createVNode as d, withDirectives as v, mergeProps as R, vShow as O, createTextVNode as k, isVNode as L, defineComponent as F } from "vue";
 class B {
   constructor(e) {
     o(this, "runtimeCore");
@@ -20,7 +20,7 @@ class B {
     return new Promise((e, t) => {
       this.runtimeCore.formRef.value.validate((s) => s ? t(s) : e(
         this.cleanFallbackFields(
-          S(this.runtimeCore.processor.processedModel.value)
+          j(this.runtimeCore.processor.processedModel.value)
         )
       ));
     });
@@ -143,8 +143,8 @@ class N {
     o(this, "getRuntimeMeta");
     o(this, "stableSchemas", []);
     o(this, "stableModel", {});
-    o(this, "schemaPreset", j.schemaPreset);
-    o(this, "componentPropsPreset", j.componentPropsPreset);
+    o(this, "schemaPreset", S.schemaPreset);
+    o(this, "componentPropsPreset", S.componentPropsPreset);
     o(this, "stableUpdaterProcessProgress");
     o(this, "stableUpdaterTimes", 0);
     o(this, "schemaEffect", new C());
@@ -180,7 +180,7 @@ class N {
       if (!s.has(i) && (Array.isArray(i) || i !== null && typeof i == "object")) {
         s.add(i);
         for (let n in i)
-          i.hasOwnProperty(n) && (n === "defaultValue" && typeof i[n] == "function" && t++, r(i[n]));
+          i.hasOwnProperty(n) && (n === "defaultValue" && typeof i[n] == "function" && i[n].toString().includes("defaultValue") && t++, r(i[n]));
       }
     }
     return r(e), t;
@@ -202,7 +202,7 @@ class N {
   // 对于稳定初始化更新的抽象
   stableUpdater(e = []) {
     if (e.every(Boolean)) {
-      const t = S(this.processedSchemas.value);
+      const t = j(this.processedSchemas.value);
       !u.isProcessInprogress(t) && u.isObjectEmpty(this.stableModel) && (this.stableUpdaterProcessProgress || (this.stableUpdaterProcessProgress = Array.from({
         length: t.length
       }).fill(!1)), this.stableUpdaterProcessProgress[this.stableUpdaterTimes] = !0, this.stableUpdaterTimes++, this.modelProcessor(t));
@@ -356,15 +356,15 @@ class T {
   }
   getRuntimeMeta() {
     return {
-      model: S(V(this.model.value))
+      model: j(V(this.model.value))
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, r) {
     var g;
-    const i = r ? `${r.field}.${t}.${e.field}` : e.field, n = S(e.component);
+    const i = r ? `${r.field}.${t}.${e.field}` : e.field, n = j(e.component);
     if (!n)
       return;
-    const c = n.name, f = e.componentProps ?? {}, a = j.placeholderPresetByComponentName;
+    const c = n.name, f = e.componentProps ?? {}, a = S.placeholderPresetByComponentName;
     let P = e.placeholder;
     P || (P = `${// @ts-expect-error
     a[c] ?? "请输入"}${e.label}`), e.required && (e.rules || (e.rules = []), (g = e.rules) == null || g.push({
@@ -508,7 +508,7 @@ o(y, "schemaPreset", {
   }
 }), // 基于基本功能提出基本预设
 o(y, "placeholderPresetByComponentName", y.getPlaceholderPrefixPresetByComponentName());
-let j = y;
+let S = y;
 const $ = /* @__PURE__ */ F({
   props: {
     setup: {
