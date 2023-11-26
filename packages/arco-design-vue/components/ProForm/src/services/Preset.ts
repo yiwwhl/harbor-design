@@ -2,41 +2,46 @@ import { AnyObject, ItemSchema } from "../types";
 
 // only happy path: 后续会结合整体插件系统和预设系统考虑再进行抽象，目前是过渡状态
 export default class Preset {
-  static schemaPreset: Record<keyof ItemSchema, any> = {
+  static schemaPreset: Record<keyof ItemSchema, any> & {
+    children: any;
+  } = {
     type: {
-      defaultValueWhenAsync: "item",
+      defaultValue: "item",
     },
     component: {
-      defaultValueWhenAsync: undefined,
+      defaultValue: undefined,
     },
     componentProps: {
-      defaultValueWhenAsync: undefined,
+      defaultValue: undefined,
     },
     defaultValue: {
-      defaultValueWhenAsync: undefined,
+      defaultValue: undefined,
     },
     label: {
-      defaultValueWhenAsync: "",
+      defaultValue: "",
     },
     field: {
-      defaultValueWhenAsync: "__yiwwhl_async_field_fallback",
+      defaultValue: "__yiwwhl_async_field_fallback",
     },
     rules: {
-      defaultValueWhenAsync: [],
+      defaultValue: [],
     },
     show: {
-      defaultValueWhenAsync: true,
+      defaultValue: true,
     },
     required: {
-      defaultValueWhenAsync: false,
+      defaultValue: false,
     },
     placeholder: {
-      defaultValueWhenAsync: undefined,
+      defaultValue: undefined,
+    },
+    children: {
+      defaultValue: [],
     },
   };
   static componentPropsPreset: AnyObject = {
     options: {
-      defaultValueWhenAsync: [],
+      defaultValue: [],
     },
   };
   // 基于基本功能提出基本预设

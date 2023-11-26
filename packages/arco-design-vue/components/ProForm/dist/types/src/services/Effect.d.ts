@@ -4,5 +4,5 @@ export default class Effect {
     constructor();
     clearEffects(): void;
     triggerEffects(): void;
-    trackEffect(effect: AnyFunction): void;
+    trackEffect(effect: AnyFunction): () => boolean;
 }

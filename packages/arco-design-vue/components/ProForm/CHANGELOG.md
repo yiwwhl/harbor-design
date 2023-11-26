@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.7
+
+### Patch Changes
+
+- huge update! rewrite the core processing function
+
 ## 1.0.6
 
 ### Patch Changes

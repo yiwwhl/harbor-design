@@ -32,7 +32,7 @@ export default class FormCustomizer {
         }
         return resolve(
           this.cleanFallbackFields(
-            toRaw(this.runtimeCore.processors.processedModel.value)
+            toRaw(this.runtimeCore.processor.processedModel.value)
           )
         );
       });

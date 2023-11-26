@@ -14,6 +14,8 @@ export default class Effect {
   }
 
   trackEffect(effect: AnyFunction) {
+    effect();
     this.effects.add(effect);
+    return () => this.effects.delete(effect);
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@harbor-design/proform",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -22,9 +22,7 @@
     }
   },
   "files": [
-    "dist/",
-    "./LICENSE",
-    "./CHANGELOG.md"
+    "dist/"
   ],
   "author": "yiwwhl<yiwwhl@qq.com>",
   "license": "MIT"

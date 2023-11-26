@@ -10,11 +10,11 @@ import {
   ListSchema,
   ProcessorBySchemaType,
 } from "../types";
-import Processors from "./Processors";
+import Processor from "./Processor";
 import { deepClone } from "../utils";
 
 export default class RuntimeCore {
-  processors: Processors;
+  processor: Processor;
   schemas: Ref<Schema[]> = ref([]);
   model: Ref<AnyObject> = ref({});
   processorBySchemaType: ProcessorBySchemaType = {
@@ -25,12 +25,16 @@ export default class RuntimeCore {
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
 
   constructor(public setup: Setup) {
-    this.processors = new Processors(this.schemas, this.model);
-    this.analyze(this.setup(this));
+    this.processor = new Processor(this);
+    const formCustomization = this.setup(this) as FormCustomization;
+    this.processor.parseSchemas(formCustomization.schemas);
   }
 
-  analyze(formCustomization: FormCustomization) {
-    this.processors.schemaAnalyzer(formCustomization.schemas);
+  getRuntimeMeta() {
+    const model = toRaw(deepClone(this.model.value));
+    return {
+      model,
+    };
   }
 
   runtimeItemProcessor(
@@ -43,6 +47,7 @@ export default class RuntimeCore {
       ? `${parentSchema.field}.${index}.${schema.field}`
       : schema.field;
     const Component = toRaw(schema.component);
+    if (!Component) return;
     const componentName = Component.name;
     const props = schema.componentProps ?? {};
     const placeholderPresetByComponentName =
@@ -106,15 +111,15 @@ export default class RuntimeCore {
   }
 
   addListItem(schema: AnyObject) {
-    if (!this.processors.rawModel[schema.field]?.[0]) {
+    if (!this.processor.stableModel[schema.field]?.[0]) {
       return Promise.reject({
         code: `0001`,
         message: `异步默认值数据正在处理中，请您耐心等待... `,
       });
     }
-    this.processors.rawModel[schema.field]?.[0] &&
+    this.processor.stableModel[schema.field]?.[0] &&
       this.model.value[schema.field].push(
-        deepClone(this.processors.rawModel[schema.field][0])
+        deepClone(this.processor.stableModel[schema.field][0])
       );
   }
 
@@ -124,6 +129,9 @@ export default class RuntimeCore {
 
   runtimeListProcessor(schema: ListSchema) {
     const that = this;
+    if (!that.model.value[schema.field]) {
+      that.model.value[schema.field] = [{}];
+    }
     return (
       <Context.runtimeDoms.List schema={schema}>
         {{
