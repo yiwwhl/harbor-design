@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.12
+
+### Patch Changes
+
+- fix maxiumn call stack error
+
 ## 1.0.11
 
 ### Patch Changes

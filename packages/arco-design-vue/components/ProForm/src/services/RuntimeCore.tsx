@@ -66,18 +66,13 @@ export default class RuntimeCore {
     if (required) {
       if (!schema.rules) {
         schema.rules = [];
-      }
-      const requiredIndex = schema.rules.findIndex((rule) => !!rule.required);
-      if (requiredIndex === -1) {
         schema.rules?.push({
           required: true,
           message: `${schema.label}是必填项`,
         });
       } else {
-        schema.rules.splice(requiredIndex, 1, {
-          required: true,
-          message: `${schema.label}是必填项`,
-        });
+        const requiredIndex = schema.rules.findIndex((rule) => !!rule.required);
+        schema.rules[requiredIndex].message = `${schema.label}是必填项`;
       }
     }
     let show = schema.show;

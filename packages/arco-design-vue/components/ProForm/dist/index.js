@@ -377,7 +377,7 @@ class B {
 function x(l) {
   return typeof l == "function" || Object.prototype.toString.call(l) === "[object Object]" && !F(l);
 }
-class q {
+class N {
   constructor(e) {
     o(this, "schemas", I([]));
     o(this, "model", I({}));
@@ -405,17 +405,16 @@ class q {
     const c = n.name, u = e.componentProps ?? {}, d = j.placeholderPresetByComponentName;
     let P = e.placeholder;
     if (P || (P = `${// @ts-expect-error
-    d[c] ?? "请输入"}${e.label}`), e.required) {
-      e.rules || (e.rules = []);
-      const a = e.rules.findIndex((p) => !!p.required);
-      a === -1 ? (g = e.rules) == null || g.push({
-        required: !0,
-        message: `${e.label}是必填项`
-      }) : e.rules.splice(a, 1, {
-        required: !0,
-        message: `${e.label}是必填项`
-      });
-    }
+    d[c] ?? "请输入"}${e.label}`), e.required)
+      if (!e.rules)
+        e.rules = [], (g = e.rules) == null || g.push({
+          required: !0,
+          message: `${e.label}是必填项`
+        });
+      else {
+        const a = e.rules.findIndex((p) => !!p.required);
+        e.rules[a].message = `${e.label}是必填项`;
+      }
     let y = e.show;
     return y === void 0 && (y = !0), y || delete s[e.field], h(m.runtimeDoms.Item, null, {
       default() {
@@ -558,7 +557,7 @@ o(b, "schemaPreset", {
 }), // 基于基本功能提出基本预设
 o(b, "placeholderPresetByComponentName", b.getPlaceholderPrefixPresetByComponentName());
 let j = b;
-const _ = /* @__PURE__ */ z({
+const q = /* @__PURE__ */ z({
   props: {
     setup: {
       type: Function,
@@ -566,7 +565,7 @@ const _ = /* @__PURE__ */ z({
     }
   },
   setup(l) {
-    const e = new q(l.setup);
+    const e = new N(l.setup);
     return () => e.exec();
   }
 });
@@ -588,7 +587,7 @@ function K(l) {
   };
 }
 export {
-  _ as ProForm,
+  q as ProForm,
   G as useForm,
   K as useFormRenderer
 };
