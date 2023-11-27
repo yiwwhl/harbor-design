@@ -33,6 +33,7 @@ export default defineComponent({
           label: "测试0",
           field: "ohly",
           component: Input,
+          required: true,
         },
         {
           type: "list",
@@ -53,6 +54,12 @@ export default defineComponent({
                   }, "raw"),
                 };
               },
+            },
+            {
+              label: "改一改",
+              field: "change",
+              component: Input,
+              required: true,
             },
           ],
         },

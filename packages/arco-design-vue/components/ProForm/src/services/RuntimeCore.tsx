@@ -127,15 +127,12 @@ export default class RuntimeCore {
       this.model.value[schema.field].push(
         deepClone(this.processor.stableModel[schema.field][0])
       );
+    this.formRef.value.clearValidate();
   }
 
   deleteListItem(schema: AnyObject, index: number) {
     this.model.value[schema.field].splice(index, 1);
-    // 处理校验效果
-    const fields = schema.children.map(
-      ({ field }: AnyObject) => `${schema.field}.${index}.${field}`
-    );
-    this.formRef.value.clearValidate(fields);
+    this.formRef.value.clearValidate();
   }
 
   runtimeListProcessor(schema: ListSchema) {

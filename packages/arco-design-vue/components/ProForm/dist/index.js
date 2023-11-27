@@ -1,7 +1,7 @@
 var U = Object.defineProperty;
 var _ = (n, e, t) => e in n ? U(n, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : n[e] = t;
 var o = (n, e, t) => (_(n, typeof e != "symbol" ? e + "" : e, t), t);
-import { toRaw as V, isRef as x, watch as E, isReactive as D, ref as I, createVNode as h, withDirectives as O, mergeProps as k, vShow as A, createTextVNode as R, isVNode as L, defineComponent as $ } from "vue";
+import { toRaw as V, isRef as M, watch as E, isReactive as D, ref as I, createVNode as h, withDirectives as O, mergeProps as k, vShow as A, createTextVNode as R, isVNode as L, defineComponent as z } from "vue";
 class f {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -104,7 +104,7 @@ function v(n) {
   }
   return t(n);
 }
-class z {
+class B {
   constructor(e) {
     o(this, "runtimeCore");
     this.formCustomization = e;
@@ -130,7 +130,7 @@ class z {
   hydrate(e) {
     this.runtimeCore.hydrateEffect.trackEffect(
       () => {
-        x(e) ? E(
+        M(e) ? E(
           () => e.value,
           () => {
             S(this.runtimeCore.model.value, e.value);
@@ -172,7 +172,7 @@ class w {
     return !t.lazy && e(), this.effects.add(e), () => this.effects.delete(e);
   }
 }
-class B {
+class F {
   constructor(e) {
     o(this, "runtimeCore");
     o(this, "processedSchemas");
@@ -336,7 +336,7 @@ class B {
         this.promiseFieldParser(r, t, s);
       }
     else
-      x(e) ? E(
+      M(e) ? E(
         () => e.value,
         () => {
           f.isUndefined(e.value) || (s && f.isObject(e.value) ? this.objectParser({
@@ -378,10 +378,10 @@ class B {
     }), f.isItemSchema(e) && (t[e.field] = e.defaultValue);
   }
 }
-function M(n) {
+function x(n) {
   return typeof n == "function" || Object.prototype.toString.call(n) === "[object Object]" && !L(n);
 }
-class F {
+class N {
   constructor(e) {
     o(this, "schemas", I([]));
     o(this, "model", I({}));
@@ -392,7 +392,7 @@ class F {
     });
     o(this, "formRef", I(null));
     o(this, "hydrateEffect", new w());
-    this.setup = e, this.processor = new B(this);
+    this.setup = e, this.processor = new F(this);
     const t = this.setup(this);
     this.processor.parseSchemas(t.schemas);
   }
@@ -440,7 +440,7 @@ class F {
     let t;
     return h(m.runtimeDoms.Group, {
       schema: e
-    }, M(t = e.children.map((s) => this.runtimeItemProcessor(s))) ? t : {
+    }, x(t = e.children.map((s) => this.runtimeItemProcessor(s))) ? t : {
       default: () => [t]
     });
   }
@@ -451,14 +451,10 @@ class F {
         code: "0001",
         message: "异步默认值数据正在处理中，请您耐心等待... "
       });
-    (s = this.processor.stableModel[e.field]) != null && s[0] && this.model.value[e.field].push(v(this.processor.stableModel[e.field][0]));
+    (s = this.processor.stableModel[e.field]) != null && s[0] && this.model.value[e.field].push(v(this.processor.stableModel[e.field][0])), this.formRef.value.clearValidate();
   }
   deleteListItem(e, t) {
-    this.model.value[e.field].splice(t, 1);
-    const s = e.children.map(({
-      field: r
-    }) => `${e.field}.${t}.${r}`);
-    this.formRef.value.clearValidate(s);
+    this.model.value[e.field].splice(t, 1), this.formRef.value.clearValidate();
   }
   runtimeListProcessor(e) {
     const t = this;
@@ -499,7 +495,7 @@ class F {
     return h(m.runtimeDoms.Form, {
       ref: this.formRef,
       model: this.model.value
-    }, M(e = this.runtimeProcessor(this.schemas.value)) ? e : {
+    }, x(e = this.runtimeProcessor(this.schemas.value)) ? e : {
       default: () => [e]
     });
   }
@@ -561,7 +557,7 @@ o(y, "schemaPreset", {
 }), // 基于基本功能提出基本预设
 o(y, "placeholderPresetByComponentName", y.getPlaceholderPrefixPresetByComponentName());
 let j = y;
-const q = /* @__PURE__ */ $({
+const q = /* @__PURE__ */ z({
   props: {
     setup: {
       type: Function,
@@ -569,12 +565,12 @@ const q = /* @__PURE__ */ $({
     }
   },
   setup(n) {
-    const e = new F(n.setup);
+    const e = new N(n.setup);
     return () => e.exec();
   }
 });
 function G(n) {
-  const e = new z(n);
+  const e = new B(n);
   return [
     e.setup.bind(e),
     {
