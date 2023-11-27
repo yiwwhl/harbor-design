@@ -318,8 +318,13 @@ export default class Processor {
   // 对任意对象中单个字段的 parse: 做基本处理
   fieldParser(rootField: any, updater: AnyFunction, deepProcess = true) {
     if (IS.isFunction(rootField)) {
-      const computation = rootField(this.getRuntimeMeta());
-      this.promiseFieldParser(computation, updater, deepProcess);
+      // 过滤需要保留原始状态的函数
+      if (rootField.name.startsWith(`__proform_raw_`)) {
+        updater(rootField);
+      } else {
+        const computation = rootField(this.getRuntimeMeta());
+        this.promiseFieldParser(computation, updater, deepProcess);
+      }
     } else {
       // 稳定态
       if (isRef(rootField)) {

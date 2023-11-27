@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.13
+
+### Patch Changes
+
+- support useModifiers hook
+
 ## 1.0.12
 
 ### Patch Changes
