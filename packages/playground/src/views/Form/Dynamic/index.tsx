@@ -35,12 +35,9 @@ export default defineComponent({
           component: Input,
           required: true,
           defaultValue() {
-            return new Promise((resolve, reject) => {
-              setTimeout(() => {
-                resolve("heeeeeeeee");
-              }, 2000);
+            return new Promise((resolve) => {
+              resolve("hello");
             });
-            return "hello1";
           },
         },
         {
