@@ -1,6 +1,7 @@
 import { AnyObject, GroupSchema, ItemSchema, ListSchema } from "../types";
 export default class IS {
     private static typeChecker;
+    static isString(data: any): data is string;
     static isArray(data: any): data is any[];
     static isFunction(data: any): data is (...args: any) => any;
     static isPromise(data: any): data is Promise<any>;

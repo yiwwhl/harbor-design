@@ -1,5 +1,17 @@
 # @harbor-design/proform
 
+## 1.0.16
+
+### Patch Changes
+
+- fix bug of stopTrack
+
+## 1.0.15
+
+### Patch Changes
+
+- replace undefined in string when effect is functional
+
 ## 1.0.14
 
 ### Patch Changes

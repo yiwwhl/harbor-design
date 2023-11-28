@@ -34,6 +34,14 @@ export default defineComponent({
           field: "ohly",
           component: Input,
           required: true,
+          defaultValue() {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve("heeeeeeeee");
+              }, 2000);
+            });
+            return "hello1";
+          },
         },
         {
           type: "list",
@@ -41,7 +49,7 @@ export default defineComponent({
           label: "list label",
           children: [
             {
-              label: ({ model }) => `${model.ohly ?? ""}` + "测试更多",
+              label: ({ model }) => `${model.ohly}` + "测试更多",
               field: "testmore",
               component: Select,
               required: true,
@@ -52,6 +60,7 @@ export default defineComponent({
                   filterOption: useModifiers((inputValue: any) => {
                     console.log("inputValue", inputValue);
                   }, "raw"),
+                  allowClear: () => true,
                 };
               },
             },

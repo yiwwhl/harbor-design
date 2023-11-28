@@ -4,6 +4,10 @@ export default class IS {
     return {}.toString.call(data);
   }
 
+  static isString(data: any): data is string {
+    return typeof data === "string";
+  }
+
   static isArray(data: any): data is any[] {
     return this.typeChecker(data) === "[object Array]";
   }

@@ -1,4 +1,4 @@
-import { Ref, isRef, isReactive, watch, toRaw } from "vue";
+import { Ref, isRef, isReactive, watch, toRaw, nextTick } from "vue";
 import {
   AnyObject,
   Schema,
@@ -248,7 +248,9 @@ export default class Processor {
                     ) {
                       updater(res);
                       this.defaultValueEffect.clearEffects();
-                      stopTrack();
+                      nextTick(() => {
+                        stopTrack();
+                      });
                     } else {
                       updater(res);
                     }
@@ -266,7 +268,9 @@ export default class Processor {
                     ) {
                       updater(res);
                       this.defaultValueEffect.clearEffects();
-                      stopTrack();
+                      nextTick(() => {
+                        stopTrack();
+                      });
                     } else {
                       updater(res);
                     }
@@ -287,6 +291,10 @@ export default class Processor {
     });
   }
 
+  replaceUndefinedInString(data: string, replaceTo: string) {
+    return data.replace(/undefined/g, replaceTo);
+  }
+
   promiseFieldParser(
     rootField: any,
     updater: AnyFunction,
@@ -304,6 +312,11 @@ export default class Processor {
         }
       });
     } else {
+      // TODO: 小优化，考虑后续将小优化集中，简单描述一下此优化，即对于函数的 effect 来说，
+      // 存在过程值有 undefined 的情况，我们可以在这里优化成空字符串避免展示的时候需要有额外的处理过程
+      if (IS.isString(rootField)) {
+        rootField = this.replaceUndefinedInString(rootField, "");
+      }
       if (deepProcess && IS.isObject(rootField)) {
         this.objectParser({
           data: rootField,
