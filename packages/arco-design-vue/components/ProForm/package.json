@@ -1,6 +1,6 @@
 {
   "name": "@harbor-design/proform",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -12,7 +12,6 @@
   "peerDependencies": {
     "vue": "^3.3.4"
   },
-  "keywords": [],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -25,5 +24,10 @@
     "dist/"
   ],
   "author": "yiwwhl<yiwwhl@qq.com>",
+  "repository": "yiwwhl/harbor-design",
+  "keywords": [
+    "form",
+    "dynamic form"
+  ],
   "license": "MIT"
 }
