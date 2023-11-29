@@ -1,4 +1,4 @@
-import { Ref, ref, toRaw } from "vue";
+import { Ref, reactive, ref, toRaw } from "vue";
 import { Context, Preset } from ".";
 import {
   Setup,
@@ -9,6 +9,7 @@ import {
   GroupSchema,
   ListSchema,
   ProcessorBySchemaType,
+  CustomizationOptions,
 } from "../types";
 import Processor from "./Processor";
 import { deepClone } from "../utils";
@@ -25,6 +26,7 @@ export default class RuntimeCore {
   };
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
+  customizedOptions: CustomizationOptions = reactive({});
 
   constructor(public setup: Setup) {
     this.processor = new Processor(this);
@@ -46,6 +48,9 @@ export default class RuntimeCore {
     baseModel = this.model.value,
     parentSchema?: ListSchema
   ) {
+    const formItemNativeOptions = toRaw(
+      this.customizedOptions.native?.props?.Form
+    );
     const field = parentSchema
       ? `${parentSchema.field}.${index}.${schema.field}`
       : schema.field;
@@ -88,6 +93,7 @@ export default class RuntimeCore {
           default() {
             return (
               <Context.runtimeDoms.FormItem
+                {...formItemNativeOptions}
                 v-show={show}
                 label={`${schema.label}:`}
                 rules={schema.rules}
@@ -195,8 +201,13 @@ export default class RuntimeCore {
   }
 
   exec() {
+    const formNativeOptions = toRaw(this.customizedOptions.native?.props?.Form);
     return (
-      <Context.runtimeDoms.Form ref={this.formRef} model={this.model.value}>
+      <Context.runtimeDoms.Form
+        {...formNativeOptions}
+        ref={this.formRef}
+        model={this.model.value}
+      >
         {this.runtimeProcessor(this.schemas.value)}
       </Context.runtimeDoms.Form>
     );

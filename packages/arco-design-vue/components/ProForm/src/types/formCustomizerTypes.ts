@@ -83,3 +83,12 @@ export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
 export interface FormCustomization {
   schemas: ProxyedSchema[];
 }
+
+export type CustomizationOptions = {
+  native?: {
+    props?: {
+      Form?: AnyObject;
+      FormItem?: AnyObject;
+    };
+  };
+};

@@ -5,7 +5,7 @@ import {
   useForm,
   useModifiers,
 } from "@harbor-design/arco-design-vue";
-import { defineComponent } from "vue";
+import { defineComponent, nextTick, onMounted } from "vue";
 import styles from "./index.module.scss";
 
 export default defineComponent({
@@ -27,7 +27,32 @@ export default defineComponent({
       });
     }
 
-    const [setup, { submit }] = useForm({
+    onMounted(() => {
+      hydrate({
+        ohly: "hi",
+        list1: [
+          {
+            testmore: "1",
+            change: "2",
+          },
+        ],
+      });
+    });
+
+    nextTick(() => {
+      customize({
+        native: {
+          props: {
+            Form: {
+              layout: "vertical",
+            },
+          },
+        },
+      });
+    });
+
+    // TODO: schema 开放 customize，由运行时决定精细化设置
+    const [setup, { submit, hydrate, customize }] = useForm({
       schemas: [
         {
           label: "测试0",
@@ -59,6 +84,9 @@ export default defineComponent({
                   }, "raw"),
                   allowClear: () => true,
                 };
+              },
+              defaultValue() {
+                return "male";
               },
             },
             {

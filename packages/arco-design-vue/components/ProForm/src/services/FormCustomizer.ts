@@ -1,4 +1,4 @@
-import { AnyObject, FormCustomization } from "../types";
+import { AnyObject, CustomizationOptions, FormCustomization } from "../types";
 import { deepAssign } from "../utils";
 import { RuntimeCore } from "./index";
 import { isReactive, isRef, toRaw, watch } from "vue";
@@ -42,6 +42,12 @@ export default class FormCustomizer {
 
   hydrate(data: AnyObject) {
     // TODO: 可以考虑后续将 hydrate 和 defaultValue 的关系处理得更清晰
+    if (!this.runtimeCore) {
+      return Promise.reject({
+        code: `0002`,
+        message: `hydrate 使用时机错误，建议将 hydrate 操作放到 onMounted 等页面节点挂载完成的钩子中，或者使用响应式的值来注入数据`,
+      });
+    }
     this.runtimeCore.hydrateEffect.trackEffect(
       () => {
         if (isRef(data)) {
@@ -74,5 +80,10 @@ export default class FormCustomizer {
         lazy: true,
       }
     );
+  }
+
+  // TODO：目前仅用于配制一些基本的如 Form，FormItem 等 UI 库组件的默认属性，但后续会扩展其价值，包括设置统一布局等，都会考虑往内部封装
+  customize(options: Partial<CustomizationOptions>) {
+    Object.assign(this.runtimeCore.customizedOptions, options);
   }
 }

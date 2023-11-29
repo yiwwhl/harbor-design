@@ -15,7 +15,7 @@ const form = {
       path: "dynamic",
       name: "Dynamic",
       meta: {
-        locale: "DynamicForm",
+        locale: "动态表单",
       },
       component: () => import("@/views/Form/Dynamic/index"),
     },
