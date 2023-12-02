@@ -2,14 +2,26 @@ export function deepAssign(
   target: Record<PropertyKey, any>,
   ...sources: any[]
 ) {
-  sources.forEach((source: any) => {
-    for (let key in source) {
-      if (source.hasOwnProperty(key)) {
-        if (typeof source[key] === "object" && source[key] !== null) {
-          target[key] = target[key] || {};
-          deepAssign(target[key], source[key]);
+  sources.forEach((source) => {
+    if (Array.isArray(source)) {
+      if (!Array.isArray(target)) {
+        target = [];
+      }
+      source.forEach((item, index) => {
+        if (typeof item === "object" && item !== null) {
+          target[index] = deepAssign(Array.isArray(item) ? [] : {}, item);
         } else {
-          target[key] = source[key];
+          target[index] = item;
+        }
+      });
+    } else {
+      for (let key in source) {
+        if (source.hasOwnProperty(key)) {
+          if (typeof source[key] === "object" && source[key] !== null) {
+            target[key] = deepAssign(target[key] || {}, source[key]);
+          } else {
+            target[key] = source[key];
+          }
         }
       }
     }

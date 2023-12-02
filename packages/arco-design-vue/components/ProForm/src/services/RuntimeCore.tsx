@@ -27,7 +27,7 @@ export default class RuntimeCore {
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
   customizedOptions: CustomizationOptions = reactive({});
-  globalNativeFormPropsOverride = reactive({});
+  globalNativeFormPropsOverride = {};
 
   constructor(public setup: Setup) {
     this.processor = new Processor(this);
