@@ -49,7 +49,7 @@ export default class RuntimeCore {
     parentSchema?: ListSchema
   ) {
     const formItemNativeOptions = toRaw(
-      this.customizedOptions.native?.props?.Form
+      this.customizedOptions.native?.props?.FormItem
     );
     const field = parentSchema
       ? `${parentSchema.field}.${index}.${schema.field}`

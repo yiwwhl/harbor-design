@@ -46,6 +46,9 @@ export default defineComponent({
             Form: {
               layout: "vertical",
             },
+            FormItem: {
+              tooltip: "hi",
+            },
           },
         },
       });
