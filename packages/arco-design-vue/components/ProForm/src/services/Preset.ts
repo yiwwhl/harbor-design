@@ -38,6 +38,7 @@ export default class Preset {
     children: {
       defaultValue: [],
     },
+    native: undefined,
   };
   static componentPropsPreset: AnyObject = {
     options: {
