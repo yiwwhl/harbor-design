@@ -1,4 +1,4 @@
-import { AnyObject, FormCustomization } from "../types";
+import { AnyObject, CustomizationOptions, FormCustomization } from "../types";
 import { RuntimeCore } from "./index";
 export default class FormCustomizer {
     formCustomization: FormCustomization;
@@ -7,5 +7,6 @@ export default class FormCustomizer {
     constructor(formCustomization: FormCustomization);
     setup(_runtimeCore: RuntimeCore): FormCustomization;
     submit(): Promise<AnyObject>;
-    hydrate(data: AnyObject): void;
+    hydrate(data: AnyObject): Promise<never> | undefined;
+    customize(options: Partial<CustomizationOptions>): void;
 }

@@ -29,6 +29,7 @@ export interface ItemSchema {
     show?: boolean;
     required?: boolean;
     placeholder?: string;
+    native?: NativeCustomizationOptions;
     label: string;
     field: string;
     component: DomType;
@@ -58,3 +59,16 @@ export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
 export interface FormCustomization {
     schemas: ProxyedSchema[];
 }
+export type NativeCustomizationOptions = {
+    props?: {
+        Form?: AnyObject;
+        FormItem?: AnyObject;
+    };
+    slots?: {
+        Form?: AnyObject;
+        FormItem?: AnyObject;
+    };
+};
+export type CustomizationOptions = {
+    native?: NativeCustomizationOptions;
+};

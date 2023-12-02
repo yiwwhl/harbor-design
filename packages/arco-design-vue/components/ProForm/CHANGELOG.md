@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.18
+
+### Patch Changes
+
+- ProForm now support setting native props and slots
+
 ## 1.0.17
 
 ### Patch Changes

@@ -27,7 +27,10 @@ export default class RuntimeCore {
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
   customizedOptions: CustomizationOptions = reactive({});
-  globalNativeFormPropsOverride = {};
+  globalNativeFormOverride = {
+    props: {},
+    slots: {},
+  };
 
   constructor(public setup: Setup) {
     this.processor = new Processor(this);
@@ -49,10 +52,15 @@ export default class RuntimeCore {
     baseModel = this.model.value,
     parentSchema?: ListSchema
   ) {
-    deepAssign(this.globalNativeFormPropsOverride, schema.native?.props?.Form);
-    const formItemNativeOptions = deepAssign(
-      toRaw(this.customizedOptions.native?.props?.FormItem) ?? {},
+    deepAssign(this.globalNativeFormOverride.props, schema.native?.props?.Form);
+    deepAssign(this.globalNativeFormOverride.slots, schema.native?.slots?.Form);
+    const formItemNativeProps = deepAssign(
+      deepClone(this.customizedOptions.native?.props?.FormItem) ?? {},
       schema.native?.props?.FormItem
+    );
+    const formItemNativeSlots = deepAssign(
+      deepClone(this.customizedOptions.native?.slots?.FormItem) ?? {},
+      schema.native?.slots?.FormItem
     );
     const field = parentSchema
       ? `${parentSchema.field}.${index}.${schema.field}`
@@ -96,17 +104,24 @@ export default class RuntimeCore {
           default() {
             return (
               <Context.runtimeDoms.FormItem
-                {...formItemNativeOptions}
+                {...formItemNativeProps}
                 v-show={show}
                 label={`${schema.label}:`}
                 rules={schema.rules}
                 field={field}
               >
-                <Component
-                  v-model={baseModel[schema.field]}
-                  placeholder={placeholder}
-                  {...props}
-                />
+                {{
+                  default() {
+                    return (
+                      <Component
+                        v-model={baseModel[schema.field]}
+                        placeholder={placeholder}
+                        {...props}
+                      />
+                    );
+                  },
+                  ...formItemNativeSlots,
+                }}
               </Context.runtimeDoms.FormItem>
             );
           },
@@ -204,17 +219,27 @@ export default class RuntimeCore {
   }
 
   exec() {
-    const formNativeOptions = deepAssign(
-      toRaw(this.customizedOptions.native?.props?.Form) ?? {},
-      this.globalNativeFormPropsOverride
+    const that = this;
+    const formNativeProps = deepAssign(
+      deepClone(this.customizedOptions.native?.props?.Form) ?? {},
+      this.globalNativeFormOverride.props
+    );
+    const formNativeSlots = deepAssign(
+      deepClone(this.customizedOptions.native?.slots?.Form) ?? {},
+      this.globalNativeFormOverride.slots
     );
     return (
       <Context.runtimeDoms.Form
-        {...formNativeOptions}
+        {...formNativeProps}
         ref={this.formRef}
         model={this.model.value}
       >
-        {this.runtimeProcessor(this.schemas.value)}
+        {{
+          default() {
+            return that.runtimeProcessor(that.schemas.value);
+          },
+          ...formNativeSlots,
+        }}
       </Context.runtimeDoms.Form>
     );
   }

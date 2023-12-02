@@ -280,9 +280,10 @@ export default class Processor {
             });
           }
         } else {
-          if (key === "component") {
-            const component = data[key];
-            this.promiseFieldParser(component, updater, false);
+          // TODO: consider refactor to some base preset
+          if (key === "component" || key === "slots") {
+            // 针对一些无需深层次处理的 key 做白名单
+            this.promiseFieldParser(data[key], updater, false);
           } else {
             this.fieldParser(data[key], updater);
           }

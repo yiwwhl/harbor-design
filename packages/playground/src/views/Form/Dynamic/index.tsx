@@ -48,6 +48,21 @@ export default defineComponent({
         native: {
           props: {
             Form: {},
+            FormItem: {
+              tooltip: "baseToolTip",
+            },
+          },
+          slots: {
+            Form: {
+              noSlots() {
+                return "如果没有插槽，也不应该报错";
+              },
+            },
+            FormItem: {
+              help() {
+                return "base help slot";
+              },
+            },
           },
         },
       });
@@ -66,15 +81,28 @@ export default defineComponent({
               resolve("hello");
             });
           },
-          native: {
-            props: {
-              Form: {
-                layout: "vertical",
+          native({ model }) {
+            return {
+              props: {
+                Form: {
+                  layout: "vertical",
+                },
+                FormItem: {
+                  tooltip:
+                    "测试tooltip2，当前 field ohly 的值为：" + model.ohly,
+                },
               },
-              FormItem: {
-                tooltip: "测试tooltip2",
+              slots: {
+                FormItem: {
+                  label: () => {
+                    return <span style={{ color: "red" }}>{model.ohly}</span>;
+                  },
+                  help() {
+                    return <h1>hello world</h1>;
+                  },
+                },
               },
-            },
+            };
           },
         },
         {
@@ -104,10 +132,10 @@ export default defineComponent({
                 props: {
                   Form: {
                     autoLabelWidth: true,
-                    layout: "horizontal",
+                    layout: "vertical",
                   },
                   FormItem: {
-                    tooltip: "测试tooltip2",
+                    tooltip: "测试更多的 tootip",
                   },
                 },
               },
@@ -117,6 +145,14 @@ export default defineComponent({
               field: "change",
               component: Input,
               required: true,
+            },
+            {
+              label: "哈哈哈",
+              field: "somethingnew",
+              component: Select,
+              componentProps: {
+                options: getOptions,
+              },
             },
           ],
         },

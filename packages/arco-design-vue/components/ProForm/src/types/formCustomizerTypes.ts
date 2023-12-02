@@ -90,6 +90,10 @@ export type NativeCustomizationOptions = {
     Form?: AnyObject;
     FormItem?: AnyObject;
   };
+  slots?: {
+    Form?: AnyObject;
+    FormItem?: AnyObject;
+  };
 };
 
 export type CustomizationOptions = {
