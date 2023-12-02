@@ -8,6 +8,10 @@ import {
 import { defineComponent, nextTick, onMounted } from "vue";
 import styles from "./index.module.scss";
 
+/**
+ * 后续应该新增文档，对于 native 来说，Form 永远是后面的 schema 覆盖前面的 schema
+ */
+
 export default defineComponent({
   setup() {
     function getOptions() {
@@ -43,12 +47,7 @@ export default defineComponent({
       customize({
         native: {
           props: {
-            Form: {
-              layout: "vertical",
-            },
-            FormItem: {
-              tooltip: "hi",
-            },
+            Form: {},
           },
         },
       });
@@ -66,6 +65,16 @@ export default defineComponent({
             return new Promise((resolve) => {
               resolve("hello");
             });
+          },
+          native: {
+            props: {
+              Form: {
+                layout: "vertical",
+              },
+              FormItem: {
+                tooltip: "测试tooltip2",
+              },
+            },
           },
         },
         {
@@ -90,6 +99,17 @@ export default defineComponent({
               },
               defaultValue() {
                 return "male";
+              },
+              native: {
+                props: {
+                  Form: {
+                    autoLabelWidth: true,
+                    layout: "horizontal",
+                  },
+                  FormItem: {
+                    tooltip: "测试tooltip2",
+                  },
+                },
               },
             },
             {

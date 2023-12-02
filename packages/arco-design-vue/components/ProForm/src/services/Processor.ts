@@ -7,7 +7,7 @@ import {
   ObjectParserRoot,
 } from "../types";
 import { Preset, RuntimeCore } from ".";
-import { IS, deepClone } from "../utils";
+import { IS, deepAssign, deepClone } from "../utils";
 import Effect from "./Effect";
 
 /**
@@ -176,7 +176,7 @@ export default class Processor {
           ];
         if (exist && IS.isObject(exist)) {
           if (schemaKey !== "component") {
-            stable = Object.assign(exist, stable);
+            stable = deepAssign(exist, stable);
           }
         }
         that.processedSchemas.value[parentIndex][parentKey][schemaIndex][
@@ -187,7 +187,7 @@ export default class Processor {
         // schema 处理
         let exist = that.processedSchemas.value[schemaIndex][schemaKey];
         if (exist && IS.isObject(exist)) {
-          stable = Object.assign(exist, stable);
+          stable = deepAssign(exist, stable);
         }
         that.processedSchemas.value[schemaIndex][schemaKey] = stable;
         that.stableUpdater(parseProcess);

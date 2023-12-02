@@ -43,6 +43,7 @@ export interface ItemSchema {
   show?: boolean;
   required?: boolean;
   placeholder?: string;
+  native?: NativeCustomizationOptions;
   label: string;
   field: string;
   component: DomType;
@@ -84,11 +85,13 @@ export interface FormCustomization {
   schemas: ProxyedSchema[];
 }
 
-export type CustomizationOptions = {
-  native?: {
-    props?: {
-      Form?: AnyObject;
-      FormItem?: AnyObject;
-    };
+export type NativeCustomizationOptions = {
+  props?: {
+    Form?: AnyObject;
+    FormItem?: AnyObject;
   };
+};
+
+export type CustomizationOptions = {
+  native?: NativeCustomizationOptions;
 };

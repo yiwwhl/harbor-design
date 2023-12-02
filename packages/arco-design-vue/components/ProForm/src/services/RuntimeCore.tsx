@@ -12,7 +12,7 @@ import {
   CustomizationOptions,
 } from "../types";
 import Processor from "./Processor";
-import { deepClone } from "../utils";
+import { deepAssign, deepClone } from "../utils";
 import Effect from "./Effect";
 
 export default class RuntimeCore {
@@ -27,6 +27,7 @@ export default class RuntimeCore {
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
   customizedOptions: CustomizationOptions = reactive({});
+  globalNativeFormPropsOverride = reactive({});
 
   constructor(public setup: Setup) {
     this.processor = new Processor(this);
@@ -48,8 +49,10 @@ export default class RuntimeCore {
     baseModel = this.model.value,
     parentSchema?: ListSchema
   ) {
-    const formItemNativeOptions = toRaw(
-      this.customizedOptions.native?.props?.FormItem
+    deepAssign(this.globalNativeFormPropsOverride, schema.native?.props?.Form);
+    const formItemNativeOptions = deepAssign(
+      toRaw(this.customizedOptions.native?.props?.FormItem) ?? {},
+      schema.native?.props?.FormItem
     );
     const field = parentSchema
       ? `${parentSchema.field}.${index}.${schema.field}`
@@ -201,7 +204,10 @@ export default class RuntimeCore {
   }
 
   exec() {
-    const formNativeOptions = toRaw(this.customizedOptions.native?.props?.Form);
+    const formNativeOptions = deepAssign(
+      toRaw(this.customizedOptions.native?.props?.Form) ?? {},
+      this.globalNativeFormPropsOverride
+    );
     return (
       <Context.runtimeDoms.Form
         {...formNativeOptions}
