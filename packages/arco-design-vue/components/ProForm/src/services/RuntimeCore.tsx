@@ -1,4 +1,4 @@
-import { Ref, reactive, ref, toRaw } from "vue";
+import { CSSProperties, Ref, reactive, ref, toRaw } from "vue";
 import { Context, Preset } from ".";
 import {
   Setup,
@@ -27,6 +27,7 @@ export default class RuntimeCore {
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
   customizedOptions: CustomizationOptions = reactive({});
+  gridProps = {};
   globalNativeFormOverride = {
     props: {},
     slots: {},
@@ -62,6 +63,11 @@ export default class RuntimeCore {
       deepClone(this.customizedOptions.native?.slots?.FormItem) ?? {},
       schema.native?.slots?.FormItem
     );
+    const defaultItemStyle: CSSProperties = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      ...schema.gridProps,
+    };
     const field = parentSchema
       ? `${parentSchema.field}.${index}.${schema.field}`
       : schema.field;
@@ -99,44 +105,53 @@ export default class RuntimeCore {
       delete baseModel[schema.field];
     }
     return (
-      <Context.runtimeDoms.Item>
-        {{
-          default() {
-            return (
-              <Context.runtimeDoms.FormItem
-                {...formItemNativeProps}
-                v-show={show}
-                label={`${schema.label}:`}
-                rules={schema.rules}
-                field={field}
-              >
-                {{
-                  default() {
-                    return (
-                      <Component
-                        v-model={baseModel[schema.field]}
-                        placeholder={placeholder}
-                        {...props}
-                      />
-                    );
-                  },
-                  ...formItemNativeSlots,
-                }}
-              </Context.runtimeDoms.FormItem>
-            );
-          },
-        }}
-      </Context.runtimeDoms.Item>
+      <div style={defaultItemStyle}>
+        <Context.runtimeDoms.Item>
+          {{
+            default() {
+              return (
+                <Context.runtimeDoms.FormItem
+                  {...formItemNativeProps}
+                  v-show={show}
+                  label={`${schema.label}:`}
+                  rules={schema.rules}
+                  field={field}
+                >
+                  {{
+                    default() {
+                      return (
+                        <Component
+                          v-model={baseModel[schema.field]}
+                          placeholder={placeholder}
+                          {...props}
+                        />
+                      );
+                    },
+                    ...formItemNativeSlots,
+                  }}
+                </Context.runtimeDoms.FormItem>
+              );
+            },
+          }}
+        </Context.runtimeDoms.Item>
+      </div>
     );
   }
 
   runtimeGroupProcessor(schema: GroupSchema) {
+    const defaultStyle = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      ...schema.gridProps,
+    };
     return (
-      <Context.runtimeDoms.Group schema={schema}>
-        {(schema.children as ItemSchema[]).map((chlidSchema) =>
-          this.runtimeItemProcessor(chlidSchema)
-        )}
-      </Context.runtimeDoms.Group>
+      <div style={defaultStyle}>
+        <Context.runtimeDoms.Group schema={schema}>
+          {(schema.children as ItemSchema[]).map((chlidSchema) =>
+            this.runtimeItemProcessor(chlidSchema)
+          )}
+        </Context.runtimeDoms.Group>
+      </div>
     );
   }
 
@@ -160,51 +175,58 @@ export default class RuntimeCore {
   }
 
   runtimeListProcessor(schema: ListSchema) {
+    const defaultStyle = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      ...schema.gridProps,
+    };
     const that = this;
     if (!that.model.value[schema.field]) {
       that.model.value[schema.field] = [{}];
     }
     return (
-      <Context.runtimeDoms.List schema={schema}>
-        {{
-          default() {
-            return that.model.value[schema.field].map(
-              (listItemModel: AnyObject, listItemIndex: number) => (
-                <Context.runtimeDoms.ListItem>
-                  {{
-                    default() {
-                      return (schema.children as ItemSchema[]).map(
-                        (childSchema) =>
-                          that.runtimeItemProcessor(
-                            childSchema,
-                            listItemIndex,
-                            listItemModel,
-                            schema
-                          )
-                      );
-                    },
-                    delete({ container }: AnyObject = {}) {
-                      let Container = container ?? <button></button>;
-                      return (
-                        <Container
-                          v-show={that.model.value[schema.field]?.length > 1}
-                          onClick={() =>
-                            that.deleteListItem(schema, listItemIndex)
-                          }
-                        />
-                      );
-                    },
-                  }}
-                </Context.runtimeDoms.ListItem>
-              )
-            );
-          },
-          add({ container }: AnyObject = {}) {
-            let Container = container ?? <button>添加</button>;
-            return <Container onClick={() => that.addListItem(schema)} />;
-          },
-        }}
-      </Context.runtimeDoms.List>
+      <div style={defaultStyle}>
+        <Context.runtimeDoms.List schema={schema}>
+          {{
+            default() {
+              return that.model.value[schema.field].map(
+                (listItemModel: AnyObject, listItemIndex: number) => (
+                  <Context.runtimeDoms.ListItem>
+                    {{
+                      default() {
+                        return (schema.children as ItemSchema[]).map(
+                          (childSchema) =>
+                            that.runtimeItemProcessor(
+                              childSchema,
+                              listItemIndex,
+                              listItemModel,
+                              schema
+                            )
+                        );
+                      },
+                      delete({ container }: AnyObject = {}) {
+                        let Container = container ?? <button></button>;
+                        return (
+                          <Container
+                            v-show={that.model.value[schema.field]?.length > 1}
+                            onClick={() =>
+                              that.deleteListItem(schema, listItemIndex)
+                            }
+                          />
+                        );
+                      },
+                    }}
+                  </Context.runtimeDoms.ListItem>
+                )
+              );
+            },
+            add({ container }: AnyObject = {}) {
+              let Container = container ?? <button>添加</button>;
+              return <Container onClick={() => that.addListItem(schema)} />;
+            },
+          }}
+        </Context.runtimeDoms.List>
+      </div>
     );
   }
 
@@ -219,6 +241,12 @@ export default class RuntimeCore {
   }
 
   exec() {
+    const defaultStyle: CSSProperties = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      gridAutoColumns: "1fr",
+      ...this.gridProps,
+    };
     const that = this;
     const formNativeProps = deepAssign(
       deepClone(this.customizedOptions.native?.props?.Form) ?? {},
@@ -236,7 +264,11 @@ export default class RuntimeCore {
       >
         {{
           default() {
-            return that.runtimeProcessor(that.schemas.value);
+            return (
+              <div style={defaultStyle}>
+                {that.runtimeProcessor(that.schemas.value)}
+              </div>
+            );
           },
           ...formNativeSlots,
         }}

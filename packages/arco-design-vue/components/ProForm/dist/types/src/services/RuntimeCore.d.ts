@@ -11,6 +11,7 @@ export default class RuntimeCore {
     formRef: Ref<AnyObject>;
     hydrateEffect: Effect;
     customizedOptions: CustomizationOptions;
+    gridProps: {};
     globalNativeFormOverride: {
         props: {};
         slots: {};

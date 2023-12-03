@@ -39,6 +39,7 @@ export default class Preset {
       defaultValue: [],
     },
     native: undefined,
+    gridProps: undefined,
   };
   static componentPropsPreset: AnyObject = {
     options: {

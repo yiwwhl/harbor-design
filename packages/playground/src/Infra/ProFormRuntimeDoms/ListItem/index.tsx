@@ -9,7 +9,7 @@ export default defineComponent({
         <div class={styles.listItemWrapper}>
           <div class={styles.mainContent}>{slots.default?.()}</div>
           {slots.delete?.({
-            container: <Button>移除</Button>,
+            container: <Button class={styles.removeBtn}>移除</Button>,
           })}
         </div>
       );

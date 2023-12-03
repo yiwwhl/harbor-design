@@ -85,5 +85,6 @@ export default class FormCustomizer {
   // TODO：目前仅用于配制一些基本的如 Form，FormItem 等 UI 库组件的默认属性，但后续会扩展其价值，包括设置统一布局等，都会考虑往内部封装
   customize(options: Partial<CustomizationOptions>) {
     Object.assign(this.runtimeCore.customizedOptions, options);
+    Object.assign(this.runtimeCore.gridProps, this.formCustomization.gridProps);
   }
 }

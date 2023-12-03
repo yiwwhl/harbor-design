@@ -1,8 +1,8 @@
-var H = Object.defineProperty;
-var J = (o, e, t) => e in o ? H(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
-var l = (o, e, t) => (J(o, typeof e != "symbol" ? e + "" : e, t), t);
-import { toRaw as j, isRef as G, watch as v, isReactive as K, nextTick as T, ref as w, reactive as Q, createVNode as m, withDirectives as $, mergeProps as C, vShow as q, createTextVNode as X, isVNode as Y, defineComponent as Z } from "vue";
-class a {
+var J = Object.defineProperty;
+var Q = (o, e, t) => e in o ? J(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
+var l = (o, e, t) => (Q(o, typeof e != "symbol" ? e + "" : e, t), t);
+import { toRaw as I, isRef as K, watch as v, isReactive as W, nextTick as $, ref as C, reactive as X, createVNode as c, withDirectives as q, mergeProps as w, vShow as G, createTextVNode as Y, isVNode as Z, defineComponent as ee } from "vue";
+class f {
   static typeChecker(e) {
     return {}.toString.call(e);
   }
@@ -63,15 +63,15 @@ class a {
     return !1;
   }
 }
-function u(o, ...e) {
+function p(o, ...e) {
   return e.forEach((t) => {
     if (Array.isArray(t))
       Array.isArray(o) || (o = []), t.forEach((s, r) => {
-        typeof s == "object" && s !== null ? o[r] = u(Array.isArray(s) ? [] : {}, s) : o[r] = s;
+        typeof s == "object" && s !== null ? o[r] = p(Array.isArray(s) ? [] : {}, s) : o[r] = s;
       });
     else
       for (let s in t)
-        t.hasOwnProperty(s) && (typeof t[s] == "object" && t[s] !== null ? o[s] = u(o[s] || {}, t[s]) : o[s] = t[s]);
+        t.hasOwnProperty(s) && (typeof t[s] == "object" && t[s] !== null ? o[s] = p(o[s] || {}, t[s]) : o[s] = t[s]);
   }), o;
 }
 function y(o) {
@@ -85,8 +85,8 @@ function y(o) {
       return new RegExp(s);
     if (s instanceof Map) {
       const i = /* @__PURE__ */ new Map();
-      for (let [n, c] of s)
-        i.set(t(n), t(c));
+      for (let [n, u] of s)
+        i.set(t(n), t(u));
       return i;
     }
     if (s instanceof Set) {
@@ -112,7 +112,7 @@ function y(o) {
   }
   return t(o);
 }
-class ee {
+class te {
   constructor(e) {
     l(this, "runtimeCore");
     this.formCustomization = e;
@@ -130,7 +130,7 @@ class ee {
     return new Promise((e, t) => {
       this.runtimeCore.formRef.value.validate((s) => s ? t(s) : e(
         this.cleanFallbackFields(
-          j(this.runtimeCore.processor.processedModel.value)
+          I(this.runtimeCore.processor.processedModel.value)
         )
       ));
     });
@@ -143,25 +143,25 @@ class ee {
       });
     this.runtimeCore.hydrateEffect.trackEffect(
       () => {
-        G(e) ? v(
+        K(e) ? v(
           () => e.value,
           () => {
-            u(this.runtimeCore.model.value, e.value);
+            p(this.runtimeCore.model.value, e.value);
           },
           {
             deep: !0,
             immediate: !0
           }
-        ) : K(e) ? v(
+        ) : W(e) ? v(
           () => e,
           () => {
-            u(this.runtimeCore.model.value, e);
+            p(this.runtimeCore.model.value, e);
           },
           {
             deep: !0,
             immediate: !0
           }
-        ) : u(this.runtimeCore.model.value, e);
+        ) : p(this.runtimeCore.model.value, e);
       },
       {
         lazy: !0
@@ -170,7 +170,7 @@ class ee {
   }
   // TODO：目前仅用于配制一些基本的如 Form，FormItem 等 UI 库组件的默认属性，但后续会扩展其价值，包括设置统一布局等，都会考虑往内部封装
   customize(e) {
-    Object.assign(this.runtimeCore.customizedOptions, e);
+    Object.assign(this.runtimeCore.customizedOptions, e), Object.assign(this.runtimeCore.gridProps, this.formCustomization.gridProps);
   }
 }
 class A {
@@ -189,7 +189,7 @@ class A {
     return !t.lazy && e(), this.effects.add(e), () => this.effects.delete(e);
   }
 }
-class te {
+class se {
   constructor(e) {
     l(this, "runtimeCore");
     l(this, "processedSchemas");
@@ -241,13 +241,13 @@ class te {
   }
   // 派生过程，用于外部应用
   parseSchemas(e, t) {
-    a.isArrayEmpty(this.processedSchemas.value) && (this.baseDefaultValueFunctionsLength = this.countFunctionDefaultValues(
+    f.isArrayEmpty(this.processedSchemas.value) && (this.baseDefaultValueFunctionsLength = this.countFunctionDefaultValues(
       y(e)
     ), this.processedSchemas.value = this.initSchemas(e)), this.parse(e, t);
   }
   parseStable(e) {
     const t = {};
-    if (!a.isUndefined(e.stable))
+    if (!f.isUndefined(e.stable))
       t[e.key] = this.parseStable(e.stable);
     else
       return e;
@@ -256,8 +256,8 @@ class te {
   // 对于稳定初始化更新的抽象
   stableUpdater(e = []) {
     if (e.every(Boolean)) {
-      const t = j(this.processedSchemas.value);
-      !a.isProcessInprogress(t) && a.isObjectEmpty(this.stableModel) && (this.stableUpdaterProcessProgress || (this.stableUpdaterProcessProgress = Array.from({
+      const t = I(this.processedSchemas.value);
+      !f.isProcessInprogress(t) && f.isObjectEmpty(this.stableModel) && (this.stableUpdaterProcessProgress || (this.stableUpdaterProcessProgress = Array.from({
         length: t.length
       }).fill(!1)), this.stableUpdaterProcessProgress[this.stableUpdaterTimes] = !0, this.stableUpdaterTimes++, this.modelProcessor(t));
     }
@@ -265,21 +265,21 @@ class te {
   // 核心单 schema 处理过程，接收一个对象键值对的数据结构
   parseItem(e, t, s) {
     const r = this, i = Array.from({
-      length: Object.keys(e).filter((c) => c !== "children").length
+      length: Object.keys(e).filter((u) => u !== "children").length
     }).fill(!1);
     this.objectParser({ data: e, index: t, updater: n });
-    function n(c) {
-      const f = c.index, p = c.key, I = c.keyIndex;
-      if (!c.stable)
+    function n(u) {
+      const a = u.index, d = u.key, O = u.keyIndex;
+      if (!u.stable)
         return;
-      const V = r.parseStable(c.stable), P = s == null ? void 0 : s.index, O = s == null ? void 0 : s.key;
-      let d = V;
-      if (a.isProcessInprogress(d) || (i[I] = !0), s) {
-        let h = r.processedSchemas.value[P][O][f][p];
-        h && a.isObject(h) && p !== "component" && (d = u(h, d)), r.processedSchemas.value[P][O][f][p] = d, r.stableUpdater(i);
+      const V = r.parseStable(u.stable), E = s == null ? void 0 : s.index, g = s == null ? void 0 : s.key;
+      let h = V;
+      if (f.isProcessInprogress(h) || (i[O] = !0), s) {
+        let m = r.processedSchemas.value[E][g][a][d];
+        m && f.isObject(m) && d !== "component" && (h = p(m, h)), r.processedSchemas.value[E][g][a][d] = h, r.stableUpdater(i);
       } else {
-        let h = r.processedSchemas.value[f][p];
-        h && a.isObject(h) && (d = u(h, d)), r.processedSchemas.value[f][p] = d, r.stableUpdater(i);
+        let m = r.processedSchemas.value[a][d];
+        m && f.isObject(m) && (h = p(m, h)), r.processedSchemas.value[a][d] = h, r.stableUpdater(i);
       }
     }
   }
@@ -294,36 +294,36 @@ class te {
           keyIndex: i
         });
       else {
-        const n = (c) => {
+        const n = (u) => {
           e.updater({
             ...e,
             key: r,
             keyIndex: i,
-            stable: c
+            stable: u
           });
         };
-        a.isFunction(t[r]) ? r !== "defaultValue" ? this.schemaEffect.trackEffect(() => {
+        f.isFunction(t[r]) ? r !== "defaultValue" ? this.schemaEffect.trackEffect(() => {
           if (r === "component") {
-            const c = t[r](this.getRuntimeMeta());
-            this.promiseFieldParser(c, n, !1);
+            const u = t[r](this.getRuntimeMeta());
+            this.promiseFieldParser(u, n, !1);
           } else
             this.fieldParser(t[r], n);
         }) : this.defaultValueEffect.trackEffect(() => {
-          const c = this.schemaEffect.trackEffect(() => {
-            /\{\s*model\s*\}/.test(t[r].toString()) ? this.fieldParser(t[r], (f) => {
-              if (!f)
-                return n(f);
-              this.defaultValueInprogressMap.set(t[r], f), !a.isProcessInprogress(f) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
-                (p) => !p.includes("undefined")
-              ) ? (n(f), this.defaultValueEffect.clearEffects(), T(() => {
-                c();
-              })) : n(f);
-            }) : this.fieldParser(t[r], (f) => {
-              this.defaultValueInprogressMap.set(t[r], f), !a.isProcessInprogress(f) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
-                (p) => !p.includes("undefined")
-              ) ? (n(f), this.defaultValueEffect.clearEffects(), T(() => {
-                c();
-              })) : n(f);
+          const u = this.schemaEffect.trackEffect(() => {
+            /\{\s*model\s*\}/.test(t[r].toString()) ? this.fieldParser(t[r], (a) => {
+              if (!a)
+                return n(a);
+              this.defaultValueInprogressMap.set(t[r], a), !f.isProcessInprogress(a) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
+                (d) => !d.includes("undefined")
+              ) ? (n(a), this.defaultValueEffect.clearEffects(), $(() => {
+                u();
+              })) : n(a);
+            }) : this.fieldParser(t[r], (a) => {
+              this.defaultValueInprogressMap.set(t[r], a), !f.isProcessInprogress(a) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
+                (d) => !d.includes("undefined")
+              ) ? (n(a), this.defaultValueEffect.clearEffects(), $(() => {
+                u();
+              })) : n(a);
             });
           });
         }) : r === "component" || r === "slots" ? this.promiseFieldParser(t[r], n, !1) : this.fieldParser(t[r], n);
@@ -334,19 +334,19 @@ class te {
     return e.replace(/undefined/g, t);
   }
   promiseFieldParser(e, t, s) {
-    a.isPromise(e) ? e.then((r) => {
-      s && a.isObject(r) ? this.objectParser({
+    f.isPromise(e) ? e.then((r) => {
+      s && f.isObject(r) ? this.objectParser({
         data: r,
         updater: t
       }) : t(r);
-    }) : (a.isString(e) && (e = this.replaceUndefinedInString(e, "")), s && a.isObject(e) ? this.objectParser({
+    }) : (f.isString(e) && (e = this.replaceUndefinedInString(e, "")), s && f.isObject(e) ? this.objectParser({
       data: e,
       updater: t
     }) : t(e));
   }
   // 对任意对象中单个字段的 parse: 做基本处理
   fieldParser(e, t, s = !0) {
-    if (a.isFunction(e))
+    if (f.isFunction(e))
       if (e.name.startsWith("__proform_raw_"))
         t(e);
       else {
@@ -354,10 +354,10 @@ class te {
         this.promiseFieldParser(r, t, s);
       }
     else
-      G(e) ? v(
+      K(e) ? v(
         () => e.value,
         () => {
-          a.isUndefined(e.value) || (s && a.isObject(e.value) ? this.objectParser({
+          f.isUndefined(e.value) || (s && f.isObject(e.value) ? this.objectParser({
             data: e.value,
             updater: t
           }) : t(e.value));
@@ -366,10 +366,10 @@ class te {
           immediate: !0,
           deep: !0
         }
-      ) : K(e) ? v(
+      ) : W(e) ? v(
         () => e,
         () => {
-          a.isUndefined(e) || (s && a.isObject(e) ? this.objectParser({
+          f.isUndefined(e) || (s && f.isObject(e) ? this.objectParser({
             data: e,
             updater: t
           }) : t(e));
@@ -378,7 +378,7 @@ class te {
           immediate: !0,
           deep: !0
         }
-      ) : s && a.isObject(e) ? this.objectParser({
+      ) : s && f.isObject(e) ? this.objectParser({
         data: e,
         updater: t
       }) : t(e);
@@ -386,90 +386,104 @@ class te {
   modelProcessor(e) {
     e.map(
       (t) => this.createModel(t, this.processedModel.value)
-    ), a.isObjectEmpty(this.stableModel) && this.stableUpdaterProcessProgress.every(Boolean) && this.defaultValueEffect.effects.size === 0 && (this.stableModel = y(this.processedModel.value), this.runtimeCore.hydrateEffect.triggerEffects(), this.runtimeCore.hydrateEffect.clearEffects());
+    ), f.isObjectEmpty(this.stableModel) && this.stableUpdaterProcessProgress.every(Boolean) && this.defaultValueEffect.effects.size === 0 && (this.stableModel = y(this.processedModel.value), this.runtimeCore.hydrateEffect.triggerEffects(), this.runtimeCore.hydrateEffect.clearEffects());
   }
   createModel(e, t) {
-    a.isListSchema(e) && (t[e.field] || (t[e.field] = [{}]), e.children.forEach((s) => {
+    f.isListSchema(e) && (t[e.field] || (t[e.field] = [{}]), e.children.forEach((s) => {
       this.createModel(s, t[e.field][0]);
-    })), a.isGroupSchema(e) && e.children.forEach((s) => {
+    })), f.isGroupSchema(e) && e.children.forEach((s) => {
       this.createModel(s, t);
-    }), a.isItemSchema(e) && (t[e.field] = e.defaultValue);
+    }), f.isItemSchema(e) && (t[e.field] = e.defaultValue);
   }
 }
-function se(o) {
-  return typeof o == "function" || Object.prototype.toString.call(o) === "[object Object]" && !Y(o);
+function re(o) {
+  return typeof o == "function" || Object.prototype.toString.call(o) === "[object Object]" && !Z(o);
 }
-class re {
+class ie {
   constructor(e) {
-    l(this, "schemas", w([]));
-    l(this, "model", w({}));
+    l(this, "schemas", C([]));
+    l(this, "model", C({}));
     l(this, "processorBySchemaType", {
       item: this.runtimeItemProcessor.bind(this),
       group: this.runtimeGroupProcessor.bind(this),
       list: this.runtimeListProcessor.bind(this)
     });
-    l(this, "formRef", w(null));
+    l(this, "formRef", C(null));
     l(this, "hydrateEffect", new A());
-    l(this, "customizedOptions", Q({}));
+    l(this, "customizedOptions", X({}));
+    l(this, "gridProps", {});
     l(this, "globalNativeFormOverride", {
       props: {},
       slots: {}
     });
-    this.setup = e, this.processor = new te(this);
+    this.setup = e, this.processor = new se(this);
     const t = this.setup(this);
     this.processor.parseSchemas(t.schemas);
   }
   getRuntimeMeta() {
     return {
-      model: j(y(this.model.value))
+      model: I(y(this.model.value))
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, r) {
-    var h, z, F, M, x, U, D, N, k, R, _, L, B;
-    u(this.globalNativeFormOverride.props, (z = (h = e.native) == null ? void 0 : h.props) == null ? void 0 : z.Form), u(this.globalNativeFormOverride.slots, (M = (F = e.native) == null ? void 0 : F.slots) == null ? void 0 : M.Form);
-    const i = u(y((U = (x = this.customizedOptions.native) == null ? void 0 : x.props) == null ? void 0 : U.FormItem) ?? {}, (N = (D = e.native) == null ? void 0 : D.props) == null ? void 0 : N.FormItem), n = u(y((R = (k = this.customizedOptions.native) == null ? void 0 : k.slots) == null ? void 0 : R.FormItem) ?? {}, (L = (_ = e.native) == null ? void 0 : _.slots) == null ? void 0 : L.FormItem), c = r ? `${r.field}.${t}.${e.field}` : e.field, f = j(e.component);
-    if (!f)
+    var z, F, M, x, U, D, N, k, R, _, L, B, T;
+    p(this.globalNativeFormOverride.props, (F = (z = e.native) == null ? void 0 : z.props) == null ? void 0 : F.Form), p(this.globalNativeFormOverride.slots, (x = (M = e.native) == null ? void 0 : M.slots) == null ? void 0 : x.Form);
+    const i = p(y((D = (U = this.customizedOptions.native) == null ? void 0 : U.props) == null ? void 0 : D.FormItem) ?? {}, (k = (N = e.native) == null ? void 0 : N.props) == null ? void 0 : k.FormItem), n = p(y((_ = (R = this.customizedOptions.native) == null ? void 0 : R.slots) == null ? void 0 : _.FormItem) ?? {}, (B = (L = e.native) == null ? void 0 : L.slots) == null ? void 0 : B.FormItem), u = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      ...e.gridProps
+    }, a = r ? `${r.field}.${t}.${e.field}` : e.field, d = I(e.component);
+    if (!d)
       return;
-    const p = f.name, I = e.componentProps ?? {}, V = S.placeholderPresetByComponentName;
-    let P = e.placeholder;
-    if (P || (P = `${// @ts-expect-error
-    V[p] ?? "请输入"}${e.label}`), e.required)
+    const O = d.name, V = e.componentProps ?? {}, E = S.placeholderPresetByComponentName;
+    let g = e.placeholder;
+    if (g || (g = `${// @ts-expect-error
+    E[O] ?? "请输入"}${e.label}`), e.required)
       if (!e.rules)
-        e.rules = [], (B = e.rules) == null || B.push({
+        e.rules = [], (T = e.rules) == null || T.push({
           required: !0,
           message: `${e.label}是必填项`
         });
       else {
-        const E = e.rules.findIndex((W) => !!W.required);
-        e.rules[E].message = `${e.label}是必填项`;
+        const j = e.rules.findIndex((H) => !!H.required);
+        e.rules[j].message = `${e.label}是必填项`;
       }
-    let d = e.show;
-    return d === void 0 && (d = !0), d || delete s[e.field], m(b.runtimeDoms.Item, null, {
+    let m = e.show;
+    return m === void 0 && (m = !0), m || delete s[e.field], c("div", {
+      style: u
+    }, [c(b.runtimeDoms.Item, null, {
       default() {
-        return $(m(b.runtimeDoms.FormItem, C(i, {
+        return q(c(b.runtimeDoms.FormItem, w(i, {
           label: `${e.label}:`,
           rules: e.rules,
-          field: c
+          field: a
         }), {
           default() {
-            return m(f, C({
+            return c(d, w({
               modelValue: s[e.field],
-              "onUpdate:modelValue": (E) => s[e.field] = E,
-              placeholder: P
-            }, I), null);
+              "onUpdate:modelValue": (j) => s[e.field] = j,
+              placeholder: g
+            }, V), null);
           },
           ...n
-        }), [[q, d]]);
+        }), [[G, m]]);
       }
-    });
+    })]);
   }
   runtimeGroupProcessor(e) {
     let t;
-    return m(b.runtimeDoms.Group, {
+    const s = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      ...e.gridProps
+    };
+    return c("div", {
+      style: s
+    }, [c(b.runtimeDoms.Group, {
       schema: e
-    }, se(t = e.children.map((s) => this.runtimeItemProcessor(s))) ? t : {
+    }, re(t = e.children.map((r) => this.runtimeItemProcessor(r))) ? t : {
       default: () => [t]
-    });
+    })]);
   }
   addListItem(e) {
     var t, s;
@@ -484,57 +498,70 @@ class re {
     this.model.value[e.field].splice(t, 1), this.formRef.value.clearValidate();
   }
   runtimeListProcessor(e) {
-    const t = this;
-    return t.model.value[e.field] || (t.model.value[e.field] = [{}]), m(b.runtimeDoms.List, {
+    const t = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      ...e.gridProps
+    }, s = this;
+    return s.model.value[e.field] || (s.model.value[e.field] = [{}]), c("div", {
+      style: t
+    }, [c(b.runtimeDoms.List, {
       schema: e
     }, {
       default() {
-        return t.model.value[e.field].map((s, r) => m(b.runtimeDoms.ListItem, null, {
+        return s.model.value[e.field].map((r, i) => c(b.runtimeDoms.ListItem, null, {
           default() {
-            return e.children.map((i) => t.runtimeItemProcessor(i, r, s, e));
+            return e.children.map((n) => s.runtimeItemProcessor(n, i, r, e));
           },
           delete({
-            container: i
+            container: n
           } = {}) {
-            var c;
-            let n = i ?? m("button", null, null);
-            return $(m(n, {
-              onClick: () => t.deleteListItem(e, r)
-            }, null), [[q, ((c = t.model.value[e.field]) == null ? void 0 : c.length) > 1]]);
+            var a;
+            let u = n ?? c("button", null, null);
+            return q(c(u, {
+              onClick: () => s.deleteListItem(e, i)
+            }, null), [[G, ((a = s.model.value[e.field]) == null ? void 0 : a.length) > 1]]);
           }
         }));
       },
       add({
-        container: s
+        container: r
       } = {}) {
-        let r = s ?? m("button", null, [X("添加")]);
-        return m(r, {
-          onClick: () => t.addListItem(e)
+        let i = r ?? c("button", null, [Y("添加")]);
+        return c(i, {
+          onClick: () => s.addListItem(e)
         }, null);
       }
-    });
+    })]);
   }
   runtimeProcessor(e) {
     return e.map((t) => (t.type || (t.type = "item"), this.processorBySchemaType[t.type](t)));
   }
   exec() {
-    var r, i, n, c;
-    const e = this, t = u(y((i = (r = this.customizedOptions.native) == null ? void 0 : r.props) == null ? void 0 : i.Form) ?? {}, this.globalNativeFormOverride.props), s = u(y((c = (n = this.customizedOptions.native) == null ? void 0 : n.slots) == null ? void 0 : c.Form) ?? {}, this.globalNativeFormOverride.slots);
-    return m(b.runtimeDoms.Form, C(t, {
+    var i, n, u, a;
+    const e = {
+      display: "grid",
+      gridColumn: "1 / -1",
+      gridAutoColumns: "1fr",
+      ...this.gridProps
+    }, t = this, s = p(y((n = (i = this.customizedOptions.native) == null ? void 0 : i.props) == null ? void 0 : n.Form) ?? {}, this.globalNativeFormOverride.props), r = p(y((a = (u = this.customizedOptions.native) == null ? void 0 : u.slots) == null ? void 0 : a.Form) ?? {}, this.globalNativeFormOverride.slots);
+    return c(b.runtimeDoms.Form, w(s, {
       ref: this.formRef,
       model: this.model.value
     }), {
       default() {
-        return e.runtimeProcessor(e.schemas.value);
+        return c("div", {
+          style: e
+        }, [t.runtimeProcessor(t.schemas.value)]);
       },
-      ...s
+      ...r
     });
   }
 }
 class b {
 }
 l(b, "runtimeDoms");
-const g = class g {
+const P = class P {
   static getPlaceholderPrefixPresetByComponentName() {
     const e = {
       请选择: ["Select", "Tree", "TreeSelect"],
@@ -547,7 +574,7 @@ const g = class g {
     return t;
   }
 };
-l(g, "schemaPreset", {
+l(P, "schemaPreset", {
   type: {
     defaultValue: "item"
   },
@@ -581,15 +608,16 @@ l(g, "schemaPreset", {
   children: {
     defaultValue: []
   },
-  native: void 0
-}), l(g, "componentPropsPreset", {
+  native: void 0,
+  gridProps: void 0
+}), l(P, "componentPropsPreset", {
   options: {
     defaultValue: []
   }
 }), // 基于基本功能提出基本预设
-l(g, "placeholderPresetByComponentName", g.getPlaceholderPrefixPresetByComponentName());
-let S = g;
-const ne = /* @__PURE__ */ Z({
+l(P, "placeholderPresetByComponentName", P.getPlaceholderPrefixPresetByComponentName());
+let S = P;
+const le = /* @__PURE__ */ ee({
   props: {
     setup: {
       type: Function,
@@ -597,12 +625,12 @@ const ne = /* @__PURE__ */ Z({
     }
   },
   setup(o) {
-    const e = new re(o.setup);
+    const e = new ie(o.setup);
     return () => e.exec();
   }
 });
-function le(o) {
-  const e = new ee(o);
+function ae(o) {
+  const e = new te(o);
   return [
     e.setup.bind(e),
     {
@@ -612,22 +640,22 @@ function le(o) {
     }
   ];
 }
-function ce(o) {
+function fe(o) {
   return {
     install() {
       b.runtimeDoms = o;
     }
   };
 }
-function ae(o, e) {
+function ue(o, e) {
   return e === "raw" && Object.defineProperty(o, "name", {
     value: `__proform_raw_${o.name}`,
     writable: !0
   }), o;
 }
 export {
-  ne as ProForm,
-  le as useForm,
-  ce as useFormRenderer,
-  ae as useModifiers
+  le as ProForm,
+  ae as useForm,
+  fe as useFormRenderer,
+  ue as useModifiers
 };

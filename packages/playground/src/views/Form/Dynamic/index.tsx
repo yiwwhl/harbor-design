@@ -1,11 +1,6 @@
-import { Button, Input, Select } from "@arco-design/web-vue";
-import {
-  PageWrapper,
-  ProForm,
-  useForm,
-  useModifiers,
-} from "@harbor-design/arco-design-vue";
-import { defineComponent, nextTick, onMounted } from "vue";
+import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
+import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
+import { defineComponent, nextTick } from "vue";
 import styles from "./index.module.scss";
 
 /**
@@ -31,127 +26,93 @@ export default defineComponent({
       });
     }
 
-    onMounted(() => {
-      hydrate({
-        ohly: "hi",
-        list1: [
-          {
-            testmore: "1",
-            change: "2",
-          },
-        ],
-      });
-    });
-
     nextTick(() => {
       customize({
         native: {
           props: {
-            Form: {},
-            FormItem: {
-              tooltip: "baseToolTip",
-            },
-          },
-          slots: {
             Form: {
-              noSlots() {
-                return "如果没有插槽，也不应该报错";
-              },
-            },
-            FormItem: {
-              help() {
-                return "base help slot";
-              },
+              autoLabelWidth: true,
             },
           },
         },
       });
     });
 
-    // TODO: schema 开放 customize，由运行时决定精细化设置
-    const [setup, { submit, hydrate, customize }] = useForm({
+    const [setup, { submit, customize }] = useForm({
+      gridProps: {
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gridColumnGap: "20px",
+        alignItems: "center",
+      },
       schemas: [
         {
-          label: "测试0",
-          field: "ohly",
+          label: "姓名",
+          field: "name",
           component: Input,
           required: true,
-          defaultValue() {
-            return new Promise((resolve) => {
-              resolve("hello");
-            });
-          },
-          native({ model }) {
+        },
+        {
+          label: "年龄",
+          field: "age",
+          component: InputNumber,
+          required: true,
+          componentProps() {
             return {
-              props: {
-                Form: {
-                  layout: "vertical",
-                },
-                FormItem: {
-                  tooltip:
-                    "测试tooltip2，当前 field ohly 的值为：" + model.ohly,
-                },
-              },
-              slots: {
-                FormItem: {
-                  label: () => {
-                    return <span style={{ color: "red" }}>{model.ohly}</span>;
-                  },
-                  help() {
-                    return <h1>hello world</h1>;
-                  },
-                },
-              },
+              min: 0,
+              max: 200,
             };
           },
         },
         {
-          type: "list",
-          field: "list1",
-          label: "list label",
+          label: "性别",
+          field: "gender",
+          component: Select,
+          required: true,
+          componentProps: {
+            options: getOptions,
+          },
+          gridProps: {
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gridColumnGap: "20px",
+          },
+        },
+        {
+          label: "当前经历",
+          type: "group",
           children: [
             {
-              label: ({ model }) => `${model.ohly}` + "测试更多",
-              field: "testmore",
-              component: Select,
-              required: true,
-              componentProps() {
-                return {
-                  options: getOptions,
-                  allowSearch: true,
-                  filterOption: useModifiers((inputValue: any) => {
-                    console.log("inputValue", inputValue);
-                  }, "raw"),
-                  allowClear: () => true,
-                };
-              },
-              defaultValue() {
-                return "male";
-              },
-              native: {
-                props: {
-                  Form: {
-                    autoLabelWidth: true,
-                    layout: "vertical",
-                  },
-                  FormItem: {
-                    tooltip: "测试更多的 tootip",
-                  },
-                },
-              },
-            },
-            {
-              label: "改一改",
-              field: "change",
+              label: "当前职业名称",
+              field: "currentJobName",
               component: Input,
-              required: true,
+              defaultValue: "前端开发工程师",
+            },
+          ],
+          gridProps: {
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gridColumnGap: "20px",
+          },
+        },
+        {
+          label: "过往经历",
+          field: "experiences",
+          type: "list",
+          children: [
+            {
+              label() {
+                return "教育经历";
+              },
+              field: "edu",
+              component: Input,
             },
             {
-              label: "哈哈哈",
-              field: "somethingnew",
-              component: Select,
-              componentProps: {
-                options: getOptions,
+              label() {
+                return "职业经历";
+              },
+              field: "job",
+              component: Input,
+              gridProps: {
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gridColumnGap: "20px",
               },
             },
           ],

@@ -37,6 +37,36 @@ export type FieldRule<T = any> = {
   ) => void;
 };
 
+interface GridStyle {
+  gridTemplateColumns?: string;
+  gridTemplateRows?: string;
+  gridTemplateAreas?: string;
+  gridTemplate?: string;
+  gridColumnGap?: string;
+  gridRowGap?: string;
+  gridGap?: string;
+  justifyItems?: string;
+  alignItems?: string;
+  placeItems?: string;
+  justifyContent?: string;
+  alignContent?: string;
+  placeContent?: string;
+  gridAutoColumns?: string;
+  gridAutoRows?: string;
+  gridAutoFlow?: string;
+  gridColumnStart?: string;
+  gridColumnEnd?: string;
+  gridRowStart?: string;
+  gridRowEnd?: string;
+  gridColumn?: string;
+  gridRow?: string;
+  gridArea?: string;
+  justifySelf?: string;
+  alignSelf?: string;
+  placeSelf?: string;
+  [key: string]: any;
+}
+
 export interface ItemSchema {
   type?: "item";
   rules?: FieldRule[];
@@ -44,6 +74,7 @@ export interface ItemSchema {
   required?: boolean;
   placeholder?: string;
   native?: NativeCustomizationOptions;
+  gridProps?: GridStyle;
   label: string;
   field: string;
   component: DomType;
@@ -55,6 +86,7 @@ export interface GroupSchema {
   type: "group";
   label: string;
   children: ProxyedSchema[];
+  gridProps?: GridStyle;
 }
 
 export interface ListSchema {
@@ -62,6 +94,7 @@ export interface ListSchema {
   field: string;
   label: string;
   children: ProxyedSchema[];
+  gridProps?: GridStyle;
 }
 
 export type Schema = ItemSchema | GroupSchema | ListSchema;
@@ -82,6 +115,7 @@ export type ProFormProxy<T> = {
 export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
 
 export interface FormCustomization {
+  gridProps?: GridStyle;
   schemas: ProxyedSchema[];
 }
 

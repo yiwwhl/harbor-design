@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.19
+
+### Patch Changes
+
+- proform support gridProps
+
 ## 1.0.18
 
 ### Patch Changes
