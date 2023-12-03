@@ -10,11 +10,13 @@ import {
   ListSchema,
   ProcessorBySchemaType,
   CustomizationOptions,
+  RuntimeSetters,
 } from "../types";
 import Processor from "./Processor";
-import { deepAssign, deepClone } from "../utils";
+import { IS, deepAssign, deepClone, replaceUndefinedInString } from "../utils";
 import Effect from "./Effect";
 
+// TODO: should refactor
 export default class RuntimeCore {
   processor: Processor;
   schemas: Ref<Schema[]> = ref([]);
@@ -28,6 +30,7 @@ export default class RuntimeCore {
   hydrateEffect = new Effect();
   customizedOptions: CustomizationOptions = reactive({});
   gridProps = {};
+  runtimeSetters: RuntimeSetters = {};
   globalNativeFormOverride = {
     props: {},
     slots: {},
@@ -78,12 +81,7 @@ export default class RuntimeCore {
     const placeholderPresetByComponentName =
       Preset.placeholderPresetByComponentName;
     let placeholder = schema.placeholder;
-    if (!placeholder) {
-      const prefix =
-        // @ts-expect-error
-        placeholderPresetByComponentName[componentName] ?? "请输入";
-      placeholder = `${prefix}${schema.label}`;
-    }
+
     const required = schema.required;
     if (required) {
       if (!schema.rules) {
@@ -104,6 +102,26 @@ export default class RuntimeCore {
     if (!show) {
       delete baseModel[schema.field];
     }
+    let label = schema.label;
+    const runtimeSetters = parentSchema?.runtimeSetters ?? this.runtimeSetters;
+    if (!IS.isUndefined(index) && runtimeSetters) {
+      // 对于 list 而言会有数据 model index
+      label = replaceUndefinedInString(
+        runtimeSetters?.listItemLabelSetter?.(schema.label, index + 1),
+        ""
+      );
+
+      const prefix =
+        // @ts-expect-error
+        placeholderPresetByComponentName[componentName] ?? "请输入";
+      placeholder = `${prefix}${label}`;
+    }
+    if (!placeholder) {
+      const prefix =
+        // @ts-expect-error
+        placeholderPresetByComponentName[componentName] ?? "请输入";
+      placeholder = `${prefix}${label}`;
+    }
     return (
       <div style={defaultItemStyle}>
         <Context.runtimeDoms.Item>
@@ -113,7 +131,7 @@ export default class RuntimeCore {
                 <Context.runtimeDoms.FormItem
                   {...formItemNativeProps}
                   v-show={show}
-                  label={`${schema.label}:`}
+                  label={`${label}:`}
                   rules={schema.rules}
                   field={field}
                 >

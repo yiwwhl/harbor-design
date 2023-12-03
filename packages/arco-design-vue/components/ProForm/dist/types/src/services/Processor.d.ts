@@ -30,7 +30,6 @@ export default class Processor {
     stableUpdater(parseProcess?: boolean[]): void;
     parseItem(data: AnyObject, index: number, parentMeta?: AnyObject): void;
     objectParser(root: ObjectParserRoot): void;
-    replaceUndefinedInString(data: string, replaceTo: string): string;
     promiseFieldParser(rootField: any, updater: AnyFunction, deepProcess: boolean): void;
     fieldParser(rootField: any, updater: AnyFunction, deepProcess?: boolean): void;
     modelProcessor(schemas: Schema[]): void;

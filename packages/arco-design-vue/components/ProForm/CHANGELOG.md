@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.0.20
+
+### Patch Changes
+
+- proform support runtimeSetters
+
 ## 1.0.19
 
 ### Patch Changes

@@ -44,6 +44,11 @@ export default defineComponent({
         gridColumnGap: "20px",
         alignItems: "center",
       },
+      runtimeSetters: {
+        listItemLabelSetter(rawItem, rawIndex) {
+          return `${rawItem} ${rawIndex} 全局定制化 label`;
+        },
+      },
       schemas: [
         {
           label: "姓名",
@@ -96,10 +101,19 @@ export default defineComponent({
           label: "过往经历",
           field: "experiences",
           type: "list",
+          runtimeSetters: {
+            listItemLabelSetter(rawItem, rawIndex) {
+              return `${rawItem} ${rawIndex} list 级别定制化 label`;
+            },
+          },
           children: [
             {
               label() {
-                return "教育经历";
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve("学业经历");
+                  }, 200);
+                });
               },
               field: "edu",
               component: Input,
@@ -114,6 +128,20 @@ export default defineComponent({
                 gridTemplateColumns: "repeat(2, 1fr)",
                 gridColumnGap: "20px",
               },
+            },
+          ],
+        },
+        {
+          label: "爱好",
+          field: "hoby",
+          type: "list",
+          children: [
+            {
+              label() {
+                return "爱好项";
+              },
+              field: "hobbyItem",
+              component: Input,
             },
           ],
         },

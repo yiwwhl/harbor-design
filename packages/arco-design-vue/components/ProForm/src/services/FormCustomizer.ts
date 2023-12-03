@@ -22,6 +22,10 @@ export default class FormCustomizer {
 
   setup(_runtimeCore: RuntimeCore) {
     this.runtimeCore = _runtimeCore;
+    Object.assign(
+      this.runtimeCore.runtimeSetters,
+      this.formCustomization.runtimeSetters
+    );
     return this.formCustomization;
   }
 

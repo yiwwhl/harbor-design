@@ -95,6 +95,7 @@ export interface ListSchema {
   label: string;
   children: ProxyedSchema[];
   gridProps?: GridStyle;
+  runtimeSetters?: RuntimeSetters;
 }
 
 export type Schema = ItemSchema | GroupSchema | ListSchema;
@@ -114,8 +115,14 @@ export type ProFormProxy<T> = {
 
 export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
 
+export interface RuntimeSetters {
+  listItemLabelSetter?: (rawLabel: string, rawIndex: number) => any;
+}
+
 export interface FormCustomization {
   gridProps?: GridStyle;
+  native?: NativeCustomizationOptions;
+  runtimeSetters?: RuntimeSetters;
   schemas: ProxyedSchema[];
 }
 

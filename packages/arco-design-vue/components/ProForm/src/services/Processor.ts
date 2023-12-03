@@ -7,7 +7,7 @@ import {
   ObjectParserRoot,
 } from "../types";
 import { Preset, RuntimeCore } from ".";
-import { IS, deepAssign, deepClone } from "../utils";
+import { IS, deepAssign, deepClone, replaceUndefinedInString } from "../utils";
 import Effect from "./Effect";
 
 /**
@@ -281,7 +281,11 @@ export default class Processor {
           }
         } else {
           // TODO: consider refactor to some base preset
-          if (key === "component" || key === "slots") {
+          if (
+            key === "component" ||
+            key === "slots" ||
+            key === "runtimeSetters"
+          ) {
             // 针对一些无需深层次处理的 key 做白名单
             this.promiseFieldParser(data[key], updater, false);
           } else {
@@ -290,10 +294,6 @@ export default class Processor {
         }
       }
     });
-  }
-
-  replaceUndefinedInString(data: string, replaceTo: string) {
-    return data.replace(/undefined/g, replaceTo);
   }
 
   promiseFieldParser(
@@ -316,7 +316,7 @@ export default class Processor {
       // TODO: 小优化，考虑后续将小优化集中，简单描述一下此优化，即对于函数的 effect 来说，
       // 存在过程值有 undefined 的情况，我们可以在这里优化成空字符串避免展示的时候需要有额外的处理过程
       if (IS.isString(rootField)) {
-        rootField = this.replaceUndefinedInString(rootField, "");
+        rootField = replaceUndefinedInString(rootField, "");
       }
       if (deepProcess && IS.isObject(rootField)) {
         this.objectParser({
