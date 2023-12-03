@@ -8,6 +8,10 @@ accumulation of personal experience in component encapsulation.
 
 - Based on personal experience, for reference only.
 
+# Products
+
+[@harbor-design/proform](https://www.npmjs.com/package/@harbor-design/proform)
+
 # License
 
 Ths project is [MIT licensed](./LICENSE).
