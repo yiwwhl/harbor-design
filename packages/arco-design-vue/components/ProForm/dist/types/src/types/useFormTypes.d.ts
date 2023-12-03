@@ -1,4 +1,4 @@
-import { AnyObject, CustomizationOptions } from "../types";
+import { AnyObject } from "../types";
 import type { RuntimeCore } from "../services";
 export type Setup = (runtimeCore: RuntimeCore) => any;
 export type UseForm = [
@@ -6,6 +6,5 @@ export type UseForm = [
     {
         submit: () => Promise<AnyObject>;
         hydrate: (data: AnyObject) => any;
-        customize: (options: CustomizationOptions) => any;
     }
 ];

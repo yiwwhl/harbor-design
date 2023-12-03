@@ -108,7 +108,4 @@ export type NativeCustomizationOptions = {
         FormItem?: AnyObject;
     };
 };
-export type CustomizationOptions = {
-    native?: NativeCustomizationOptions;
-};
 export {};

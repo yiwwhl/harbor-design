@@ -9,8 +9,8 @@ import {
   GroupSchema,
   ListSchema,
   ProcessorBySchemaType,
-  CustomizationOptions,
   RuntimeSetters,
+  NativeCustomizationOptions,
 } from "../types";
 import Processor from "./Processor";
 import { IS, deepAssign, deepClone, replaceUndefinedInString } from "../utils";
@@ -28,7 +28,7 @@ export default class RuntimeCore {
   };
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
-  customizedOptions: CustomizationOptions = reactive({});
+  native: NativeCustomizationOptions = reactive({});
   gridProps = {};
   runtimeSetters: RuntimeSetters = {};
   globalNativeFormOverride = {
@@ -59,11 +59,11 @@ export default class RuntimeCore {
     deepAssign(this.globalNativeFormOverride.props, schema.native?.props?.Form);
     deepAssign(this.globalNativeFormOverride.slots, schema.native?.slots?.Form);
     const formItemNativeProps = deepAssign(
-      deepClone(this.customizedOptions.native?.props?.FormItem) ?? {},
+      deepClone(this.native?.props?.FormItem) ?? {},
       schema.native?.props?.FormItem
     );
     const formItemNativeSlots = deepAssign(
-      deepClone(this.customizedOptions.native?.slots?.FormItem) ?? {},
+      deepClone(this.native?.slots?.FormItem) ?? {},
       schema.native?.slots?.FormItem
     );
     const defaultItemStyle: CSSProperties = {
@@ -267,11 +267,11 @@ export default class RuntimeCore {
     };
     const that = this;
     const formNativeProps = deepAssign(
-      deepClone(this.customizedOptions.native?.props?.Form) ?? {},
+      deepClone(this.native?.props?.Form) ?? {},
       this.globalNativeFormOverride.props
     );
     const formNativeSlots = deepAssign(
-      deepClone(this.customizedOptions.native?.slots?.Form) ?? {},
+      deepClone(this.native?.slots?.Form) ?? {},
       this.globalNativeFormOverride.slots
     );
     return (

@@ -1,6 +1,6 @@
 import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent, nextTick } from "vue";
+import { defineComponent } from "vue";
 import styles from "./index.module.scss";
 
 /**
@@ -26,23 +26,18 @@ export default defineComponent({
       });
     }
 
-    nextTick(() => {
-      customize({
-        native: {
-          props: {
-            Form: {
-              autoLabelWidth: true,
-            },
-          },
-        },
-      });
-    });
-
-    const [setup, { submit, customize }] = useForm({
+    const [setup, { submit }] = useForm({
       gridProps: {
         gridTemplateColumns: "repeat(2, 1fr)",
         gridColumnGap: "20px",
         alignItems: "center",
+      },
+      native: {
+        props: {
+          Form: {
+            autoLabelWidth: true,
+          },
+        },
       },
       runtimeSetters: {
         listItemLabelSetter(rawItem, rawIndex) {

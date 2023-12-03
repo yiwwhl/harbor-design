@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.0
+
+### Minor Changes
+
+- move native from customize to useForm
+
 ## 1.0.20
 
 ### Patch Changes
