@@ -114,6 +114,7 @@ export default defineComponent({
               },
               field: "job",
               component: Input,
+              required: true,
               gridProps: {
                 gridTemplateColumns: "repeat(2, 1fr)",
                 gridColumnGap: "20px",

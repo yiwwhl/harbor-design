@@ -83,18 +83,6 @@ export default class RuntimeCore {
     let placeholder = schema.placeholder;
 
     const required = schema.required;
-    if (required) {
-      if (!schema.rules) {
-        schema.rules = [];
-        schema.rules?.push({
-          required: true,
-          message: `${schema.label}是必填项`,
-        });
-      } else {
-        const requiredIndex = schema.rules.findIndex((rule) => !!rule.required);
-        schema.rules[requiredIndex].message = `${schema.label}是必填项`;
-      }
-    }
     let show = schema.show;
     if (show === undefined) {
       show = true;
@@ -121,6 +109,18 @@ export default class RuntimeCore {
         // @ts-expect-error
         placeholderPresetByComponentName[componentName] ?? "请输入";
       placeholder = `${prefix}${label}`;
+    }
+    if (required) {
+      if (!schema.rules) {
+        schema.rules = [];
+        schema.rules?.push({
+          required: true,
+          message: `${label}是必填项`,
+        });
+      } else {
+        const requiredIndex = schema.rules.findIndex((rule) => !!rule.required);
+        schema.rules[requiredIndex].message = `${label}是必填项`;
+      }
     }
     return (
       <div style={defaultItemStyle}>

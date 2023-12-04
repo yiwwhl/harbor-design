@@ -1,7 +1,7 @@
 var Z = Object.defineProperty;
 var ee = (o, e, t) => e in o ? Z(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var l = (o, e, t) => (ee(o, typeof e != "symbol" ? e + "" : e, t), t);
-import { toRaw as O, isRef as J, watch as E, isReactive as Q, nextTick as K, ref as A, reactive as te, createVNode as c, withDirectives as W, mergeProps as F, vShow as H, createTextVNode as se, isVNode as re, defineComponent as ie } from "vue";
+import { toRaw as O, isRef as J, watch as I, isReactive as Q, nextTick as K, ref as A, reactive as te, createVNode as c, withDirectives as W, mergeProps as F, vShow as H, createTextVNode as se, isVNode as re, defineComponent as ie } from "vue";
 class f {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -149,7 +149,7 @@ class oe {
       });
     this.runtimeCore.hydrateEffect.trackEffect(
       () => {
-        J(e) ? E(
+        J(e) ? I(
           () => e.value,
           () => {
             p(this.runtimeCore.model.value, e.value);
@@ -158,7 +158,7 @@ class oe {
             deep: !0,
             immediate: !0
           }
-        ) : Q(e) ? E(
+        ) : Q(e) ? I(
           () => e,
           () => {
             p(this.runtimeCore.model.value, e);
@@ -199,15 +199,15 @@ class ne {
     l(this, "getRuntimeMeta");
     l(this, "stableSchemas", []);
     l(this, "stableModel", {});
-    l(this, "schemaPreset", I.schemaPreset);
-    l(this, "componentPropsPreset", I.componentPropsPreset);
+    l(this, "schemaPreset", C.schemaPreset);
+    l(this, "componentPropsPreset", C.componentPropsPreset);
     l(this, "stableUpdaterProcessProgress");
     l(this, "stableUpdaterTimes", 0);
     l(this, "schemaEffect", new M());
     l(this, "defaultValueEffect", new M());
     l(this, "defaultValueInprogressMap", /* @__PURE__ */ new Map());
     l(this, "baseDefaultValueFunctionsLength");
-    this.runtimeCore = e, this.processedSchemas = e.schemas, this.processedModel = e.model, this.getRuntimeMeta = e.getRuntimeMeta.bind(e), E(
+    this.runtimeCore = e, this.processedSchemas = e.schemas, this.processedModel = e.model, this.getRuntimeMeta = e.getRuntimeMeta.bind(e), I(
       () => this.processedModel.value,
       () => {
         this.schemaEffect.triggerEffects();
@@ -271,14 +271,14 @@ class ne {
     }).fill(!1);
     this.objectParser({ data: e, index: t, updater: n });
     function n(u) {
-      const a = u.index, d = u.key, C = u.keyIndex;
+      const a = u.index, d = u.key, V = u.keyIndex;
       if (!u.stable)
         return;
-      const w = r.parseStable(u.stable), S = s == null ? void 0 : s.index, g = s == null ? void 0 : s.key;
+      const w = r.parseStable(u.stable), j = s == null ? void 0 : s.index, g = s == null ? void 0 : s.key;
       let h = w;
-      if (f.isProcessInprogress(h) || (i[C] = !0), s) {
-        let m = r.processedSchemas.value[S][g][a][d];
-        m && f.isObject(m) && d !== "component" && (h = p(m, h)), r.processedSchemas.value[S][g][a][d] = h, r.stableUpdater(i);
+      if (f.isProcessInprogress(h) || (i[V] = !0), s) {
+        let m = r.processedSchemas.value[j][g][a][d];
+        m && f.isObject(m) && d !== "component" && (h = p(m, h)), r.processedSchemas.value[j][g][a][d] = h, r.stableUpdater(i);
       } else {
         let m = r.processedSchemas.value[a][d];
         m && f.isObject(m) && (h = p(m, h)), r.processedSchemas.value[a][d] = h, r.stableUpdater(i);
@@ -353,7 +353,7 @@ class ne {
         this.promiseFieldParser(r, t, s);
       }
     else
-      J(e) ? E(
+      J(e) ? I(
         () => e.value,
         () => {
           f.isUndefined(e.value) || (s && f.isObject(e.value) ? this.objectParser({
@@ -365,7 +365,7 @@ class ne {
           immediate: !0,
           deep: !0
         }
-      ) : Q(e) ? E(
+      ) : Q(e) ? I(
         () => e,
         () => {
           f.isUndefined(e) || (s && f.isObject(e) ? this.objectParser({
@@ -435,37 +435,38 @@ class fe {
     }, a = r ? `${r.field}.${t}.${e.field}` : e.field, d = O(e.component);
     if (!d)
       return;
-    const C = d.name, w = e.componentProps ?? {}, S = I.placeholderPresetByComponentName;
+    const V = d.name, w = e.componentProps ?? {}, j = C.placeholderPresetByComponentName;
     let g = e.placeholder;
-    if (e.required)
-      if (!e.rules)
-        e.rules = [], (q = e.rules) == null || q.push({
-          required: !0,
-          message: `${e.label}是必填项`
-        });
-      else {
-        const j = e.rules.findIndex((Y) => !!Y.required);
-        e.rules[j].message = `${e.label}是必填项`;
-      }
+    const h = e.required;
     let m = e.show;
     m === void 0 && (m = !0), m || delete s[e.field];
-    let V = e.label;
-    const P = (r == null ? void 0 : r.runtimeSetters) ?? this.runtimeSetters;
-    return !f.isUndefined(t) && !f.isObjectEmpty(P) && (V = X((G = P == null ? void 0 : P.listItemLabelSetter) == null ? void 0 : G.call(P, e.label, t + 1), ""), g = `${// @ts-expect-error
-    S[C] ?? "请输入"}${V}`), g || (g = `${// @ts-expect-error
-    S[C] ?? "请输入"}${V}`), c("div", {
+    let P = e.label;
+    const v = (r == null ? void 0 : r.runtimeSetters) ?? this.runtimeSetters;
+    if (!f.isUndefined(t) && !f.isObjectEmpty(v) && (P = X((q = v == null ? void 0 : v.listItemLabelSetter) == null ? void 0 : q.call(v, e.label, t + 1), ""), g = `${// @ts-expect-error
+    j[V] ?? "请输入"}${P}`), g || (g = `${// @ts-expect-error
+    j[V] ?? "请输入"}${P}`), h)
+      if (!e.rules)
+        e.rules = [], (G = e.rules) == null || G.push({
+          required: !0,
+          message: `${P}是必填项`
+        });
+      else {
+        const E = e.rules.findIndex((Y) => !!Y.required);
+        e.rules[E].message = `${P}是必填项`;
+      }
+    return c("div", {
       style: u
     }, [c(b.runtimeDoms.Item, null, {
       default() {
         return W(c(b.runtimeDoms.FormItem, F(i, {
-          label: `${V}:`,
+          label: `${P}:`,
           rules: e.rules,
           field: a
         }), {
           default() {
             return c(d, F({
               modelValue: s[e.field],
-              "onUpdate:modelValue": (j) => s[e.field] = j,
+              "onUpdate:modelValue": (E) => s[e.field] = E,
               placeholder: g
             }, w), null);
           },
@@ -565,7 +566,7 @@ class fe {
 class b {
 }
 l(b, "runtimeDoms");
-const v = class v {
+const S = class S {
   static getPlaceholderPrefixPresetByComponentName() {
     const e = {
       请选择: ["Select", "Tree", "TreeSelect"],
@@ -578,7 +579,7 @@ const v = class v {
     return t;
   }
 };
-l(v, "schemaPreset", {
+l(S, "schemaPreset", {
   type: {
     defaultValue: "item"
   },
@@ -614,13 +615,13 @@ l(v, "schemaPreset", {
   },
   native: void 0,
   gridProps: void 0
-}), l(v, "componentPropsPreset", {
+}), l(S, "componentPropsPreset", {
   options: {
     defaultValue: []
   }
 }), // 基于基本功能提出基本预设
-l(v, "placeholderPresetByComponentName", v.getPlaceholderPrefixPresetByComponentName());
-let I = v;
+l(S, "placeholderPresetByComponentName", S.getPlaceholderPrefixPresetByComponentName());
+let C = S;
 const ce = /* @__PURE__ */ ie({
   props: {
     setup: {

@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.2
+
+### Patch Changes
+
+- fix bug of validate label name error
+
 ## 1.1.1
 
 ### Patch Changes
