@@ -11,9 +11,10 @@ import sdk from "@stackblitz/sdk";
 export default defineComponent({
   setup() {
     onMounted(() => {
-      sdk.embedProjectId("embedStackblitz", "vitejs-vite-z9bsbh", {
+      sdk.embedProjectId("embedStackblitz", "proform", {
         forceEmbedLayout: true,
         openFile: "src/App.tsx",
+        clickToLoad: true,
       });
     });
 
@@ -150,6 +151,11 @@ export default defineComponent({
     return () => {
       return (
         <PageWrapper title="DynamicForm">
+          <div>
+            <a href="https://stackblitz.com/edit/proform?file=src%2FApp.tsx">
+              stackblitz online
+            </a>
+          </div>
           <div class={styles.embedWrapper} id="embedStackblitz"></div>
           <ProForm class={styles.proForm} setup={setup} />
           <Button
