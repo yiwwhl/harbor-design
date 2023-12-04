@@ -1,7 +1,8 @@
 import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import styles from "./index.module.scss";
+import sdk from "@stackblitz/sdk";
 
 /**
  * 后续应该新增文档，对于 native 来说，Form 永远是后面的 schema 覆盖前面的 schema
@@ -9,6 +10,13 @@ import styles from "./index.module.scss";
 
 export default defineComponent({
   setup() {
+    onMounted(() => {
+      sdk.embedProjectId("embedStackblitz", "vitejs-vite-z9bsbh", {
+        forceEmbedLayout: true,
+        openFile: "src/App.tsx",
+      });
+    });
+
     function getOptions() {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -142,6 +150,7 @@ export default defineComponent({
     return () => {
       return (
         <PageWrapper title="DynamicForm">
+          <div class={styles.embedWrapper} id="embedStackblitz"></div>
           <ProForm class={styles.proForm} setup={setup} />
           <Button
             onClick={() => {
