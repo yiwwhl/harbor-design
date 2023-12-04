@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.3
+
+### Patch Changes
+
+- update stackblitz link
+
 ## 1.1.2
 
 ### Patch Changes
