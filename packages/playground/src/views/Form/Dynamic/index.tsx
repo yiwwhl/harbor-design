@@ -39,11 +39,6 @@ export default defineComponent({
           },
         },
       },
-      runtimeSetters: {
-        listItemLabelSetter(rawItem, rawIndex) {
-          return `${rawItem} ${rawIndex} 全局定制化 label`;
-        },
-      },
       schemas: [
         {
           label: "姓名",

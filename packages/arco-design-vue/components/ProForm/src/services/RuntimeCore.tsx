@@ -104,7 +104,7 @@ export default class RuntimeCore {
     }
     let label = schema.label;
     const runtimeSetters = parentSchema?.runtimeSetters ?? this.runtimeSetters;
-    if (!IS.isUndefined(index) && runtimeSetters) {
+    if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtimeSetters)) {
       // 对于 list 而言会有数据 model index
       label = replaceUndefinedInString(
         runtimeSetters?.listItemLabelSetter?.(schema.label, index + 1),

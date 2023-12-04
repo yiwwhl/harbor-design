@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.1
+
+### Patch Changes
+
+- fix runtimeSetters error
+
 ## 1.1.0
 
 ### Minor Changes

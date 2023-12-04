@@ -451,7 +451,7 @@ class fe {
     m === void 0 && (m = !0), m || delete s[e.field];
     let V = e.label;
     const P = (r == null ? void 0 : r.runtimeSetters) ?? this.runtimeSetters;
-    return !f.isUndefined(t) && P && (V = X((G = P == null ? void 0 : P.listItemLabelSetter) == null ? void 0 : G.call(P, e.label, t + 1), ""), g = `${// @ts-expect-error
+    return !f.isUndefined(t) && !f.isObjectEmpty(P) && (V = X((G = P == null ? void 0 : P.listItemLabelSetter) == null ? void 0 : G.call(P, e.label, t + 1), ""), g = `${// @ts-expect-error
     S[C] ?? "请输入"}${V}`), g || (g = `${// @ts-expect-error
     S[C] ?? "请输入"}${V}`), c("div", {
       style: u
