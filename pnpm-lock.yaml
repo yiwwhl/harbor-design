@@ -89,9 +89,6 @@ importers:
       '@harbor-design/arco-design-vue':
         specifier: workspace:^
         version: link:../arco-design-vue
-      '@stackblitz/sdk':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@types/lodash':
         specifier: ^4.14.199
         version: 4.14.199
@@ -1052,10 +1049,6 @@ packages:
       colors: 1.2.5
       string-argv: 0.3.2
     dev: false
-
-  /@stackblitz/sdk@1.9.0:
-    resolution: {integrity: sha512-3m6C7f8pnR5KXys/Hqx2x6ylnpqOak6HtnZI6T5keEO0yT+E4Spkw37VEbdwuC+2oxmjdgq6YZEgiKX7hM1GmQ==}
-    dev: true
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
