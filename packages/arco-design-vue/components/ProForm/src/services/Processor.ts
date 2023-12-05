@@ -187,7 +187,9 @@ export default class Processor {
         // schema 处理
         let exist = that.processedSchemas.value[schemaIndex][schemaKey];
         if (exist && IS.isObject(exist)) {
-          stable = deepAssign(exist, stable);
+          if (schemaKey !== "component") {
+            stable = deepAssign(exist, stable);
+          }
         }
         that.processedSchemas.value[schemaIndex][schemaKey] = stable;
         that.stableUpdater(parseProcess);

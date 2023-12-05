@@ -41,9 +41,13 @@ export default defineComponent({
       },
       schemas: [
         {
-          label: "姓名",
+          label({ model }) {
+            return `姓名${model.age}`;
+          },
           field: "name",
-          component: Input,
+          component({ model }) {
+            return !!model.age ? Input : Select;
+          },
           required: true,
         },
         {

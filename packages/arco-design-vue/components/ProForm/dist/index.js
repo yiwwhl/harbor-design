@@ -281,7 +281,7 @@ class ne {
         m && f.isObject(m) && d !== "component" && (h = p(m, h)), r.processedSchemas.value[j][g][a][d] = h, r.stableUpdater(i);
       } else {
         let m = r.processedSchemas.value[a][d];
-        m && f.isObject(m) && (h = p(m, h)), r.processedSchemas.value[a][d] = h, r.stableUpdater(i);
+        m && f.isObject(m) && d !== "component" && (h = p(m, h)), r.processedSchemas.value[a][d] = h, r.stableUpdater(i);
       }
     }
   }

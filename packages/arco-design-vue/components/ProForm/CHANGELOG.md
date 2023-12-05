@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.4
+
+### Patch Changes
+
+- fix the bug of component assign
+
 ## 1.1.3
 
 ### Patch Changes
