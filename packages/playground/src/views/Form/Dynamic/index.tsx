@@ -42,7 +42,9 @@ export default defineComponent({
       schemas: [
         {
           label({ model }) {
-            return `姓名${model.age}`;
+            return new Promise((resolve) => {
+              resolve(model.age + "姓名");
+            });
           },
           field: "name",
           component({ model }) {

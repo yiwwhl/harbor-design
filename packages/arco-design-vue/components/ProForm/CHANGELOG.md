@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.6
+
+### Patch Changes
+
+- fix bug of promised string
+
 ## 1.1.5
 
 ### Patch Changes

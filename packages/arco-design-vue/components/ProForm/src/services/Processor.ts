@@ -305,6 +305,9 @@ export default class Processor {
   ) {
     if (IS.isPromise(rootField)) {
       rootField.then((stableComputation) => {
+        if (IS.isString(stableComputation)) {
+          stableComputation = replaceUndefinedInString(stableComputation, "");
+        }
         if (deepProcess && IS.isObject(stableComputation)) {
           this.objectParser({
             data: stableComputation,
