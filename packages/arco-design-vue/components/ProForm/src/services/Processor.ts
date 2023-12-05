@@ -156,7 +156,7 @@ export default class Processor {
       const schemaIndex = meta.index;
       const schemaKey = meta.key;
       const keyIndex = meta.keyIndex;
-      if (!meta.stable) {
+      if (IS.isUndefined(meta.stable)) {
         return;
       }
       const parsedStable = that.parseStable(meta.stable);
@@ -320,6 +320,7 @@ export default class Processor {
       if (IS.isString(rootField)) {
         rootField = replaceUndefinedInString(rootField, "");
       }
+
       if (deepProcess && IS.isObject(rootField)) {
         this.objectParser({
           data: rootField,

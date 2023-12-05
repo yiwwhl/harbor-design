@@ -118,8 +118,22 @@ export default class RuntimeCore {
           message: `${label}是必填项`,
         });
       } else {
-        const requiredIndex = schema.rules.findIndex((rule) => !!rule.required);
-        schema.rules[requiredIndex].message = `${label}是必填项`;
+        const requiredIndex = schema.rules.findIndex(
+          (rule) => !IS.isUndefined(rule.required)
+        );
+        if (requiredIndex !== -1) {
+          schema.rules[requiredIndex].required = true;
+          schema.rules[requiredIndex].message = `${label}是必填项`;
+        }
+      }
+    } else {
+      if (schema.rules) {
+        const requiredIndex = schema.rules?.findIndex(
+          (rule) => !!rule.required
+        );
+        if (requiredIndex !== -1) {
+          schema.rules[requiredIndex].required = false;
+        }
       }
     }
     return (

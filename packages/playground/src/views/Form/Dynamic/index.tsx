@@ -48,7 +48,9 @@ export default defineComponent({
           component({ model }) {
             return !!model.age ? Input : Select;
           },
-          required: true,
+          required({ model }) {
+            return !!model.age;
+          },
         },
         {
           label: "年龄",
