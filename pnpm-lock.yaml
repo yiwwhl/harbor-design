@@ -76,6 +76,9 @@ importers:
       '@harbor-design/icons':
         specifier: workspace:^
         version: link:../icons
+      legendary-cursor:
+        specifier: ^1.0.2
+        version: 1.0.2
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -2401,6 +2404,12 @@ packages:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: false
 
+  /legendary-cursor@1.0.2:
+    resolution: {integrity: sha512-1WZhaE6AVV8bK6qXDu5YzDdFaAAz3Fk07P6PMQ8PMdAQLeObwzcLxeqVx6UItM0h2uB0MhOx1ITzmT7TM4tMuA==}
+    dependencies:
+      three: 0.108.0
+    dev: false
+
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: false
@@ -3158,6 +3167,10 @@ packages:
   /term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
+    dev: false
+
+  /three@0.108.0:
+    resolution: {integrity: sha512-d1ysIXwi8qTlbmMwrTxi5pYiiYIflEr0e48krP0LAY8ndS8c6fkLHn6NvRT+o76/Fs9PBLxFViuI62iGVWwwlg==}
     dev: false
 
   /tmp@0.0.33:

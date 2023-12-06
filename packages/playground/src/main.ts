@@ -14,6 +14,7 @@ import Item from "@/Infra/ProFormRuntimeDoms/Item";
 import Group from "@/Infra/ProFormRuntimeDoms/Group";
 import List from "@/Infra/ProFormRuntimeDoms/List";
 import ListItem from "@/Infra/ProFormRuntimeDoms/ListItem";
+import LegendaryCursor from "legendary-cursor";
 
 const app = createApp(App);
 const store = createPinia();
@@ -24,6 +25,17 @@ const formRender = useFormRenderer({
   Group,
   List,
   ListItem,
+});
+
+window.addEventListener("load", () => {
+  LegendaryCursor.init({
+    lineSize: 0.15,
+    opacityDecrement: 0.55,
+    speedExpFactor: 0.8,
+    lineExpFactor: 0.6,
+    sparklesCount: 100,
+    maxOpacity: 0.1,
+  });
 });
 
 app.use(ArcoVue);
