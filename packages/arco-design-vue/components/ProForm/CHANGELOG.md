@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.9
+
+### Patch Changes
+
+- ProForm can set prefix more friendly
+
 ## 1.1.8
 
 ### Patch Changes

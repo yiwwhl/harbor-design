@@ -52,9 +52,10 @@ export default class Preset {
 
   static getPlaceholderPrefixPresetByComponentName() {
     // prefix -> [avaliable component names]
+    // 都用小写，这样可以做相似性碰撞
     const userFriendlyPreset = {
-      请选择: ["Select", "Tree", "TreeSelect"],
-      请输入: ["Input"],
+      请选择: ["select", "tree", "treeselect"],
+      请输入: ["input"],
     };
     const transformed = {};
     for (let key in userFriendlyPreset) {

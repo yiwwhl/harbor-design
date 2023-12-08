@@ -137,17 +137,32 @@ export default class RuntimeCore {
         runtimeSetters?.listItemLabelSetter?.(schema.label, index + 1),
         ""
       );
-
-      const prefix =
-        // @ts-expect-error
-        placeholderPresetByComponentName[componentName] ?? "请输入";
-      placeholder = `${prefix}${label}`;
     }
     if (!placeholder) {
-      const prefix =
-        // @ts-expect-error
-        placeholderPresetByComponentName[componentName] ?? "请输入";
-      placeholder = `${prefix}${label}`;
+      let prefix = "请输入";
+      if (!IS.isUndefined(componentName)) {
+        if (
+          // @ts-expect-error
+          placeholderPresetByComponentName[componentName.toLowerCase()]
+        ) {
+          // 非相似碰撞
+          prefix =
+            // @ts-expect-error
+            placeholderPresetByComponentName[componentName.toLowerCase()];
+          placeholder = `${prefix}${label}`;
+        } else {
+          // 相似碰撞，比如某些 xxxSelect 也可以被认为是与 Select 存在碰撞
+          Object.keys(placeholderPresetByComponentName).forEach((name) => {
+            if (componentName.toLowerCase().includes(name.toLowerCase())) {
+              // @ts-expect-error
+              prefix = placeholderPresetByComponentName[name];
+            }
+          });
+          placeholder = `${prefix}${label}`;
+        }
+      } else {
+        placeholder = `${prefix}${label}`;
+      }
     }
     if (required) {
       if (!schema.rules) {
