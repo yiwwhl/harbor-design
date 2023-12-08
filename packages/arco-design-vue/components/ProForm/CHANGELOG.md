@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.8
+
+### Patch Changes
+
+- ProForm support async schemas
+
 ## 1.1.7
 
 ### Patch Changes

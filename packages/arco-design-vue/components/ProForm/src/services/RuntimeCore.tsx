@@ -1,4 +1,14 @@
-import { CSSProperties, Ref, reactive, ref, toRaw } from "vue";
+import {
+  CSSProperties,
+  Ref,
+  isReactive,
+  isRef,
+  nextTick,
+  reactive,
+  ref,
+  toRaw,
+  watch,
+} from "vue";
 import { Context, Preset } from ".";
 import {
   Setup,
@@ -39,7 +49,36 @@ export default class RuntimeCore {
   constructor(public setup: Setup) {
     this.processor = new Processor(this);
     const formCustomization = this.setup(this) as FormCustomization;
-    this.processor.parseSchemas(formCustomization.schemas);
+    if (isRef(formCustomization.schemas)) {
+      const stopWatch = watch(
+        () => formCustomization.schemas,
+        () => {
+          // @ts-expect-error
+          this.processor.parseSchemas(formCustomization.schemas.value);
+          nextTick(() => {
+            stopWatch();
+          });
+        },
+        {
+          deep: true,
+        }
+      );
+    } else if (isReactive(formCustomization.schemas)) {
+      const stopWatch = watch(
+        () => formCustomization.schemas,
+        () => {
+          this.processor.parseSchemas(formCustomization.schemas);
+          nextTick(() => {
+            stopWatch();
+          });
+        },
+        {
+          deep: true,
+        }
+      );
+    } else {
+      this.processor.parseSchemas(formCustomization.schemas);
+    }
   }
 
   getRuntimeMeta() {
