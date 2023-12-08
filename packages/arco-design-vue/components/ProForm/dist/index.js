@@ -1,7 +1,7 @@
 var ee = Object.defineProperty;
 var te = (o, e, t) => e in o ? ee(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
 var l = (o, e, t) => (te(o, typeof e != "symbol" ? e + "" : e, t), t);
-import { toRaw as O, isRef as Y, watch as I, isReactive as Z, nextTick as J, ref as x, reactive as se, createVNode as c, withDirectives as Q, mergeProps as U, vShow as X, createTextVNode as re, isVNode as ie, defineComponent as oe } from "vue";
+import { toRaw as O, isRef as Y, watch as I, isReactive as Z, nextTick as J, ref as x, reactive as se, createVNode as c, withDirectives as Q, mergeProps as M, vShow as X, createTextVNode as re, isVNode as ie, defineComponent as oe } from "vue";
 class f {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -112,7 +112,7 @@ function b(o) {
   }
   return t(o);
 }
-function F(o, e) {
+function U(o, e) {
   return o.replace(/undefined/g, e);
 }
 class ne {
@@ -175,7 +175,7 @@ class ne {
     );
   }
 }
-class M {
+class F {
   constructor() {
     l(this, "effects", /* @__PURE__ */ new Set());
   }
@@ -203,8 +203,8 @@ class le {
     l(this, "componentPropsPreset", V.componentPropsPreset);
     l(this, "stableUpdaterProcessProgress");
     l(this, "stableUpdaterTimes", 0);
-    l(this, "schemaEffect", new M());
-    l(this, "defaultValueEffect", new M());
+    l(this, "schemaEffect", new F());
+    l(this, "defaultValueEffect", new F());
     l(this, "defaultValueInprogressMap", /* @__PURE__ */ new Map());
     l(this, "baseDefaultValueFunctionsLength");
     this.runtimeCore = e, this.processedSchemas = e.schemas, this.processedModel = e.model, this.getRuntimeMeta = e.getRuntimeMeta.bind(e), I(
@@ -334,11 +334,11 @@ class le {
   }
   promiseFieldParser(e, t, s) {
     f.isPromise(e) ? e.then((r) => {
-      f.isString(r) && (r = F(r, "")), s && f.isObject(r) ? this.objectParser({
+      f.isString(r) && (r = U(r, "")), s && f.isObject(r) ? this.objectParser({
         data: r,
         updater: t
       }) : t(r);
-    }) : (f.isString(e) && (e = F(e, "")), s && f.isObject(e) ? this.objectParser({
+    }) : (f.isString(e) && (e = U(e, "")), s && f.isObject(e) ? this.objectParser({
       data: e,
       updater: t
     }) : t(e));
@@ -347,7 +347,12 @@ class le {
   fieldParser(e, t, s = !0) {
     if (f.isFunction(e))
       if (e.name.startsWith("__proform_raw_"))
-        t(e);
+        t((...r) => {
+          e({
+            rawArgs: r,
+            ...this.getRuntimeMeta()
+          });
+        });
       else {
         const r = e(this.getRuntimeMeta());
         this.promiseFieldParser(r, t, s);
@@ -408,7 +413,7 @@ class ue {
       list: this.runtimeListProcessor.bind(this)
     });
     l(this, "formRef", x(null));
-    l(this, "hydrateEffect", new M());
+    l(this, "hydrateEffect", new F());
     l(this, "native", se({}));
     l(this, "gridProps", {});
     l(this, "runtimeSetters", {});
@@ -442,7 +447,7 @@ class ue {
     m === void 0 && (m = !0), m || delete s[e.field];
     let v = e.label;
     const S = (r == null ? void 0 : r.runtimeSetters) ?? this.runtimeSetters;
-    if (!f.isUndefined(t) && !f.isObjectEmpty(S) && (v = F((K = S == null ? void 0 : S.listItemLabelSetter) == null ? void 0 : K.call(S, e.label, t + 1), ""), P = `${// @ts-expect-error
+    if (!f.isUndefined(t) && !f.isObjectEmpty(S) && (v = U((K = S == null ? void 0 : S.listItemLabelSetter) == null ? void 0 : K.call(S, e.label, t + 1), ""), P = `${// @ts-expect-error
     E[C] ?? "请输入"}${v}`), P || (P = `${// @ts-expect-error
     E[C] ?? "请输入"}${v}`), y)
       if (!e.rules)
@@ -462,13 +467,13 @@ class ue {
       style: a
     }, [c(g.runtimeDoms.Item, null, {
       default() {
-        return Q(c(g.runtimeDoms.FormItem, U(i, {
+        return Q(c(g.runtimeDoms.FormItem, M(i, {
           label: `${v}:`,
           rules: e.rules,
           field: u
         }), {
           default() {
-            return c(d, U({
+            return c(d, M({
               modelValue: s[e.field],
               "onUpdate:modelValue": (h) => s[e.field] = h,
               placeholder: P
@@ -554,7 +559,7 @@ class ue {
       gridAutoColumns: "1fr",
       ...this.gridProps
     }, t = this, s = p(b((n = (i = this.native) == null ? void 0 : i.props) == null ? void 0 : n.Form) ?? {}, this.globalNativeFormOverride.props), r = p(b((u = (a = this.native) == null ? void 0 : a.slots) == null ? void 0 : u.Form) ?? {}, this.globalNativeFormOverride.slots);
-    return c(g.runtimeDoms.Form, U(s, {
+    return c(g.runtimeDoms.Form, M(s, {
       ref: this.formRef,
       model: this.model.value
     }), {

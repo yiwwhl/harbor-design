@@ -340,7 +340,12 @@ export default class Processor {
     if (IS.isFunction(rootField)) {
       // 过滤需要保留原始状态的函数
       if (rootField.name.startsWith(`__proform_raw_`)) {
-        updater(rootField);
+        updater((...args: any[]) => {
+          rootField({
+            rawArgs: args,
+            ...this.getRuntimeMeta(),
+          });
+        });
       } else {
         const computation = rootField(this.getRuntimeMeta());
         this.promiseFieldParser(computation, updater, deepProcess);

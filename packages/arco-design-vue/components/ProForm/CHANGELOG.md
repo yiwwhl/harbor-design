@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.7
+
+### Patch Changes
+
+- \_\_proform_raw support runtimeMetas and rawArgs
+
 ## 1.1.6
 
 ### Patch Changes
