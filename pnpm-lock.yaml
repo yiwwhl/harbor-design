@@ -76,9 +76,6 @@ importers:
       '@harbor-design/icons':
         specifier: workspace:^
         version: link:../icons
-      '@nutui/nutui-taro':
-        specifier: ^4.2.3
-        version: 4.2.3
       legendary-cursor:
         specifier: ^1.0.2
         version: 1.0.2
@@ -949,22 +946,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
-    dev: false
-
-  /@nutui/icons-vue-taro@0.0.9:
-    resolution: {integrity: sha512-10VYAtFC+o1X0anGs+y2PgF1NWMeLFz2JVMRw4BWLg6wbtVbYy9wukLxyGhZC6Yf6t39DcwaGVda8paV7K6/Ew==}
-    dev: false
-
-  /@nutui/nutui-taro@4.2.3:
-    resolution: {integrity: sha512-13YR7onLlVRwaUsFnatrbDaj3uLFqRFurWw+o4U/9Jr4b4VVfj1bmM/8sBS1DmMT2Y56KsI1OZxeBT+kPIXFTg==}
-    peerDependencies:
-      unplugin-vue-components: ^0.25.1
-    peerDependenciesMeta:
-      unplugin-vue-components:
-        optional: true
-    dependencies:
-      '@nutui/icons-vue-taro': 0.0.9
-      sass: 1.68.0
     dev: false
 
   /@rollup/pluginutils@5.0.5:
