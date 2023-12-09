@@ -182,6 +182,7 @@ export default class RuntimeCore {
     });
     const Item = RuntimeContainer.getItemContainer(this);
     const FormItem = RuntimeContainer.getFormItemContainer(this);
+    const that = this;
     return (
       <div style={defaultItemStyle}>
         <Item>
@@ -197,13 +198,13 @@ export default class RuntimeCore {
                 >
                   {{
                     default() {
-                      return (
-                        <Component
-                          v-model={baseModel[schema.field]}
-                          placeholder={placeholder}
-                          {...props}
-                        />
-                      );
+                      return that.runtimeAdapter.formComponentRenderer({
+                        Component,
+                        schema,
+                        baseModel,
+                        placeholder,
+                        props,
+                      });
                     },
                     ...formItemNativeSlots,
                   }}
@@ -245,12 +246,12 @@ export default class RuntimeCore {
       this.model.value[schema.field].push(
         deepClone(this.processor.stableModel[schema.field][0])
       );
-    this.formRef.value.clearValidate();
+    this.runtimeAdapter.clearValidate(this);
   }
 
   deleteListItem(schema: AnyObject, index: number) {
     this.model.value[schema.field].splice(index, 1);
-    this.formRef.value.clearValidate();
+    this.runtimeAdapter.clearValidate(this);
   }
 
   runtimeListProcessor(schema: ListSchema) {

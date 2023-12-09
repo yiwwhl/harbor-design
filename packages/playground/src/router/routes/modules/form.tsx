@@ -12,12 +12,20 @@ const form = {
   component: BasicLayout,
   children: [
     {
-      path: "dynamic",
-      name: "Dynamic",
+      path: "dynamicArco",
+      name: "DynamicArco",
       meta: {
-        locale: "动态表单",
+        locale: "动态表单 Arco",
       },
-      component: () => import("@/views/Form/Dynamic/index"),
+      component: () => import("@/views/Form/DynamicArco/index"),
+    },
+    {
+      path: "dynamicNaive",
+      name: "DynamicNaive",
+      meta: {
+        locale: "动态表单 Naive",
+      },
+      component: () => import("@/views/Form/DynamicNaive/index"),
     },
   ],
 };

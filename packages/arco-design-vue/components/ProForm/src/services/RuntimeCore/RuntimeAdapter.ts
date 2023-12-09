@@ -30,4 +30,22 @@ export default class RuntimeAdpter {
       presetAdapter?.getFormModelPropName()
     );
   }
+
+  formComponentRenderer(runtimeArgs: AnyObject) {
+    const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
+    const presetAdapter = Preset.adapters[this.ui];
+    return (
+      contextAdapter?.formComponentRenderer(runtimeArgs) ??
+      presetAdapter?.formComponentRenderer(runtimeArgs)
+    );
+  }
+
+  clearValidate(runtimeArgs: AnyObject) {
+    const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
+    const presetAdapter = Preset.adapters[this.ui];
+    return (
+      contextAdapter?.clearValidate(runtimeArgs) ??
+      presetAdapter?.clearValidate(runtimeArgs)
+    );
+  }
 }

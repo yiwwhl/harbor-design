@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.12
+
+### Patch Changes
+
+- ProForm support NaiveUI
+
 ## 1.1.11
 
 ### Patch Changes

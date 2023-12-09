@@ -18,9 +18,9 @@ export interface FormPreset {
   adapter?: AdaptedInterface;
 }
 
-export type UIName = "ArcoVue" | "NutUI" | (string & {});
+export type UIName = "ArcoVue" | "NutUI" | "NaiveUI" | (string & {});
 
-export type AdaptedInterfacePreset = Record<string, AdaptedInterface>;
+export type AdaptedInterfacePreset = Record<UIName, AdaptedInterface>;
 
 export type FormPresets = {
   // 默认 ui

@@ -5,4 +5,6 @@ export default class RuntimeAdpter {
     getRuntimeField(runtimeArgs: AnyObject): any;
     getRuntimeRequired(runtimeArgs: AnyObject): any;
     getFormModelPropName(): any;
+    formComponentRenderer(runtimeArgs: AnyObject): any;
+    clearValidate(runtimeArgs: AnyObject): any;
 }

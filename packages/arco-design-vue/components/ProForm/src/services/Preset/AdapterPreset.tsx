@@ -53,6 +53,21 @@ const AdapterPreset: AdaptedInterfacePreset = {
     getFormModelPropName() {
       return "model";
     },
+    formComponentRenderer({
+      Component,
+      baseModel,
+      schema,
+      placeholder,
+      props,
+    }) {
+      return (
+        <Component
+          v-model={baseModel[schema.field]}
+          placeholder={placeholder}
+          {...props}
+        />
+      );
+    },
     validateForm(runtimeArgs) {
       return new Promise((resolve, reject) => {
         runtimeArgs.runtimeCore.formRef.value.validate((errors: any) => {
@@ -66,6 +81,9 @@ const AdapterPreset: AdaptedInterfacePreset = {
           );
         });
       });
+    },
+    clearValidate(runtimeArgs) {
+      runtimeArgs.formRef.value.clearValidate();
     },
   },
   NutUI: {
@@ -112,6 +130,21 @@ const AdapterPreset: AdaptedInterfacePreset = {
     getFormModelPropName() {
       return "modelValue";
     },
+    formComponentRenderer({
+      Component,
+      baseModel,
+      schema,
+      placeholder,
+      props,
+    }) {
+      return (
+        <Component
+          v-model={baseModel[schema.field]}
+          placeholder={placeholder}
+          {...props}
+        />
+      );
+    },
     validateForm(runtimeArgs) {
       return new Promise((resolve, reject) => {
         runtimeArgs.runtimeCore.formRef.value
@@ -128,6 +161,86 @@ const AdapterPreset: AdaptedInterfacePreset = {
             }
           });
       });
+    },
+    clearValidate(runtimeArgs) {
+      runtimeArgs.formRef.value.reset();
+    },
+  },
+  NaiveUI: {
+    getRuntimeField(runtimeArgs) {
+      const path = getGeneralField(runtimeArgs);
+      return {
+        path,
+      };
+    },
+    getRuntimeRequired(runtimeArgs: AnyObject) {
+      if (runtimeArgs.required) {
+        if (!runtimeArgs.rules) {
+          runtimeArgs.rules = [];
+          runtimeArgs.rules?.push({
+            required: true,
+            message: `${runtimeArgs.label}是必填项`,
+            trigger: ["input", "blur"],
+          });
+        } else {
+          const requiredIndex = runtimeArgs.rules.findIndex(
+            (rule: AnyObject) => !IS.isUndefined(rule.required)
+          );
+          if (requiredIndex !== -1) {
+            runtimeArgs.rules[requiredIndex].required = true;
+            runtimeArgs.rules[
+              requiredIndex
+            ].message = `${runtimeArgs.label}是必填项`;
+          }
+        }
+      } else {
+        if (runtimeArgs.rules) {
+          const requiredIndex = runtimeArgs.rules?.findIndex(
+            (rule: AnyObject) => !!rule.required
+          );
+          if (requiredIndex !== -1) {
+            runtimeArgs.rules[requiredIndex].required = false;
+          }
+        }
+      }
+      return {
+        rule: runtimeArgs.rules,
+      };
+    },
+    getFormModelPropName() {
+      return "model";
+    },
+    formComponentRenderer({
+      Component,
+      baseModel,
+      schema,
+      placeholder,
+      props,
+    }) {
+      return (
+        <Component
+          v-model:value={baseModel[schema.field]}
+          placeholder={placeholder}
+          {...props}
+        />
+      );
+    },
+    validateForm(runtimeArgs) {
+      return new Promise((resolve, reject) => {
+        runtimeArgs.runtimeCore.formRef.value.validate((errors: any) => {
+          if (errors) {
+            return reject(errors);
+          }
+          return resolve(
+            runtimeArgs.cleanFallbackFields(
+              toRaw(runtimeArgs.runtimeCore.processor.processedModel.value)
+            )
+          );
+        });
+      });
+    },
+    clearValidate(runtimeArgs) {
+      runtimeArgs.formRef.value.restoreValidation();
     },
   },
 };

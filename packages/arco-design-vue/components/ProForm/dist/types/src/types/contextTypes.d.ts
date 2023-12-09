@@ -14,8 +14,8 @@ export interface FormPreset {
     };
     adapter?: AdaptedInterface;
 }
-export type UIName = "ArcoVue" | "NutUI" | (string & {});
-export type AdaptedInterfacePreset = Record<string, AdaptedInterface>;
+export type UIName = "ArcoVue" | "NutUI" | "NaiveUI" | (string & {});
+export type AdaptedInterfacePreset = Record<UIName, AdaptedInterface>;
 export type FormPresets = {
     ui: UIName;
     uiPresets: Partial<Record<UIName, FormPreset>>;
