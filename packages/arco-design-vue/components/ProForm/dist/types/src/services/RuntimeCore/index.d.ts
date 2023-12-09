@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType, runtime, NativeCustomizationOptions } from "../../types";
+import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType, Runtime, NativeCustomizationOptions } from "../../types";
 import Processor from "../Processor";
 import Effect from "../Effect";
 import RuntimeAdpter from "./RuntimeAdapter";
@@ -13,7 +13,7 @@ export default class RuntimeCore {
     hydrateEffect: Effect;
     native: NativeCustomizationOptions;
     grid: {};
-    runtime: runtime;
+    runtime: Runtime;
     globalNativeFormOverride: {
         props: {};
         slots: {};

@@ -68,17 +68,17 @@ export interface ItemSchema {
 }
 export interface GroupSchema {
     type: "group";
-    label: string;
+    label?: string;
     children: ProxyedSchema[];
     grid?: GridStyle;
 }
 export interface ListSchema {
     type: "list";
     field: string;
-    label: string;
+    label?: string;
     children: ProxyedSchema[];
     grid?: GridStyle;
-    runtime?: runtime;
+    runtime?: Runtime;
 }
 export type Schema = ItemSchema | GroupSchema | ListSchema;
 export interface runtimeMeta {
@@ -89,14 +89,14 @@ export type ProFormProxy<T> = {
     [K in keyof T]: ProFormProxyRule<T[K]>;
 };
 export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
-export interface runtime {
+export interface Runtime {
     customizeItemLabel?: (rawLabel: string, rawIndex: number) => any;
 }
 export interface FormCustomization {
     ui?: UIName;
     grid?: GridStyle;
     native?: NativeCustomizationOptions;
-    runtime?: runtime;
+    runtime?: Runtime;
     schemas: ProxyedSchema[];
 }
 export type NativeCustomizationOptions = {

@@ -115,7 +115,6 @@ export default defineComponent({
           ],
         },
         {
-          label: "爱好",
           field: "hoby",
           type: "list",
           children: [

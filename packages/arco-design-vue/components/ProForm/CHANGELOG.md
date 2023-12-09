@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.13
+
+### Patch Changes
+
+- label can optional now
+
 ## 1.1.12
 
 ### Patch Changes
