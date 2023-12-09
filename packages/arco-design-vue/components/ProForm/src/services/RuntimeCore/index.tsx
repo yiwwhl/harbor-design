@@ -19,7 +19,7 @@ import {
   GroupSchema,
   ListSchema,
   ProcessorBySchemaType,
-  runtime,
+  Runtime,
   NativeCustomizationOptions,
 } from "../../types";
 import Processor from "../Processor";
@@ -47,7 +47,7 @@ export default class RuntimeCore {
   hydrateEffect = new Effect();
   native: NativeCustomizationOptions = reactive({});
   grid = {};
-  runtime: runtime = {};
+  runtime: Runtime = {};
   globalNativeFormOverride = {
     props: {},
     slots: {},
