@@ -7,7 +7,7 @@ import "@/assets/style/global.scss";
 import router from "@/router";
 import { createPinia } from "pinia";
 import { ImageAutoLoader } from "@/plugins/ImageCollector";
-import { useFormRenderer } from "@harbor-design/arco-design-vue";
+import { useFormPresetConfigurer } from "@harbor-design/arco-design-vue";
 // import { useFormRenderer } from "@harbor-design/proform";
 import { Form, FormItem } from "@arco-design/web-vue";
 import Item from "@/Infra/ProFormRuntimeDoms/Item";
@@ -17,17 +17,23 @@ import ListItem from "@/Infra/ProFormRuntimeDoms/ListItem";
 
 const app = createApp(App);
 const store = createPinia();
-const formRender = useFormRenderer({
-  Form,
-  FormItem,
-  Item,
-  Group,
-  List,
-  ListItem,
+useFormPresetConfigurer({
+  ui: "ArcoVue",
+  uiPresets: {
+    ArcoVue: {
+      container: {
+        Form,
+        FormItem,
+        Item,
+        Group,
+        List,
+        ListItem,
+      },
+    },
+  },
 });
 
 app.use(ArcoVue);
-app.use(formRender);
 app.use(router);
 app.use(store);
 app.use(ImageAutoLoader());

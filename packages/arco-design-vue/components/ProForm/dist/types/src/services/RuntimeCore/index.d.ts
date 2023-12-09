@@ -1,7 +1,8 @@
 import { Ref } from "vue";
-import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType, RuntimeSetters, NativeCustomizationOptions } from "../types";
-import Processor from "./Processor";
-import Effect from "./Effect";
+import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType, runtime, NativeCustomizationOptions } from "../../types";
+import Processor from "../Processor";
+import Effect from "../Effect";
+import RuntimeAdpter from "./RuntimeAdapter";
 export default class RuntimeCore {
     setup: Setup;
     processor: Processor;
@@ -11,12 +12,14 @@ export default class RuntimeCore {
     formRef: Ref<AnyObject>;
     hydrateEffect: Effect;
     native: NativeCustomizationOptions;
-    gridProps: {};
-    runtimeSetters: RuntimeSetters;
+    grid: {};
+    runtime: runtime;
     globalNativeFormOverride: {
         props: {};
         slots: {};
     };
+    ui: string;
+    runtimeAdapter: RuntimeAdpter;
     constructor(setup: Setup);
     getRuntimeMeta(): {
         model: AnyObject;

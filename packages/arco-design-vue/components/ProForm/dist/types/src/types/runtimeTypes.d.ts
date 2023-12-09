@@ -4,3 +4,6 @@ export interface ProcessorBySchemaType {
     group: (schema: GroupSchema) => any;
     list: (schema: ListSchema) => any;
 }
+export interface RuntimeOptions {
+    ui?: string;
+}

@@ -1,7 +1,6 @@
-import { AnyObject, ItemSchema } from "../types";
+import { AnyObject, ItemSchema } from "../../types";
 
-// only happy path: 后续会结合整体插件系统和预设系统考虑再进行抽象，目前是过渡状态
-export default class Preset {
+export default class RuntimePreset {
   static schemaPreset: Record<keyof ItemSchema, any> & {
     children: any;
   } = {
@@ -38,8 +37,12 @@ export default class Preset {
     children: {
       defaultValue: [],
     },
-    native: undefined,
-    gridProps: undefined,
+    native: {
+      defaultValue: undefined,
+    },
+    grid: {
+      default: undefined,
+    },
   };
   static componentPropsPreset: AnyObject = {
     options: {
@@ -54,7 +57,7 @@ export default class Preset {
     // prefix -> [avaliable component names]
     // 都用小写，这样可以做相似性碰撞
     const userFriendlyPreset = {
-      请选择: ["select", "tree", "treeselect"],
+      请选择: ["select", "tree"],
       请输入: ["input"],
     };
     const transformed = {};

@@ -1,7 +1,7 @@
-import { AnyObject, FormCustomization } from "../types";
-import { deepAssign } from "../utils";
-import { RuntimeCore } from "./index";
-import { isReactive, isRef, toRaw, watch } from "vue";
+import { AnyObject, FormCustomization } from "../../types";
+import { deepAssign } from "../../utils";
+import { Context, Preset, RuntimeCore } from "../index";
+import { isReactive, isRef, watch } from "vue";
 
 export default class FormCustomizer {
   public runtimeCore!: RuntimeCore;
@@ -23,27 +23,20 @@ export default class FormCustomizer {
   setup(_runtimeCore: RuntimeCore) {
     this.runtimeCore = _runtimeCore;
     Object.assign(this.runtimeCore.native, this.formCustomization.native);
-    Object.assign(this.runtimeCore.gridProps, this.formCustomization.gridProps);
-    Object.assign(
-      this.runtimeCore.runtimeSetters,
-      this.formCustomization.runtimeSetters
-    );
+    Object.assign(this.runtimeCore.grid, this.formCustomization.grid);
+    Object.assign(this.runtimeCore.runtime, this.formCustomization.runtime);
+    this.formCustomization.ui &&
+      (this.runtimeCore.ui = this.formCustomization.ui);
     return this.formCustomization;
   }
 
   submit(): Promise<AnyObject> {
-    return new Promise((resolve, reject) => {
-      this.runtimeCore.formRef.value.validate((errors: any) => {
-        if (errors) {
-          return reject(errors);
-        }
-        return resolve(
-          this.cleanFallbackFields(
-            toRaw(this.runtimeCore.processor.processedModel.value)
-          )
-        );
-      });
-    });
+    const contextAdapter =
+      Context.presets.uiPresets[this.runtimeCore.ui]?.adapter;
+    const presetAdapter = Preset.adapters[this.runtimeCore.ui];
+    return (
+      contextAdapter?.validateForm(this) ?? presetAdapter?.validateForm(this)
+    );
   }
 
   hydrate(data: AnyObject) {

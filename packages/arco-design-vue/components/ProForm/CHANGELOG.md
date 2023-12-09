@@ -1,5 +1,17 @@
 # @harbor-design/proform
 
+## 1.1.11
+
+### Patch Changes
+
+- ProForm support ArcoVue and NutUI
+
+## 1.1.10
+
+### Patch Changes
+
+- update ProForm
+
 ## 1.1.9
 
 ### Patch Changes

@@ -1,5 +1,5 @@
-import { AnyFunction } from "../types";
-import { TrackEffectMeta } from "../types/effectTypes";
+import { AnyFunction } from "../../types";
+import { TrackEffectMeta } from "../../types/effectTypes";
 export default class Effect {
     effects: Set<Function>;
     constructor();

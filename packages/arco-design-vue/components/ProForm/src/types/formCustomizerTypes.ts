@@ -1,4 +1,4 @@
-import { AnyObject, DomType } from "./index";
+import { AnyObject, DomType, UIName } from "./index";
 
 export type SchemaType = "item" | "list" | "group";
 
@@ -74,8 +74,8 @@ export interface ItemSchema {
   required?: boolean;
   placeholder?: string;
   native?: NativeCustomizationOptions;
-  gridProps?: GridStyle;
-  label: string;
+  grid?: GridStyle;
+  label?: string;
   field: string;
   component: DomType;
   componentProps?: AnyObject;
@@ -86,7 +86,7 @@ export interface GroupSchema {
   type: "group";
   label: string;
   children: ProxyedSchema[];
-  gridProps?: GridStyle;
+  grid?: GridStyle;
 }
 
 export interface ListSchema {
@@ -94,8 +94,8 @@ export interface ListSchema {
   field: string;
   label: string;
   children: ProxyedSchema[];
-  gridProps?: GridStyle;
-  runtimeSetters?: RuntimeSetters;
+  grid?: GridStyle;
+  runtime?: runtime;
 }
 
 export type Schema = ItemSchema | GroupSchema | ListSchema;
@@ -115,14 +115,15 @@ export type ProFormProxy<T> = {
 
 export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
 
-export interface RuntimeSetters {
-  listItemLabelSetter?: (rawLabel: string, rawIndex: number) => any;
+export interface runtime {
+  customizeItemLabel?: (rawLabel: string, rawIndex: number) => any;
 }
 
 export interface FormCustomization {
-  gridProps?: GridStyle;
+  ui?: UIName;
+  grid?: GridStyle;
   native?: NativeCustomizationOptions;
-  runtimeSetters?: RuntimeSetters;
+  runtime?: runtime;
   schemas: ProxyedSchema[];
 }
 

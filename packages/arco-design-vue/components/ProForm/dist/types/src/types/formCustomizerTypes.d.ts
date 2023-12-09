@@ -1,4 +1,4 @@
-import { AnyObject, DomType } from "./index";
+import { AnyObject, DomType, UIName } from "./index";
 export type SchemaType = "item" | "list" | "group";
 export type FieldRule<T = any> = {
     type?: "string" | "number" | "boolean" | "array" | "object" | "email" | "url" | "ip";
@@ -59,8 +59,8 @@ export interface ItemSchema {
     required?: boolean;
     placeholder?: string;
     native?: NativeCustomizationOptions;
-    gridProps?: GridStyle;
-    label: string;
+    grid?: GridStyle;
+    label?: string;
     field: string;
     component: DomType;
     componentProps?: AnyObject;
@@ -70,15 +70,15 @@ export interface GroupSchema {
     type: "group";
     label: string;
     children: ProxyedSchema[];
-    gridProps?: GridStyle;
+    grid?: GridStyle;
 }
 export interface ListSchema {
     type: "list";
     field: string;
     label: string;
     children: ProxyedSchema[];
-    gridProps?: GridStyle;
-    runtimeSetters?: RuntimeSetters;
+    grid?: GridStyle;
+    runtime?: runtime;
 }
 export type Schema = ItemSchema | GroupSchema | ListSchema;
 export interface runtimeMeta {
@@ -89,13 +89,14 @@ export type ProFormProxy<T> = {
     [K in keyof T]: ProFormProxyRule<T[K]>;
 };
 export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
-export interface RuntimeSetters {
-    listItemLabelSetter?: (rawLabel: string, rawIndex: number) => any;
+export interface runtime {
+    customizeItemLabel?: (rawLabel: string, rawIndex: number) => any;
 }
 export interface FormCustomization {
-    gridProps?: GridStyle;
+    ui?: UIName;
+    grid?: GridStyle;
     native?: NativeCustomizationOptions;
-    runtimeSetters?: RuntimeSetters;
+    runtime?: runtime;
     schemas: ProxyedSchema[];
 }
 export type NativeCustomizationOptions = {

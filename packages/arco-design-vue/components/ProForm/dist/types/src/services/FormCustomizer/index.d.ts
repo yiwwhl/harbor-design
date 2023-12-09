@@ -1,5 +1,5 @@
-import { AnyObject, FormCustomization } from "../types";
-import { RuntimeCore } from "./index";
+import { AnyObject, FormCustomization } from "../../types";
+import { RuntimeCore } from "../index";
 export default class FormCustomizer {
     formCustomization: FormCustomization;
     runtimeCore: RuntimeCore;

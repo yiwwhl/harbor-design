@@ -9,7 +9,7 @@ import {
   toRaw,
   watch,
 } from "vue";
-import { Context, Preset } from ".";
+import { Context, Preset } from "..";
 import {
   Setup,
   Schema,
@@ -19,12 +19,19 @@ import {
   GroupSchema,
   ListSchema,
   ProcessorBySchemaType,
-  RuntimeSetters,
+  runtime,
   NativeCustomizationOptions,
-} from "../types";
-import Processor from "./Processor";
-import { IS, deepAssign, deepClone, replaceUndefinedInString } from "../utils";
-import Effect from "./Effect";
+} from "../../types";
+import Processor from "../Processor";
+import {
+  IS,
+  deepAssign,
+  deepClone,
+  replaceUndefinedInString,
+} from "../../utils";
+import Effect from "../Effect";
+import RuntimeContainer from "./RuntimeContainer";
+import RuntimeAdpter from "./RuntimeAdapter";
 
 // TODO: should refactor
 export default class RuntimeCore {
@@ -39,16 +46,20 @@ export default class RuntimeCore {
   formRef: Ref<AnyObject> = ref(null as unknown as AnyObject);
   hydrateEffect = new Effect();
   native: NativeCustomizationOptions = reactive({});
-  gridProps = {};
-  runtimeSetters: RuntimeSetters = {};
+  grid = {};
+  runtime: runtime = {};
   globalNativeFormOverride = {
     props: {},
     slots: {},
   };
+  ui: string;
+  runtimeAdapter: RuntimeAdpter;
 
   constructor(public setup: Setup) {
     this.processor = new Processor(this);
     const formCustomization = this.setup(this) as FormCustomization;
+    this.ui = formCustomization.ui ?? Context.presets.ui;
+    this.runtimeAdapter = new RuntimeAdpter(this.ui);
     if (isRef(formCustomization.schemas)) {
       const stopWatch = watch(
         () => formCustomization.schemas,
@@ -95,12 +106,10 @@ export default class RuntimeCore {
     baseModel = this.model.value,
     parentSchema?: ListSchema
   ) {
+    const Component = toRaw(schema.component);
+    if (!Component) return;
     deepAssign(this.globalNativeFormOverride.props, schema.native?.props?.Form);
     deepAssign(this.globalNativeFormOverride.slots, schema.native?.slots?.Form);
-    const formItemNativeProps = deepAssign(
-      deepClone(this.native?.props?.FormItem) ?? {},
-      schema.native?.props?.FormItem
-    );
     const formItemNativeSlots = deepAssign(
       deepClone(this.native?.slots?.FormItem) ?? {},
       schema.native?.slots?.FormItem
@@ -108,20 +117,23 @@ export default class RuntimeCore {
     const defaultItemStyle: CSSProperties = {
       display: "grid",
       gridColumn: "1 / -1",
-      ...schema.gridProps,
+      ...schema.grid,
     };
-    const field = parentSchema
-      ? `${parentSchema.field}.${index}.${schema.field}`
-      : schema.field;
-    const Component = toRaw(schema.component);
-    if (!Component) return;
+    const formItemNativeProps = deepAssign(
+      deepClone(this.native?.props?.FormItem) ?? {},
+      schema.native?.props?.FormItem
+    );
+    const runtimeField = this.runtimeAdapter.getRuntimeField({
+      schema,
+      parentSchema,
+      index,
+    });
     const componentName = Component.name;
     const props = schema.componentProps ?? {};
     const placeholderPresetByComponentName =
       Preset.placeholderPresetByComponentName;
     let placeholder = schema.placeholder;
 
-    const required = schema.required;
     let show = schema.show;
     if (show === undefined) {
       show = true;
@@ -130,11 +142,11 @@ export default class RuntimeCore {
       delete baseModel[schema.field];
     }
     let label = schema.label;
-    const runtimeSetters = parentSchema?.runtimeSetters ?? this.runtimeSetters;
-    if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtimeSetters)) {
+    const runtime = parentSchema?.runtime ?? this.runtime;
+    if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtime)) {
       // 对于 list 而言会有数据 model index
       label = replaceUndefinedInString(
-        runtimeSetters?.listItemLabelSetter?.(schema.label, index + 1),
+        runtime?.customizeItemLabel?.(schema.label ?? "", index + 1),
         ""
       );
     }
@@ -164,44 +176,24 @@ export default class RuntimeCore {
         placeholder = `${prefix}${label}`;
       }
     }
-    if (required) {
-      if (!schema.rules) {
-        schema.rules = [];
-        schema.rules?.push({
-          required: true,
-          message: `${label}是必填项`,
-        });
-      } else {
-        const requiredIndex = schema.rules.findIndex(
-          (rule) => !IS.isUndefined(rule.required)
-        );
-        if (requiredIndex !== -1) {
-          schema.rules[requiredIndex].required = true;
-          schema.rules[requiredIndex].message = `${label}是必填项`;
-        }
-      }
-    } else {
-      if (schema.rules) {
-        const requiredIndex = schema.rules?.findIndex(
-          (rule) => !!rule.required
-        );
-        if (requiredIndex !== -1) {
-          schema.rules[requiredIndex].required = false;
-        }
-      }
-    }
+    const runtimeRequired = this.runtimeAdapter.getRuntimeRequired({
+      ...schema,
+      label,
+    });
+    const Item = RuntimeContainer.getItemContainer(this);
+    const FormItem = RuntimeContainer.getFormItemContainer(this);
     return (
       <div style={defaultItemStyle}>
-        <Context.runtimeDoms.Item>
+        <Item>
           {{
             default() {
               return (
-                <Context.runtimeDoms.FormItem
+                <FormItem
                   {...formItemNativeProps}
                   v-show={show}
                   label={`${label}:`}
-                  rules={schema.rules}
-                  field={field}
+                  {...runtimeField}
+                  {...runtimeRequired}
                 >
                   {{
                     default() {
@@ -215,11 +207,11 @@ export default class RuntimeCore {
                     },
                     ...formItemNativeSlots,
                   }}
-                </Context.runtimeDoms.FormItem>
+                </FormItem>
               );
             },
           }}
-        </Context.runtimeDoms.Item>
+        </Item>
       </div>
     );
   }
@@ -228,15 +220,16 @@ export default class RuntimeCore {
     const defaultStyle = {
       display: "grid",
       gridColumn: "1 / -1",
-      ...schema.gridProps,
+      ...schema.grid,
     };
+    const Group = RuntimeContainer.getGroupContainer(this);
     return (
       <div style={defaultStyle}>
-        <Context.runtimeDoms.Group schema={schema}>
+        <Group schema={schema}>
           {(schema.children as ItemSchema[]).map((chlidSchema) =>
             this.runtimeItemProcessor(chlidSchema)
           )}
-        </Context.runtimeDoms.Group>
+        </Group>
       </div>
     );
   }
@@ -264,20 +257,23 @@ export default class RuntimeCore {
     const defaultStyle = {
       display: "grid",
       gridColumn: "1 / -1",
-      ...schema.gridProps,
+      ...schema.grid,
     };
     const that = this;
     if (!that.model.value[schema.field]) {
       that.model.value[schema.field] = [{}];
     }
+
+    const List = RuntimeContainer.getListContainer(this);
+    const ListItem = RuntimeContainer.getListItemContainer(this);
     return (
       <div style={defaultStyle}>
-        <Context.runtimeDoms.List schema={schema}>
+        <List schema={schema}>
           {{
             default() {
               return that.model.value[schema.field].map(
                 (listItemModel: AnyObject, listItemIndex: number) => (
-                  <Context.runtimeDoms.ListItem>
+                  <ListItem>
                     {{
                       default() {
                         return (schema.children as ItemSchema[]).map(
@@ -302,7 +298,7 @@ export default class RuntimeCore {
                         );
                       },
                     }}
-                  </Context.runtimeDoms.ListItem>
+                  </ListItem>
                 )
               );
             },
@@ -311,7 +307,7 @@ export default class RuntimeCore {
               return <Container onClick={() => that.addListItem(schema)} />;
             },
           }}
-        </Context.runtimeDoms.List>
+        </List>
       </div>
     );
   }
@@ -331,7 +327,7 @@ export default class RuntimeCore {
       display: "grid",
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
-      ...this.gridProps,
+      ...this.grid,
     };
     const that = this;
     const formNativeProps = deepAssign(
@@ -342,11 +338,13 @@ export default class RuntimeCore {
       deepClone(this.native?.slots?.Form) ?? {},
       this.globalNativeFormOverride.slots
     );
+    const Form = RuntimeContainer.getFormContainer(this);
+    const formModelPropName = this.runtimeAdapter.getFormModelPropName();
     return (
-      <Context.runtimeDoms.Form
+      <Form
         {...formNativeProps}
         ref={this.formRef}
-        model={this.model.value}
+        {...{ [formModelPropName]: this.model.value }}
       >
         {{
           default() {
@@ -358,7 +356,7 @@ export default class RuntimeCore {
           },
           ...formNativeSlots,
         }}
-      </Context.runtimeDoms.Form>
+      </Form>
     );
   }
 }

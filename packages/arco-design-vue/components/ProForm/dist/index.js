@@ -1,8 +1,8 @@
-var ee = Object.defineProperty;
-var te = (o, e, t) => e in o ? ee(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
-var l = (o, e, t) => (te(o, typeof e != "symbol" ? e + "" : e, t), t);
-import { toRaw as O, isRef as D, watch as j, isReactive as N, nextTick as A, ref as M, reactive as se, createVNode as c, withDirectives as Y, mergeProps as F, vShow as Z, createTextVNode as re, isVNode as ie, defineComponent as oe } from "vue";
-class f {
+var re = Object.defineProperty;
+var ie = (r, e, t) => e in r ? re(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
+var a = (r, e, t) => (ie(r, typeof e != "symbol" ? e + "" : e, t), t);
+import { isRef as U, watch as I, isReactive as x, toRaw as V, nextTick as w, ref as R, reactive as oe, createVNode as p, withDirectives as Y, mergeProps as M, vShow as Z, createTextVNode as ne, isVNode as le, defineComponent as ae } from "vue";
+class l {
   static typeChecker(e) {
     return {}.toString.call(e);
   }
@@ -63,18 +63,18 @@ class f {
     return !1;
   }
 }
-function m(o, ...e) {
+function m(r, ...e) {
   return e.forEach((t) => {
     if (Array.isArray(t))
-      Array.isArray(o) || (o = []), t.forEach((s, r) => {
-        typeof s == "object" && s !== null ? o[r] = m(Array.isArray(s) ? [] : {}, s) : o[r] = s;
+      Array.isArray(r) || (r = []), t.forEach((s, i) => {
+        typeof s == "object" && s !== null ? r[i] = m(Array.isArray(s) ? [] : {}, s) : r[i] = s;
       });
     else
       for (let s in t)
-        t.hasOwnProperty(s) && (typeof t[s] == "object" && t[s] !== null ? o[s] = m(o[s] || {}, t[s]) : o[s] = t[s]);
-  }), o;
+        t.hasOwnProperty(s) && (typeof t[s] == "object" && t[s] !== null ? r[s] = m(r[s] || {}, t[s]) : r[s] = t[s]);
+  }), r;
 }
-function g(o) {
+function g(r) {
   const e = /* @__PURE__ */ new WeakMap();
   function t(s) {
     if (s === null || typeof s != "object")
@@ -84,40 +84,40 @@ function g(o) {
     if (s instanceof RegExp)
       return new RegExp(s);
     if (s instanceof Map) {
-      const i = /* @__PURE__ */ new Map();
+      const o = /* @__PURE__ */ new Map();
       for (let [n, u] of s)
-        i.set(t(n), t(u));
-      return i;
+        o.set(t(n), t(u));
+      return o;
     }
     if (s instanceof Set) {
-      const i = /* @__PURE__ */ new Set();
+      const o = /* @__PURE__ */ new Set();
       for (let n of s)
-        i.add(t(n));
-      return i;
+        o.add(t(n));
+      return o;
     }
     if (e.has(s))
       return e.get(s);
     if (Array.isArray(s)) {
-      const i = [];
-      e.set(s, i);
+      const o = [];
+      e.set(s, o);
       for (let n = 0; n < s.length; n++)
-        i[n] = t(s[n]);
-      return i;
+        o[n] = t(s[n]);
+      return o;
     }
-    const r = Object.create(Object.getPrototypeOf(s));
-    e.set(s, r);
-    for (let i in s)
-      s.hasOwnProperty(i) && (r[i] = t(s[i]));
-    return r;
+    const i = Object.create(Object.getPrototypeOf(s));
+    e.set(s, i);
+    for (let o in s)
+      s.hasOwnProperty(o) && (i[o] = t(s[o]));
+    return i;
   }
-  return t(o);
+  return t(r);
 }
-function L(o, e) {
-  return o.replace(/undefined/g, e);
+function q(r, e) {
+  return r.replace(/undefined/g, e);
 }
-class ne {
+class ue {
   constructor(e) {
-    l(this, "runtimeCore");
+    a(this, "runtimeCore");
     this.formCustomization = e;
   }
   // happy path, 后续可以完善更多的 fallback 处理，fallback 处理是为了不卡住异步时的首次渲染做的优化
@@ -127,19 +127,12 @@ class ne {
     })), e;
   }
   setup(e) {
-    return this.runtimeCore = e, Object.assign(this.runtimeCore.native, this.formCustomization.native), Object.assign(this.runtimeCore.gridProps, this.formCustomization.gridProps), Object.assign(
-      this.runtimeCore.runtimeSetters,
-      this.formCustomization.runtimeSetters
-    ), this.formCustomization;
+    return this.runtimeCore = e, Object.assign(this.runtimeCore.native, this.formCustomization.native), Object.assign(this.runtimeCore.grid, this.formCustomization.grid), Object.assign(this.runtimeCore.runtime, this.formCustomization.runtime), this.formCustomization.ui && (this.runtimeCore.ui = this.formCustomization.ui), this.formCustomization;
   }
   submit() {
-    return new Promise((e, t) => {
-      this.runtimeCore.formRef.value.validate((s) => s ? t(s) : e(
-        this.cleanFallbackFields(
-          O(this.runtimeCore.processor.processedModel.value)
-        )
-      ));
-    });
+    var s;
+    const e = (s = f.presets.uiPresets[this.runtimeCore.ui]) == null ? void 0 : s.adapter, t = j.adapters[this.runtimeCore.ui];
+    return (e == null ? void 0 : e.validateForm(this)) ?? (t == null ? void 0 : t.validateForm(this));
   }
   hydrate(e) {
     if (!this.runtimeCore)
@@ -149,7 +142,7 @@ class ne {
       });
     this.runtimeCore.hydrateEffect.trackEffect(
       () => {
-        D(e) ? j(
+        U(e) ? I(
           () => e.value,
           () => {
             m(this.runtimeCore.model.value, e.value);
@@ -158,7 +151,7 @@ class ne {
             deep: !0,
             immediate: !0
           }
-        ) : N(e) ? j(
+        ) : x(e) ? I(
           () => e,
           () => {
             m(this.runtimeCore.model.value, e);
@@ -175,9 +168,9 @@ class ne {
     );
   }
 }
-class x {
+class N {
   constructor() {
-    l(this, "effects", /* @__PURE__ */ new Set());
+    a(this, "effects", /* @__PURE__ */ new Set());
   }
   clearEffects() {
     this.effects.clear();
@@ -191,23 +184,23 @@ class x {
     return !t.lazy && e(), this.effects.add(e), () => this.effects.delete(e);
   }
 }
-class le {
+class ce {
   constructor(e) {
-    l(this, "runtimeCore");
-    l(this, "processedSchemas");
-    l(this, "processedModel");
-    l(this, "getRuntimeMeta");
-    l(this, "stableSchemas", []);
-    l(this, "stableModel", {});
-    l(this, "schemaPreset", w.schemaPreset);
-    l(this, "componentPropsPreset", w.componentPropsPreset);
-    l(this, "stableUpdaterProcessProgress");
-    l(this, "stableUpdaterTimes", 0);
-    l(this, "schemaEffect", new x());
-    l(this, "defaultValueEffect", new x());
-    l(this, "defaultValueInprogressMap", /* @__PURE__ */ new Map());
-    l(this, "baseDefaultValueFunctionsLength");
-    this.runtimeCore = e, this.processedSchemas = e.schemas, this.processedModel = e.model, this.getRuntimeMeta = e.getRuntimeMeta.bind(e), j(
+    a(this, "runtimeCore");
+    a(this, "processedSchemas");
+    a(this, "processedModel");
+    a(this, "getRuntimeMeta");
+    a(this, "stableSchemas", []);
+    a(this, "stableModel", {});
+    a(this, "schemaPreset", j.schemaPreset);
+    a(this, "componentPropsPreset", j.componentPropsPreset);
+    a(this, "stableUpdaterProcessProgress");
+    a(this, "stableUpdaterTimes", 0);
+    a(this, "schemaEffect", new N());
+    a(this, "defaultValueEffect", new N());
+    a(this, "defaultValueInprogressMap", /* @__PURE__ */ new Map());
+    a(this, "baseDefaultValueFunctionsLength");
+    this.runtimeCore = e, this.processedSchemas = e.schemas, this.processedModel = e.model, this.getRuntimeMeta = e.getRuntimeMeta.bind(e), I(
       () => this.processedModel.value,
       () => {
         this.schemaEffect.triggerEffects();
@@ -219,8 +212,8 @@ class le {
   }
   // 核心处理过程，接收一个初始的代理数据结构,由其衍生的有 parseSchema
   parse(e, t) {
-    e.forEach((s, r) => {
-      this.parseItem(s, r, t);
+    e.forEach((s, i) => {
+      this.parseItem(s, i, t);
     });
   }
   // 初始化空数据结构，避免后续复杂的 if else
@@ -232,24 +225,24 @@ class le {
   }
   countFunctionDefaultValues(e) {
     let t = 0, s = /* @__PURE__ */ new Set();
-    function r(i) {
-      if (!s.has(i) && (Array.isArray(i) || i !== null && typeof i == "object")) {
-        s.add(i);
-        for (let n in i)
-          i.hasOwnProperty(n) && (n === "defaultValue" && typeof i[n] == "function" && !i[n].toString().includes("[native code]") && t++, r(i[n]));
+    function i(o) {
+      if (!s.has(o) && (Array.isArray(o) || o !== null && typeof o == "object")) {
+        s.add(o);
+        for (let n in o)
+          o.hasOwnProperty(n) && (n === "defaultValue" && typeof o[n] == "function" && !o[n].toString().includes("[native code]") && t++, i(o[n]));
       }
     }
-    return r(e), t;
+    return i(e), t;
   }
   // 派生过程，用于外部应用
   parseSchemas(e, t) {
-    f.isArrayEmpty(this.processedSchemas.value) && (this.baseDefaultValueFunctionsLength = this.countFunctionDefaultValues(
+    l.isArrayEmpty(this.processedSchemas.value) && (this.baseDefaultValueFunctionsLength = this.countFunctionDefaultValues(
       g(e)
     ), this.processedSchemas.value = this.initSchemas(e)), this.parse(e, t);
   }
   parseStable(e) {
     const t = {};
-    if (!f.isUndefined(e.stable))
+    if (!l.isUndefined(e.stable))
       t[e.key] = this.parseStable(e.stable);
     else
       return e;
@@ -258,110 +251,110 @@ class le {
   // 对于稳定初始化更新的抽象
   stableUpdater(e = []) {
     if (e.every(Boolean)) {
-      const t = O(this.processedSchemas.value);
-      !f.isProcessInprogress(t) && f.isObjectEmpty(this.stableModel) && (this.stableUpdaterProcessProgress || (this.stableUpdaterProcessProgress = Array.from({
+      const t = V(this.processedSchemas.value);
+      !l.isProcessInprogress(t) && l.isObjectEmpty(this.stableModel) && (this.stableUpdaterProcessProgress || (this.stableUpdaterProcessProgress = Array.from({
         length: t.length
       }).fill(!1)), this.stableUpdaterProcessProgress[this.stableUpdaterTimes] = !0, this.stableUpdaterTimes++, this.modelProcessor(t));
     }
   }
   // 核心单 schema 处理过程，接收一个对象键值对的数据结构
   parseItem(e, t, s) {
-    const r = this, i = Array.from({
+    const i = this, o = Array.from({
       length: Object.keys(e).filter((u) => u !== "children").length
     }).fill(!1);
     this.objectParser({ data: e, index: t, updater: n });
     function n(u) {
-      const a = u.index, d = u.key, E = u.keyIndex;
-      if (f.isUndefined(u.stable))
+      const c = u.index, d = u.key, y = u.keyIndex;
+      if (l.isUndefined(u.stable))
         return;
-      const U = r.parseStable(u.stable), v = s == null ? void 0 : s.index, b = s == null ? void 0 : s.key;
-      let y = U;
-      if (f.isProcessInprogress(y) || (i[E] = !0), s) {
-        let h = r.processedSchemas.value[v][b][a][d];
-        h && f.isObject(h) && d !== "component" && (y = m(h, y)), r.processedSchemas.value[v][b][a][d] = y, r.stableUpdater(i);
+      const O = i.parseStable(u.stable), v = s == null ? void 0 : s.index, P = s == null ? void 0 : s.key;
+      let b = O;
+      if (l.isProcessInprogress(b) || (o[y] = !0), s) {
+        let h = i.processedSchemas.value[v][P][c][d];
+        h && l.isObject(h) && d !== "component" && (b = m(h, b)), i.processedSchemas.value[v][P][c][d] = b, i.stableUpdater(o);
       } else {
-        let h = r.processedSchemas.value[a][d];
-        h && f.isObject(h) && d !== "component" && (y = m(h, y)), r.processedSchemas.value[a][d] = y, r.stableUpdater(i);
+        let h = i.processedSchemas.value[c][d];
+        h && l.isObject(h) && d !== "component" && (b = m(h, b)), i.processedSchemas.value[c][d] = b, i.stableUpdater(o);
       }
     }
   }
   // 只做基本的对象 parser
   objectParser(e) {
     const t = e.data;
-    Object.keys(t).forEach((r, i) => {
-      if (r === "children")
-        this.parseSchemas(t[r], {
+    Object.keys(t).forEach((i, o) => {
+      if (i === "children")
+        this.parseSchemas(t[i], {
           ...e,
-          key: r,
-          keyIndex: i
+          key: i,
+          keyIndex: o
         });
       else {
         const n = (u) => {
           e.updater({
             ...e,
-            key: r,
-            keyIndex: i,
+            key: i,
+            keyIndex: o,
             stable: u
           });
         };
-        f.isFunction(t[r]) ? r !== "defaultValue" ? this.schemaEffect.trackEffect(() => {
-          if (r === "component") {
-            const u = t[r](this.getRuntimeMeta());
+        l.isFunction(t[i]) ? i !== "defaultValue" ? this.schemaEffect.trackEffect(() => {
+          if (i === "component") {
+            const u = t[i](this.getRuntimeMeta());
             this.promiseFieldParser(u, n, !1);
           } else
-            this.fieldParser(t[r], n);
+            this.fieldParser(t[i], n);
         }) : this.defaultValueEffect.trackEffect(() => {
           const u = this.schemaEffect.trackEffect(() => {
-            /\{\s*model\s*\}/.test(t[r].toString()) ? this.fieldParser(t[r], (a) => {
-              if (!a)
-                return n(a);
-              this.defaultValueInprogressMap.set(t[r], a), !f.isProcessInprogress(a) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
+            /\{\s*model\s*\}/.test(t[i].toString()) ? this.fieldParser(t[i], (c) => {
+              if (!c)
+                return n(c);
+              this.defaultValueInprogressMap.set(t[i], c), !l.isProcessInprogress(c) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
                 (d) => !d.includes("undefined")
-              ) ? (n(a), this.defaultValueEffect.clearEffects(), A(() => {
+              ) ? (n(c), this.defaultValueEffect.clearEffects(), w(() => {
                 u();
-              })) : n(a);
-            }) : this.fieldParser(t[r], (a) => {
-              this.defaultValueInprogressMap.set(t[r], a), !f.isProcessInprogress(a) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
+              })) : n(c);
+            }) : this.fieldParser(t[i], (c) => {
+              this.defaultValueInprogressMap.set(t[i], c), !l.isProcessInprogress(c) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(this.defaultValueInprogressMap.values()).every(
                 (d) => !d.includes("undefined")
-              ) ? (n(a), this.defaultValueEffect.clearEffects(), A(() => {
+              ) ? (n(c), this.defaultValueEffect.clearEffects(), w(() => {
                 u();
-              })) : n(a);
+              })) : n(c);
             });
           });
-        }) : r === "component" || r === "slots" || r === "runtimeSetters" ? this.promiseFieldParser(t[r], n, !1) : this.fieldParser(t[r], n);
+        }) : i === "component" || i === "slots" || i === "runtime" ? this.promiseFieldParser(t[i], n, !1) : this.fieldParser(t[i], n);
       }
     });
   }
   promiseFieldParser(e, t, s) {
-    f.isPromise(e) ? e.then((r) => {
-      f.isString(r) && (r = L(r, "")), s && f.isObject(r) ? this.objectParser({
-        data: r,
+    l.isPromise(e) ? e.then((i) => {
+      l.isString(i) && (i = q(i, "")), s && l.isObject(i) ? this.objectParser({
+        data: i,
         updater: t
-      }) : t(r);
-    }) : (f.isString(e) && (e = L(e, "")), s && f.isObject(e) ? this.objectParser({
+      }) : t(i);
+    }) : (l.isString(e) && (e = q(e, "")), s && l.isObject(e) ? this.objectParser({
       data: e,
       updater: t
     }) : t(e));
   }
   // 对任意对象中单个字段的 parse: 做基本处理
   fieldParser(e, t, s = !0) {
-    if (f.isFunction(e))
+    if (l.isFunction(e))
       if (e.name.startsWith("__proform_raw_"))
-        t((...r) => {
+        t((...i) => {
           e({
-            rawArgs: r,
+            rawArgs: i,
             ...this.getRuntimeMeta()
           });
         });
       else {
-        const r = e(this.getRuntimeMeta());
-        this.promiseFieldParser(r, t, s);
+        const i = e(this.getRuntimeMeta());
+        this.promiseFieldParser(i, t, s);
       }
     else
-      D(e) ? j(
+      U(e) ? I(
         () => e.value,
         () => {
-          f.isUndefined(e.value) || (s && f.isObject(e.value) ? this.objectParser({
+          l.isUndefined(e.value) || (s && l.isObject(e.value) ? this.objectParser({
             data: e.value,
             updater: t
           }) : t(e.value));
@@ -370,10 +363,10 @@ class le {
           immediate: !0,
           deep: !0
         }
-      ) : N(e) ? j(
+      ) : x(e) ? I(
         () => e,
         () => {
-          f.isUndefined(e) || (s && f.isObject(e) ? this.objectParser({
+          l.isUndefined(e) || (s && l.isObject(e) ? this.objectParser({
             data: e,
             updater: t
           }) : t(e));
@@ -382,7 +375,7 @@ class le {
           immediate: !0,
           deep: !0
         }
-      ) : s && f.isObject(e) ? this.objectParser({
+      ) : s && l.isObject(e) ? this.objectParser({
         data: e,
         updater: t
       }) : t(e);
@@ -390,50 +383,90 @@ class le {
   modelProcessor(e) {
     e.map(
       (t) => this.createModel(t, this.processedModel.value)
-    ), f.isObjectEmpty(this.stableModel) && this.stableUpdaterProcessProgress.every(Boolean) && this.defaultValueEffect.effects.size === 0 && (this.stableModel = g(this.processedModel.value), this.runtimeCore.hydrateEffect.triggerEffects(), this.runtimeCore.hydrateEffect.clearEffects());
+    ), l.isObjectEmpty(this.stableModel) && this.stableUpdaterProcessProgress.every(Boolean) && this.defaultValueEffect.effects.size === 0 && (this.stableModel = g(this.processedModel.value), this.runtimeCore.hydrateEffect.triggerEffects(), this.runtimeCore.hydrateEffect.clearEffects());
   }
   createModel(e, t) {
-    f.isListSchema(e) && (t[e.field] || (t[e.field] = [{}]), e.children.forEach((s) => {
+    l.isListSchema(e) && (t[e.field] || (t[e.field] = [{}]), e.children.forEach((s) => {
       this.createModel(s, t[e.field][0]);
-    })), f.isGroupSchema(e) && e.children.forEach((s) => {
+    })), l.isGroupSchema(e) && e.children.forEach((s) => {
       this.createModel(s, t);
-    }), f.isItemSchema(e) && (t[e.field] = e.defaultValue);
+    }), l.isItemSchema(e) && (t[e.field] = e.defaultValue);
   }
 }
-function fe(o) {
-  return typeof o == "function" || Object.prototype.toString.call(o) === "[object Object]" && !ie(o);
+class F {
+  static getFormContainer({ ui: e } = {}) {
+    return f.presets.uiPresets[e ?? f.presets.ui].container.Form;
+  }
+  static getFormItemContainer({ ui: e } = {}) {
+    return f.presets.uiPresets[e ?? f.presets.ui].container.FormItem;
+  }
+  static getItemContainer({ ui: e } = {}) {
+    return f.presets.uiPresets[e ?? f.presets.ui].container.Item;
+  }
+  static getGroupContainer({ ui: e } = {}) {
+    return f.presets.uiPresets[e ?? f.presets.ui].container.Group;
+  }
+  static getListContainer({ ui: e } = {}) {
+    return f.presets.uiPresets[e ?? f.presets.ui].container.List;
+  }
+  static getListItemContainer({ ui: e } = {}) {
+    return f.presets.uiPresets[e ?? f.presets.ui].container.ListItem;
+  }
 }
-class ae {
+class fe {
   constructor(e) {
-    l(this, "schemas", M([]));
-    l(this, "model", M({}));
-    l(this, "processorBySchemaType", {
+    this.ui = e;
+  }
+  getRuntimeField(e) {
+    var i;
+    const t = (i = f.presets.uiPresets[this.ui]) == null ? void 0 : i.adapter, s = j.adapters[this.ui];
+    return (t == null ? void 0 : t.getRuntimeField(e)) ?? (s == null ? void 0 : s.getRuntimeField(e));
+  }
+  getRuntimeRequired(e) {
+    var i;
+    const t = (i = f.presets.uiPresets[this.ui]) == null ? void 0 : i.adapter, s = j.adapters[this.ui];
+    return (t == null ? void 0 : t.getRuntimeRequired(e)) ?? (s == null ? void 0 : s.getRuntimeRequired(e));
+  }
+  getFormModelPropName() {
+    var s;
+    const e = (s = f.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, t = j.adapters[this.ui];
+    return (e == null ? void 0 : e.getFormModelPropName()) ?? (t == null ? void 0 : t.getFormModelPropName());
+  }
+}
+function de(r) {
+  return typeof r == "function" || Object.prototype.toString.call(r) === "[object Object]" && !le(r);
+}
+class pe {
+  constructor(e) {
+    a(this, "schemas", R([]));
+    a(this, "model", R({}));
+    a(this, "processorBySchemaType", {
       item: this.runtimeItemProcessor.bind(this),
       group: this.runtimeGroupProcessor.bind(this),
       list: this.runtimeListProcessor.bind(this)
     });
-    l(this, "formRef", M(null));
-    l(this, "hydrateEffect", new x());
-    l(this, "native", se({}));
-    l(this, "gridProps", {});
-    l(this, "runtimeSetters", {});
-    l(this, "globalNativeFormOverride", {
+    a(this, "formRef", R(null));
+    a(this, "hydrateEffect", new N());
+    a(this, "native", oe({}));
+    a(this, "grid", {});
+    a(this, "runtime", {});
+    a(this, "globalNativeFormOverride", {
       props: {},
       slots: {}
     });
-    this.setup = e, this.processor = new le(this);
+    this.setup = e, this.processor = new ce(this);
     const t = this.setup(this);
-    if (D(t.schemas)) {
-      const s = j(() => t.schemas, () => {
-        this.processor.parseSchemas(t.schemas.value), A(() => {
+    if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new fe(this.ui), U(t.schemas)) {
+      const s = I(() => t.schemas, () => {
+        this.processor.parseSchemas(t.schemas.value), w(() => {
           s();
         });
       }, {
         deep: !0
       });
-    } else if (N(t.schemas)) {
-      const s = j(() => t.schemas, () => {
-        this.processor.parseSchemas(t.schemas), A(() => {
+    } else if (x(t.schemas)) {
+      const s = I(() => t.schemas, () => {
+        this.processor.parseSchemas(t.schemas), w(() => {
           s();
         });
       }, {
@@ -444,65 +477,55 @@ class ae {
   }
   getRuntimeMeta() {
     return {
-      model: O(g(this.model.value))
+      model: V(g(this.model.value))
     };
   }
-  runtimeItemProcessor(e, t, s = this.model.value, r) {
-    var R, k, _, z, $, q, B, T, G, K, W, H, J, Q, X;
-    m(this.globalNativeFormOverride.props, (k = (R = e.native) == null ? void 0 : R.props) == null ? void 0 : k.Form), m(this.globalNativeFormOverride.slots, (z = (_ = e.native) == null ? void 0 : _.slots) == null ? void 0 : z.Form);
-    const i = m(g((q = ($ = this.native) == null ? void 0 : $.props) == null ? void 0 : q.FormItem) ?? {}, (T = (B = e.native) == null ? void 0 : B.props) == null ? void 0 : T.FormItem), n = m(g((K = (G = this.native) == null ? void 0 : G.slots) == null ? void 0 : K.FormItem) ?? {}, (H = (W = e.native) == null ? void 0 : W.slots) == null ? void 0 : H.FormItem), u = {
+  runtimeItemProcessor(e, t, s = this.model.value, i) {
+    var k, z, _, $, B, D, G, T, K, W, H, J, Q;
+    const o = V(e.component);
+    if (!o)
+      return;
+    m(this.globalNativeFormOverride.props, (z = (k = e.native) == null ? void 0 : k.props) == null ? void 0 : z.Form), m(this.globalNativeFormOverride.slots, ($ = (_ = e.native) == null ? void 0 : _.slots) == null ? void 0 : $.Form);
+    const n = m(g((D = (B = this.native) == null ? void 0 : B.slots) == null ? void 0 : D.FormItem) ?? {}, (T = (G = e.native) == null ? void 0 : G.slots) == null ? void 0 : T.FormItem), u = {
       display: "grid",
       gridColumn: "1 / -1",
-      ...e.gridProps
-    }, a = r ? `${r.field}.${t}.${e.field}` : e.field, d = O(e.component);
-    if (!d)
-      return;
-    const E = d.name, U = e.componentProps ?? {}, v = w.placeholderPresetByComponentName;
-    let b = e.placeholder;
-    const y = e.required;
-    let h = e.show;
-    h === void 0 && (h = !0), h || delete s[e.field];
-    let S = e.label;
-    const I = (r == null ? void 0 : r.runtimeSetters) ?? this.runtimeSetters;
-    if (!f.isUndefined(t) && !f.isObjectEmpty(I) && (S = L((J = I == null ? void 0 : I.listItemLabelSetter) == null ? void 0 : J.call(I, e.label, t + 1), "")), !b) {
-      let p = "请输入";
-      f.isUndefined(E) ? b = `${p}${S}` : /* @ts-expect-error */ v[E.toLowerCase()] ? (p = // @ts-expect-error
-      v[E.toLowerCase()], b = `${p}${S}`) : (Object.keys(v).forEach((C) => {
-        E.toLowerCase().includes(C.toLowerCase()) && (p = v[C]);
-      }), b = `${p}${S}`);
+      ...e.grid
+    }, c = m(g((W = (K = this.native) == null ? void 0 : K.props) == null ? void 0 : W.FormItem) ?? {}, (J = (H = e.native) == null ? void 0 : H.props) == null ? void 0 : J.FormItem), d = this.runtimeAdapter.getRuntimeField({
+      schema: e,
+      parentSchema: i,
+      index: t
+    }), y = o.name, O = e.componentProps ?? {}, v = j.placeholderPresetByComponentName;
+    let P = e.placeholder, b = e.show;
+    b === void 0 && (b = !0), b || delete s[e.field];
+    let h = e.label;
+    const E = (i == null ? void 0 : i.runtime) ?? this.runtime;
+    if (!l.isUndefined(t) && !l.isObjectEmpty(E) && (h = q((Q = E == null ? void 0 : E.customizeItemLabel) == null ? void 0 : Q.call(E, e.label ?? "", t + 1), "")), !P) {
+      let C = "请输入";
+      l.isUndefined(y) ? P = `${C}${h}` : /* @ts-expect-error */ v[y.toLowerCase()] ? (C = // @ts-expect-error
+      v[y.toLowerCase()], P = `${C}${h}`) : (Object.keys(v).forEach((X) => {
+        y.toLowerCase().includes(X.toLowerCase()) && (C = v[X]);
+      }), P = `${C}${h}`);
     }
-    if (y)
-      if (!e.rules)
-        e.rules = [], (Q = e.rules) == null || Q.push({
-          required: !0,
-          message: `${S}是必填项`
-        });
-      else {
-        const p = e.rules.findIndex((C) => !f.isUndefined(C.required));
-        p !== -1 && (e.rules[p].required = !0, e.rules[p].message = `${S}是必填项`);
-      }
-    else if (e.rules) {
-      const p = (X = e.rules) == null ? void 0 : X.findIndex((C) => !!C.required);
-      p !== -1 && (e.rules[p].required = !1);
-    }
-    return c("div", {
+    const ee = this.runtimeAdapter.getRuntimeRequired({
+      ...e,
+      label: h
+    }), te = F.getItemContainer(this), se = F.getFormItemContainer(this);
+    return p("div", {
       style: u
-    }, [c(P.runtimeDoms.Item, null, {
+    }, [p(te, null, {
       default() {
-        return Y(c(P.runtimeDoms.FormItem, F(i, {
-          label: `${S}:`,
-          rules: e.rules,
-          field: a
-        }), {
+        return Y(p(se, M(c, {
+          label: `${h}:`
+        }, d, ee), {
           default() {
-            return c(d, F({
+            return p(o, M({
               modelValue: s[e.field],
-              "onUpdate:modelValue": (p) => s[e.field] = p,
-              placeholder: b
-            }, U), null);
+              "onUpdate:modelValue": (C) => s[e.field] = C,
+              placeholder: P
+            }, O), null);
           },
           ...n
-        }), [[Z, h]]);
+        }), [[Z, b]]);
       }
     })]);
   }
@@ -511,13 +534,13 @@ class ae {
     const s = {
       display: "grid",
       gridColumn: "1 / -1",
-      ...e.gridProps
-    };
-    return c("div", {
+      ...e.grid
+    }, i = F.getGroupContainer(this);
+    return p("div", {
       style: s
-    }, [c(P.runtimeDoms.Group, {
+    }, [p(i, {
       schema: e
-    }, fe(t = e.children.map((r) => this.runtimeItemProcessor(r))) ? t : {
+    }, de(t = e.children.map((o) => this.runtimeItemProcessor(o))) ? t : {
       default: () => [t]
     })]);
   }
@@ -537,34 +560,36 @@ class ae {
     const t = {
       display: "grid",
       gridColumn: "1 / -1",
-      ...e.gridProps
+      ...e.grid
     }, s = this;
-    return s.model.value[e.field] || (s.model.value[e.field] = [{}]), c("div", {
+    s.model.value[e.field] || (s.model.value[e.field] = [{}]);
+    const i = F.getListContainer(this), o = F.getListItemContainer(this);
+    return p("div", {
       style: t
-    }, [c(P.runtimeDoms.List, {
+    }, [p(i, {
       schema: e
     }, {
       default() {
-        return s.model.value[e.field].map((r, i) => c(P.runtimeDoms.ListItem, null, {
+        return s.model.value[e.field].map((n, u) => p(o, null, {
           default() {
-            return e.children.map((n) => s.runtimeItemProcessor(n, i, r, e));
+            return e.children.map((c) => s.runtimeItemProcessor(c, u, n, e));
           },
           delete({
-            container: n
+            container: c
           } = {}) {
-            var a;
-            let u = n ?? c("button", null, null);
-            return Y(c(u, {
-              onClick: () => s.deleteListItem(e, i)
-            }, null), [[Z, ((a = s.model.value[e.field]) == null ? void 0 : a.length) > 1]]);
+            var y;
+            let d = c ?? p("button", null, null);
+            return Y(p(d, {
+              onClick: () => s.deleteListItem(e, u)
+            }, null), [[Z, ((y = s.model.value[e.field]) == null ? void 0 : y.length) > 1]]);
           }
         }));
       },
       add({
-        container: r
+        container: n
       } = {}) {
-        let i = r ?? c("button", null, [re("添加")]);
-        return c(i, {
+        let u = n ?? p("button", null, [ne("添加")]);
+        return p(u, {
           onClick: () => s.addListItem(e)
         }, null);
       }
@@ -574,43 +599,137 @@ class ae {
     return e.map((t) => (t.type || (t.type = "item"), this.processorBySchemaType[t.type](t)));
   }
   exec() {
-    var i, n, u, a;
+    var u, c, d, y;
     const e = {
       display: "grid",
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
-      ...this.gridProps
-    }, t = this, s = m(g((n = (i = this.native) == null ? void 0 : i.props) == null ? void 0 : n.Form) ?? {}, this.globalNativeFormOverride.props), r = m(g((a = (u = this.native) == null ? void 0 : u.slots) == null ? void 0 : a.Form) ?? {}, this.globalNativeFormOverride.slots);
-    return c(P.runtimeDoms.Form, F(s, {
-      ref: this.formRef,
-      model: this.model.value
+      ...this.grid
+    }, t = this, s = m(g((c = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : c.Form) ?? {}, this.globalNativeFormOverride.props), i = m(g((y = (d = this.native) == null ? void 0 : d.slots) == null ? void 0 : y.Form) ?? {}, this.globalNativeFormOverride.slots), o = F.getFormContainer(this), n = this.runtimeAdapter.getFormModelPropName();
+    return p(o, M(s, {
+      ref: this.formRef
+    }, {
+      [n]: this.model.value
     }), {
       default() {
-        return c("div", {
+        return p("div", {
           style: e
         }, [t.runtimeProcessor(t.schemas.value)]);
       },
-      ...r
+      ...i
     });
   }
 }
-class P {
+class f {
 }
-l(P, "runtimeDoms");
-const V = class V {
+a(f, "presets");
+function A({ parentSchema: r, schema: e, index: t }) {
+  return r ? `${r.field}.${t}.${e.field}` : e.field;
+}
+const he = {
+  ArcoVue: {
+    getRuntimeField(r) {
+      return {
+        field: A(r)
+      };
+    },
+    getRuntimeRequired(r) {
+      var e, t;
+      if (r.required)
+        if (!r.rules)
+          r.rules = [], (e = r.rules) == null || e.push({
+            required: !0,
+            message: `${r.label}是必填项`
+          });
+        else {
+          const s = r.rules.findIndex(
+            (i) => !l.isUndefined(i.required)
+          );
+          s !== -1 && (r.rules[s].required = !0, r.rules[s].message = `${r.label}是必填项`);
+        }
+      else if (r.rules) {
+        const s = (t = r.rules) == null ? void 0 : t.findIndex(
+          (i) => !!i.required
+        );
+        s !== -1 && (r.rules[s].required = !1);
+      }
+      return {
+        rules: r.rules
+      };
+    },
+    getFormModelPropName() {
+      return "model";
+    },
+    validateForm(r) {
+      return new Promise((e, t) => {
+        r.runtimeCore.formRef.value.validate((s) => s ? t(s) : e(
+          r.cleanFallbackFields(
+            V(r.runtimeCore.processor.processedModel.value)
+          )
+        ));
+      });
+    }
+  },
+  NutUI: {
+    getRuntimeField(r) {
+      return {
+        prop: A(r)
+      };
+    },
+    getRuntimeRequired(r) {
+      var e, t;
+      if (r.required)
+        if (!r.rules)
+          r.rules = [], (e = r.rules) == null || e.push({
+            required: !0,
+            message: `${r.label}是必填项`
+          });
+        else {
+          const s = r.rules.findIndex(
+            (i) => !l.isUndefined(i.required)
+          );
+          s !== -1 && (r.rules[s].required = !0, r.rules[s].message = `${r.label}是必填项`);
+        }
+      else if (r.rules) {
+        const s = (t = r.rules) == null ? void 0 : t.findIndex(
+          (i) => !!i.required
+        );
+        s !== -1 && (r.rules[s].required = !1);
+      }
+      return {
+        rules: r.rules,
+        required: r.required
+      };
+    },
+    getFormModelPropName() {
+      return "modelValue";
+    },
+    validateForm(r) {
+      return new Promise((e, t) => {
+        r.runtimeCore.formRef.value.validate().then(({ valid: s, errors: i }) => {
+          s ? e(
+            r.cleanFallbackFields(
+              V(r.runtimeCore.processor.processedModel.value)
+            )
+          ) : t(i);
+        });
+      });
+    }
+  }
+}, S = class S {
   static getPlaceholderPrefixPresetByComponentName() {
     const e = {
-      请选择: ["select", "tree", "treeselect"],
+      请选择: ["select", "tree"],
       请输入: ["input"]
     }, t = {};
     for (let s in e)
-      e[s].forEach((r) => {
-        t[r] = s;
+      e[s].forEach((i) => {
+        t[i] = s;
       });
     return t;
   }
 };
-l(V, "schemaPreset", {
+a(S, "schemaPreset", {
   type: {
     defaultValue: "item"
   },
@@ -644,29 +763,38 @@ l(V, "schemaPreset", {
   children: {
     defaultValue: []
   },
-  native: void 0,
-  gridProps: void 0
-}), l(V, "componentPropsPreset", {
+  native: {
+    defaultValue: void 0
+  },
+  grid: {
+    default: void 0
+  }
+}), a(S, "componentPropsPreset", {
   options: {
     defaultValue: []
   }
 }), // 基于基本功能提出基本预设
-l(V, "placeholderPresetByComponentName", V.getPlaceholderPrefixPresetByComponentName());
-let w = V;
-const de = /* @__PURE__ */ oe({
+a(S, "placeholderPresetByComponentName", S.getPlaceholderPrefixPresetByComponentName());
+let L = S;
+const j = {
+  ...L,
+  adapters: {
+    ...he
+  }
+}, be = /* @__PURE__ */ ae({
   props: {
     setup: {
       type: Function,
       required: !0
     }
   },
-  setup(o) {
-    const e = new ae(o.setup);
+  setup(r) {
+    const e = new pe(r.setup);
     return () => e.exec();
   }
 });
-function pe(o) {
-  const e = new ne(o);
+function Pe(r) {
+  const e = new ue(r);
   return [
     e.setup.bind(e),
     {
@@ -675,22 +803,18 @@ function pe(o) {
     }
   ];
 }
-function me(o) {
-  return {
-    install() {
-      P.runtimeDoms = o;
-    }
-  };
+function ge(r) {
+  f.presets = r;
 }
-function he(o, e) {
-  return e === "raw" && Object.defineProperty(o, "name", {
-    value: `__proform_raw_${o.name}`,
+function ve(r, e) {
+  return e === "raw" && Object.defineProperty(r, "name", {
+    value: `__proform_raw_${r.name}`,
     writable: !0
-  }), o;
+  }), r;
 }
 export {
-  de as ProForm,
-  pe as useForm,
-  me as useFormRenderer,
-  he as useModifiers
+  be as ProForm,
+  Pe as useForm,
+  ge as useFormPresetConfigurer,
+  ve as useModifiers
 };

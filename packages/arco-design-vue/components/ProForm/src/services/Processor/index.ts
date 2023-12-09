@@ -5,10 +5,15 @@ import {
   ProxyedSchema,
   AnyFunction,
   ObjectParserRoot,
-} from "../types";
-import { Preset, RuntimeCore } from ".";
-import { IS, deepAssign, deepClone, replaceUndefinedInString } from "../utils";
-import Effect from "./Effect";
+} from "../../types";
+import { Preset, RuntimeCore } from "..";
+import {
+  IS,
+  deepAssign,
+  deepClone,
+  replaceUndefinedInString,
+} from "../../utils";
+import Effect from "../Effect";
 
 /**
  * 基本描述
@@ -283,11 +288,7 @@ export default class Processor {
           }
         } else {
           // TODO: consider refactor to some base preset
-          if (
-            key === "component" ||
-            key === "slots" ||
-            key === "runtimeSetters"
-          ) {
+          if (key === "component" || key === "slots" || key === "runtime") {
             // 针对一些无需深层次处理的 key 做白名单
             this.promiseFieldParser(data[key], updater, false);
           } else {

@@ -1,4 +1,4 @@
-import { Button, Input, InputNumber, Select } from "@arco-design/web-vue";
+import { Button, Input, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
@@ -27,11 +27,7 @@ export default defineComponent({
     }
 
     const [setup, { submit }] = useForm({
-      gridProps: {
-        gridTemplateColumns: "repeat(2, 1fr)",
-        gridColumnGap: "20px",
-        alignItems: "center",
-      },
+      ui: "ArcoVue",
       native: {
         props: {
           Form: {
@@ -57,7 +53,7 @@ export default defineComponent({
         {
           label: "年龄",
           field: "age",
-          component: InputNumber,
+          component: Input,
           required: true,
           componentProps() {
             return {
@@ -74,10 +70,6 @@ export default defineComponent({
           componentProps: {
             options: getOptions,
           },
-          gridProps: {
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gridColumnGap: "20px",
-          },
         },
         {
           label: "当前经历",
@@ -90,17 +82,13 @@ export default defineComponent({
               defaultValue: "前端开发工程师",
             },
           ],
-          gridProps: {
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gridColumnGap: "20px",
-          },
         },
         {
           label: "过往经历",
           field: "experiences",
           type: "list",
-          runtimeSetters: {
-            listItemLabelSetter(rawItem, rawIndex) {
+          runtime: {
+            customizeItemLabel(rawItem, rawIndex) {
               return `${rawItem} ${rawIndex} list 级别定制化 label`;
             },
           },
@@ -123,10 +111,6 @@ export default defineComponent({
               field: "job",
               component: Input,
               required: true,
-              gridProps: {
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gridColumnGap: "20px",
-              },
             },
           ],
         },
