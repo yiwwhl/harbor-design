@@ -133,7 +133,10 @@ export default defineComponent({
     return () => {
       return (
         <PageWrapper title="DynamicForm">
-          <div>
+          <div class={styles.meta}>
+            <a href="https://yiwwhl.github.io/oasis/docs/harbor-design/pro-form/get-started/introduction.html">
+              在线文档
+            </a>
             <a href="https://stackblitz.com/edit/proform?file=src%2FApp.tsx">
               stackblitz online
             </a>
