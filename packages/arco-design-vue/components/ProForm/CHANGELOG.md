@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.14
+
+### Patch Changes
+
+- proform support base document
+
 ## 1.1.13
 
 ### Patch Changes

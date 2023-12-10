@@ -41,16 +41,6 @@ useFormPresetConfigurer({
         ListItem,
       },
     },
-    NutUI: {
-      container: {
-        Form: NForm,
-        FormItem: NFormItem,
-        Item,
-        Group,
-        List,
-        ListItem,
-      },
-    },
   },
 });
 
