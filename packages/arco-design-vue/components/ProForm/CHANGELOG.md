@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.15
+
+### Patch Changes
+
+- export types
+
 ## 1.1.14
 
 ### Patch Changes

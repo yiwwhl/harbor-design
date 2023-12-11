@@ -9,7 +9,7 @@ export default defineConfig({
       entry: resolve(__dirname, "./index.ts"),
       name: "lib",
       fileName: "index",
-      formats: ["es", "cjs"],
+      formats: ["es"],
     },
     rollupOptions: {
       external: ["vue"],
