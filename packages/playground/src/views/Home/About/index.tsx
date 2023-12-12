@@ -7,11 +7,8 @@ export default defineComponent({
       return (
         <PageWrapper title="关于">
           {{
-            headerRight() {
-              return "harbor pagewrapper right";
-            },
             default() {
-              return "关于此项目";
+              return <>个人组件库沉淀</>;
             },
           }}
         </PageWrapper>

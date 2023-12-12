@@ -6,12 +6,9 @@ export default defineComponent({
     return () => {
       return (
         <PageWrapper title="计划">
-          <div>持续优化动态表单</div>
-          <div>动态表单仍有大量功能需要实现，包括更深层的抽象</div>
-          <div>
-            近期计划：继续闭环动态表单的定制化能力，包括单个 schema
-            的定制和整体的定制
-          </div>
+          <div>- 持续优化动态表单, 文档完善</div>
+          <div>- 重构 BasicWrapper 及 PageWrapper</div>
+          <div>- 项目增加 nest 或 koa server 用于学习</div>
         </PageWrapper>
       );
     };
