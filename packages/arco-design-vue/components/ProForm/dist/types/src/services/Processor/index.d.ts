@@ -21,6 +21,7 @@ export default class Processor {
     defaultValueEffect: Effect;
     defaultValueInprogressMap: Map<any, any>;
     baseDefaultValueFunctionsLength: number;
+    isModelInitialized: boolean;
     constructor(runtimeCore: RuntimeCore);
     parse<T extends object = any>(data: T[], parentMeta?: AnyObject): void;
     initSchemas(schemas: AnyObject[]): AnyObject[];

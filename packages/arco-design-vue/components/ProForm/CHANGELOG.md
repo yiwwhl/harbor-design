@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.16
+
+### Patch Changes
+
+- fix the issue of abnormal effects caused by defaultValue
+
 ## 1.1.15
 
 ### Patch Changes

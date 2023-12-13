@@ -34,6 +34,7 @@ export default class Processor {
   defaultValueEffect = new Effect();
   defaultValueInprogressMap = new Map();
   baseDefaultValueFunctionsLength!: number;
+  isModelInitialized = true;
 
   constructor(runtimeCore: RuntimeCore) {
     this.runtimeCore = runtimeCore;
@@ -143,7 +144,10 @@ export default class Processor {
         }
         this.stableUpdaterProcessProgress[this.stableUpdaterTimes] = true;
         this.stableUpdaterTimes++;
+        // if (this.isModelInitialized) {
+        //   this.isModelInitialized = false;
         this.modelProcessor(processedSchemas);
+        // }
       }
     }
   }
@@ -234,57 +238,62 @@ export default class Processor {
               }
             });
           } else {
-            this.defaultValueEffect.trackEffect(() => {
-              const stopTrack = this.schemaEffect.trackEffect(() => {
-                // 通过正则表达式匹配使用了 model 的 defaultValue 函数
-                if (/\{\s*model\s*\}/.test(data[key].toString())) {
-                  this.fieldParser(data[key], (res) => {
-                    // 放开 undefined
-                    if (!res) {
-                      return updater(res);
-                    }
-                    // 可考虑后续重构此 Set
-                    this.defaultValueInprogressMap.set(data[key], res);
-                    if (
-                      !IS.isProcessInprogress(res) &&
-                      this.defaultValueInprogressMap.size ===
-                        this.baseDefaultValueFunctionsLength &&
-                      Array.from(this.defaultValueInprogressMap.values()).every(
-                        (r) => !r.includes("undefined")
-                      )
-                    ) {
-                      updater(res);
-                      this.defaultValueEffect.clearEffects();
-                      nextTick(() => {
-                        stopTrack();
-                      });
-                    } else {
-                      updater(res);
-                    }
-                  });
-                } else {
-                  this.fieldParser(data[key], (res) => {
-                    this.defaultValueInprogressMap.set(data[key], res);
-                    if (
-                      !IS.isProcessInprogress(res) &&
-                      this.defaultValueInprogressMap.size ===
-                        this.baseDefaultValueFunctionsLength &&
-                      Array.from(this.defaultValueInprogressMap.values()).every(
-                        (r) => !r.includes("undefined")
-                      )
-                    ) {
-                      updater(res);
-                      this.defaultValueEffect.clearEffects();
-                      nextTick(() => {
-                        stopTrack();
-                      });
-                    } else {
-                      updater(res);
-                    }
-                  });
-                }
-              });
-            });
+            this.defaultValueEffect.trackEffect(
+              () => {
+                const stopTrack = this.schemaEffect.trackEffect(() => {
+                  // 通过正则表达式匹配使用了 model 的 defaultValue 函数
+                  if (/\{\s*model\s*\}/.test(data[key].toString())) {
+                    this.fieldParser(data[key], (res) => {
+                      // 放开 undefined
+                      if (!res) {
+                        return updater(res);
+                      }
+                      // 可考虑后续重构此 Set
+                      this.defaultValueInprogressMap.set(data[key], res);
+                      if (
+                        !IS.isProcessInprogress(res) &&
+                        this.defaultValueInprogressMap.size ===
+                          this.baseDefaultValueFunctionsLength &&
+                        Array.from(
+                          this.defaultValueInprogressMap.values()
+                        ).every((r) => !r.includes("undefined"))
+                      ) {
+                        updater(res);
+                        this.defaultValueEffect.clearEffects();
+                        nextTick(() => {
+                          stopTrack();
+                        });
+                      } else {
+                        updater(res);
+                      }
+                    });
+                  } else {
+                    this.fieldParser(data[key], (res) => {
+                      this.defaultValueInprogressMap.set(data[key], res);
+                      if (
+                        !IS.isProcessInprogress(res) &&
+                        this.defaultValueInprogressMap.size ===
+                          this.baseDefaultValueFunctionsLength &&
+                        Array.from(
+                          this.defaultValueInprogressMap.values()
+                        ).every((r) => !r.includes("undefined"))
+                      ) {
+                        updater(res);
+                        this.defaultValueEffect.clearEffects();
+                        nextTick(() => {
+                          stopTrack();
+                        });
+                      } else {
+                        updater(res);
+                      }
+                    });
+                  }
+                });
+              },
+              {
+                lazy: false,
+              }
+            );
           }
         } else {
           // TODO: consider refactor to some base preset
@@ -439,7 +448,15 @@ export default class Processor {
       });
     }
     if (IS.isItemSchema(schema)) {
-      baseModel[schema.field] = schema.defaultValue;
+      // fix bug of defaultValue，需要区别看待
+      if ("defaultValue" in schema) {
+        baseModel[schema.field] = schema.defaultValue;
+      } else {
+        if (!baseModel[schema.field]) {
+          baseModel[schema.field] = undefined;
+        }
+      }
+      // }
     }
   }
 }

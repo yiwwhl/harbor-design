@@ -1,6 +1,6 @@
 import { Button, Input, Select } from "@arco-design/web-vue";
 import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import styles from "./index.module.scss";
 
 /**
@@ -26,7 +26,11 @@ export default defineComponent({
       });
     }
 
-    const [setup, { submit }] = useForm({
+    onMounted(() => {
+      hydrate({});
+    });
+
+    const [setup, { submit, hydrate }] = useForm({
       ui: "ArcoVue",
       native: {
         props: {
@@ -124,6 +128,13 @@ export default defineComponent({
               },
               field: "hobbyItem",
               component: Input,
+              defaultValue() {
+                return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    resolve("打篮球2");
+                  }, 200);
+                });
+              },
             },
           ],
         },

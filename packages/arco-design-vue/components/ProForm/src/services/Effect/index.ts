@@ -17,7 +17,7 @@ export default class Effect {
   trackEffect(
     effect: AnyFunction,
     meta: TrackEffectMeta = {
-      lazy: false,
+      lazy: true,
     }
   ) {
     !meta.lazy && effect();
