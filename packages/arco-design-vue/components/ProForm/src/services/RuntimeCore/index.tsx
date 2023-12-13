@@ -97,6 +97,7 @@ export default class RuntimeCore {
 
     return {
       model,
+      reactiveModel: this.model.value,
     };
   }
 

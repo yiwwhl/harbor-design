@@ -23,6 +23,7 @@ export default class RuntimeCore {
     constructor(setup: Setup);
     getRuntimeMeta(): {
         model: AnyObject;
+        reactiveModel: AnyObject;
     };
     runtimeItemProcessor(schema: ItemSchema, index?: number, baseModel?: AnyObject, parentSchema?: ListSchema): JSX.Element | undefined;
     runtimeGroupProcessor(schema: GroupSchema): JSX.Element;

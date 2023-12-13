@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.17
+
+### Patch Changes
+
+- proform support expose reactive model
+
 ## 1.1.16
 
 ### Patch Changes

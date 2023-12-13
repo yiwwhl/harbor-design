@@ -493,7 +493,8 @@ class he {
   }
   getRuntimeMeta() {
     return {
-      model: E(g(this.model.value))
+      model: E(g(this.model.value)),
+      reactiveModel: this.model.value
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, i) {
