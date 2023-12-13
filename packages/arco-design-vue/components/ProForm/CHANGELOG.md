@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.19
+
+### Patch Changes
+
+- fix wrong type update
+
 ## 1.1.18
 
 ### Patch Changes

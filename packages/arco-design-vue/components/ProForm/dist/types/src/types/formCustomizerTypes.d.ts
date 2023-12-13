@@ -83,6 +83,7 @@ export interface ListSchema {
 export type Schema = ItemSchema | GroupSchema | ListSchema;
 export interface runtimeMeta {
     model: AnyObject;
+    reactiveModel: AnyObject;
 }
 export type ProFormProxyRule<T> = T | ((runtimeMeta: runtimeMeta) => T) | ((runtimeMeta: runtimeMeta) => Promise<T>);
 export type ProFormProxy<T> = {
