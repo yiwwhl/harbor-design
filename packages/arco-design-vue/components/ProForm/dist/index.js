@@ -346,12 +346,12 @@ class ce {
   fieldParser(e, t, s = !0) {
     if (l.isFunction(e))
       if (e.name.startsWith("__proform_raw_"))
-        t((...i) => {
-          e({
+        t(
+          (...i) => e({
             rawArgs: i,
             ...this.getRuntimeMeta()
-          });
-        });
+          })
+        );
       else {
         const i = e(this.getRuntimeMeta());
         this.promiseFieldParser(i, t, s);

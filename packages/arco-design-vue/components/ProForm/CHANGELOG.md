@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.20
+
+### Patch Changes
+
+- fix bug of useModifiers function result
+
 ## 1.1.19
 
 ### Patch Changes
