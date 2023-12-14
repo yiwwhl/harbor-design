@@ -1,8 +1,8 @@
 import { runtimeMeta } from "../types";
-type Modifier = "raw";
-export declare function useModifiers(functionRaw: (args: {
-    rawArgs: any[];
-} & runtimeMeta) => any, modifier: Modifier): (args: {
+type Modifier = "native";
+type FunctionNative = (args: {
     rawArgs: any[];
 } & runtimeMeta) => any;
+export declare function useModifiers(functionNative: FunctionNative, modifier: Modifier): FunctionNative;
+export declare function markNativeFunction(functionNative: FunctionNative): FunctionNative;
 export {};

@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.21
+
+### Patch Changes
+
+- proform support markNativeFunction
+
 ## 1.1.20
 
 ### Patch Changes
