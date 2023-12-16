@@ -6,31 +6,31 @@ import viteSvgLoader from "vite-svg-loader";
 import { vitePluginForArco } from "@arco-plugins/vite-vue";
 
 export default defineConfig(() => {
-  return {
-    base: "./",
-    plugins: [
-      vue(),
-      vueJSX(),
-      viteSvgLoader(),
-      vitePluginForArco({
-        theme: "@arco-themes/vue-harbor-design-playground",
-        style: "css",
-      }),
-    ],
-    resolve: {
-      alias: [
-        {
-          find: "@",
-          replacement: resolve(__dirname, "./src"),
-        },
-      ],
-    },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@import "@/assets/style/variables.scss";\n`,
-        },
-      },
-    },
-  };
+	return {
+		base: "./",
+		plugins: [
+			vue(),
+			vueJSX(),
+			viteSvgLoader(),
+			vitePluginForArco({
+				theme: "@arco-themes/vue-harbor-design-playground",
+				style: "css",
+			}),
+		],
+		resolve: {
+			alias: [
+				{
+					find: "@",
+					replacement: resolve(__dirname, "./src"),
+				},
+			],
+		},
+		css: {
+			preprocessorOptions: {
+				scss: {
+					additionalData: `@import "@/assets/style/variables.scss";\n`,
+				},
+			},
+		},
+	};
 });

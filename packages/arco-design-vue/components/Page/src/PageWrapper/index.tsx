@@ -4,18 +4,18 @@ import { defineComponent } from "vue";
 import { merge } from "lodash";
 
 export default defineComponent({
-  props: {
-    ...basicProps,
-  },
-  setup(props, { slots }) {
-    return () => {
-      return (
-        <BasicWrapper {...merge({ heightMode: "fixed" }, props)}>
-          {{
-            ...slots,
-          }}
-        </BasicWrapper>
-      );
-    };
-  },
+	props: {
+		...basicProps,
+	},
+	setup(props, { slots }) {
+		return () => {
+			return (
+				<BasicWrapper {...merge({ heightMode: "fixed" }, props)}>
+					{{
+						...slots,
+					}}
+				</BasicWrapper>
+			);
+		};
+	},
 });
