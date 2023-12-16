@@ -1,5 +1,10 @@
 import { Button, Input, Select } from "@arco-design/web-vue";
-import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
+import {
+  PageWrapper,
+  ProForm,
+  markNativeFunction,
+  useForm,
+} from "@harbor-design/arco-design-vue";
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
 
@@ -60,6 +65,11 @@ export default defineComponent({
               min: 0,
               max: 200,
             };
+          },
+          componentSlots: {
+            prefix: markNativeFunction(({ model }) => {
+              return `前缀：${model.age ?? ""}`;
+            }),
           },
         },
         {

@@ -58,6 +58,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
       baseModel,
       schema,
       placeholder,
+      componentSlots,
       props,
     }) {
       return (
@@ -65,7 +66,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
           v-model={baseModel[schema.field]}
           placeholder={placeholder}
           {...props}
-        />
+        >
+          {{
+            ...componentSlots,
+          }}
+        </Component>
       );
     },
     validateForm(runtimeArgs) {
@@ -135,6 +140,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
       baseModel,
       schema,
       placeholder,
+      componentSlots,
       props,
     }) {
       return (
@@ -142,7 +148,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
           v-model={baseModel[schema.field]}
           placeholder={placeholder}
           {...props}
-        />
+        >
+          {{
+            ...componentSlots,
+          }}
+        </Component>
       );
     },
     validateForm(runtimeArgs) {
@@ -215,6 +225,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
       baseModel,
       schema,
       placeholder,
+      componentSlots,
       props,
     }) {
       return (
@@ -222,7 +233,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
           v-model:value={baseModel[schema.field]}
           placeholder={placeholder}
           {...props}
-        />
+        >
+          {{
+            ...componentSlots,
+          }}
+        </Component>
       );
     },
     validateForm(runtimeArgs) {
