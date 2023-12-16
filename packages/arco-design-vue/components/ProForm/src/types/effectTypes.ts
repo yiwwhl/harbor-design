@@ -1,3 +1,3 @@
 export interface TrackEffectMeta {
-  lazy?: boolean;
+	lazy?: boolean;
 }

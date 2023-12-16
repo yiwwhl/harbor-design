@@ -8,7 +8,8 @@
     "build:arco-vue": "pnpm --filter=@harbor-design/playground build",
     "release:proform": "pnpm prerelease:proform && pnpm changeset && pnpm postrelease:proform",
     "prerelease:proform": "pnpm --filter=@harbor-design/proform build",
-    "postrelease:proform": "pnpm changeset version && pnpm changeset publish && git add ."
+    "postrelease:proform": "pnpm changeset version && pnpm changeset publish && git add .",
+    "lint": "eslint --ext .ts,.jsx,.tsx --fix --quiet ./packages"
   },
   "license": "MIT",
   "dependencies": {
@@ -17,9 +18,20 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@types/node": "^20.6.3",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "commitlint": "^18.4.3",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-vue": "^9.19.2",
+    "husky": "^8.0.3",
+    "prettier": "^3.1.1",
     "sass": "^1.68.0",
     "typescript": "^5.0.2",
     "vite": "^5.0.0",

@@ -1,9 +1,9 @@
 import { defineComponent } from "vue";
 import {
-  Layout,
-  LayoutContent,
-  LayoutHeader,
-  LayoutSider,
+	Layout,
+	LayoutContent,
+	LayoutHeader,
+	LayoutSider,
 } from "@arco-design/web-vue";
 import styles from "./index.module.scss";
 import Header from "@/layout/components/Header";
@@ -12,25 +12,25 @@ import { RouterView } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
 
 export default defineComponent({
-  setup() {
-    const basicSetting = useBasicSettingStore();
+	setup() {
+		const basicSetting = useBasicSettingStore();
 
-    return () => {
-      return (
-        <Layout class={styles.layout}>
-          <LayoutHeader>
-            <Header />
-          </LayoutHeader>
-          <Layout>
-            <LayoutSider collapsed={basicSetting.sidebarMenu.collapse}>
-              <Menu />
-            </LayoutSider>
-            <LayoutContent class={styles.content}>
-              <RouterView />
-            </LayoutContent>
-          </Layout>
-        </Layout>
-      );
-    };
-  },
+		return () => {
+			return (
+				<Layout class={styles.layout}>
+					<LayoutHeader>
+						<Header />
+					</LayoutHeader>
+					<Layout>
+						<LayoutSider collapsed={basicSetting.sidebarMenu.collapse}>
+							<Menu />
+						</LayoutSider>
+						<LayoutContent class={styles.content}>
+							<RouterView />
+						</LayoutContent>
+					</Layout>
+				</Layout>
+			);
+		};
+	},
 });

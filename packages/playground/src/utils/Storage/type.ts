@@ -1,16 +1,16 @@
 export enum MODE {
-  LOCAL = "localStorage",
-  SESSION = "sessionStorage",
+	LOCAL = "localStorage",
+	SESSION = "sessionStorage",
 }
 
 export type ParamsType = {
-  KeyType: string;
-  ValueType: any;
+	KeyType: string;
+	ValueType: any;
 };
 
 export type StorageFunctionType = (
-  key?: ParamsType["KeyType"],
-  value?: ParamsType["ValueType"]
+	key?: ParamsType["KeyType"],
+	value?: ParamsType["ValueType"],
 ) => any;
 
 export type BaseStorageFunctionType = (mode: MODE) => StorageFunctionType;

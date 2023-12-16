@@ -1,5 +1,5 @@
 export interface GlobModuleType {
-  default: string;
+	default: string;
 }
 
 export type ImageStore = Record<string, any>;

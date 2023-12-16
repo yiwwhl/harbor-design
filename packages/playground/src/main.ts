@@ -19,29 +19,29 @@ import ListItem from "@/Infra/ProFormRuntimeDoms/ListItem";
 const app = createApp(App);
 const store = createPinia();
 useFormPresetConfigurer({
-  ui: "ArcoVue",
-  uiPresets: {
-    ArcoVue: {
-      container: {
-        Form,
-        FormItem,
-        Item,
-        Group,
-        List,
-        ListItem,
-      },
-    },
-    NaiveUI: {
-      container: {
-        Form: NForm,
-        FormItem: NFormItem,
-        Item,
-        Group,
-        List,
-        ListItem,
-      },
-    },
-  },
+	ui: "ArcoVue",
+	uiPresets: {
+		ArcoVue: {
+			container: {
+				Form,
+				FormItem,
+				Item,
+				Group,
+				List,
+				ListItem,
+			},
+		},
+		NaiveUI: {
+			container: {
+				Form: NForm,
+				FormItem: NFormItem,
+				Item,
+				Group,
+				List,
+				ListItem,
+			},
+		},
+	},
 });
 
 app.use(ArcoVue);

@@ -2,26 +2,26 @@ import { AnyFunction } from "../../types";
 import { TrackEffectMeta } from "../../types/effectTypes";
 
 export default class Effect {
-  effects = new Set<Function>();
+	effects = new Set<Function>();
 
-  constructor() {}
+	constructor() {}
 
-  clearEffects() {
-    this.effects.clear();
-  }
+	clearEffects() {
+		this.effects.clear();
+	}
 
-  triggerEffects() {
-    Array.from(this.effects).forEach((effect) => effect());
-  }
+	triggerEffects() {
+		Array.from(this.effects).forEach((effect) => effect());
+	}
 
-  trackEffect(
-    effect: AnyFunction,
-    meta: TrackEffectMeta = {
-      lazy: true,
-    }
-  ) {
-    !meta.lazy && effect();
-    this.effects.add(effect);
-    return () => this.effects.delete(effect);
-  }
+	trackEffect(
+		effect: AnyFunction,
+		meta: TrackEffectMeta = {
+			lazy: true,
+		},
+	) {
+		!meta.lazy && effect();
+		this.effects.add(effect);
+		return () => this.effects.delete(effect);
+	}
 }
