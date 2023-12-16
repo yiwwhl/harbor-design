@@ -79,6 +79,7 @@ export interface ItemSchema {
   field: string;
   component: DomType;
   componentProps?: AnyObject;
+  componentSlots?: AnyObject;
   defaultValue?: PropertyKey | object;
 }
 

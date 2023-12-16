@@ -184,6 +184,7 @@ export default class RuntimeCore {
     const Item = RuntimeContainer.getItemContainer(this);
     const FormItem = RuntimeContainer.getFormItemContainer(this);
     const that = this;
+    const componentSlots = schema.componentSlots;
     return (
       <div style={defaultItemStyle}>
         <Item>
@@ -204,6 +205,7 @@ export default class RuntimeCore {
                         schema,
                         baseModel,
                         placeholder,
+                        componentSlots,
                         props,
                       });
                     },
