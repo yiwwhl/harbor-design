@@ -13,6 +13,9 @@ export default class RuntimePreset {
     componentProps: {
       defaultValue: undefined,
     },
+    componentSlots: {
+      defaultValue: undefined,
+    },
     defaultValue: {
       defaultValue: undefined,
     },
