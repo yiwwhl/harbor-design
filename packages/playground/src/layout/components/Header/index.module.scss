@@ -1,38 +1,39 @@
 .header {
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: $bg-color-secondary;
-  padding: 0 16px;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: $bg-color-primary;
+	border-bottom: 1px solid $bd-color-primary;
+	padding: 0 16px;
 
-  .logo {
-    width: 32px;
-    height: 32px;
-    fill: $primary;
-  }
+	.logo {
+		width: 32px;
+		height: 32px;
+		fill: $primary;
+	}
 
-  .title {
-    min-width: 210px;
-    display: flex;
-    align-items: center;
-    font-size: $font-size-22;
-    font-weight: bold;
-    gap: 12px;
-    color: $text-color-primary;
-    font-family: "@harbor-design/title";
-  }
+	.title {
+		min-width: 210px;
+		display: flex;
+		align-items: center;
+		font-size: $font-size-22;
+		font-weight: bold;
+		gap: 12px;
+		color: $text-color-primary;
+		font-family: "@harbor-design/title";
+	}
 
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 8px;
 
-    .avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-  }
+		.avatar {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+	}
 }
