@@ -16,6 +16,7 @@ import ListItem from "@/Infra/ProFormRuntimeDoms/ListItem";
 
 const app = createApp(App);
 const store = createPinia();
+
 useFormPresetConfigurer({
 	ui: "ArcoVue",
 	uiPresets: {
