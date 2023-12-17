@@ -29,7 +29,7 @@ export default defineComponent({
 				>
 					{menuRender()}
 					{!basicSettingStore.sidebarMenu.collapse && (
-						<div class={styles.footer}>© 2023 yiwwhl</div>
+						<div class={styles.footer}>© yiwwhl</div>
 					)}
 				</a-menu>
 			);
