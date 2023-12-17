@@ -28,6 +28,9 @@ export default defineComponent({
 					show-collapse-button
 				>
 					{menuRender()}
+					{!basicSettingStore.sidebarMenu.collapse && (
+						<div class={styles.footer}>© 2023 yiwwhl</div>
+					)}
 				</a-menu>
 			);
 		};
