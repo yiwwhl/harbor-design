@@ -56,10 +56,8 @@ export default defineComponent({
 					},
 				},
 				{
-					label: "年龄",
 					field: "age",
 					component: Input,
-					required: true,
 					componentProps() {
 						return {
 							min: 0,

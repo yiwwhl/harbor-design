@@ -142,7 +142,7 @@ export default class RuntimeCore {
 		if (!show) {
 			delete baseModel[schema.field];
 		}
-		let label = schema.label;
+		let label = schema.label ?? "";
 		const runtime = parentSchema?.runtime ?? this.runtime;
 		if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtime)) {
 			// 对于 list 而言会有数据 model index
@@ -194,7 +194,7 @@ export default class RuntimeCore {
 								<FormItem
 									{...formItemNativeProps}
 									v-show={show}
-									label={`${label}:`}
+									label={`${label ? `${label}:` : ""}`}
 									{...runtimeField}
 									{...runtimeRequired}
 								>

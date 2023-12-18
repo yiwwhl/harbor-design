@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.23
+
+### Patch Changes
+
+- label support empty string
+
 ## 1.1.22
 
 ### Patch Changes

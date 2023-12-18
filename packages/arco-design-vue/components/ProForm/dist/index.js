@@ -70,7 +70,7 @@ function m(r, ...e) {
         typeof s == "object" && s !== null ? r[i] = m(Array.isArray(s) ? [] : {}, s) : r[i] = s;
       });
     else
-      for (let s in t)
+      for (const s in t)
         t.hasOwnProperty(s) && (typeof t[s] == "object" && t[s] !== null ? r[s] = m(r[s] || {}, t[s]) : r[s] = t[s]);
   }), r;
 }
@@ -85,13 +85,13 @@ function g(r) {
       return new RegExp(s);
     if (s instanceof Map) {
       const o = /* @__PURE__ */ new Map();
-      for (let [n, u] of s)
+      for (const [n, u] of s)
         o.set(t(n), t(u));
       return o;
     }
     if (s instanceof Set) {
       const o = /* @__PURE__ */ new Set();
-      for (let n of s)
+      for (const n of s)
         o.add(t(n));
       return o;
     }
@@ -106,7 +106,7 @@ function g(r) {
     }
     const i = Object.create(Object.getPrototypeOf(s));
     e.set(s, i);
-    for (let o in s)
+    for (const o in s)
       s.hasOwnProperty(o) && (i[o] = t(s[o]));
     return i;
   }
@@ -225,11 +225,12 @@ class de {
     });
   }
   countFunctionDefaultValues(e) {
-    let t = 0, s = /* @__PURE__ */ new Set();
+    let t = 0;
+    const s = /* @__PURE__ */ new Set();
     function i(o) {
       if (!s.has(o) && (Array.isArray(o) || o !== null && typeof o == "object")) {
         s.add(o);
-        for (let n in o)
+        for (const n in o)
           o.hasOwnProperty(n) && (n === "defaultValue" && typeof o[n] == "function" && !o[n].toString().includes("[native code]") && t++, i(o[n]));
       }
     }
@@ -271,10 +272,10 @@ class de {
       const O = i.parseStable(u.stable), C = s == null ? void 0 : s.index, v = s == null ? void 0 : s.key;
       let P = O;
       if (l.isProcessInprogress(P) || (o[y] = !0), s) {
-        let h = i.processedSchemas.value[C][v][c][d];
+        const h = i.processedSchemas.value[C][v][c][d];
         h && l.isObject(h) && d !== "component" && (P = m(h, P)), i.processedSchemas.value[C][v][c][d] = P, i.stableUpdater(o);
       } else {
-        let h = i.processedSchemas.value[c][d];
+        const h = i.processedSchemas.value[c][d];
         h && l.isObject(h) && d !== "component" && (P = m(h, P)), i.processedSchemas.value[c][d] = P, i.stableUpdater(o);
       }
     }
@@ -514,7 +515,7 @@ class me {
     }), y = o.name, O = e.componentProps ?? {}, C = b.placeholderPresetByComponentName;
     let v = e.placeholder, P = e.show;
     P === void 0 && (P = !0), P || delete s[e.field];
-    let h = e.label;
+    let h = e.label ?? "";
     const V = (i == null ? void 0 : i.runtime) ?? this.runtime;
     if (!l.isUndefined(t) && !l.isObjectEmpty(V) && (h = U((X = V == null ? void 0 : V.customizeItemLabel) == null ? void 0 : X.call(V, e.label ?? "", t + 1), "")), !v) {
       let E = "请输入";
@@ -532,7 +533,7 @@ class me {
     }, [p(te, null, {
       default() {
         return Z(p(se, R(c, {
-          label: `${h}:`
+          label: `${h ? `${h}:` : ""}`
         }, d, ee), {
           default() {
             return re.runtimeAdapter.formComponentRenderer({
@@ -598,7 +599,7 @@ class me {
             container: c
           } = {}) {
             var y;
-            let d = c ?? p("button", null, null);
+            const d = c ?? p("button", null, null);
             return Z(p(d, {
               onClick: () => s.deleteListItem(e, u)
             }, null), [[A, ((y = s.model.value[e.field]) == null ? void 0 : y.length) > 1]]);
@@ -608,7 +609,7 @@ class me {
       add({
         container: n
       } = {}) {
-        let u = n ?? p("button", null, [ae("添加")]);
+        const u = n ?? p("button", null, [ae("添加")]);
         return p(u, {
           onClick: () => s.addListItem(e)
         }, null);
@@ -826,7 +827,7 @@ const ye = {
       请选择: ["select", "tree"],
       请输入: ["input"]
     }, t = {};
-    for (let s in e)
+    for (const s in e)
       e[s].forEach((i) => {
         t[i] = s;
       });
