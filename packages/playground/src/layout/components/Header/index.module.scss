@@ -25,6 +25,7 @@
 	}
 
 	.meta {
+		height: 40px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -43,18 +44,23 @@
 		}
 
 		.uinfo {
+			height: 40px;
 			display: flex;
 			flex-direction: column;
 			gap: 4px;
+			box-sizing: border-box;
+			justify-content: center;
 
 			.nickName {
 				color: $primary;
+				line-height: 14px;
 			}
 
 			.role {
 				font-size: $font-size-9;
 				font-weight: bold;
 				color: $primary;
+				line-height: 9px;
 			}
 		}
 	}
