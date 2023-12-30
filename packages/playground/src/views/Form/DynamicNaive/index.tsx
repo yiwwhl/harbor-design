@@ -135,16 +135,25 @@ export default defineComponent({
 		return () => {
 			return (
 				<PageWrapper title="ProForm Naive">
-					<ProForm class={styles.proForm} setup={setup} />
-					<NButton
-						onClick={() => {
-							submit().then((data) => {
-								console.log("提交", data);
-							});
-						}}
-					>
-						提交
-					</NButton>
+					{{
+						default() {
+							return <ProForm class={styles.proForm} setup={setup} />;
+						},
+						headerRight() {
+							return (
+								<NButton
+									type="primary"
+									onClick={() => {
+										submit().then((data) => {
+											console.log("提交", data);
+										});
+									}}
+								>
+									提交
+								</NButton>
+							);
+						},
+					}}
 				</PageWrapper>
 			);
 		};

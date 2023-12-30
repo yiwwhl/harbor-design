@@ -24,7 +24,7 @@ export default defineComponent({
 									<div
 										class={[
 											styles.content_header,
-											slots.default && styles.content_header_border,
+											!slots.default && styles.content_header_only,
 											props.sticky && styles.content_header_sticky,
 										]}
 									>

@@ -143,16 +143,25 @@ export default defineComponent({
 		return () => {
 			return (
 				<PageWrapper title="ProForm Arco">
-					<ProForm class={styles.proForm} setup={setup} />
-					<Button
-						onClick={() => {
-							submit().then((data) => {
-								console.log("提交", data);
-							});
-						}}
-					>
-						提交
-					</Button>
+					{{
+						default() {
+							return <ProForm class={styles.proForm} setup={setup} />;
+						},
+						headerRight() {
+							return (
+								<Button
+									type="primary"
+									onClick={() => {
+										submit().then((data) => {
+											console.log("提交", data);
+										});
+									}}
+								>
+									提交
+								</Button>
+							);
+						},
+					}}
 				</PageWrapper>
 			);
 		};
