@@ -1,4 +1,5 @@
-import { PageWrapper, ProForm, useForm } from "@harbor-design/arco-design-vue";
+import PageWrapper from "@/components/advanced/PageWrapper";
+import { ProForm, useForm } from "@harbor-design/proform";
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
 import { NInput, NSelect, NButton } from "naive-ui";
@@ -133,7 +134,7 @@ export default defineComponent({
 
 		return () => {
 			return (
-				<PageWrapper title="DynamicForm">
+				<PageWrapper title="ProForm Naive">
 					<ProForm class={styles.proForm} setup={setup} />
 					<NButton
 						onClick={() => {

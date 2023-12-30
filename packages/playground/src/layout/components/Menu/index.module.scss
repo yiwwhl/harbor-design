@@ -2,21 +2,3 @@
 	height: 100%;
 	position: relative;
 }
-
-.footer {
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	bottom: 12.5px;
-	color: var(--color-text-3);
-	animation: slideIn 0.3s ease-out forwards;
-}
-
-@keyframes slideIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}

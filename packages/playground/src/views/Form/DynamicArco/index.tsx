@@ -1,12 +1,8 @@
 import { Button, Input, Select } from "@arco-design/web-vue";
-import {
-	PageWrapper,
-	ProForm,
-	markNativeFunction,
-	useForm,
-} from "@harbor-design/arco-design-vue";
+import { ProForm, markNativeFunction, useForm } from "@harbor-design/proform";
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
+import PageWrapper from "@/components/advanced/PageWrapper";
 
 /**
  * 后续应该新增文档，对于 native 来说，Form 永远是后面的 schema 覆盖前面的 schema
@@ -123,6 +119,7 @@ export default defineComponent({
 					],
 				},
 				{
+					label: "爱好",
 					field: "hoby",
 					type: "list",
 					children: [
@@ -145,15 +142,7 @@ export default defineComponent({
 
 		return () => {
 			return (
-				<PageWrapper title="DynamicForm">
-					<div class={styles.meta}>
-						<a href="https://yiwwhl.github.io/oasis/docs/harbor-design/pro-form/get-started/introduction.html">
-							在线文档
-						</a>
-						<a href="https://stackblitz.com/edit/proform?file=src%2FApp.tsx">
-							stackblitz online
-						</a>
-					</div>
+				<PageWrapper title="ProForm Arco">
 					<ProForm class={styles.proForm} setup={setup} />
 					<Button
 						onClick={() => {

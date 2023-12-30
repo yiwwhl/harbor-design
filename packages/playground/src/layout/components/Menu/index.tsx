@@ -28,9 +28,6 @@ export default defineComponent({
 					show-collapse-button
 				>
 					{menuRender()}
-					{!basicSettingStore.sidebarMenu.collapse && (
-						<div class={styles.footer}>© yiwwhl</div>
-					)}
 				</a-menu>
 			);
 		};

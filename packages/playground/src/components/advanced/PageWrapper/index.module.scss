@@ -1,0 +1,24 @@
+.content {
+	background-color: $bg-color-primary;
+	margin: 10px;
+	border-radius: 4px;
+
+	&_header {
+		display: flex;
+		padding: 10px;
+		justify-content: space-between;
+		align-items: center;
+
+		&_border {
+			border-bottom: 1px solid $bd-color-primary;
+		}
+
+		&_title {
+			font-size: $font-size-14;
+		}
+	}
+
+	&_main {
+		padding: 10px;
+	}
+}

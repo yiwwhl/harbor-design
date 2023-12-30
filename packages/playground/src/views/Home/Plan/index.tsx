@@ -1,15 +1,10 @@
-import { PageWrapper } from "@harbor-design/arco-design-vue";
+import PageWrapper from "@/components/advanced/PageWrapper";
 import { defineComponent } from "vue";
 
 export default defineComponent({
 	setup() {
 		return () => {
-			return (
-				<PageWrapper title="计划">
-					<div>- 持续优化动态表单, 文档完善</div>
-					<div>- 项目增加 nest 或 koa server 用于学习</div>
-				</PageWrapper>
-			);
+			return <PageWrapper title="Plan"></PageWrapper>;
 		};
 	},
 });

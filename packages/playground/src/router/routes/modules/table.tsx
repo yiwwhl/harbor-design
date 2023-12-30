@@ -5,7 +5,7 @@ const table = {
 	path: "/table",
 	name: "Table",
 	meta: {
-		locale: "表格",
+		locale: "Table",
 		icon: <Table />,
 		order: 1,
 	},
@@ -15,7 +15,7 @@ const table = {
 			path: "proTable",
 			name: "ProTable",
 			meta: {
-				locale: "高级表格",
+				locale: "ProTable",
 			},
 			component: () => import("@/views/Table/ProTable/index"),
 		},

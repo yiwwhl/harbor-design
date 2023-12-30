@@ -5,7 +5,7 @@ const form = {
 	path: "/form",
 	name: "Form",
 	meta: {
-		locale: "表单",
+		locale: "Form",
 		icon: <Form />,
 		order: 1,
 	},
@@ -15,7 +15,7 @@ const form = {
 			path: "dynamicArco",
 			name: "DynamicArco",
 			meta: {
-				locale: "动态表单 Arco",
+				locale: "ProForm Arco",
 			},
 			component: () => import("@/views/Form/DynamicArco/index"),
 		},
@@ -23,7 +23,7 @@ const form = {
 			path: "dynamicNaive",
 			name: "DynamicNaive",
 			meta: {
-				locale: "动态表单 Naive",
+				locale: "ProForm Naive",
 			},
 			component: () => import("@/views/Form/DynamicNaive/index"),
 		},

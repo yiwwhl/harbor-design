@@ -11,6 +11,7 @@
     "@arco-plugins/vite-vue": "^1.4.5",
     "@arco-themes/vue-harbor-design-playground": "^0.0.1",
     "@harbor-design/icons": "workspace:^",
+    "@harbor-design/proform": "workspace:^",
     "legendary-cursor": "^1.0.2",
     "naive-ui": "^2.35.0",
     "vue": "^3.3.4",

@@ -22,11 +22,14 @@ export default defineComponent({
 						<Header />
 					</LayoutHeader>
 					<Layout>
-						<LayoutSider collapsed={basicSetting.sidebarMenu.collapse}>
+						<LayoutSider
+							class={styles.layout_sider}
+							collapsed={basicSetting.sidebarMenu.collapse}
+						>
 							<Menu />
 						</LayoutSider>
 						<Layout>
-							<LayoutContent class={styles.content}>
+							<LayoutContent class={styles.layout_content}>
 								<RouterView />
 							</LayoutContent>
 						</Layout>
