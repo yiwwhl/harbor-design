@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+  <title>arrow right</title>
+  <g fill="#212121" class="nc-icon-wrapper">
+    <path
+      d="M1,7H8.586L6.293,9.293a1,1,0,1,0,1.414,1.414l4-4a1,1,0,0,0,0-1.416l-4-4A1,1,0,0,0,6.293,2.707L8.586,5H1A1,1,0,0,0,1,7Z">
+    </path>
+  </g>
+</svg>
