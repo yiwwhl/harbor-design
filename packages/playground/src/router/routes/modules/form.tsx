@@ -1,5 +1,5 @@
 import BasicLayout from "@/layout/BasicLayout";
-import Form from "@harbor-design/icons/menus/form.svg";
+import Form from "@/assets/icons/menus/form.svg";
 
 const form = {
 	path: "/form",

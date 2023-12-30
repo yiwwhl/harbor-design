@@ -1,5 +1,5 @@
 import BasicLayout from "@/layout/BasicLayout";
-import Home from "@harbor-design/icons/menus/home.svg";
+import Home from "@/assets/icons/menus/home.svg";
 
 const home = {
 	path: "/home",

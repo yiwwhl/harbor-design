@@ -1,5 +1,5 @@
 import BasicLayout from "@/layout/BasicLayout";
-import Table from "@harbor-design/icons/menus/table.svg";
+import Table from "@/assets/icons/menus/table.svg";
 
 const table = {
 	path: "/table",
