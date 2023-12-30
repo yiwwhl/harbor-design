@@ -13,9 +13,15 @@ import Item from "@/bootstrap/ProFormRuntimeDoms/Item";
 import Group from "@/bootstrap/ProFormRuntimeDoms/Group";
 import List from "@/bootstrap/ProFormRuntimeDoms/List";
 import ListItem from "@/bootstrap/ProFormRuntimeDoms/ListItem";
+import { createPersistedState } from "pinia-plugin-persistedstate";
 
 const app = createApp(App);
 const store = createPinia();
+store.use(
+	createPersistedState({
+		key: (id) => `__persisted__${id}`,
+	}),
+);
 
 useFormPresetConfigurer({
 	ui: "ArcoVue",
