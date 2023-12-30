@@ -4,10 +4,17 @@
 	border-radius: 4px;
 
 	&_header {
+		top: 0px;
 		display: flex;
 		padding: 10px;
 		justify-content: space-between;
 		align-items: center;
+		background-color: $bg-color-primary;
+		z-index: 2000;
+
+		&_sticky {
+			position: sticky;
+		}
 
 		&_border {
 			border-bottom: 1px solid $bd-color-primary;

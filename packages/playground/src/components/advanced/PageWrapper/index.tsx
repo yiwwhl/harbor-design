@@ -8,6 +8,10 @@ export default defineComponent({
 			type: String,
 			default: undefined,
 		},
+		sticky: {
+			type: Boolean,
+			default: true,
+		},
 	},
 	setup(props, { slots }) {
 		return () => {
@@ -21,6 +25,7 @@ export default defineComponent({
 										class={[
 											styles.content_header,
 											slots.default && styles.content_header_border,
+											props.sticky && styles.content_header_sticky,
 										]}
 									>
 										<div class={styles.content_header_title}>{props.title}</div>
