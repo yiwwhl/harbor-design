@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import {
 	Layout,
 	LayoutContent,
+	LayoutFooter,
 	LayoutHeader,
 	LayoutSider,
 } from "@arco-design/web-vue";
@@ -10,6 +11,7 @@ import Header from "@/layout/components/Header";
 import Menu from "@/layout/components/Menu";
 import { RouterView } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
+import Footer from "@/layout/components/Footer";
 
 export default defineComponent({
 	setup() {
@@ -28,11 +30,12 @@ export default defineComponent({
 						>
 							<Menu />
 						</LayoutSider>
-						<Layout>
-							<LayoutContent class={styles.layout_content}>
-								<RouterView />
-							</LayoutContent>
-						</Layout>
+						<LayoutContent class={styles.layout_content}>
+							<RouterView />
+							<LayoutFooter>
+								<Footer />
+							</LayoutFooter>
+						</LayoutContent>
 					</Layout>
 				</Layout>
 			);
