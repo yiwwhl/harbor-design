@@ -30,19 +30,21 @@
 		justify-content: space-between;
 		background-color: #e4e5ea80;
 		padding: 6px 20px;
+		height: 40px;
+		box-sizing: border-box;
 		border-radius: 4px;
 		gap: 10px;
 		cursor: pointer;
-		transition: all linear 0.1s;
+
 		.avatar {
 			width: 30px;
 			height: 30px;
 			border-radius: 50%;
 		}
+
 		.uinfo {
 			display: flex;
 			flex-direction: column;
-			gap: 4px;
 
 			.nickName {
 				color: $primary;
@@ -52,20 +54,6 @@
 				font-size: $font-size-9;
 				font-weight: bold;
 				color: $primary;
-			}
-		}
-		.icon {
-			width: 12px;
-			height: 12px;
-
-			> svg {
-				transition: all linear 0.1s;
-			}
-		}
-
-		&:hover {
-			svg {
-				filter: drop-shadow(#ef3636 2px 0px) drop-shadow(#3c35f5 3px 0px);
 			}
 		}
 	}

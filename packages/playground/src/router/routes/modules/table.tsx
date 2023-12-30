@@ -7,7 +7,7 @@ const table = {
 	meta: {
 		locale: "Table",
 		icon: <Table />,
-		order: 1,
+		order: 2,
 	},
 	component: BasicLayout,
 	children: [
