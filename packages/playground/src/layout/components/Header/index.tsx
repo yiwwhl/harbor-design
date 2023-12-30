@@ -11,7 +11,12 @@ export default defineComponent({
 		return () => {
 			return (
 				<div class={styles.header}>
-					<div class={styles.title}>
+					<div
+						class={styles.title}
+						onClick={() => {
+							router.push("/");
+						}}
+					>
 						<Logo class={styles.logo} />
 						Harbor Design
 					</div>
