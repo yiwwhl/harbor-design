@@ -14,6 +14,9 @@ import Group from "@/bootstrap/ProFormRuntimeDoms/Group";
 import List from "@/bootstrap/ProFormRuntimeDoms/List";
 import ListItem from "@/bootstrap/ProFormRuntimeDoms/ListItem";
 import { createPersistedState } from "pinia-plugin-persistedstate";
+import "@/architecture/index";
+import { ServiceAutoLoader } from "@/plugins/serviceCollector";
+import { setupRouteGuards } from "@/router/guards";
 
 const app = createApp(App);
 const store = createPinia();
@@ -50,7 +53,9 @@ useFormPresetConfigurer({
 });
 
 app.use(ArcoVue);
-app.use(router);
 app.use(store);
+app.use(ServiceAutoLoader());
+setupRouteGuards(router);
+app.use(router);
 app.use(ImageAutoLoader());
 app.mount("#app");

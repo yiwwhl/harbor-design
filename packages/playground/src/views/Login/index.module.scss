@@ -1,0 +1,45 @@
+.loginWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background-color: $bd-color-primary;
+
+	.loginFormWrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 50%;
+		min-height: 400px;
+		padding: 3rem;
+		box-sizing: border-box;
+		background-color: $bg-color-primary;
+		--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+			0 2px 4px -2px rgb(0 0 0 / 0.1);
+		--tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+			0 2px 4px -2px var(--tw-shadow-color);
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+			var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+		border-radius: $border-radius-4;
+
+		.prompt {
+			font-size: $font-size-28;
+			font-weight: bold;
+			align-self: center;
+		}
+	}
+}
+
+@media (max-width: 899px) {
+	.loginFormWrapper {
+		width: 80%;
+	}
+}
+
+@media (min-width: 900px) {
+	.loginFormWrapper {
+		width: 40%;
+	}
+}

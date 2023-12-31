@@ -18,6 +18,9 @@ const useUserStore = defineStore("user", {
 		saveToken(_token: string) {
 			this.user.token = _token;
 		},
+		clearToken() {
+			this.user.token = "";
+		},
 	},
 	persist: true,
 });

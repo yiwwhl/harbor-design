@@ -8,6 +8,11 @@ const router = createRouter({
 			path: "/",
 			redirect: "/home",
 		},
+		{
+			path: "/login",
+			name: "Login",
+			component: () => import("@/views/Login/index"),
+		},
 		...routes,
 	],
 });
