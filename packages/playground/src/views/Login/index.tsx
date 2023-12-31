@@ -3,10 +3,12 @@ import styles from "./index.module.scss";
 import { ProForm, useForm } from "@harbor-design/proform";
 import { Button, Input, InputPassword } from "@arco-design/web-vue";
 import { ProjectService } from "@/architecture/core/ProjectService";
+import { useFnCall } from "@/hooks/useFnCall";
 
 export default defineComponent({
 	setup() {
 		const UserService = ProjectService.getService("User");
+		const [call, { loading }] = useFnCall(UserService.login);
 		const [setup, { submit }] = useForm({
 			native: {
 				props: {
@@ -35,7 +37,7 @@ export default defineComponent({
 
 		function handleLogin() {
 			submit().then((res) => {
-				UserService.login(res);
+				call(res);
 			});
 		}
 
@@ -45,7 +47,11 @@ export default defineComponent({
 					<div class={styles.loginFormWrapper}>
 						<div class={styles.prompt}>登录到您的账户</div>
 						<ProForm setup={setup} />
-						<Button type="primary" onClick={handleLogin}>
+						<Button
+							type="primary"
+							loading={loading.value}
+							onClick={handleLogin}
+						>
 							登录
 						</Button>
 					</div>
