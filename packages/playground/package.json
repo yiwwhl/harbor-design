@@ -8,18 +8,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@arco-design/web-vue": "^2.52.0",
     "@arco-plugins/vite-vue": "^1.4.5",
     "@arco-themes/vue-harbor-design-playground": "^0.0.1",
-    "@harbor-design/proform": "workspace:^",
-    "legendary-cursor": "^1.0.2",
-    "naive-ui": "^2.35.0",
-    "pinia-plugin-persistedstate": "^3.2.1",
-    "@arco-design/web-vue": "^2.52.0",
     "@harbor-design/arco-design-vue": "workspace:^",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.5",
+    "@harbor-design/proform": "workspace:^",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.6.3",
+    "legendary-cursor": "^1.0.2",
     "lodash": "^4.17.21",
-    "pinia": "^2.1.6"
+    "naive-ui": "^2.35.0",
+    "pinia": "^2.1.6",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.199"

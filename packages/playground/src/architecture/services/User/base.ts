@@ -1,6 +1,7 @@
 import { IService } from "@/architecture/types";
 import router from "@/router";
 import useUserStore from "@/store/modules/user";
+import request from "@/utils/Request";
 
 export interface IUserService extends IService {
 	login: AnyPromiseFn;
@@ -14,7 +15,10 @@ export abstract class AbstractUserService implements IUserService {
 }
 
 export default class BaseUserService extends AbstractUserService {
-	constructor(public userStore = useUserStore()) {
+	constructor(
+		public _userStore = useUserStore(),
+		public _request = request,
+	) {
 		super();
 	}
 
@@ -25,14 +29,14 @@ export default class BaseUserService extends AbstractUserService {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				resolve("done");
-				this.userStore.saveToken(`dev token`);
+				this._userStore.saveToken(`dev token`);
 				router.push("/");
 			}, 1000);
 		});
 	};
 
 	logout = () => {
-		this.userStore.clearToken();
+		this._userStore.clearToken();
 		router.replace({
 			name: "Login",
 		});

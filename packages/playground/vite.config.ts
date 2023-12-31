@@ -8,6 +8,14 @@ import { vitePluginForArco } from "@arco-plugins/vite-vue";
 export default defineConfig(() => {
 	return {
 		base: "./",
+		server: {
+			proxy: {
+				"/api": {
+					target: `localhost:3000`,
+					changeOrigin: true,
+				},
+			},
+		},
 		plugins: [
 			vue(),
 			vueJSX(),
