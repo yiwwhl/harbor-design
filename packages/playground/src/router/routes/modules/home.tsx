@@ -5,7 +5,7 @@ const home = {
 	path: "/home",
 	name: "Home",
 	meta: {
-		locale: "Home",
+		locale: "主页",
 		icon: <Home />,
 		order: 0,
 	},
@@ -18,7 +18,7 @@ const home = {
 			path: "about",
 			name: "About",
 			meta: {
-				locale: "About",
+				locale: "关于",
 			},
 			component: () => import("@/views/Home/About/index"),
 		},
@@ -26,7 +26,7 @@ const home = {
 			path: "plan",
 			name: "Plan",
 			meta: {
-				locale: "Plan",
+				locale: "计划",
 			},
 			component: () => import("@/views/Home/Plan/index"),
 		},

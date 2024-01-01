@@ -5,7 +5,7 @@ const setting = {
 	path: "/setting",
 	name: "Setting",
 	meta: {
-		locale: "Setting",
+		locale: "设置",
 		icon: <Setting />,
 		order: 10,
 	},
@@ -18,7 +18,7 @@ const setting = {
 			path: "usercenter",
 			name: "UserCenter",
 			meta: {
-				locale: "UserCenter",
+				locale: "个人中心",
 			},
 			component: () => import("@/views/Setting/UserCenter/index"),
 		},

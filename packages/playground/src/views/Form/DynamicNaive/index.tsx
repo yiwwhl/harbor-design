@@ -134,7 +134,7 @@ export default defineComponent({
 
 		return () => {
 			return (
-				<PageWrapper title="ProForm Naive">
+				<PageWrapper title="Naive 表单">
 					{{
 						default() {
 							return <ProForm class={styles.proForm} setup={setup} />;

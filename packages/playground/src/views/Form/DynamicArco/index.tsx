@@ -142,7 +142,7 @@ export default defineComponent({
 
 		return () => {
 			return (
-				<PageWrapper title="ProForm Arco">
+				<PageWrapper title="Arco 表单">
 					{{
 						default() {
 							return <ProForm class={styles.proForm} setup={setup} />;

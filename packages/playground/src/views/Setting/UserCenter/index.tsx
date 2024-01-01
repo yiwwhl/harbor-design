@@ -13,7 +13,7 @@ export default defineComponent({
 
 		return () => {
 			return (
-				<PageWrapper title="UserCenter">
+				<PageWrapper title="个人中心">
 					<Button type="primary" onClick={handleLogout}>
 						退出登录
 					</Button>
