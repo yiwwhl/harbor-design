@@ -7,16 +7,10 @@ const useBasicSettingStore = defineStore("basicSetting", {
 			selectedKeys: [] as string[],
 			collapse: false,
 		},
-		header: {
-			height: 60,
-		},
 	}),
 	getters: {
 		isSelectedKeysSetted(state) {
 			return state.sidebarMenu.selectedKeys.length !== 0;
-		},
-		headerHeight(state) {
-			return state.header.height;
 		},
 	},
 	actions: {
