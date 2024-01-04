@@ -47,15 +47,11 @@ export default defineComponent({
 					component({ model }) {
 						return model.age ? NInput : NSelect;
 					},
-					required({ model }) {
-						return !!model.age;
-					},
 				},
 				{
 					label: "年龄",
 					field: "age",
 					component: NInput,
-					required: true,
 					componentProps() {
 						return {
 							min: 0,
@@ -67,7 +63,6 @@ export default defineComponent({
 					label: "性别",
 					field: "gender",
 					component: NSelect,
-					required: true,
 					componentProps: {
 						options: getOptions,
 					},
@@ -111,7 +106,6 @@ export default defineComponent({
 							},
 							field: "job",
 							component: NInput,
-							required: true,
 						},
 					],
 				},
