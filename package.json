@@ -5,6 +5,7 @@
   "author": "yiwwhl <yiwwhl@qq.com>",
   "scripts": {
     "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev",
+    "dev:server": "pnpm --filter=@harbor-design/server start:dev",
     "build:arco-vue": "pnpm --filter=@harbor-design/playground build",
     "release:proform": "pnpm prerelease:proform && pnpm changeset && pnpm postrelease:proform",
     "prerelease:proform": "pnpm --filter=@harbor-design/proform build",
