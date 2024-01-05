@@ -129,7 +129,7 @@ jobs:
 
   webhooks:
     runs-on: ubuntu-latest
-    needs: [build_client_image, magic_version]
+    needs: [build_client_image, build_server_image, magic_version]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
