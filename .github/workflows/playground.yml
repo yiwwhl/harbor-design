@@ -97,7 +97,7 @@ jobs:
           tags: ${{ needs.magic_version.outputs.VERSION }}
 
   build_server_image:
-    needs: [build_client_dist, magic_server_version]
+    needs: [build_server_dist, magic_server_version]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
