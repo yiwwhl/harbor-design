@@ -10,11 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  nickName String?
-  gender   Int
+enum Gender {
+  MALE
+  FEMALE
+}
 
-  @@map("users")
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  username String  @unique
+  nickname String?
+  gender   Gender?
+  password String
 }

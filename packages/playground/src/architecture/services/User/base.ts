@@ -25,13 +25,9 @@ export default class BaseUserService extends AbstractUserService {
 	avaliableRouteNames = ["UserCenter"];
 
 	login = (res: AnyObject) => {
-		console.log("login model:", res);
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				resolve("done");
-				this._userStore.saveToken(`dev token`);
-				router.push("/");
-			}, 1000);
+		return this._request.post("/user/login", res).then(({ data }) => {
+			this._userStore.saveToken(data.token);
+			router.push("/");
 		});
 	};
 
