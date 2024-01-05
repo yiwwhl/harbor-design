@@ -129,11 +129,17 @@ jobs:
 
   webhooks:
     runs-on: ubuntu-latest
-    needs: [build_client_image, build_server_image, magic_version]
+    needs:
+      [
+        build_client_image,
+        magic_server_version,
+        build_server_image,
+        magic_version,
+      ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: trigger webhook
         run: |
-          curl -X POST -H "Content-Type: application/json" -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}" }' ${{ secrets.WEB_HOOK_TARGET }}
+          curl -X POST -H "Content-Type: application/json" -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}", "server_version": "${{ needs.magic_server_version.outputs.VERSION }}" }' ${{ secrets.WEB_HOOK_TARGET }}
