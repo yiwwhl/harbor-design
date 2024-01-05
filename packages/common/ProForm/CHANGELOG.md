@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.24
+
+### Patch Changes
+
+- fix bug of componentProps calc
+
 ## 1.1.23
 
 ### Patch Changes

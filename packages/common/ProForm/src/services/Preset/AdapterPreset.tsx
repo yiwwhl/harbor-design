@@ -1,5 +1,4 @@
-import { AdaptedInterfacePreset } from "../../types";
-import { AnyObject } from "../../../dist/types/src/types/utilTypes";
+import { AdaptedInterfacePreset, AnyObject } from "../../types";
 import { IS } from "../../utils";
 import { toRaw } from "vue";
 

@@ -229,14 +229,19 @@ export default class Processor {
 				};
 				if (IS.isFunction(data[key])) {
 					if (key !== "defaultValue") {
-						this.schemaEffect.trackEffect(() => {
-							if (key === "component") {
-								const component = data[key](this.getRuntimeMeta());
-								this.promiseFieldParser(component, updater, false);
-							} else {
-								this.fieldParser(data[key], updater);
-							}
-						});
+						this.schemaEffect.trackEffect(
+							() => {
+								if (key === "component") {
+									const component = data[key](this.getRuntimeMeta());
+									this.promiseFieldParser(component, updater, false);
+								} else {
+									this.fieldParser(data[key], updater);
+								}
+							},
+							{
+								lazy: false,
+							},
+						);
 					} else {
 						this.defaultValueEffect.trackEffect(
 							() => {

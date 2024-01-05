@@ -1,7 +1,7 @@
 var oe = Object.defineProperty;
 var ne = (r, e, t) => e in r ? oe(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var a = (r, e, t) => (ne(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { isRef as x, watch as I, isReactive as k, toRaw as j, nextTick as w, ref as q, reactive as le, createVNode as p, withDirectives as Z, mergeProps as R, vShow as A, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
+import { isRef as x, watch as I, isReactive as z, toRaw as j, nextTick as w, ref as q, reactive as le, createVNode as p, withDirectives as Z, mergeProps as R, vShow as A, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
 class l {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -151,7 +151,7 @@ class fe {
             deep: !0,
             immediate: !0
           }
-        ) : k(e) ? I(
+        ) : z(e) ? I(
           () => e,
           () => {
             m(this.runtimeCore.model.value, e);
@@ -299,13 +299,18 @@ class de {
             stable: u
           });
         };
-        l.isFunction(t[i]) ? i !== "defaultValue" ? this.schemaEffect.trackEffect(() => {
-          if (i === "component") {
-            const u = t[i](this.getRuntimeMeta());
-            this.promiseFieldParser(u, n, !1);
-          } else
-            this.fieldParser(t[i], n);
-        }) : this.defaultValueEffect.trackEffect(
+        l.isFunction(t[i]) ? i !== "defaultValue" ? this.schemaEffect.trackEffect(
+          () => {
+            if (i === "component") {
+              const u = t[i](this.getRuntimeMeta());
+              this.promiseFieldParser(u, n, !1);
+            } else
+              this.fieldParser(t[i], n);
+          },
+          {
+            lazy: !1
+          }
+        ) : this.defaultValueEffect.trackEffect(
           () => {
             const u = this.schemaEffect.trackEffect(() => {
               /\{\s*model\s*\}/.test(t[i].toString()) ? this.fieldParser(t[i], (c) => {
@@ -370,7 +375,7 @@ class de {
           immediate: !0,
           deep: !0
         }
-      ) : k(e) ? I(
+      ) : z(e) ? I(
         () => e,
         () => {
           l.isUndefined(e) || (s && l.isObject(e) ? this.objectParser({
@@ -481,7 +486,7 @@ class me {
       }, {
         deep: !0
       });
-    } else if (k(t.schemas)) {
+    } else if (z(t.schemas)) {
       const s = I(() => t.schemas, () => {
         this.processor.parseSchemas(t.schemas), w(() => {
           s();
@@ -499,11 +504,11 @@ class me {
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, i) {
-    var z, $, _, B, D, G, T, K, W, H, J, Q, X;
+    var k, $, _, B, D, G, T, K, W, H, J, Q, X;
     const o = j(e.component);
     if (!o)
       return;
-    m(this.globalNativeFormOverride.props, ($ = (z = e.native) == null ? void 0 : z.props) == null ? void 0 : $.Form), m(this.globalNativeFormOverride.slots, (B = (_ = e.native) == null ? void 0 : _.slots) == null ? void 0 : B.Form);
+    m(this.globalNativeFormOverride.props, ($ = (k = e.native) == null ? void 0 : k.props) == null ? void 0 : $.Form), m(this.globalNativeFormOverride.slots, (B = (_ = e.native) == null ? void 0 : _.slots) == null ? void 0 : B.Form);
     const n = m(g((G = (D = this.native) == null ? void 0 : D.slots) == null ? void 0 : G.FormItem) ?? {}, (K = (T = e.native) == null ? void 0 : T.slots) == null ? void 0 : K.FormItem), u = {
       display: "grid",
       gridColumn: "1 / -1",
