@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: server_dist
-          path: ./packages/playground/dist
+          path: ./packages/server/dist
 
   magic_version:
     runs-on: ubuntu-latest
