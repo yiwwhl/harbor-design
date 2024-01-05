@@ -131,10 +131,10 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       [
+        magic_version,
         build_client_image,
         magic_server_version,
         build_server_image,
-        magic_version,
       ]
     steps:
       - name: Checkout code
