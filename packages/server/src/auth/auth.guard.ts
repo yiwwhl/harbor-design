@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
       });
       request['user'] = payload;
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('认证已失效，请重新登录');
     }
     return true;
   }
