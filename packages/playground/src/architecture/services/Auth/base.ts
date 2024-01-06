@@ -26,11 +26,16 @@ export default class BaseAuthService extends AbstractAuthService {
 	avaliableRouteNames = ["UserCenter"];
 
 	login = (res: AnyObject) => {
-		res.password = md5(res.password).toString();
-		return this._request.post("/auth/login", res).then(({ data }) => {
-			this._userStore.saveToken(data.token);
-			router.push("/");
-		});
+		const password = md5(res.password.trim()).toString();
+		return this._request
+			.post("/auth/login", {
+				username: res.username.trim(),
+				password,
+			})
+			.then(({ data }) => {
+				this._userStore.saveToken(data.token);
+				router.push("/");
+			});
 	};
 
 	logout = () => {
