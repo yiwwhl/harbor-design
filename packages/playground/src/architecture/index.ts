@@ -1,4 +1,4 @@
-import { ProjectService } from "@/architecture/core/ProjectService";
+import { ProjectService, ServiceMap } from "@/architecture/core/ProjectService";
 
 export function registAllServices() {
 	const tsModules = import.meta.glob("./services/**/*.ts", { eager: true });
@@ -15,10 +15,10 @@ export function registAllServices() {
 			modules[path];
 	});
 
-	Object.keys(processedServices).forEach((key: string) => {
+	Object.keys(processedServices).forEach((key) => {
 		const service = new processedServices[key].default();
 		ProjectService.avaliableRouteNames =
 			ProjectService.avaliableRouteNames.concat(service.avaliableRouteNames);
-		ProjectService.regist(key, service);
+		ProjectService.regist(key as keyof ServiceMap, service);
 	});
 }

@@ -7,7 +7,7 @@ import { IUserService } from "@/architecture/services/User/base";
  * interface，唯一的缺陷是业务模块的定义和类型的注入隔离了，但由于本质
  * 上业务抽象后接口统一的准则，也无伤大雅
  */
-interface ServiceMap {
+export interface ServiceMap {
 	Auth: IAuthService;
 	User: IUserService;
 }
