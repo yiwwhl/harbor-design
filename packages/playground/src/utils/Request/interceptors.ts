@@ -9,14 +9,15 @@ import { AxiosInstance } from "axios";
  */
 export enum ResponseDataCode {
 	SUCCESS = 0,
+	UNAUTHORIZED = 401,
 }
 
 export function createInterceptors(request: AxiosInstance): void {
-	const UserService = ProjectService.getService("User");
+	const AuthService = ProjectService.getService("Auth");
 
 	request.interceptors.request.use(
 		(config) => {
-			config.headers.Authorization = `Bearer ${UserService?.getToken()}`;
+			config.headers.Authorization = `Bearer ${AuthService?.getToken()}`;
 			return config;
 		},
 		(error) => {
@@ -35,6 +36,10 @@ export function createInterceptors(request: AxiosInstance): void {
 			return data;
 		},
 		(error) => {
+			if (error.response.status === ResponseDataCode.UNAUTHORIZED) {
+				Message.error(error.response.data.message);
+				return AuthService.logout();
+			}
 			return Promise.reject(error);
 		},
 	);

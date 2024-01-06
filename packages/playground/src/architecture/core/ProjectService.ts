@@ -1,3 +1,4 @@
+import { IAuthService } from "@/architecture/services/Auth/base";
 import { IUserService } from "@/architecture/services/User/base";
 
 /**
@@ -7,6 +8,7 @@ import { IUserService } from "@/architecture/services/User/base";
  * 上业务抽象后接口统一的准则，也无伤大雅
  */
 interface ServiceMap {
+	Auth: IAuthService;
 	User: IUserService;
 }
 
@@ -18,12 +20,11 @@ export class ProjectService {
 	// @ts-expect-error
 	static serviceMap: ServiceMap = {};
 
-	static regist(serviceKey: keyof any, service: AnyObject) {
-		// @ts-expect-error
+	static regist(serviceKey: keyof ServiceMap, service: any) {
 		this.serviceMap[serviceKey] = service;
 	}
 
-	static getService(serviceKey: keyof ServiceMap) {
+	static getService<K extends keyof ServiceMap>(serviceKey: K): ServiceMap[K] {
 		return this.serviceMap[serviceKey];
 	}
 }

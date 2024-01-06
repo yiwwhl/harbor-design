@@ -8,7 +8,7 @@ export default defineComponent({
 		const UserService = ProjectService.getService("User");
 		onBeforeMount(async () => {
 			const data = await UserService.getProfile();
-			console.log(data, data);
+			console.log("用户信息：", data);
 		});
 
 		return () => {
