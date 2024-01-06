@@ -1,8 +1,16 @@
+import { ProjectService } from "@/architecture/core/ProjectService";
 import PageWrapper from "@/components/advanced/PageWrapper";
-import { defineComponent } from "vue";
+import { defineComponent, onBeforeMount } from "vue";
 
 export default defineComponent({
 	setup() {
+		// 仅测试 Code，后续 remove
+		const UserService = ProjectService.getService("User");
+		onBeforeMount(async () => {
+			const data = await UserService.getProfile();
+			console.log(data, data);
+		});
+
 		return () => {
 			return (
 				<PageWrapper title="关于">

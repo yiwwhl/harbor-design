@@ -6,12 +6,16 @@ import request from "@/utils/Request";
 export interface IUserService extends IService {
 	login: AnyPromiseFn;
 	logout: AnyFunction;
+	getToken: AnyFunction;
+	getProfile: AnyPromiseFn;
 }
 
 export abstract class AbstractUserService implements IUserService {
 	abstract avaliableRouteNames: string[];
 	abstract login: AnyPromiseFn;
 	abstract logout: AnyFunction;
+	abstract getToken: AnyFunction;
+	abstract getProfile: AnyPromiseFn;
 }
 
 export default class BaseUserService extends AbstractUserService {
@@ -36,5 +40,14 @@ export default class BaseUserService extends AbstractUserService {
 		router.replace({
 			name: "Login",
 		});
+	};
+
+	getToken = () => {
+		const userStore = useUserStore();
+		return userStore.user.token;
+	};
+
+	getProfile = () => {
+		return this._request.get("/user/profile");
 	};
 }

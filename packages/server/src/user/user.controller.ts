@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -10,27 +11,15 @@ export class UserController {
     return this.userService.findUser(id);
   }
 
-  @Post('/login')
-  async login(@Body() { username, password }) {
-    const user = await this.userService.findUser({
-      AND: {
-        username,
-        password,
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return {
+      code: 0,
+      data: {
+        ...(await this.userService.findUserByUsername(req.user.username)),
       },
-    });
-    if (user) {
-      return {
-        code: 0,
-        data: {
-          token: 'dev-token' + Date.now(),
-        },
-        message: '0',
-      };
-    } else {
-      return {
-        code: 1,
-        message: '用户名或密码错误',
-      };
-    }
+      message: '0',
+    };
   }
 }

@@ -17,6 +17,8 @@ import { createPersistedState } from "pinia-plugin-persistedstate";
 import "@/architecture/index";
 import { ServiceAutoLoader } from "@/plugins/serviceCollector";
 import { setupRouteGuards } from "@/router/guards";
+import { createInterceptors } from "@/utils/Request/interceptors";
+import request from "@/utils/Request";
 
 const app = createApp(App);
 const store = createPinia();
@@ -57,5 +59,6 @@ app.use(store);
 app.use(ServiceAutoLoader());
 setupRouteGuards(router);
 app.use(router);
+createInterceptors(request);
 app.use(ImageAutoLoader());
 app.mount("#app");

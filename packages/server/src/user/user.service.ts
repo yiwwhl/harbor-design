@@ -10,4 +10,19 @@ export class UserService {
       where: schema,
     });
   }
+
+  findUserByUsername(username) {
+    return this.prisma.user.findFirst({
+      where: {
+        username,
+      },
+      select: {
+        id: true,
+        username: true,
+        nickname: true,
+        gender: true,
+        email: true,
+      },
+    });
+  }
 }

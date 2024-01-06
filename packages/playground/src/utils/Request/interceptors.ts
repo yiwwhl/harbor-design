@@ -1,3 +1,4 @@
+import { ProjectService } from "@/architecture/core/ProjectService";
 import { Message } from "@arco-design/web-vue";
 import { AxiosInstance } from "axios";
 
@@ -11,9 +12,11 @@ export enum ResponseDataCode {
 }
 
 export function createInterceptors(request: AxiosInstance): void {
+	const UserService = ProjectService.getService("User");
+
 	request.interceptors.request.use(
 		(config) => {
-			// config.headers.Authorization = `Bearer ${token}`;
+			config.headers.Authorization = `Bearer ${UserService?.getToken()}`;
 			return config;
 		},
 		(error) => {
