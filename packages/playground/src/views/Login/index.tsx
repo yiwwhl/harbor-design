@@ -7,8 +7,8 @@ import { useFnCall } from "@/hooks/useFnCall";
 
 export default defineComponent({
 	setup() {
-		const UserService = ProjectService.getService("User");
-		const [call, { loading }] = useFnCall(UserService.login);
+		const AuthService = ProjectService.getService("Auth");
+		const [call, { loading }] = useFnCall(AuthService.login);
 		const [setup, { submit }] = useForm({
 			native: {
 				props: {

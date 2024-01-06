@@ -1,6 +1,7 @@
 import router from "@/router";
 import useUserStore from "@/store/modules/user";
 import request from "@/utils/Request";
+import md5 from "crypto-js/md5";
 
 export interface IAuthService {
 	login: AnyPromiseFn;
@@ -25,6 +26,7 @@ export default class BaseAuthService extends AbstractAuthService {
 	avaliableRouteNames = ["UserCenter"];
 
 	login = (res: AnyObject) => {
+		res.password = md5(res.password).toString();
 		return this._request.post("/auth/login", res).then(({ data }) => {
 			this._userStore.saveToken(data.token);
 			router.push("/");

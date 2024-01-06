@@ -5,10 +5,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
 	setup() {
-		const UserService = ProjectService.getService("User");
+		const AuthService = ProjectService.getService("Auth");
 
 		function handleLogout() {
-			UserService.logout();
+			AuthService.logout();
 		}
 
 		return () => {
