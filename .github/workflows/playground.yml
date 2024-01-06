@@ -126,6 +126,7 @@ jobs:
           tags: ${{ needs.magic_server_version.outputs.VERSION }}
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+            SECRET=${{ secrets.SECRET }}
 
   webhooks:
     runs-on: ubuntu-latest

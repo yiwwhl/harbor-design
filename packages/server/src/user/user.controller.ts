@@ -32,7 +32,5 @@ export class UserController {
         message: '用户名或密码错误',
       };
     }
-
-    return;
   }
 }
