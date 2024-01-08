@@ -188,13 +188,12 @@ export default class RuntimeCore {
 		const componentSlots = schema.componentSlots;
 		return (
 			<div style={defaultItemStyle}>
-				<Item>
+				<Item v-show={show}>
 					{{
 						default() {
 							return (
 								<FormItem
 									{...formItemNativeProps}
-									v-show={show}
 									label={`${label ? `${label}:` : ""}`}
 									{...runtimeField}
 									{...runtimeRequired}

@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.26
+
+### Patch Changes
+
+- improve show logic
+
 ## 1.1.25
 
 ### Patch Changes

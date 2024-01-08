@@ -535,9 +535,9 @@ class me {
     }), te = F.getItemContainer(this), se = F.getFormItemContainer(this), re = this, ie = e.componentSlots;
     return p("div", {
       style: u
-    }, [p(te, null, {
+    }, [Z(p(te, null, {
       default() {
-        return Z(p(se, R(c, {
+        return p(se, R(c, {
           label: `${h ? `${h}:` : ""}`
         }, d, ee), {
           default() {
@@ -551,9 +551,9 @@ class me {
             });
           },
           ...n
-        }), [[A, P]]);
+        });
       }
-    })]);
+    }), [[A, P]])]);
   }
   runtimeGroupProcessor(e) {
     let t;
