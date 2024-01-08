@@ -192,27 +192,28 @@ export default class RuntimeCore {
 					{{
 						default() {
 							return (
-								<FormItem
-									{...formItemNativeProps}
-									label={`${label ? `${label}:` : ""}`}
-									v-show={show}
-									{...runtimeField}
-									{...runtimeRequired}
-								>
-									{{
-										default() {
-											return that.runtimeAdapter.formComponentRenderer({
-												Component,
-												schema,
-												baseModel,
-												placeholder,
-												componentSlots,
-												props,
-											});
-										},
-										...formItemNativeSlots,
-									}}
-								</FormItem>
+								show && (
+									<FormItem
+										{...formItemNativeProps}
+										label={`${label ? `${label}:` : ""}`}
+										{...runtimeField}
+										{...runtimeRequired}
+									>
+										{{
+											default() {
+												return that.runtimeAdapter.formComponentRenderer({
+													Component,
+													schema,
+													baseModel,
+													placeholder,
+													componentSlots,
+													props,
+												});
+											},
+											...formItemNativeSlots,
+										}}
+									</FormItem>
+								)
 							);
 						},
 					}}
@@ -234,11 +235,13 @@ export default class RuntimeCore {
 		}
 		return (
 			<div style={defaultStyle}>
-				<Group schema={schema} v-show={show}>
-					{(schema.children as ItemSchema[]).map((chlidSchema) =>
-						this.runtimeItemProcessor(chlidSchema),
-					)}
-				</Group>
+				{show && (
+					<Group schema={schema}>
+						{(schema.children as ItemSchema[]).map((chlidSchema) =>
+							this.runtimeItemProcessor(chlidSchema),
+						)}
+					</Group>
+				)}
 			</div>
 		);
 	}
@@ -280,46 +283,50 @@ export default class RuntimeCore {
 		const ListItem = RuntimeContainer.getListItemContainer(this);
 		return (
 			<div style={defaultStyle}>
-				<List schema={schema} v-show={show}>
-					{{
-						default() {
-							return that.model.value[schema.field].map(
-								(listItemModel: AnyObject, listItemIndex: number) => (
-									<ListItem>
-										{{
-											default() {
-												return (schema.children as ItemSchema[]).map(
-													(childSchema) =>
-														that.runtimeItemProcessor(
-															childSchema,
-															listItemIndex,
-															listItemModel,
-															schema,
-														),
-												);
-											},
-											delete({ container }: AnyObject = {}) {
-												const Container = container ?? <button></button>;
-												return (
-													<Container
-														v-show={that.model.value[schema.field]?.length > 1}
-														onClick={() =>
-															that.deleteListItem(schema, listItemIndex)
-														}
-													/>
-												);
-											},
-										}}
-									</ListItem>
-								),
-							);
-						},
-						add({ container }: AnyObject = {}) {
-							const Container = container ?? <button>添加</button>;
-							return <Container onClick={() => that.addListItem(schema)} />;
-						},
-					}}
-				</List>
+				{show && (
+					<List schema={schema}>
+						{{
+							default() {
+								return that.model.value[schema.field].map(
+									(listItemModel: AnyObject, listItemIndex: number) => (
+										<ListItem>
+											{{
+												default() {
+													return (schema.children as ItemSchema[]).map(
+														(childSchema) =>
+															that.runtimeItemProcessor(
+																childSchema,
+																listItemIndex,
+																listItemModel,
+																schema,
+															),
+													);
+												},
+												delete({ container }: AnyObject = {}) {
+													const Container = container ?? <button></button>;
+													return (
+														<Container
+															v-show={
+																that.model.value[schema.field]?.length > 1
+															}
+															onClick={() =>
+																that.deleteListItem(schema, listItemIndex)
+															}
+														/>
+													);
+												},
+											}}
+										</ListItem>
+									),
+								);
+							},
+							add({ container }: AnyObject = {}) {
+								const Container = container ?? <button>添加</button>;
+								return <Container onClick={() => that.addListItem(schema)} />;
+							},
+						}}
+					</List>
+				)}
 			</div>
 		);
 	}
