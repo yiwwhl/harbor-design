@@ -151,7 +151,6 @@ export default defineComponent({
 						},
 					],
 					show({ model }) {
-						console.log("un", model.gender);
 						return !!model.gender;
 					},
 				},
