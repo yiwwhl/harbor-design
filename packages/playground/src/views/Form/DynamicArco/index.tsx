@@ -97,6 +97,9 @@ export default defineComponent({
 							defaultValue: "前端开发工程师",
 						},
 					],
+					show({ model }) {
+						return !!model.gender;
+					},
 				},
 				{
 					label: "过往经历",
@@ -147,6 +150,10 @@ export default defineComponent({
 							},
 						},
 					],
+					show({ model }) {
+						console.log("un", model.gender);
+						return !!model.gender;
+					},
 				},
 			];
 		}, 400);

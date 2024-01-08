@@ -228,9 +228,13 @@ export default class RuntimeCore {
 			...schema.grid,
 		};
 		const Group = RuntimeContainer.getGroupContainer(this);
+		let show = schema.show;
+		if (show === undefined) {
+			show = true;
+		}
 		return (
 			<div style={defaultStyle}>
-				<Group schema={schema}>
+				<Group schema={schema} v-show={show}>
 					{(schema.children as ItemSchema[]).map((chlidSchema) =>
 						this.runtimeItemProcessor(chlidSchema),
 					)}
@@ -268,12 +272,15 @@ export default class RuntimeCore {
 		if (!that.model.value[schema.field]) {
 			that.model.value[schema.field] = [{}];
 		}
-
+		let show = schema.show;
+		if (show === undefined) {
+			show = true;
+		}
 		const List = RuntimeContainer.getListContainer(this);
 		const ListItem = RuntimeContainer.getListItemContainer(this);
 		return (
 			<div style={defaultStyle}>
-				<List schema={schema}>
+				<List schema={schema} v-show={show}>
 					{{
 						default() {
 							return that.model.value[schema.field].map(

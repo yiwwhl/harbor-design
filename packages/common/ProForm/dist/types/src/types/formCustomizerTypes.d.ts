@@ -73,6 +73,7 @@ export interface GroupSchema {
     label?: string;
     children: ProxyedSchema[];
     grid?: GridStyle;
+    show?: boolean;
 }
 export interface ListSchema {
     type: "list";
@@ -81,6 +82,7 @@ export interface ListSchema {
     children: ProxyedSchema[];
     grid?: GridStyle;
     runtime?: Runtime;
+    show?: boolean;
 }
 export type Schema = ItemSchema | GroupSchema | ListSchema;
 export interface runtimeMeta {
