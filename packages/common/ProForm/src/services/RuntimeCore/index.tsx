@@ -78,6 +78,7 @@ export default class RuntimeCore {
 			const stopWatch = watch(
 				() => formCustomization.schemas,
 				() => {
+					// @ts-expect-error
 					this.processor.parseSchemas(formCustomization.schemas);
 					nextTick(() => {
 						stopWatch();

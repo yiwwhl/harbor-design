@@ -1,3 +1,4 @@
+import { Ref } from "vue";
 import { AnyObject, DomType, UIName } from "./index";
 
 export type SchemaType = "item" | "list" | "group";
@@ -126,7 +127,7 @@ export interface FormCustomization {
 	grid?: GridStyle;
 	native?: NativeCustomizationOptions;
 	runtime?: Runtime;
-	schemas: ProxyedSchema[];
+	schemas: Ref<ProxyedSchema[]> | ProxyedSchema[];
 }
 
 export type NativeCustomizationOptions = {

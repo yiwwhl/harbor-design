@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.25
+
+### Patch Changes
+
+- improve schema type
+
 ## 1.1.24
 
 ### Patch Changes

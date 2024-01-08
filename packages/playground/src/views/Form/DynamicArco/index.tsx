@@ -1,6 +1,11 @@
 import { Button, Input, Select } from "@arco-design/web-vue";
-import { ProForm, markNativeFunction, useForm } from "@harbor-design/proform";
-import { defineComponent } from "vue";
+import {
+	ProForm,
+	ProxyedSchema,
+	markNativeFunction,
+	useForm,
+} from "@harbor-design/proform";
+import { defineComponent, ref } from "vue";
 import styles from "./index.module.scss";
 import PageWrapper from "@/components/advanced/PageWrapper";
 
@@ -27,6 +32,8 @@ export default defineComponent({
 			});
 		}
 
+		const schemas = ref<ProxyedSchema[]>([]);
+
 		const [setup, { submit }] = useForm({
 			ui: "ArcoVue",
 			native: {
@@ -36,7 +43,11 @@ export default defineComponent({
 					},
 				},
 			},
-			schemas: [
+			schemas,
+		});
+
+		setTimeout(() => {
+			schemas.value = [
 				{
 					label({ model }) {
 						return new Promise((resolve) => {
@@ -137,8 +148,8 @@ export default defineComponent({
 						},
 					],
 				},
-			],
-		});
+			];
+		}, 400);
 
 		return () => {
 			return (
