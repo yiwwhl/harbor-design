@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.27
+
+### Patch Changes
+
+- add metadata to Item Wrapper
+
 ## 1.1.26
 
 ### Patch Changes

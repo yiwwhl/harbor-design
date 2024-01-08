@@ -188,7 +188,7 @@ export default class RuntimeCore {
 		const componentSlots = schema.componentSlots;
 		return (
 			<div style={defaultItemStyle}>
-				<Item v-show={show}>
+				<Item show={show}>
 					{{
 						default() {
 							return (

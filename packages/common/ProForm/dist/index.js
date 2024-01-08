@@ -1,7 +1,7 @@
-var oe = Object.defineProperty;
-var ne = (r, e, t) => e in r ? oe(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var a = (r, e, t) => (ne(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { isRef as x, watch as I, isReactive as z, toRaw as j, nextTick as w, ref as q, reactive as le, createVNode as p, withDirectives as Z, mergeProps as R, vShow as A, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
+var re = Object.defineProperty;
+var ie = (r, e, t) => e in r ? re(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
+var a = (r, e, t) => (ie(r, typeof e != "symbol" ? e + "" : e, t), t);
+import { isRef as x, watch as I, isReactive as z, toRaw as j, nextTick as w, ref as q, reactive as oe, createVNode as p, mergeProps as R, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
 class l {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -469,7 +469,7 @@ class me {
     });
     a(this, "formRef", q(null));
     a(this, "hydrateEffect", new N());
-    a(this, "native", le({}));
+    a(this, "native", oe({}));
     a(this, "grid", {});
     a(this, "runtime", {});
     a(this, "globalNativeFormOverride", {
@@ -529,31 +529,33 @@ class me {
         y.toLowerCase().includes(Y.toLowerCase()) && (E = C[Y]);
       }), v = `${E}${h}`);
     }
-    const ee = this.runtimeAdapter.getRuntimeRequired({
+    const Z = this.runtimeAdapter.getRuntimeRequired({
       ...e,
       label: h
-    }), te = F.getItemContainer(this), se = F.getFormItemContainer(this), re = this, ie = e.componentSlots;
+    }), A = F.getItemContainer(this), ee = F.getFormItemContainer(this), te = this, se = e.componentSlots;
     return p("div", {
       style: u
-    }, [Z(p(te, null, {
+    }, [p(A, {
+      show: P
+    }, {
       default() {
-        return p(se, R(c, {
+        return p(ee, R(c, {
           label: `${h ? `${h}:` : ""}`
-        }, d, ee), {
+        }, d, Z), {
           default() {
-            return re.runtimeAdapter.formComponentRenderer({
+            return te.runtimeAdapter.formComponentRenderer({
               Component: o,
               schema: e,
               baseModel: s,
               placeholder: v,
-              componentSlots: ie,
+              componentSlots: se,
               props: O
             });
           },
           ...n
         });
       }
-    }), [[A, P]])]);
+    })]);
   }
   runtimeGroupProcessor(e) {
     let t;
@@ -605,9 +607,9 @@ class me {
           } = {}) {
             var y;
             const d = c ?? p("button", null, null);
-            return Z(p(d, {
+            return ne(p(d, {
               onClick: () => s.deleteListItem(e, u)
-            }, null), [[A, ((y = s.model.value[e.field]) == null ? void 0 : y.length) > 1]]);
+            }, null), [[le, ((y = s.model.value[e.field]) == null ? void 0 : y.length) > 1]]);
           }
         }));
       },
