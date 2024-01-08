@@ -195,6 +195,7 @@ export default class RuntimeCore {
 								<FormItem
 									{...formItemNativeProps}
 									label={`${label ? `${label}:` : ""}`}
+									v-show={show}
 									{...runtimeField}
 									{...runtimeRequired}
 								>

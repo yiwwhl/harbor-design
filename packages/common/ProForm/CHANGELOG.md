@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.28
+
+### Patch Changes
+
+- fix bug of FormItem display
+
 ## 1.1.27
 
 ### Patch Changes
