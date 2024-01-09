@@ -54,7 +54,7 @@ export default class RuntimeCore {
 	};
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
-	shared: AnyObject = {};
+	shared: AnyObject = reactive({});
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);

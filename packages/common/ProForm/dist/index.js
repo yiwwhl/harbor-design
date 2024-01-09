@@ -1,7 +1,7 @@
-var re = Object.defineProperty;
-var ie = (r, e, t) => e in r ? re(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var a = (r, e, t) => (ie(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { isRef as q, watch as P, isReactive as N, nextTick as F, toRaw as S, ref as M, reactive as oe, createVNode as p, mergeProps as O, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
+var ie = Object.defineProperty;
+var oe = (r, e, t) => e in r ? ie(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
+var a = (r, e, t) => (oe(r, typeof e != "symbol" ? e + "" : e, t), t);
+import { isRef as q, watch as P, isReactive as N, nextTick as F, toRaw as S, ref as M, reactive as Z, createVNode as p, mergeProps as O, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
 class l {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -502,14 +502,14 @@ class me {
     });
     a(this, "formRef", M(null));
     a(this, "hydrateEffect", new _());
-    a(this, "native", oe({}));
+    a(this, "native", Z({}));
     a(this, "grid", {});
     a(this, "runtime", {});
     a(this, "globalNativeFormOverride", {
       props: {},
       slots: {}
     });
-    a(this, "shared", {});
+    a(this, "shared", Z({}));
     this.setup = e, this.processor = new de(this);
     const t = this.setup(this);
     if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new pe(this.ui), q(t.schemas)) {
@@ -564,26 +564,26 @@ class me {
         b.toLowerCase().includes(Y.toLowerCase()) && (R = I[Y]);
       }), g = `${R}${m}`);
     }
-    const Z = this.runtimeAdapter.getRuntimeRequired({
+    const A = this.runtimeAdapter.getRuntimeRequired({
       ...e,
       label: m
-    }), A = E.getItemContainer(this), ee = E.getFormItemContainer(this), te = this, se = e.componentSlots;
+    }), ee = E.getItemContainer(this), te = E.getFormItemContainer(this), se = this, re = e.componentSlots;
     return p("div", {
       style: c
-    }, [p(A, {
+    }, [p(ee, {
       show: y
     }, {
       default() {
-        return y && p(ee, O(u, {
+        return y && p(te, O(u, {
           label: `${m ? `${m}:` : ""}`
-        }, d, Z), {
+        }, d, A), {
           default() {
-            return te.runtimeAdapter.formComponentRenderer({
+            return se.runtimeAdapter.formComponentRenderer({
               Component: o,
               schema: e,
               baseModel: s,
               placeholder: g,
-              componentSlots: se,
+              componentSlots: re,
               props: V
             });
           },

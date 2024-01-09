@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.34
+
+### Patch Changes
+
+- make shared reactive
+
 ## 1.1.33
 
 ### Patch Changes
