@@ -1,7 +1,7 @@
 var re = Object.defineProperty;
 var ie = (r, e, t) => e in r ? re(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var a = (r, e, t) => (ie(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { isRef as q, watch as v, isReactive as N, nextTick as I, toRaw as F, ref as M, reactive as oe, createVNode as p, mergeProps as O, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
+import { isRef as q, watch as v, isReactive as N, nextTick as E, toRaw as F, ref as M, reactive as oe, createVNode as p, mergeProps as O, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
 class l {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -175,7 +175,7 @@ class fe {
       const t = v(
         () => e.value,
         () => {
-          h(this.runtimeCore.shared, e.value), this.runtimeCore.processor.schemaEffect.triggerEffects(), I(() => {
+          h(this.runtimeCore.shared, e.value), this.runtimeCore.processor.schemaEffect.triggerEffects(), E(() => {
             t();
           });
         },
@@ -188,7 +188,7 @@ class fe {
       const t = v(
         () => e,
         () => {
-          h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects(), I(() => {
+          h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects(), E(() => {
             t();
           });
         },
@@ -302,11 +302,11 @@ class de {
       const u = c.index, d = c.key, b = c.keyIndex;
       if (l.isUndefined(c.stable))
         return;
-      const V = i.parseStable(c.stable), E = s == null ? void 0 : s.index, g = s == null ? void 0 : s.key;
+      const V = i.parseStable(c.stable), I = s == null ? void 0 : s.index, g = s == null ? void 0 : s.key;
       let y = V;
       if (l.isProcessInprogress(y) || (o[b] = !0), s) {
-        const m = i.processedSchemas.value[E][g][u][d];
-        m && l.isObject(m) && d !== "component" && (y = h(m, y)), i.processedSchemas.value[E][g][u][d] = y, i.stableUpdater(o);
+        const m = i.processedSchemas.value[I][g][u][d];
+        m && l.isObject(m) && d !== "component" && (y = h(m, y)), i.processedSchemas.value[I][g][u][d] = y, i.stableUpdater(o);
       } else {
         const m = i.processedSchemas.value[u][d];
         m && l.isObject(m) && d !== "component" && (y = h(m, y)), i.processedSchemas.value[u][d] = y, i.stableUpdater(o);
@@ -351,13 +351,13 @@ class de {
                   return n(u);
                 this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
                   this.defaultValueInprogressMap.values()
-                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), I(() => {
+                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), E(() => {
                   c();
                 })) : n(u);
               }) : this.fieldParser(t[i], (u) => {
                 this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
                   this.defaultValueInprogressMap.values()
-                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), I(() => {
+                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), E(() => {
                   c();
                 })) : n(u);
               });
@@ -512,22 +512,20 @@ class me {
     a(this, "shared", {});
     this.setup = e, this.processor = new de(this);
     const t = this.setup(this);
-    if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new he(this.ui), q(t.schemas)) {
-      const s = v(
+    if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new he(this.ui), q(t.schemas))
+      v(
         // @ts-expect-error
         () => t.schemas.value,
         () => {
-          this.processor.parseSchemas(t.schemas.value), I(() => {
-            s();
-          });
+          this.processor.parseSchemas(t.schemas.value);
         },
         {
           deep: !0
         }
       );
-    } else if (N(t.schemas)) {
+    else if (N(t.schemas)) {
       const s = v(() => t.schemas, () => {
-        this.processor.parseSchemas(t.schemas), I(() => {
+        this.processor.parseSchemas(t.schemas), E(() => {
           s();
         });
       }, {
@@ -544,7 +542,7 @@ class me {
       share: (t) => {
         if (q(t)) {
           const s = v(() => t.value, () => {
-            h(this.shared, t.value), this.processor.schemaEffect.triggerEffects(), I(() => {
+            h(this.shared, t.value), this.processor.schemaEffect.triggerEffects(), E(() => {
               s();
             });
           }, {
@@ -553,7 +551,7 @@ class me {
           });
         } else if (N(t)) {
           const s = v(() => t, () => {
-            h(this.shared, t), this.processor.schemaEffect.triggerEffects(), I(() => {
+            h(this.shared, t), this.processor.schemaEffect.triggerEffects(), E(() => {
               s();
             });
           }, {
@@ -579,16 +577,16 @@ class me {
       schema: e,
       parentSchema: i,
       index: t
-    }), b = o.name, V = e.componentProps ?? {}, E = P.placeholderPresetByComponentName;
+    }), b = o.name, V = e.componentProps ?? {}, I = P.placeholderPresetByComponentName;
     let g = e.placeholder, y = e.show;
     y === void 0 && (y = !0), y || delete s[e.field];
     let m = e.label ?? "";
     const j = (i == null ? void 0 : i.runtime) ?? this.runtime;
     if (!l.isUndefined(t) && !l.isObjectEmpty(j) && (m = L((X = j == null ? void 0 : j.customizeItemLabel) == null ? void 0 : X.call(j, e.label ?? "", t + 1), "")), !g) {
       let R = "请输入";
-      l.isUndefined(b) ? g = `${R}${m}` : /* @ts-expect-error */ E[b.toLowerCase()] ? (R = // @ts-expect-error
-      E[b.toLowerCase()], g = `${R}${m}`) : (Object.keys(E).forEach((Y) => {
-        b.toLowerCase().includes(Y.toLowerCase()) && (R = E[Y]);
+      l.isUndefined(b) ? g = `${R}${m}` : /* @ts-expect-error */ I[b.toLowerCase()] ? (R = // @ts-expect-error
+      I[b.toLowerCase()], g = `${R}${m}`) : (Object.keys(I).forEach((Y) => {
+        b.toLowerCase().includes(Y.toLowerCase()) && (R = I[Y]);
       }), g = `${R}${m}`);
     }
     const Z = this.runtimeAdapter.getRuntimeRequired({

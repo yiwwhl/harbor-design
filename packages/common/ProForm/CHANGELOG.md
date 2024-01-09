@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.37
+
+### Patch Changes
+
+- try to not stop watch on schema
+
 ## 1.1.36
 
 ### Patch Changes
