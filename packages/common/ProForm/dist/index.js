@@ -345,23 +345,28 @@ class de {
           }
         ) : this.defaultValueEffect.trackEffect(
           () => {
-            const c = this.schemaEffect.trackEffect(() => {
-              /\{\s*model\s*\}/.test(t[i].toString()) ? this.fieldParser(t[i], (u) => {
-                if (!u)
-                  return n(u);
-                this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
-                  this.defaultValueInprogressMap.values()
-                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), E(() => {
-                  c();
-                })) : n(u);
-              }) : this.fieldParser(t[i], (u) => {
-                this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
-                  this.defaultValueInprogressMap.values()
-                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), E(() => {
-                  c();
-                })) : n(u);
-              });
-            });
+            const c = this.schemaEffect.trackEffect(
+              () => {
+                /\{\s*model\s*\}/.test(t[i].toString()) ? this.fieldParser(t[i], (u) => {
+                  if (!u)
+                    return n(u);
+                  this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
+                    this.defaultValueInprogressMap.values()
+                  ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), E(() => {
+                    c();
+                  })) : n(u);
+                }) : this.fieldParser(t[i], (u) => {
+                  this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
+                    this.defaultValueInprogressMap.values()
+                  ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), E(() => {
+                    c();
+                  })) : n(u);
+                });
+              },
+              {
+                lazy: !1
+              }
+            );
           },
           {
             lazy: !1
@@ -564,11 +569,11 @@ class me {
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, i) {
-    var x, z, $, B, D, G, T, W, K, H, J, Q, X;
+    var k, x, $, B, D, G, T, W, K, H, J, Q, X;
     const o = F(e.component);
     if (!o)
       return;
-    h(this.globalNativeFormOverride.props, (z = (x = e.native) == null ? void 0 : x.props) == null ? void 0 : z.Form), h(this.globalNativeFormOverride.slots, (B = ($ = e.native) == null ? void 0 : $.slots) == null ? void 0 : B.Form);
+    h(this.globalNativeFormOverride.props, (x = (k = e.native) == null ? void 0 : k.props) == null ? void 0 : x.Form), h(this.globalNativeFormOverride.slots, (B = ($ = e.native) == null ? void 0 : $.slots) == null ? void 0 : B.Form);
     const n = h(C((G = (D = this.native) == null ? void 0 : D.slots) == null ? void 0 : G.FormItem) ?? {}, (W = (T = e.native) == null ? void 0 : T.slots) == null ? void 0 : W.FormItem), c = {
       display: "grid",
       gridColumn: "1 / -1",
@@ -953,9 +958,9 @@ a(S, "schemaPreset", {
   }
 }), // 基于基本功能提出基本预设
 a(S, "placeholderPresetByComponentName", S.getPlaceholderPrefixPresetByComponentName());
-let k = S;
+let z = S;
 const P = {
-  ...k,
+  ...z,
   adapters: {
     ...ye
   }

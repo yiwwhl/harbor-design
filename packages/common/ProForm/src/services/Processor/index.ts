@@ -245,55 +245,60 @@ export default class Processor {
 					} else {
 						this.defaultValueEffect.trackEffect(
 							() => {
-								const stopTrack = this.schemaEffect.trackEffect(() => {
-									// 通过正则表达式匹配使用了 model 的 defaultValue 函数
-									if (/\{\s*model\s*\}/.test(data[key].toString())) {
-										this.fieldParser(data[key], (res) => {
-											// 放开 undefined
-											if (!res) {
-												return updater(res);
-											}
-											// 可考虑后续重构此 Set
-											this.defaultValueInprogressMap.set(data[key], res);
-											if (
-												!IS.isProcessInprogress(res) &&
-												this.defaultValueInprogressMap.size ===
-													this.baseDefaultValueFunctionsLength &&
-												Array.from(
-													this.defaultValueInprogressMap.values(),
-												).every((r) => !r.includes("undefined"))
-											) {
-												updater(res);
-												this.defaultValueEffect.clearEffects();
-												nextTick(() => {
-													stopTrack();
-												});
-											} else {
-												updater(res);
-											}
-										});
-									} else {
-										this.fieldParser(data[key], (res) => {
-											this.defaultValueInprogressMap.set(data[key], res);
-											if (
-												!IS.isProcessInprogress(res) &&
-												this.defaultValueInprogressMap.size ===
-													this.baseDefaultValueFunctionsLength &&
-												Array.from(
-													this.defaultValueInprogressMap.values(),
-												).every((r) => !r.includes("undefined"))
-											) {
-												updater(res);
-												this.defaultValueEffect.clearEffects();
-												nextTick(() => {
-													stopTrack();
-												});
-											} else {
-												updater(res);
-											}
-										});
-									}
-								});
+								const stopTrack = this.schemaEffect.trackEffect(
+									() => {
+										// 通过正则表达式匹配使用了 model 的 defaultValue 函数
+										if (/\{\s*model\s*\}/.test(data[key].toString())) {
+											this.fieldParser(data[key], (res) => {
+												// 放开 undefined
+												if (!res) {
+													return updater(res);
+												}
+												// 可考虑后续重构此 Set
+												this.defaultValueInprogressMap.set(data[key], res);
+												if (
+													!IS.isProcessInprogress(res) &&
+													this.defaultValueInprogressMap.size ===
+														this.baseDefaultValueFunctionsLength &&
+													Array.from(
+														this.defaultValueInprogressMap.values(),
+													).every((r) => !r.includes("undefined"))
+												) {
+													updater(res);
+													this.defaultValueEffect.clearEffects();
+													nextTick(() => {
+														stopTrack();
+													});
+												} else {
+													updater(res);
+												}
+											});
+										} else {
+											this.fieldParser(data[key], (res) => {
+												this.defaultValueInprogressMap.set(data[key], res);
+												if (
+													!IS.isProcessInprogress(res) &&
+													this.defaultValueInprogressMap.size ===
+														this.baseDefaultValueFunctionsLength &&
+													Array.from(
+														this.defaultValueInprogressMap.values(),
+													).every((r) => !r.includes("undefined"))
+												) {
+													updater(res);
+													this.defaultValueEffect.clearEffects();
+													nextTick(() => {
+														stopTrack();
+													});
+												} else {
+													updater(res);
+												}
+											});
+										}
+									},
+									{
+										lazy: false,
+									},
+								);
 							},
 							{
 								lazy: false,

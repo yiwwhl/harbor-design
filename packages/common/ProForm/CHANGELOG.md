@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.38
+
+### Patch Changes
+
+- fix bug of defaultValue
+
 ## 1.1.37
 
 ### Patch Changes
