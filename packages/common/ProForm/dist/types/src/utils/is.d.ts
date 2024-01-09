@@ -14,4 +14,5 @@ export default class IS {
     static isGroupSchema(data: any): data is GroupSchema;
     static isItemSchema(data: any): data is ItemSchema;
     static isProcessInprogress(data: any): boolean;
+    static isNativeObject(object: AnyObject): boolean;
 }

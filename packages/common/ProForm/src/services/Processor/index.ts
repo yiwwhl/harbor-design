@@ -323,7 +323,11 @@ export default class Processor {
 				if (IS.isString(stableComputation)) {
 					stableComputation = replaceUndefinedInString(stableComputation, "");
 				}
-				if (deepProcess && IS.isObject(stableComputation)) {
+				if (
+					deepProcess &&
+					IS.isObject(stableComputation) &&
+					!IS.isNativeObject(stableComputation)
+				) {
 					this.objectParser({
 						data: stableComputation,
 						updater,
@@ -339,7 +343,11 @@ export default class Processor {
 				rootField = replaceUndefinedInString(rootField, "");
 			}
 
-			if (deepProcess && IS.isObject(rootField)) {
+			if (
+				deepProcess &&
+				IS.isObject(rootField) &&
+				!IS.isNativeObject(rootField)
+			) {
 				this.objectParser({
 					data: rootField,
 					updater,
@@ -372,7 +380,11 @@ export default class Processor {
 					() => rootField.value,
 					() => {
 						if (!IS.isUndefined(rootField.value)) {
-							if (deepProcess && IS.isObject(rootField.value)) {
+							if (
+								deepProcess &&
+								IS.isObject(rootField.value) &&
+								!IS.isNativeObject(rootField.value)
+							) {
 								this.objectParser({
 									data: rootField.value,
 									updater,
@@ -392,7 +404,11 @@ export default class Processor {
 					() => rootField,
 					() => {
 						if (!IS.isUndefined(rootField)) {
-							if (deepProcess && IS.isObject(rootField)) {
+							if (
+								deepProcess &&
+								IS.isObject(rootField) &&
+								!IS.isNativeObject(rootField)
+							) {
 								this.objectParser({
 									data: rootField,
 									updater,
@@ -409,7 +425,11 @@ export default class Processor {
 				);
 			} else {
 				// 稳定值处理
-				if (deepProcess && IS.isObject(rootField)) {
+				if (
+					deepProcess &&
+					IS.isObject(rootField) &&
+					!IS.isNativeObject(rootField)
+				) {
 					this.objectParser({
 						data: rootField,
 						updater,

@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.31
+
+### Patch Changes
+
+- update markNativeObject
+
 ## 1.1.30
 
 ### Patch Changes

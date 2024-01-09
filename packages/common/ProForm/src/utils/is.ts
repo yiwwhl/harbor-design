@@ -84,4 +84,8 @@ export default class IS {
 
 		return false;
 	}
+
+	static isNativeObject(object: AnyObject): boolean {
+		return !!object.__proform_raw_object;
+	}
 }

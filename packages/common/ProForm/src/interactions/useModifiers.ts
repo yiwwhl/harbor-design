@@ -1,4 +1,4 @@
-import { runtimeMeta } from "../types";
+import { AnyObject, runtimeMeta } from "../types";
 
 type Modifier = "native";
 
@@ -25,4 +25,9 @@ export function useModifiers(
 
 export function markNativeFunction(functionNative: FunctionNative) {
 	return useModifiers(functionNative, "native");
+}
+
+export function markNativeObject(objectNative: AnyObject) {
+	objectNative.__proform_raw_object = true;
+	return objectNative;
 }
