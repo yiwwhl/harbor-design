@@ -513,13 +513,18 @@ class me {
     this.setup = e, this.processor = new de(this);
     const t = this.setup(this);
     if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new he(this.ui), q(t.schemas)) {
-      const s = v(() => t.schemas, () => {
-        this.processor.parseSchemas(t.schemas.value), I(() => {
-          s();
-        });
-      }, {
-        deep: !0
-      });
+      const s = v(
+        // @ts-expect-error
+        () => t.schemas.value,
+        () => {
+          this.processor.parseSchemas(t.schemas.value), I(() => {
+            s();
+          });
+        },
+        {
+          deep: !0
+        }
+      );
     } else if (N(t.schemas)) {
       const s = v(() => t.schemas, () => {
         this.processor.parseSchemas(t.schemas), I(() => {

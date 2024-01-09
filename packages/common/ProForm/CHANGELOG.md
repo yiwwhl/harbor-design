@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.36
+
+### Patch Changes
+
+- fix bug of ref watch
+
 ## 1.1.35
 
 ### Patch Changes

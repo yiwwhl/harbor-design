@@ -63,7 +63,8 @@ export default class RuntimeCore {
 		this.runtimeAdapter = new RuntimeAdpter(this.ui);
 		if (isRef(formCustomization.schemas)) {
 			const stopWatch = watch(
-				() => formCustomization.schemas,
+				// @ts-expect-error
+				() => formCustomization.schemas.value,
 				() => {
 					// @ts-expect-error
 					this.processor.parseSchemas(formCustomization.schemas.value);
