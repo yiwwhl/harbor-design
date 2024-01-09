@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.39
+
+### Patch Changes
+
+- skip calc to componentProps
+
 ## 1.1.38
 
 ### Patch Changes

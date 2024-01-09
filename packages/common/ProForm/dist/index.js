@@ -46,13 +46,16 @@ class l {
     if (e === void 0)
       return !0;
     if (this.isObject(e)) {
-      if (e.setup && this.isFunction(e.setup) && e.props)
+      if (e.setup || this.isFunction(e.setup) || e.props)
         return !1;
       if (this.isObjectEmpty(e))
         return !0;
-      for (const t in e)
+      for (const t in e) {
+        if (t === "componentProps")
+          return !1;
         if (e.hasOwnProperty(t) && this.isProcessInprogress(e[t]))
           return !0;
+      }
     } else if (this.isArray(e)) {
       if (this.isArrayEmpty(e))
         return !0;
