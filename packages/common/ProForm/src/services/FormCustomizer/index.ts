@@ -1,7 +1,7 @@
 import { AnyObject, FormCustomization } from "../../types";
 import { deepAssign } from "../../utils";
 import { Context, Preset, RuntimeCore } from "../index";
-import { isReactive, isRef, watch } from "vue";
+import { isReactive, isRef, nextTick, watch } from "vue";
 
 export default class FormCustomizer {
 	public runtimeCore!: RuntimeCore;
@@ -83,11 +83,14 @@ export default class FormCustomizer {
 
 	share(data: AnyObject) {
 		if (isRef(data)) {
-			watch(
+			const stopWatch = watch(
 				() => data.value,
 				() => {
 					deepAssign(this.runtimeCore.shared, data.value);
 					this.runtimeCore.processor.schemaEffect.triggerEffects();
+					nextTick(() => {
+						stopWatch();
+					});
 				},
 				{
 					deep: true,
@@ -95,11 +98,14 @@ export default class FormCustomizer {
 				},
 			);
 		} else if (isReactive(data)) {
-			watch(
+			const stopWatch = watch(
 				() => data,
 				() => {
 					deepAssign(this.runtimeCore.shared, data);
 					this.runtimeCore.processor.schemaEffect.triggerEffects();
+					nextTick(() => {
+						stopWatch();
+					});
 				},
 				{
 					deep: true,

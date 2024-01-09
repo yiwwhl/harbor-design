@@ -1,5 +1,12 @@
 # @harbor-design/playground
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.1.33
+
 ## 0.0.9
 
 ### Patch Changes

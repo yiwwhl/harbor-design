@@ -1,7 +1,7 @@
 var re = Object.defineProperty;
 var ie = (r, e, t) => e in r ? re(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var a = (r, e, t) => (ie(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { isRef as O, watch as P, isReactive as q, toRaw as S, nextTick as N, ref as M, reactive as oe, createVNode as p, mergeProps as R, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
+import { isRef as q, watch as P, isReactive as N, nextTick as F, toRaw as S, ref as M, reactive as oe, createVNode as p, mergeProps as O, withDirectives as ne, vShow as le, createTextVNode as ae, isVNode as ue, defineComponent as ce } from "vue";
 class l {
   static typeChecker(e) {
     return {}.toString.call(e);
@@ -145,7 +145,7 @@ class fe {
       });
     this.runtimeCore.hydrateEffect.trackEffect(
       () => {
-        O(e) ? P(
+        q(e) ? P(
           () => e.value,
           () => {
             h(this.runtimeCore.model.value, e.value);
@@ -154,7 +154,7 @@ class fe {
             deep: !0,
             immediate: !0
           }
-        ) : q(e) ? P(
+        ) : N(e) ? P(
           () => e,
           () => {
             h(this.runtimeCore.model.value, e);
@@ -171,25 +171,34 @@ class fe {
     );
   }
   share(e) {
-    O(e) ? P(
-      () => e.value,
-      () => {
-        h(this.runtimeCore.shared, e.value), this.runtimeCore.processor.schemaEffect.triggerEffects();
-      },
-      {
-        deep: !0,
-        immediate: !0
-      }
-    ) : q(e) ? P(
-      () => e,
-      () => {
-        h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects();
-      },
-      {
-        deep: !0,
-        immediate: !0
-      }
-    ) : (h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects());
+    if (q(e)) {
+      const t = P(
+        () => e.value,
+        () => {
+          h(this.runtimeCore.shared, e.value), this.runtimeCore.processor.schemaEffect.triggerEffects(), F(() => {
+            t();
+          });
+        },
+        {
+          deep: !0,
+          immediate: !0
+        }
+      );
+    } else if (N(e)) {
+      const t = P(
+        () => e,
+        () => {
+          h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects(), F(() => {
+            t();
+          });
+        },
+        {
+          deep: !0,
+          immediate: !0
+        }
+      );
+    } else
+      h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects();
   }
 }
 class _ {
@@ -342,13 +351,13 @@ class de {
                   return n(u);
                 this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
                   this.defaultValueInprogressMap.values()
-                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), N(() => {
+                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), F(() => {
                   c();
                 })) : n(u);
               }) : this.fieldParser(t[i], (u) => {
                 this.defaultValueInprogressMap.set(t[i], u), !l.isProcessInprogress(u) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
                   this.defaultValueInprogressMap.values()
-                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), N(() => {
+                ).every((d) => !d.includes("undefined")) ? (n(u), this.defaultValueEffect.clearEffects(), F(() => {
                   c();
                 })) : n(u);
               });
@@ -387,7 +396,7 @@ class de {
         this.promiseFieldParser(i, t, s);
       }
     else
-      O(e) ? P(
+      q(e) ? P(
         () => e.value,
         () => {
           l.isUndefined(e.value) || (s && l.isObject(e.value) && !l.isNativeObject(e.value) ? this.objectParser({
@@ -399,7 +408,7 @@ class de {
           immediate: !0,
           deep: !0
         }
-      ) : q(e) ? P(
+      ) : N(e) ? P(
         () => e,
         () => {
           l.isUndefined(e) || (s && l.isObject(e) && !l.isNativeObject(e) ? this.objectParser({
@@ -503,17 +512,17 @@ class me {
     a(this, "shared", {});
     this.setup = e, this.processor = new de(this);
     const t = this.setup(this);
-    if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new pe(this.ui), O(t.schemas)) {
+    if (this.ui = t.ui ?? f.presets.ui, this.runtimeAdapter = new pe(this.ui), q(t.schemas)) {
       const s = P(() => t.schemas, () => {
-        this.processor.parseSchemas(t.schemas.value), N(() => {
+        this.processor.parseSchemas(t.schemas.value), F(() => {
           s();
         });
       }, {
         deep: !0
       });
-    } else if (q(t.schemas)) {
+    } else if (N(t.schemas)) {
       const s = P(() => t.schemas, () => {
-        this.processor.parseSchemas(t.schemas), N(() => {
+        this.processor.parseSchemas(t.schemas), F(() => {
           s();
         });
       }, {
@@ -530,16 +539,16 @@ class me {
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, i) {
-    var x, z, $, B, D, G, T, K, W, H, J, Q, X;
+    var x, z, $, B, D, G, T, W, K, H, J, Q, X;
     const o = S(e.component);
     if (!o)
       return;
     h(this.globalNativeFormOverride.props, (z = (x = e.native) == null ? void 0 : x.props) == null ? void 0 : z.Form), h(this.globalNativeFormOverride.slots, (B = ($ = e.native) == null ? void 0 : $.slots) == null ? void 0 : B.Form);
-    const n = h(C((G = (D = this.native) == null ? void 0 : D.slots) == null ? void 0 : G.FormItem) ?? {}, (K = (T = e.native) == null ? void 0 : T.slots) == null ? void 0 : K.FormItem), c = {
+    const n = h(C((G = (D = this.native) == null ? void 0 : D.slots) == null ? void 0 : G.FormItem) ?? {}, (W = (T = e.native) == null ? void 0 : T.slots) == null ? void 0 : W.FormItem), c = {
       display: "grid",
       gridColumn: "1 / -1",
       ...e.grid
-    }, u = h(C((H = (W = this.native) == null ? void 0 : W.props) == null ? void 0 : H.FormItem) ?? {}, (Q = (J = e.native) == null ? void 0 : J.props) == null ? void 0 : Q.FormItem), d = this.runtimeAdapter.getRuntimeField({
+    }, u = h(C((H = (K = this.native) == null ? void 0 : K.props) == null ? void 0 : H.FormItem) ?? {}, (Q = (J = e.native) == null ? void 0 : J.props) == null ? void 0 : Q.FormItem), d = this.runtimeAdapter.getRuntimeField({
       schema: e,
       parentSchema: i,
       index: t
@@ -549,11 +558,11 @@ class me {
     let m = e.label ?? "";
     const j = (i == null ? void 0 : i.runtime) ?? this.runtime;
     if (!l.isUndefined(t) && !l.isObjectEmpty(j) && (m = L((X = j == null ? void 0 : j.customizeItemLabel) == null ? void 0 : X.call(j, e.label ?? "", t + 1), "")), !g) {
-      let F = "请输入";
-      l.isUndefined(b) ? g = `${F}${m}` : /* @ts-expect-error */ I[b.toLowerCase()] ? (F = // @ts-expect-error
-      I[b.toLowerCase()], g = `${F}${m}`) : (Object.keys(I).forEach((Y) => {
-        b.toLowerCase().includes(Y.toLowerCase()) && (F = I[Y]);
-      }), g = `${F}${m}`);
+      let R = "请输入";
+      l.isUndefined(b) ? g = `${R}${m}` : /* @ts-expect-error */ I[b.toLowerCase()] ? (R = // @ts-expect-error
+      I[b.toLowerCase()], g = `${R}${m}`) : (Object.keys(I).forEach((Y) => {
+        b.toLowerCase().includes(Y.toLowerCase()) && (R = I[Y]);
+      }), g = `${R}${m}`);
     }
     const Z = this.runtimeAdapter.getRuntimeRequired({
       ...e,
@@ -565,7 +574,7 @@ class me {
       show: y
     }, {
       default() {
-        return y && p(ee, R(u, {
+        return y && p(ee, O(u, {
           label: `${m ? `${m}:` : ""}`
         }, d, Z), {
           default() {
@@ -663,7 +672,7 @@ class me {
       gridAutoColumns: "1fr",
       ...this.grid
     }, t = this, s = h(C((u = (c = this.native) == null ? void 0 : c.props) == null ? void 0 : u.Form) ?? {}, this.globalNativeFormOverride.props), i = h(C((b = (d = this.native) == null ? void 0 : d.slots) == null ? void 0 : b.Form) ?? {}, this.globalNativeFormOverride.slots), o = E.getFormContainer(this), n = this.runtimeAdapter.getFormModelPropName();
-    return p(o, R(s, {
+    return p(o, O(s, {
       ref: this.formRef
     }, {
       [n]: this.model.value
@@ -725,7 +734,7 @@ const ye = {
       componentSlots: i,
       props: o
     }) {
-      return p(r, R({
+      return p(r, O({
         modelValue: e[t.field],
         "onUpdate:modelValue": (n) => e[t.field] = n,
         placeholder: s
@@ -780,7 +789,7 @@ const ye = {
       componentSlots: i,
       props: o
     }) {
-      return p(r, R({
+      return p(r, O({
         modelValue: e[t.field],
         "onUpdate:modelValue": (n) => e[t.field] = n,
         placeholder: s
@@ -840,7 +849,7 @@ const ye = {
       componentSlots: i,
       props: o
     }) {
-      return p(r, R({
+      return p(r, O({
         value: e[t.field],
         "onUpdate:value": (n) => e[t.field] = n,
         placeholder: s

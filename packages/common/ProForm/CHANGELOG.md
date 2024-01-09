@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.33
+
+### Patch Changes
+
+- stop share watch
+
 ## 1.1.32
 
 ### Patch Changes
