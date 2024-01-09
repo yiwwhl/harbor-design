@@ -108,6 +108,7 @@ export interface runtimeMeta {
 	model: AnyObject;
 	reactiveModel: AnyObject;
 	shared: AnyObject;
+	share: (data: AnyObject) => any;
 }
 
 export type ProFormProxyRule<T> =

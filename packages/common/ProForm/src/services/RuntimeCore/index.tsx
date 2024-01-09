@@ -54,7 +54,7 @@ export default class RuntimeCore {
 	};
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
-	shared: AnyObject = reactive({});
+	shared: AnyObject = {};
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);
@@ -101,6 +101,42 @@ export default class RuntimeCore {
 			model,
 			reactiveModel: this.model.value,
 			shared: this.shared,
+			share: (data: AnyObject) => {
+				if (isRef(data)) {
+					const stopWatch = watch(
+						() => data.value,
+						() => {
+							deepAssign(this.shared, data.value);
+							this.processor.schemaEffect.triggerEffects();
+							nextTick(() => {
+								stopWatch();
+							});
+						},
+						{
+							deep: true,
+							immediate: true,
+						},
+					);
+				} else if (isReactive(data)) {
+					const stopWatch = watch(
+						() => data,
+						() => {
+							deepAssign(this.shared, data);
+							this.processor.schemaEffect.triggerEffects();
+							nextTick(() => {
+								stopWatch();
+							});
+						},
+						{
+							deep: true,
+							immediate: true,
+						},
+					);
+				} else {
+					deepAssign(this.shared, data);
+					this.processor.schemaEffect.triggerEffects();
+				}
+			},
 		};
 	}
 

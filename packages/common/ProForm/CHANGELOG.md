@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.35
+
+### Patch Changes
+
+- add share to runtimeMeta
+
 ## 1.1.34
 
 ### Patch Changes

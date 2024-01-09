@@ -26,6 +26,7 @@ export default class RuntimeCore {
         model: AnyObject;
         reactiveModel: AnyObject;
         shared: AnyObject;
+        share: (data: AnyObject) => void;
     };
     runtimeItemProcessor(schema: ItemSchema, index?: number, baseModel?: AnyObject, parentSchema?: ListSchema): JSX.Element | undefined;
     runtimeGroupProcessor(schema: GroupSchema): JSX.Element;
