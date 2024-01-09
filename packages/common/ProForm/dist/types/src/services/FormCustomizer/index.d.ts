@@ -8,4 +8,5 @@ export default class FormCustomizer {
     setup(_runtimeCore: RuntimeCore): FormCustomization;
     submit(): Promise<AnyObject>;
     hydrate(data: AnyObject): Promise<never> | undefined;
+    share(data: AnyObject): void;
 }

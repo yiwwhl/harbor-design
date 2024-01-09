@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.1.32
+
+### Patch Changes
+
+- proform share
+
 ## 1.1.31
 
 ### Patch Changes

@@ -6,5 +6,6 @@ export type UseForm = [
     {
         submit: () => Promise<AnyObject>;
         hydrate: (data: AnyObject) => any;
+        share: (data: AnyObject) => any;
     }
 ];

@@ -80,4 +80,35 @@ export default class FormCustomizer {
 			},
 		);
 	}
+
+	share(data: AnyObject) {
+		if (isRef(data)) {
+			watch(
+				() => data.value,
+				() => {
+					deepAssign(this.runtimeCore.shared, data.value);
+					this.runtimeCore.processor.schemaEffect.triggerEffects();
+				},
+				{
+					deep: true,
+					immediate: true,
+				},
+			);
+		} else if (isReactive(data)) {
+			watch(
+				() => data,
+				() => {
+					deepAssign(this.runtimeCore.shared, data);
+					this.runtimeCore.processor.schemaEffect.triggerEffects();
+				},
+				{
+					deep: true,
+					immediate: true,
+				},
+			);
+		} else {
+			deepAssign(this.runtimeCore.shared, data);
+			this.runtimeCore.processor.schemaEffect.triggerEffects();
+		}
+	}
 }

@@ -107,6 +107,7 @@ export type Schema = ItemSchema | GroupSchema | ListSchema;
 export interface runtimeMeta {
 	model: AnyObject;
 	reactiveModel: AnyObject;
+	shared: AnyObject;
 }
 
 export type ProFormProxyRule<T> =

@@ -54,6 +54,7 @@ export default class RuntimeCore {
 	};
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
+	shared: AnyObject = {};
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);
@@ -99,6 +100,7 @@ export default class RuntimeCore {
 		return {
 			model,
 			reactiveModel: this.model.value,
+			shared: this.shared,
 		};
 	}
 

@@ -20,10 +20,12 @@ export default class RuntimeCore {
     };
     ui: string;
     runtimeAdapter: RuntimeAdpter;
+    shared: AnyObject;
     constructor(setup: Setup);
     getRuntimeMeta(): {
         model: AnyObject;
         reactiveModel: AnyObject;
+        shared: AnyObject;
     };
     runtimeItemProcessor(schema: ItemSchema, index?: number, baseModel?: AnyObject, parentSchema?: ListSchema): JSX.Element | undefined;
     runtimeGroupProcessor(schema: GroupSchema): JSX.Element;
