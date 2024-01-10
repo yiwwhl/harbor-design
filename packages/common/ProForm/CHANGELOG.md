@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.1
+
+### Patch Changes
+
+- fix bug of hydrateEffect
+
 ## 1.2.0
 
 ### Minor Changes

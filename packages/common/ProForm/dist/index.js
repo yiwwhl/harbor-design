@@ -169,7 +169,7 @@ class fe {
         ) : h(this.runtimeCore.model.value, e);
       },
       {
-        lazy: !0
+        lazy: !1
       }
     );
   }

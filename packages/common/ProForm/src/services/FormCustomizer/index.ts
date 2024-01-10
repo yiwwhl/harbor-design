@@ -76,7 +76,7 @@ export default class FormCustomizer {
 				}
 			},
 			{
-				lazy: true,
+				lazy: false,
 			},
 		);
 	}
