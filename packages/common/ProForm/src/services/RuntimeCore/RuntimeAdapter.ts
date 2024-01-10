@@ -4,6 +4,11 @@ import { AnyObject } from "../../types";
 export default class RuntimeAdpter {
 	constructor(public ui: string) {}
 
+	getRuntimeNative() {
+		const contextNative = Context.presets.uiPresets[this.ui]?.native;
+		return contextNative;
+	}
+
 	getRuntimeField(runtimeArgs: AnyObject) {
 		const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
 		const presetAdapter = Preset.adapters[this.ui];

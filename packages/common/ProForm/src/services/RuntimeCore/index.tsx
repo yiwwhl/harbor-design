@@ -61,6 +61,10 @@ export default class RuntimeCore {
 		const formCustomization = this.setup(this) as FormCustomization;
 		this.ui = formCustomization.ui ?? Context.presets.ui;
 		this.runtimeAdapter = new RuntimeAdpter(this.ui);
+		Object.assign(
+			this.globalNativeFormOverride,
+			this.runtimeAdapter.getRuntimeNative(),
+		);
 		if (isRef(formCustomization.schemas)) {
 			watch(
 				// @ts-expect-error
@@ -387,11 +391,13 @@ export default class RuntimeCore {
 		const that = this;
 		const formNativeProps = deepAssign(
 			deepClone(this.native?.props?.Form) ?? {},
-			this.globalNativeFormOverride.props,
+			// @ts-expect-error
+			this.globalNativeFormOverride.props.Form,
 		);
 		const formNativeSlots = deepAssign(
 			deepClone(this.native?.slots?.Form) ?? {},
-			this.globalNativeFormOverride.slots,
+			// @ts-expect-error
+			this.globalNativeFormOverride.slots.Form,
 		);
 		const Form = RuntimeContainer.getFormContainer(this);
 		const formModelPropName = this.runtimeAdapter.getFormModelPropName();

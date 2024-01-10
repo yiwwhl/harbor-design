@@ -1,4 +1,4 @@
-import { AdaptedInterface } from ".";
+import { AdaptedInterface, NativeCustomizationOptions } from ".";
 import { AnyObject } from "./utilTypes";
 
 export type DomType = new (...args: any) => AnyObject & {
@@ -16,6 +16,7 @@ export interface FormPreset {
 		Group: DomType;
 	};
 	adapter?: AdaptedInterface;
+	native?: NativeCustomizationOptions;
 }
 
 export type UIName = "ArcoVue" | "NutUI" | "NaiveUI" | (string & {});

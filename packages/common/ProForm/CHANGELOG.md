@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.0
+
+### Minor Changes
+
+- global native support
+
 ## 1.1.39
 
 ### Patch Changes
