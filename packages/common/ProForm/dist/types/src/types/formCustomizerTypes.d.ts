@@ -97,7 +97,7 @@ export type ProFormProxy<T> = {
 };
 export type ProxyedSchema = ProFormProxy<ItemSchema | GroupSchema | ListSchema>;
 export interface Runtime {
-    customizeItemLabel?: (rawLabel: string, rawIndex: number) => any;
+    customizeListItemLabel?: (rawLabel: string, rawIndex: number) => any;
 }
 export interface FormCustomization {
     ui?: UIName;

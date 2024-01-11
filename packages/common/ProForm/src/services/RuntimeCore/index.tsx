@@ -188,7 +188,7 @@ export default class RuntimeCore {
 		if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtime)) {
 			// 对于 list 而言会有数据 model index
 			label = replaceUndefinedInString(
-				runtime?.customizeItemLabel?.(schema.label ?? "", index + 1),
+				runtime?.customizeListItemLabel?.(schema.label ?? "", index + 1),
 				"",
 			);
 		}

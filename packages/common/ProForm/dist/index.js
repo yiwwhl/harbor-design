@@ -594,7 +594,7 @@ class me {
     y === void 0 && (y = !0), y || delete s[e.field];
     let m = e.label ?? "";
     const V = (i == null ? void 0 : i.runtime) ?? this.runtime;
-    if (!l.isUndefined(t) && !l.isObjectEmpty(V) && (m = L((X = V == null ? void 0 : V.customizeItemLabel) == null ? void 0 : X.call(V, e.label ?? "", t + 1), "")), !g) {
+    if (!l.isUndefined(t) && !l.isObjectEmpty(V) && (m = L((X = V == null ? void 0 : V.customizeListItemLabel) == null ? void 0 : X.call(V, e.label ?? "", t + 1), "")), !g) {
       let S = "请输入";
       l.isUndefined(v) ? g = `${S}${m}` : /* @ts-expect-error */ I[v.toLowerCase()] ? (S = // @ts-expect-error
       I[v.toLowerCase()], g = `${S}${m}`) : (Object.keys(I).forEach((Y) => {

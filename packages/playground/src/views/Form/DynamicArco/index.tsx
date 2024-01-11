@@ -106,7 +106,7 @@ export default defineComponent({
 					field: "experiences",
 					type: "list",
 					runtime: {
-						customizeItemLabel(rawItem, rawIndex) {
+						customizeListItemLabel(rawItem, rawIndex) {
 							return `${rawItem} ${rawIndex} list 级别定制化 label`;
 						},
 					},

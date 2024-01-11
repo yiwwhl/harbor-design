@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.2
+
+### Patch Changes
+
+- refactor variable from customizeItemLabel to customizeListItemLabel
+
 ## 1.2.1
 
 ### Patch Changes
