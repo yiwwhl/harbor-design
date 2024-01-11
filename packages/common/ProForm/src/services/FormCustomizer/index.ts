@@ -31,9 +31,8 @@ export default class FormCustomizer {
 	}
 
 	submit(): Promise<AnyObject> {
-		const contextAdapter =
-			Context.presets.uiPresets[this.runtimeCore.ui]?.adapter;
-		const presetAdapter = Preset.adapters[this.runtimeCore.ui];
+		const contextAdapter = Context.getPreset(this.runtimeCore.ui)?.adapter;
+		const presetAdapter = Preset.adapters[Context.getUI(this.runtimeCore.ui)];
 		return (
 			contextAdapter?.validateForm(this) ?? presetAdapter?.validateForm(this)
 		);

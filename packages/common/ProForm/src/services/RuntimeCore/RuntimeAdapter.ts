@@ -11,7 +11,7 @@ export default class RuntimeAdpter {
 
 	getRuntimeField(runtimeArgs: AnyObject) {
 		const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
-		const presetAdapter = Preset.adapters[this.ui];
+		const presetAdapter = Preset.adapters[Context.getUI(this.ui)];
 		return (
 			contextAdapter?.getRuntimeField(runtimeArgs) ??
 			presetAdapter?.getRuntimeField(runtimeArgs)
@@ -20,7 +20,7 @@ export default class RuntimeAdpter {
 
 	getRuntimeRequired(runtimeArgs: AnyObject) {
 		const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
-		const presetAdapter = Preset.adapters[this.ui];
+		const presetAdapter = Preset.adapters[Context.getUI(this.ui)];
 		return (
 			contextAdapter?.getRuntimeRequired(runtimeArgs) ??
 			presetAdapter?.getRuntimeRequired(runtimeArgs)
@@ -29,7 +29,7 @@ export default class RuntimeAdpter {
 
 	getFormModelPropName() {
 		const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
-		const presetAdapter = Preset.adapters[this.ui];
+		const presetAdapter = Preset.adapters[Context.getUI(this.ui)];
 		return (
 			contextAdapter?.getFormModelPropName() ??
 			presetAdapter?.getFormModelPropName()
@@ -38,7 +38,7 @@ export default class RuntimeAdpter {
 
 	formComponentRenderer(runtimeArgs: AnyObject) {
 		const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
-		const presetAdapter = Preset.adapters[this.ui];
+		const presetAdapter = Preset.adapters[Context.getUI(this.ui)];
 		return (
 			contextAdapter?.formComponentRenderer(runtimeArgs) ??
 			presetAdapter?.formComponentRenderer(runtimeArgs)
@@ -47,7 +47,7 @@ export default class RuntimeAdpter {
 
 	clearValidate(runtimeArgs: AnyObject) {
 		const contextAdapter = Context.presets.uiPresets[this.ui]?.adapter;
-		const presetAdapter = Preset.adapters[this.ui];
+		const presetAdapter = Preset.adapters[Context.getUI(this.ui)];
 		return (
 			contextAdapter?.clearValidate(runtimeArgs) ??
 			presetAdapter?.clearValidate(runtimeArgs)

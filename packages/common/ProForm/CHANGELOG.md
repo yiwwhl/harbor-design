@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.3
+
+### Patch Changes
+
+- add extend to uiPresets
+
 ## 1.2.2
 
 ### Patch Changes

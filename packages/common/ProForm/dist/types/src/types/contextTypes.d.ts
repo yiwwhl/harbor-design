@@ -4,6 +4,7 @@ export type DomType = new (...args: any) => AnyObject & {
     $props: AnyObject;
 };
 export interface FormPreset {
+    extend?: UIName;
     container: {
         Form: DomType;
         FormItem: DomType;

@@ -6,6 +6,7 @@ export type DomType = new (...args: any) => AnyObject & {
 };
 
 export interface FormPreset {
+	extend?: UIName;
 	// 目前来说，想要新增一个模式必须提供模式基本的所有的 type 支持的渲染预设
 	container: {
 		Form: DomType;
