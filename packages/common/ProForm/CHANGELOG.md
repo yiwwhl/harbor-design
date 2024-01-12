@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.4
+
+### Patch Changes
+
+- add debounce to share
+
 ## 1.2.3
 
 ### Patch Changes

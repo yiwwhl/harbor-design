@@ -547,41 +547,46 @@ class me {
       this.processor.parseSchemas(t.schemas);
   }
   getRuntimeMeta() {
+    const e = R(C(this.model.value));
+    let t;
     return {
-      model: R(C(this.model.value)),
+      model: e,
       reactiveModel: this.model.value,
       shared: this.shared,
-      share: (t) => {
-        if (N(t)) {
-          const s = P(() => t.value, () => {
-            h(this.shared, t.value), this.processor.schemaEffect.triggerEffects(), E(() => {
-              s();
+      // share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
+      share: (s) => {
+        t && clearTimeout(t), t = setTimeout(() => {
+          if (N(s)) {
+            const i = P(() => s.value, () => {
+              h(this.shared, s.value), this.processor.schemaEffect.triggerEffects(), E(() => {
+                i();
+              });
+            }, {
+              deep: !0,
+              immediate: !0
             });
-          }, {
-            deep: !0,
-            immediate: !0
-          });
-        } else if (q(t)) {
-          const s = P(() => t, () => {
-            h(this.shared, t), this.processor.schemaEffect.triggerEffects(), E(() => {
-              s();
+          } else if (q(s)) {
+            const i = P(() => s, () => {
+              h(this.shared, s), this.processor.schemaEffect.triggerEffects(), E(() => {
+                i();
+              });
+            }, {
+              deep: !0,
+              immediate: !0
             });
-          }, {
-            deep: !0,
-            immediate: !0
-          });
-        } else
-          h(this.shared, t), this.processor.schemaEffect.triggerEffects();
+          } else
+            h(this.shared, s), this.processor.schemaEffect.triggerEffects();
+        }, 0);
       }
     };
   }
   runtimeItemProcessor(e, t, s = this.model.value, i) {
-    var z, k, $, B, D, G, T, W, K, H, J, Q, X;
+    var z, k, $, B, D, T, G, W, K, H, J, Q, X;
     const o = R(e.component);
     if (!o)
       return;
     h(this.globalNativeFormOverride.props, (k = (z = e.native) == null ? void 0 : z.props) == null ? void 0 : k.Form), h(this.globalNativeFormOverride.slots, (B = ($ = e.native) == null ? void 0 : $.slots) == null ? void 0 : B.Form);
-    const n = h(C((G = (D = this.native) == null ? void 0 : D.slots) == null ? void 0 : G.FormItem) ?? {}, (W = (T = e.native) == null ? void 0 : T.slots) == null ? void 0 : W.FormItem), f = {
+    const n = h(C((T = (D = this.native) == null ? void 0 : D.slots) == null ? void 0 : T.FormItem) ?? {}, (W = (G = e.native) == null ? void 0 : G.slots) == null ? void 0 : W.FormItem), f = {
       display: "grid",
       gridColumn: "1 / -1",
       ...e.grid

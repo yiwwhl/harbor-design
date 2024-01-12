@@ -98,46 +98,53 @@ export default class RuntimeCore {
 
 	getRuntimeMeta() {
 		const model = toRaw(deepClone(this.model.value));
+		let timer: any;
 
 		return {
 			model,
 			reactiveModel: this.model.value,
 			shared: this.shared,
+			// share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
 			share: (data: AnyObject) => {
-				if (isRef(data)) {
-					const stopWatch = watch(
-						() => data.value,
-						() => {
-							deepAssign(this.shared, data.value);
-							this.processor.schemaEffect.triggerEffects();
-							nextTick(() => {
-								stopWatch();
-							});
-						},
-						{
-							deep: true,
-							immediate: true,
-						},
-					);
-				} else if (isReactive(data)) {
-					const stopWatch = watch(
-						() => data,
-						() => {
-							deepAssign(this.shared, data);
-							this.processor.schemaEffect.triggerEffects();
-							nextTick(() => {
-								stopWatch();
-							});
-						},
-						{
-							deep: true,
-							immediate: true,
-						},
-					);
-				} else {
-					deepAssign(this.shared, data);
-					this.processor.schemaEffect.triggerEffects();
+				if (timer) {
+					clearTimeout(timer);
 				}
+				timer = setTimeout(() => {
+					if (isRef(data)) {
+						const stopWatch = watch(
+							() => data.value,
+							() => {
+								deepAssign(this.shared, data.value);
+								this.processor.schemaEffect.triggerEffects();
+								nextTick(() => {
+									stopWatch();
+								});
+							},
+							{
+								deep: true,
+								immediate: true,
+							},
+						);
+					} else if (isReactive(data)) {
+						const stopWatch = watch(
+							() => data,
+							() => {
+								deepAssign(this.shared, data);
+								this.processor.schemaEffect.triggerEffects();
+								nextTick(() => {
+									stopWatch();
+								});
+							},
+							{
+								deep: true,
+								immediate: true,
+							},
+						);
+					} else {
+						deepAssign(this.shared, data);
+						this.processor.schemaEffect.triggerEffects();
+					}
+				}, 0);
 			},
 		};
 	}

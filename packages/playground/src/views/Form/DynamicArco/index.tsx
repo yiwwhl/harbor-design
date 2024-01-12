@@ -35,7 +35,6 @@ export default defineComponent({
 		const schemas = ref<ProxyedSchema[]>([]);
 
 		const [setup, { submit }] = useForm({
-			ui: "ArcoVue",
 			native: {
 				props: {
 					Form: {
@@ -105,15 +104,13 @@ export default defineComponent({
 					label: "过往经历",
 					field: "experiences",
 					type: "list",
-					runtime: {
-						customizeListItemLabel(rawItem, rawIndex) {
-							return `${rawItem} ${rawIndex} list 级别定制化 label`;
-						},
-					},
 					children: [
 						{
-							label() {
+							label({ share }) {
 								return new Promise((resolve) => {
+									share({
+										some: "hello world",
+									});
 									setTimeout(() => {
 										resolve("学业经历");
 									}, 200);
@@ -123,8 +120,8 @@ export default defineComponent({
 							component: Input,
 						},
 						{
-							label() {
-								return "职业经历";
+							label({ shared }) {
+								return "职业经历" + shared.some;
 							},
 							field: "job",
 							component: Input,
