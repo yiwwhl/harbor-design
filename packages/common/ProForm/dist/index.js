@@ -585,7 +585,15 @@ class be {
     const o = R(e.component);
     if (!o)
       return;
-    (k = (z = e.native) == null ? void 0 : z.props) != null && k.Form && h(this.globalNativeFormOverride.props, (B = ($ = e.native) == null ? void 0 : $.props) == null ? void 0 : B.Form), (T = (D = e.native) == null ? void 0 : D.slots) != null && T.Form && h(this.globalNativeFormOverride.slots, (W = (G = e.native) == null ? void 0 : G.slots) == null ? void 0 : W.Form);
+    (k = (z = e.native) == null ? void 0 : z.props) != null && k.Form && h(
+      // @ts-expect-error
+      this.globalNativeFormOverride.props.Form,
+      (B = ($ = e.native) == null ? void 0 : $.props) == null ? void 0 : B.Form
+    ), (T = (D = e.native) == null ? void 0 : D.slots) != null && T.Form && h(
+      // @ts-expect-error
+      this.globalNativeFormOverride.slots.Form,
+      (W = (G = e.native) == null ? void 0 : G.slots) == null ? void 0 : W.Form
+    );
     const n = h(C((H = (K = this.native) == null ? void 0 : K.slots) == null ? void 0 : H.FormItem) ?? {}, (Q = (J = e.native) == null ? void 0 : J.slots) == null ? void 0 : Q.FormItem), f = {
       display: "grid",
       gridColumn: "1 / -1",
@@ -713,7 +721,15 @@ class be {
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
       ...this.grid
-    }, t = this, s = h(C((c = (f = this.native) == null ? void 0 : f.props) == null ? void 0 : c.Form) ?? {}, this.globalNativeFormOverride.props), i = h(C((y = (d = this.native) == null ? void 0 : d.slots) == null ? void 0 : y.Form) ?? {}, this.globalNativeFormOverride.slots), o = F.getFormContainer(this), n = this.runtimeAdapter.getFormModelPropName();
+    }, t = this, s = h(
+      C((c = (f = this.native) == null ? void 0 : f.props) == null ? void 0 : c.Form) ?? {},
+      // @ts-expect-error
+      this.globalNativeFormOverride.props.Form
+    ), i = h(
+      C((y = (d = this.native) == null ? void 0 : d.slots) == null ? void 0 : y.Form) ?? {},
+      // @ts-expect-error
+      this.globalNativeFormOverride.slots.Form
+    ), o = F.getFormContainer(this), n = this.runtimeAdapter.getFormModelPropName();
     return p(o, O(s, {
       ref: this.formRef
     }, {

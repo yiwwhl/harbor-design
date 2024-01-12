@@ -1,6 +1,6 @@
 {
   "name": "@harbor-design/playground",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "type": "module",
   "scripts": {
     "dev": "vite",

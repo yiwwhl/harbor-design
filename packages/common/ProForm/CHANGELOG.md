@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.7
+
+### Patch Changes
+
+- fix bug of global native config
+
 ## 1.2.6
 
 ### Patch Changes

@@ -159,12 +159,14 @@ export default class RuntimeCore {
 		if (!Component) return;
 		schema.native?.props?.Form &&
 			deepAssign(
-				this.globalNativeFormOverride.props,
+				// @ts-expect-error
+				this.globalNativeFormOverride.props.Form,
 				schema.native?.props?.Form,
 			);
 		schema.native?.slots?.Form &&
 			deepAssign(
-				this.globalNativeFormOverride.slots,
+				// @ts-expect-error
+				this.globalNativeFormOverride.slots.Form,
 				schema.native?.slots?.Form,
 			);
 		const formItemNativeSlots = deepAssign(
@@ -407,11 +409,13 @@ export default class RuntimeCore {
 		const that = this;
 		const formNativeProps = deepAssign(
 			deepClone(this.native?.props?.Form) ?? {},
-			this.globalNativeFormOverride.props,
+			// @ts-expect-error
+			this.globalNativeFormOverride.props.Form,
 		);
 		const formNativeSlots = deepAssign(
 			deepClone(this.native?.slots?.Form) ?? {},
-			this.globalNativeFormOverride.slots,
+			// @ts-expect-error
+			this.globalNativeFormOverride.slots.Form,
 		);
 		const Form = RuntimeContainer.getFormContainer(this);
 		const formModelPropName = this.runtimeAdapter.getFormModelPropName();
