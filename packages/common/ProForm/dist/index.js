@@ -596,7 +596,7 @@ class me {
       index: t
     }), v = o.name, j = e.componentProps ?? {}, I = b.placeholderPresetByComponentName;
     let g = e.placeholder, y = e.show;
-    y === void 0 && (y = !0), y || delete s[e.field];
+    y === void 0 && (y = !0);
     let m = e.label ?? "";
     const V = (i == null ? void 0 : i.runtime) ?? this.runtime;
     if (!l.isUndefined(t) && !l.isObjectEmpty(V) && (m = x((X = V == null ? void 0 : V.customizeListItemLabel) == null ? void 0 : X.call(V, e.label ?? "", t + 1), "")), !g) {

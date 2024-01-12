@@ -187,9 +187,10 @@ export default class RuntimeCore {
 		if (show === undefined) {
 			show = true;
 		}
-		if (!show) {
-			delete baseModel[schema.field];
-		}
+		// TODO: 后续考虑，因为理论上用户的每个字段定义都是有价值的，如果设计有默认值并且隐藏的情况时，就帮用户做了选择
+		// if (!show) {
+		// 	delete baseModel[schema.field];
+		// }
 		let label = schema.label ?? "";
 		const runtime = parentSchema?.runtime ?? this.runtime;
 		if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtime)) {

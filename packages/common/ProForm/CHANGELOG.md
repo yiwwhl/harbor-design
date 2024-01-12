@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.5
+
+### Patch Changes
+
+- improve show processing logic
+
 ## 1.2.4
 
 ### Patch Changes
