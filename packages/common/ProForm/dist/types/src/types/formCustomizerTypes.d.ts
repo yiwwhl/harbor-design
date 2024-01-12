@@ -85,13 +85,13 @@ export interface ListSchema {
     show?: boolean;
 }
 export type Schema = ItemSchema | GroupSchema | ListSchema;
-export interface runtimeMeta {
+export interface RuntimeMeta {
     model: AnyObject;
     reactiveModel: AnyObject;
     shared: AnyObject;
     share: (data: AnyObject) => any;
 }
-export type ProFormProxyRule<T> = T | ((runtimeMeta: runtimeMeta) => T) | ((runtimeMeta: runtimeMeta) => Promise<T>);
+export type ProFormProxyRule<T> = T | ((runtimeMeta: RuntimeMeta) => T) | ((runtimeMeta: RuntimeMeta) => Promise<T>);
 export type ProFormProxy<T> = {
     [K in keyof T]: ProFormProxyRule<T[K]>;
 };

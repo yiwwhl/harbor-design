@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.9
+
+### Patch Changes
+
+- refactor from runtimeMeta to RuntimeMeta
+
 ## 1.2.8
 
 ### Patch Changes

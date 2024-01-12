@@ -1,11 +1,11 @@
-import { AnyObject, runtimeMeta } from "../types";
+import { AnyObject, RuntimeMeta } from "../types";
 
 type Modifier = "native";
 
 type FunctionNative = (
 	args: {
 		rawArgs: any[];
-	} & runtimeMeta,
+	} & RuntimeMeta,
 ) => any;
 
 // TODO: 目前先只支持穿单个的 modifier 后续随着需求更新，为了避免后续更新填坑，先提前将 markNativeFunction 暴露出来
