@@ -15,8 +15,14 @@ export default class RuntimeCore {
     grid: {};
     runtime: Runtime;
     globalNativeFormOverride: {
-        props: {};
-        slots: {};
+        props: {
+            Form: {};
+            FormItem: {};
+        };
+        slots: {
+            Form: {};
+            FormItem: {};
+        };
     };
     ui: string;
     runtimeAdapter: RuntimeAdpter;

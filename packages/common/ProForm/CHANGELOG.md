@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.8
+
+### Patch Changes
+
+- fix bug of default native
+
 ## 1.2.7
 
 ### Patch Changes

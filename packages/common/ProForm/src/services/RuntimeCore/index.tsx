@@ -49,8 +49,14 @@ export default class RuntimeCore {
 	grid = {};
 	runtime: Runtime = {};
 	globalNativeFormOverride = reactive({
-		props: {},
-		slots: {},
+		props: {
+			Form: {},
+			FormItem: {},
+		},
+		slots: {
+			Form: {},
+			FormItem: {},
+		},
 	});
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
@@ -159,13 +165,11 @@ export default class RuntimeCore {
 		if (!Component) return;
 		schema.native?.props?.Form &&
 			deepAssign(
-				// @ts-expect-error
 				this.globalNativeFormOverride.props.Form,
 				schema.native?.props?.Form,
 			);
 		schema.native?.slots?.Form &&
 			deepAssign(
-				// @ts-expect-error
 				this.globalNativeFormOverride.slots.Form,
 				schema.native?.slots?.Form,
 			);
@@ -409,12 +413,10 @@ export default class RuntimeCore {
 		const that = this;
 		const formNativeProps = deepAssign(
 			deepClone(this.native?.props?.Form) ?? {},
-			// @ts-expect-error
 			this.globalNativeFormOverride.props.Form,
 		);
 		const formNativeSlots = deepAssign(
 			deepClone(this.native?.slots?.Form) ?? {},
-			// @ts-expect-error
 			this.globalNativeFormOverride.slots.Form,
 		);
 		const Form = RuntimeContainer.getFormContainer(this);
