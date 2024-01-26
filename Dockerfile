@@ -1,5 +1,9 @@
 FROM node:21-alpine
 
-RUN mkdir /app
+WORKDIR /app
 
 COPY ./ /app/
+
+RUN npm install -g http-server
+
+CMD ["http-server", "-p", "8080"]
