@@ -1,8 +1,8 @@
 FROM node:21-alpine
 
-WORKDIR /app
-
 COPY ./ /app/
+
+WORKDIR /app
 
 RUN npm install -g http-server
 
