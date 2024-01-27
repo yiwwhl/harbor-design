@@ -140,7 +140,7 @@ jobs:
 
       - name: trigger gitops
         run: |
-          git clone https://github.com/yiwwhl/IaC.git -b main --single-branch --depth 1 iac
+          git clone https://yiwwhl:${{ secrets.GH_TOKEN }}@github.com/yiwwhl/IaC.git -b main --single-branch --depth 1 iac
           cd iac
           git config --global user.name "yiwwhl"
           git config --global user.email "yiwwhl@qq.com"
@@ -151,7 +151,7 @@ jobs:
           curl -X POST -H "Content-Type: application/json" -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}", "server_version": "${{ needs.magic_server_version.outputs.VERSION }}" }' ${{ secrets.WEB_HOOK_TARGET }}
           git add .
           git commit -m "chore: deploy $MAGIC_VERSION to $IAC_TARGET"
-          git push https://github.com/yiwwhl/IaC.git
+          git push https://yiwwhl:${{ secrets.GH_TOKEN }}@github.com/yiwwhl/IaC.git
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           IAC_TARGET: "harbor-design"
