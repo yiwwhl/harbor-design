@@ -4,14 +4,10 @@ WORKDIR /app
 
 COPY ./ /app/
 
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
-
-ARG SECRET
-ENV SECRET=${SECRET}
-
 RUN npm install -g npm@10.2.5
 RUN npm install --legacy-peer-deps
 RUN npm run build
+
+EXPOSE 3000
 
 CMD ["npm", "run", "start:prod"]

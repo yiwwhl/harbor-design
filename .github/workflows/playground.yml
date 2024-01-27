@@ -124,11 +124,8 @@ jobs:
           context: ./packages/server
           push: true
           tags: ${{ needs.magic_server_version.outputs.VERSION }}
-          build-args: |
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            SECRET=${{ secrets.SECRET }}
 
-  webhooks:
+  gitops:
     runs-on: ubuntu-latest
     needs:
       [
@@ -141,6 +138,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: trigger webhook
+      - name: trigger gitops
         run: |
+          git clone https://github.com/yiwwhl/IaC.git -b main --single-branch --depth 1 iac
+          cd iac
+          git config --global user.name "yiwwhl"
+          git config --global user.email "yiwwhl@qq.com"
+          "[ -f $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml.bak ] && mv $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml.bak $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml"
+          sed -i "s|image:.*|image: $IMAGE_TAG|g" $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml
+          [ -f $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml.bak ] && mv $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml.bak $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml
+          sed -i "s|image:.*|image: $IMAGE_SERVER_TAG|g" $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml
           curl -X POST -H "Content-Type: application/json" -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}", "server_version": "${{ needs.magic_server_version.outputs.VERSION }}" }' ${{ secrets.WEB_HOOK_TARGET }}
+          git add .
+          git commit -m "chore: deploy $MAGIC_VERSION to $IAC_TARGET"
+          git push https://github.com/yiwwhl/IaC.git
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          IAC_TARGET: "harbor-design"
+          IAC_TARGET_WEB_FILE: "web"
+          IAC_TARGET_SERVER_FILE: "server"
+          IMAGE_TAG: "yiwwhl/harbor-design:${{ needs.magic_server_version.outputs.VERSION }}"
+          IMAGE_SERVER_TAG: "yiwwhl/harbor-design-server:${{ needs.magic_server_version.outputs.VERSION }}"
