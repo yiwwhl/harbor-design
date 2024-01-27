@@ -148,9 +148,8 @@ jobs:
           sed -i "s|image:.*|image: $IMAGE_TAG|g" $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml
           [ -f $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml.bak ] && mv $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml.bak $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml
           sed -i "s|image:.*|image: $IMAGE_SERVER_TAG|g" $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml
-          curl -X POST -H "Content-Type: application/json" -d '{ "version": "${{ needs.magic_version.outputs.VERSION }}", "server_version": "${{ needs.magic_server_version.outputs.VERSION }}" }' ${{ secrets.WEB_HOOK_TARGET }}
           git add .
-          git commit -m "chore: deploy $MAGIC_VERSION to $IAC_TARGET"
+          git commit -m "chore: deploy ${{ needs.magic_server_version.outputs.VERSION }} to $IAC_TARGET"
           git push https://yiwwhl:${{ secrets.GH_TOKEN }}@github.com/yiwwhl/IaC.git
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
