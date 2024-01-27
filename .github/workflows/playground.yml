@@ -53,7 +53,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - id: generate
-        run: echo "VERSION=yiwwhl/harbor-design:$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     outputs:
       VERSION: ${{ steps.generate.outputs.VERSION }}
 
