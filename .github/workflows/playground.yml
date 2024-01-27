@@ -144,7 +144,7 @@ jobs:
           cd iac
           git config --global user.name "yiwwhl"
           git config --global user.email "yiwwhl@qq.com"
-          "[ -f $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml.bak ] && mv $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml.bak $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml"
+          [ -f $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml.bak ] && mv $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml.bak $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml
           sed -i "s|image:.*|image: $IMAGE_TAG|g" $IAC_TARGET/$IAC_TARGET_WEB_FILE.yaml
           [ -f $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml.bak ] && mv $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml.bak $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml
           sed -i "s|image:.*|image: $IMAGE_SERVER_TAG|g" $IAC_TARGET/$IAC_TARGET_SERVER_FILE.yaml
