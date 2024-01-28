@@ -8,7 +8,6 @@ import { createPinia } from "pinia";
 import { ImageAutoLoader } from "@/plugins/ImageCollector";
 import { useFormPresetConfigurer } from "@harbor-design/proform";
 import { Form, FormItem } from "@arco-design/web-vue";
-import { NForm, NFormItem } from "naive-ui";
 import Item from "@/bootstrap/ProFormRuntimeDoms/Item";
 import Group from "@/bootstrap/ProFormRuntimeDoms/Group";
 import List from "@/bootstrap/ProFormRuntimeDoms/List";
@@ -35,16 +34,6 @@ useFormPresetConfigurer({
 			container: {
 				Form,
 				FormItem,
-				Item,
-				Group,
-				List,
-				ListItem,
-			},
-		},
-		NaiveUI: {
-			container: {
-				Form: NForm,
-				FormItem: NFormItem,
 				Item,
 				Group,
 				List,

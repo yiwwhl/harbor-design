@@ -21,7 +21,7 @@ export default defineConfig(() => {
 			vueJSX(),
 			viteSvgLoader(),
 			vitePluginForArco({
-				theme: "@arco-themes/vue-harbor-design-playground",
+				theme: "@arco-themes/vue-harbor-design-web",
 				style: "css",
 			}),
 		],

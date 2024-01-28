@@ -4,9 +4,9 @@
   "description": "accumulation of personal experience in component encapsulation",
   "author": "yiwwhl <yiwwhl@qq.com>",
   "scripts": {
-    "preview:arco-vue": "pnpm --filter=@harbor-design/playground dev",
+    "preview:arco-vue": "pnpm --filter=@harbor-design/web dev",
     "dev:server": "pnpm --filter=@harbor-design/server start:dev",
-    "build:arco-vue": "pnpm --filter=@harbor-design/playground build",
+    "build:arco-vue": "pnpm --filter=@harbor-design/web build",
     "build:server": "pnpm --filter=@harbor-design/server build",
     "release:proform": "pnpm prerelease:proform && pnpm changeset && pnpm postrelease:proform",
     "prerelease:proform": "pnpm --filter=@harbor-design/proform build",

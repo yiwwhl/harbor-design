@@ -1,4 +1,4 @@
-name: playground
+name: ci
 on:
   push:
     branches:
@@ -17,14 +17,14 @@ jobs:
           version: 8
       - run: pnpm install
 
-      - name: build arco playground
+      - name: build arco web
         run: pnpm build:arco-vue
 
       - name: Upload build dist artifacts
         uses: actions/upload-artifact@v4
         with:
           name: client_dist
-          path: ./packages/playground/dist
+          path: ./packages/web/dist
 
   build_server_dist:
     runs-on: ubuntu-latest

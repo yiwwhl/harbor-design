@@ -16,7 +16,12 @@ export default defineComponent({
 				<PageWrapper title="关于">
 					{{
 						default() {
-							return <>个人组件库 + 中后台模板项目实践</>;
+							return (
+								<>
+									<div>个人组件库 + 中后台模板项目实践</div>
+									<div>架构概念验证 + 产品驱动学习</div>
+								</>
+							);
 						},
 					}}
 				</PageWrapper>

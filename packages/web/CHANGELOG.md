@@ -1,4 +1,4 @@
-# @harbor-design/playground
+# @harbor-design/web
 
 ## 0.0.26
 

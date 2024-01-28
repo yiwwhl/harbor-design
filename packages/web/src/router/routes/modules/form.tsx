@@ -19,14 +19,6 @@ const form = {
 			},
 			component: () => import("@/views/Form/DynamicArco/index"),
 		},
-		{
-			path: "dynamicNaive",
-			name: "DynamicNaive",
-			meta: {
-				locale: "Naive 表单",
-			},
-			component: () => import("@/views/Form/DynamicNaive/index"),
-		},
 	],
 };
 

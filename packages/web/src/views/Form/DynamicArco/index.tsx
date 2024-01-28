@@ -5,13 +5,9 @@ import {
 	markNativeFunction,
 	useForm,
 } from "@harbor-design/proform";
-import { defineComponent, ref } from "vue";
+import { defineComponent, nextTick, ref } from "vue";
 import styles from "./index.module.scss";
 import PageWrapper from "@/components/advanced/PageWrapper";
-
-/**
- * 后续应该新增文档，对于 native 来说，Form 永远是后面的 schema 覆盖前面的 schema
- */
 
 export default defineComponent({
 	setup() {
@@ -38,6 +34,7 @@ export default defineComponent({
 			native: {
 				props: {
 					Form: {
+						layout: "vertical",
 						autoLabelWidth: true,
 					},
 				},
@@ -45,7 +42,7 @@ export default defineComponent({
 			schemas,
 		});
 
-		setTimeout(() => {
+		nextTick(() => {
 			schemas.value = [
 				{
 					label({ model }) {
@@ -147,12 +144,9 @@ export default defineComponent({
 							},
 						},
 					],
-					show({ model }) {
-						return !!model.gender;
-					},
 				},
 			];
-		}, 400);
+		});
 
 		return () => {
 			return (

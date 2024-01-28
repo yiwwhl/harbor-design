@@ -1,5 +1,5 @@
 {
-  "name": "@harbor-design/playground",
+  "name": "@harbor-design/web",
   "version": "0.0.26",
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
   "dependencies": {
     "@arco-design/web-vue": "^2.52.0",
     "@arco-plugins/vite-vue": "^1.4.5",
-    "@arco-themes/vue-harbor-design-playground": "^0.0.1",
+    "@arco-themes/vue-harbor-design-web": "^0.0.1",
     "@harbor-design/arco-design-vue": "workspace:^",
     "@harbor-design/proform": "workspace:^",
     "@types/axios": "^0.14.0",
@@ -19,7 +19,6 @@
     "crypto-js": "^4.2.0",
     "legendary-cursor": "^1.0.2",
     "lodash": "^4.17.21",
-    "naive-ui": "^2.35.0",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.3.4",
