@@ -11,6 +11,9 @@ const router = createRouter({
 		{
 			path: "/login",
 			name: "Login",
+			meta: {
+				public: true,
+			},
 			component: () => import("@/views/Login/index"),
 		},
 		...routes,

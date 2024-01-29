@@ -4,7 +4,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	setup() {
 		return () => {
-			return <PageWrapper title="计划">近期：规范化接口设计</PageWrapper>;
+			return <PageWrapper title="计划">开发 ProTable 及用户列表</PageWrapper>;
 		};
 	},
 });

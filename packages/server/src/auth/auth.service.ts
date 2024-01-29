@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 
@@ -14,18 +14,11 @@ export class AuthService {
       username,
     });
     if (user?.password !== pass) {
-      return {
-        code: 1,
-        message: '用户名或密码错误',
-      };
+      throw new UnauthorizedException('用户名或密码错误');
     }
     const payload = { username: user.username };
     return {
-      code: 0,
-      data: {
-        token: await this.jwtService.signAsync(payload),
-      },
-      message: '0',
+      token: await this.jwtService.signAsync(payload),
     };
   }
 }

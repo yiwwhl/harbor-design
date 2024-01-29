@@ -14,12 +14,6 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Get('profile')
   async getProfile(@Request() req) {
-    return {
-      code: 0,
-      data: {
-        ...(await this.userService.findUserByUsername(req.user.username)),
-      },
-      message: '0',
-    };
+    return await this.userService.findUserByUsername(req.user.username);
   }
 }

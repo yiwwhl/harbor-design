@@ -2,13 +2,12 @@ import { ProjectService } from "@/architecture/core/ProjectService";
 import { Message } from "@arco-design/web-vue";
 import { AxiosInstance } from "axios";
 
-/**
- *
- * TODO:
- * 1. 抽离统一的前后端 code 定义，目前均 hardcode 走 happy path
- */
-export enum ResponseDataCode {
-	SUCCESS = 0,
+export enum ApiResponseStatus {
+	SUCCESS = "success",
+	ERROR = "error",
+}
+
+export enum HttpStatus {
 	UNAUTHORIZED = 401,
 }
 
@@ -29,14 +28,14 @@ export function createInterceptors(request: AxiosInstance): void {
 	request.interceptors.response.use(
 		(response) => {
 			const data = response.data;
-			if (data.code !== ResponseDataCode.SUCCESS) {
+			if (data.status !== ApiResponseStatus.SUCCESS) {
 				Message.error(`${data.message}`);
 				return Promise.reject(`${data.message}`);
 			}
 			return data;
 		},
 		(error) => {
-			if (error.response.status === ResponseDataCode.UNAUTHORIZED) {
+			if (error.response.status === HttpStatus.UNAUTHORIZED) {
 				Message.error(error.response.data.message);
 				return AuthService.logout();
 			}

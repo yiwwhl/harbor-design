@@ -4,11 +4,15 @@ import Logo from "@/assets/image/harbor.svg?component";
 import { ImageCollector } from "@/plugins/ImageCollector/src";
 import { useRouter } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
+import useUserStore from "@/store/modules/user";
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
 	setup() {
 		const router = useRouter();
 		const basicSettingStore = useBasicSettingStore();
+		const userStore = useUserStore();
+		const user = storeToRefs(userStore).user;
 
 		return () => {
 			return (
@@ -31,7 +35,7 @@ export default defineComponent({
 					>
 						<img class={styles.avatar} src={ImageCollector.getImage("user")} />
 						<div class={styles.uinfo}>
-							<div class={styles.nickName}>yiwwhl</div>
+							<div class={styles.nickName}>{user.value.nickname}</div>
 							<div class={styles.role}>管理员</div>
 						</div>
 					</div>

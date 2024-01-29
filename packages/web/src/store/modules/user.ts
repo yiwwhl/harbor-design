@@ -4,6 +4,11 @@ const useUserStore = defineStore("user", {
 	state: () => ({
 		user: {
 			token: "",
+			id: undefined,
+			nickname: undefined,
+			username: undefined,
+			gender: undefined,
+			email: undefined,
 		} as AnyObject,
 	}),
 	getters: {
@@ -13,7 +18,7 @@ const useUserStore = defineStore("user", {
 	},
 	actions: {
 		saveUser(_user: AnyObject) {
-			this.user = _user;
+			Object.assign(this.user, _user);
 		},
 		saveToken(_token: string) {
 			this.user.token = _token;
