@@ -102,8 +102,8 @@ importers:
         specifier: ^10.3.1
         version: 10.3.1(@nestjs/common@10.3.1)(@nestjs/core@10.3.1)
       '@prisma/client':
-        specifier: 5.8.1
-        version: 5.8.1(prisma@5.8.1)
+        specifier: 5.9.0
+        version: 5.9.0(prisma@5.8.1)
       prisma:
         specifier: ^5.8.1
         version: 5.8.1
@@ -2092,8 +2092,8 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@prisma/client@5.8.1(prisma@5.8.1):
-    resolution: {integrity: sha512-xQtMPfbIwLlbm0VVIVQY2yqQVOxPwRQhvIp7Z3m2900g1bu/zRHKhYZJQWELqmjl6d8YwBy0K2NvMqh47v1ubw==}
+  /@prisma/client@5.9.0(prisma@5.8.1):
+    resolution: {integrity: sha512-dHvFZgCT0BpRS+gRhk3S+50DstXMmVowxbrPeUJaK7sjNq5OhzfpT/OGE1kq9z5Q8WmOwIXJXyxP8O2CmP+nSg==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
