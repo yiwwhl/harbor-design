@@ -9,13 +9,31 @@ export function useModal(config: ModalConfig) {
 
 	let modalInstance: AnyObject;
 
+	function invokeGuard() {
+		if (modalInstance === void 0) {
+			throw new Error(
+				"错误的调用顺序：请勿在弹窗 open 之前调用 close 或 update",
+			);
+		}
+	}
+
 	function open() {
 		modalInstance = Modal.open(config);
 	}
 
+	function close() {
+		invokeGuard();
+		modalInstance.close();
+	}
+
+	function update(config: ModalUpdateConfig) {
+		invokeGuard();
+		modalInstance.update(config);
+	}
+
 	return {
 		open,
-		close: () => modalInstance.close(),
-		update: (config: ModalUpdateConfig) => modalInstance.update(config),
+		close,
+		update,
 	};
 }
