@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.10
+
+### Patch Changes
+
+- resolve the conflict when both 'rules' and 'required' exist simultaneously
+
 ## 1.2.9
 
 ### Patch Changes

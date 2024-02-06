@@ -20,7 +20,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			if (runtimeArgs.required) {
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
-					runtimeArgs.rules?.push({
+					runtimeArgs.rules.push({
 						required: true,
 						message: `${runtimeArgs.label}是必填项`,
 					});
@@ -32,6 +32,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].required = true;
 						runtimeArgs.rules[requiredIndex].message =
 							`${runtimeArgs.label}是必填项`;
+					} else {
+						runtimeArgs.rules.push({
+							required: true,
+							message: `${runtimeArgs.label}是必填项`,
+						});
 					}
 				}
 			} else {
@@ -41,6 +46,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					);
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = false;
+					} else {
+						runtimeArgs.rules.push({
+							required: true,
+							message: `${runtimeArgs.label}是必填项`,
+						});
 					}
 				}
 			}
@@ -100,7 +110,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			if (runtimeArgs.required) {
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
-					runtimeArgs.rules?.push({
+					runtimeArgs.rules.push({
 						required: true,
 						message: `${runtimeArgs.label}是必填项`,
 					});
@@ -112,6 +122,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].required = true;
 						runtimeArgs.rules[requiredIndex].message =
 							`${runtimeArgs.label}是必填项`;
+					} else {
+						runtimeArgs.rules.push({
+							required: true,
+							message: `${runtimeArgs.label}是必填项`,
+						});
 					}
 				}
 			} else {
@@ -121,6 +136,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					);
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = false;
+					} else {
+						runtimeArgs.rules.push({
+							required: true,
+							message: `${runtimeArgs.label}是必填项`,
+						});
 					}
 				}
 			}
@@ -184,7 +204,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			if (runtimeArgs.required) {
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
-					runtimeArgs.rules?.push({
+					runtimeArgs.rules.push({
 						required: true,
 						message: `${runtimeArgs.label}是必填项`,
 						trigger: ["input", "blur"],
@@ -197,6 +217,12 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].required = true;
 						runtimeArgs.rules[requiredIndex].message =
 							`${runtimeArgs.label}是必填项`;
+					} else {
+						runtimeArgs.rules.push({
+							required: true,
+							message: `${runtimeArgs.label}是必填项`,
+							trigger: ["input", "blur"],
+						});
 					}
 				}
 			} else {
@@ -206,6 +232,12 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					);
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = false;
+					} else {
+						runtimeArgs.rules.push({
+							required: true,
+							message: `${runtimeArgs.label}是必填项`,
+							trigger: ["input", "blur"],
+						});
 					}
 				}
 			}

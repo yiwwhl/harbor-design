@@ -91,11 +91,18 @@ export default defineComponent({
 							field: "currentJobName",
 							component: Input,
 							defaultValue: "前端开发工程师",
+							required: true,
+							rules: [
+								{
+									validator: (value, callback) => {
+										return value.length < 10
+											? callback()
+											: callback("字符数不能超过 10");
+									},
+								},
+							],
 						},
 					],
-					show({ model }) {
-						return !!model.gender;
-					},
 				},
 				{
 					label: "过往经历",
