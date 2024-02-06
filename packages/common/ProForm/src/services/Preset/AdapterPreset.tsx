@@ -33,7 +33,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].message =
 							`${runtimeArgs.label}是必填项`;
 					} else {
-						runtimeArgs.rules.push({
+						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,
 						});
@@ -47,7 +47,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = false;
 					} else {
-						runtimeArgs.rules.push({
+						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,
 						});
@@ -123,7 +123,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].message =
 							`${runtimeArgs.label}是必填项`;
 					} else {
-						runtimeArgs.rules.push({
+						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,
 						});
@@ -137,7 +137,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = false;
 					} else {
-						runtimeArgs.rules.push({
+						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,
 						});
@@ -218,7 +218,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].message =
 							`${runtimeArgs.label}是必填项`;
 					} else {
-						runtimeArgs.rules.push({
+						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,
 							trigger: ["input", "blur"],
@@ -233,7 +233,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = false;
 					} else {
-						runtimeArgs.rules.push({
+						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,
 							trigger: ["input", "blur"],

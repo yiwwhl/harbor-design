@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.11
+
+### Patch Changes
+
+- update rules calc logic from push to unshift
+
 ## 1.2.10
 
 ### Patch Changes

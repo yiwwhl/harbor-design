@@ -769,14 +769,14 @@ const ge = {
           });
         else {
           const t = r.rules.findIndex((s) => !l.isUndefined(s.required));
-          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = `${r.label}是必填项`) : r.rules.push({
+          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = `${r.label}是必填项`) : r.rules.unshift({
             required: !0,
             message: `${r.label}是必填项`
           });
         }
       else if (r.rules) {
         const t = (e = r.rules) == null ? void 0 : e.findIndex((s) => !!s.required);
-        t !== -1 ? r.rules[t].required = !1 : r.rules.push({
+        t !== -1 ? r.rules[t].required = !1 : r.rules.unshift({
           required: !0,
           message: `${r.label}是必填项`
         });
@@ -829,14 +829,14 @@ const ge = {
           });
         else {
           const t = r.rules.findIndex((s) => !l.isUndefined(s.required));
-          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = `${r.label}是必填项`) : r.rules.push({
+          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = `${r.label}是必填项`) : r.rules.unshift({
             required: !0,
             message: `${r.label}是必填项`
           });
         }
       else if (r.rules) {
         const t = (e = r.rules) == null ? void 0 : e.findIndex((s) => !!s.required);
-        t !== -1 ? r.rules[t].required = !1 : r.rules.push({
+        t !== -1 ? r.rules[t].required = !1 : r.rules.unshift({
           required: !0,
           message: `${r.label}是必填项`
         });
@@ -896,7 +896,7 @@ const ge = {
           });
         else {
           const t = r.rules.findIndex((s) => !l.isUndefined(s.required));
-          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = `${r.label}是必填项`) : r.rules.push({
+          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = `${r.label}是必填项`) : r.rules.unshift({
             required: !0,
             message: `${r.label}是必填项`,
             trigger: ["input", "blur"]
@@ -904,7 +904,7 @@ const ge = {
         }
       else if (r.rules) {
         const t = (e = r.rules) == null ? void 0 : e.findIndex((s) => !!s.required);
-        t !== -1 ? r.rules[t].required = !1 : r.rules.push({
+        t !== -1 ? r.rules[t].required = !1 : r.rules.unshift({
           required: !0,
           message: `${r.label}是必填项`,
           trigger: ["input", "blur"]
