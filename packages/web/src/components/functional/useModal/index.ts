@@ -15,11 +15,7 @@ export function useModal(config: ModalConfig) {
 
 	return {
 		open,
-		close: () => {
-			return modalInstance.close();
-		},
-		update: (config: ModalUpdateConfig) => {
-			return modalInstance.update(config);
-		},
+		close: () => modalInstance.close(),
+		update: (config: ModalUpdateConfig) => modalInstance.update(config),
 	};
 }
