@@ -1,5 +1,6 @@
 import { IAuthService } from "@/architecture/services/Auth/base";
 import { IUserService } from "@/architecture/services/User/base";
+import { App } from "vue";
 
 /**
  * 若希望各个业务模块产生对应的类型提示，则需要在全局范围内进行类型注入，
@@ -14,6 +15,8 @@ export interface ServiceMap {
 
 export class ProjectService {
 	private constructor() {}
+
+	static app: App;
 
 	static avaliableRouteNames: string[] = [];
 

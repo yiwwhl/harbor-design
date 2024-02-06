@@ -18,6 +18,7 @@ import { ServiceAutoLoader } from "@/plugins/serviceCollector";
 import { setupRouteGuards } from "@/router/guards";
 import { createInterceptors } from "@/utils/Request/interceptors";
 import request from "@/utils/Request";
+import { ProjectService } from "@/architecture/core/ProjectService";
 
 const app = createApp(App);
 const store = createPinia();
@@ -51,3 +52,4 @@ app.use(router);
 createInterceptors(request);
 app.use(ImageAutoLoader());
 app.mount("#app");
+ProjectService.app = app;
