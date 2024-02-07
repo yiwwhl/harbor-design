@@ -26,4 +26,11 @@ export class UserService {
       },
     });
   }
+
+  updateUserProfile(where, data) {
+    return this.prisma.user.update({
+      where,
+      data,
+    });
+  }
 }

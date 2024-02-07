@@ -10,10 +10,14 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UploadService } from 'src/upload/upload.service';
+import { UserService } from 'src/user/user.service';
 
 @Controller('upload')
 export class UploadController {
-  constructor(private readonly uploadService: UploadService) {}
+  constructor(
+    private readonly uploadService: UploadService,
+    private readonly userService: UserService,
+  ) {}
 
   @UseGuards(AuthGuard)
   @Post()
@@ -31,9 +35,19 @@ export class UploadController {
     @Req() req,
   ) {
     const fileExtension = file.originalname.split('.').at(-1);
-    return this.uploadService.handleFileUpload(file, {
+    const id = req.user.id;
+    const uploadResult = await this.uploadService.handleFileUpload(file, {
       ...body,
-      fileName: `${req.user.id}.${fileExtension}`,
+      fileName: `${id}.${fileExtension}`,
     });
+    await this.userService.updateUserProfile(
+      {
+        id,
+      },
+      {
+        avatar: uploadResult.fileUrl,
+      },
+    );
+    return uploadResult;
   }
 }

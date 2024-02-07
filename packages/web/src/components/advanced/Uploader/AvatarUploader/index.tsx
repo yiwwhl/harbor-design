@@ -1,30 +1,19 @@
 import { FileItem, RequestOption, Upload } from "@arco-design/web-vue";
 import { IconEdit } from "@arco-design/web-vue/es/icon";
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import styles from "./index.module.scss";
 import { ProjectService } from "@/architecture/core/ProjectService";
 import useUserStore from "@/store/modules/user";
 
 export default defineComponent({
-	props: {
-		url: String,
-	},
-	emits: ["update:modelValue"],
-	setup(props) {
+	setup() {
 		const avatar = ref();
 		const FileService = ProjectService.getService("File");
 		const userStore = useUserStore();
 
-		watch(
-			() => avatar.value,
-			() => {
-				avatar.value = `${props.url}?timestamp=${Date.now()}`;
-				userStore.user.avatar = avatar.value;
-			},
-			{
-				immediate: true,
-			},
-		);
+		watchEffect(() => {
+			avatar.value = userStore.user.avatar;
+		});
 
 		function handleChange(_: FileItem[], currentFile: FileItem) {
 			avatar.value = currentFile.url;
