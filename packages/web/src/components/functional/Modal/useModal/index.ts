@@ -33,6 +33,8 @@ export function useModal(meta: FunctionalMeta | ModalConfig) {
 					config = result;
 				});
 			}
+		} else {
+			config = meta as ModalConfig;
 		}
 		modalInstance && update(config);
 	}
