@@ -23,14 +23,14 @@ export default defineComponent({
 					field: "username",
 					component: Input,
 					required: true,
-					defaultValue: "yiwwhl",
+					defaultValue: "demo",
 				},
 				{
 					label: "密码",
 					field: "password",
 					component: InputPassword,
 					required: true,
-					defaultValue: "yiwwhl",
+					defaultValue: "demo",
 				},
 			],
 		});

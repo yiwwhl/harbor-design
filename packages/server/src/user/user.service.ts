@@ -22,6 +22,7 @@ export class UserService {
         nickname: true,
         gender: true,
         email: true,
+        avatar: true,
       },
     });
   }

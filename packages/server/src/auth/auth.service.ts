@@ -16,7 +16,7 @@ export class AuthService {
     if (user?.password !== pass) {
       throw new UnauthorizedException('用户名或密码错误');
     }
-    const payload = { username: user.username };
+    const payload = { username: user.username, id: user.id };
     return {
       token: await this.jwtService.signAsync(payload),
     };

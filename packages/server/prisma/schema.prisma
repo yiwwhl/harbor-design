@@ -22,4 +22,5 @@ model User {
   nickname String?
   gender   Gender?
   password String
+  avatar   String?
 }

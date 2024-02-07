@@ -1,7 +1,6 @@
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
 import Logo from "@/assets/image/harbor.svg?component";
-import { ImageCollector } from "@/plugins/ImageCollector/src";
 import { useRouter } from "vue-router";
 import useBasicSettingStore from "@/store/modules/basicSetting";
 import useUserStore from "@/store/modules/user";
@@ -33,7 +32,7 @@ export default defineComponent({
 							});
 						}}
 					>
-						<img class={styles.avatar} src={ImageCollector.getImage("user")} />
+						<img class={styles.avatar} src={user.value.avatar} />
 						<div class={styles.uinfo}>
 							<div class={styles.nickName}>{user.value.nickname}</div>
 							<div class={styles.role}>管理员</div>

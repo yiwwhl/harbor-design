@@ -1,4 +1,5 @@
 import { IAuthService } from "@/architecture/services/Auth/base";
+import { IFileService } from "@/architecture/services/File/base";
 import { IUserService } from "@/architecture/services/User/base";
 import { App } from "vue";
 
@@ -11,6 +12,7 @@ import { App } from "vue";
 export interface ServiceMap {
 	Auth: IAuthService;
 	User: IUserService;
+	File: IFileService;
 }
 
 export class ProjectService {
