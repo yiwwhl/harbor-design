@@ -21,7 +21,7 @@ export default defineComponent({
 			return (
 				<PageWrapper title="个人中心">
 					<Space direction="vertical" size={12}>
-						{!isDemo && <AvatarUploader />}
+						{!isDemo && <AvatarUploader round />}
 						<Button type="primary" onClick={handleLogout}>
 							退出登录
 						</Button>

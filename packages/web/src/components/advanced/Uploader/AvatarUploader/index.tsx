@@ -6,7 +6,13 @@ import { ProjectService } from "@/architecture/core/ProjectService";
 import useUserStore from "@/store/modules/user";
 
 export default defineComponent({
-	setup() {
+	props: {
+		round: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	setup(props) {
 		const avatar = ref();
 		const FileService = ProjectService.getService("File");
 		const userStore = useUserStore();
@@ -56,6 +62,7 @@ export default defineComponent({
 								<div
 									class={[
 										styles.avatarUploaderWrapper,
+										props.round && styles.roundWrapper,
 										`arco-upload-list-item${
 											avatar.value && avatar.value?.status === "error"
 												? " arco-upload-list-item-error"

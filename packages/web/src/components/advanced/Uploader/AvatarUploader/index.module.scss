@@ -2,6 +2,11 @@
 	width: 6rem;
 	height: 6rem;
 
+	&.roundWrapper {
+		overflow: hidden;
+		border-radius: 50%;
+	}
+
 	.avatar {
 		width: 100%;
 		height: 100%;
