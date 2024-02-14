@@ -12,7 +12,8 @@
 		flex-direction: column;
 		justify-content: space-between;
 		height: 50%;
-		min-height: 400px;
+		width: 380px;
+		min-height: 440px;
 		padding: 3rem;
 		box-sizing: border-box;
 		background-color: $bg-color-primary;
@@ -29,17 +30,5 @@
 			font-weight: bold;
 			align-self: center;
 		}
-	}
-}
-
-@media (max-width: 899px) {
-	.loginFormWrapper {
-		width: 80%;
-	}
-}
-
-@media (min-width: 900px) {
-	.loginFormWrapper {
-		width: 40%;
 	}
 }
