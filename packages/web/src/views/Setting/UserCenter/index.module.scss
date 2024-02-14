@@ -1,0 +1,15 @@
+.userCenterWrapper {
+	width: 100%;
+	display: flex;
+
+	.userInfo {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+	}
+
+	.userSummary {
+		flex: 2;
+		width: 100%;
+	}
+}
