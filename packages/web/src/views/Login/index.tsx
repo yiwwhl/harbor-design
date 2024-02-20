@@ -1,9 +1,10 @@
 import { defineComponent } from "vue";
 import styles from "./index.module.scss";
-import { ProForm, useForm } from "@harbor-design/proform";
+import { ProForm, markNativeObject, useForm } from "@harbor-design/proform";
 import { Button, Input, InputPassword } from "@arco-design/web-vue";
 import { ProjectService } from "@/architecture/core/ProjectService";
 import { useFnCall } from "@/hooks/useFnCall";
+import { IconLock, IconUser } from "@arco-design/web-vue/es/icon";
 
 export default defineComponent({
 	setup() {
@@ -19,18 +20,26 @@ export default defineComponent({
 			},
 			schemas: [
 				{
-					label: "用户名",
 					field: "username",
 					component: Input,
-					required: true,
 					defaultValue: "demo",
+					placeholder: "username",
+					componentSlots: markNativeObject({
+						prefix() {
+							return <IconUser />;
+						},
+					}),
 				},
 				{
-					label: "密码",
 					field: "password",
 					component: InputPassword,
-					required: true,
 					defaultValue: "demo",
+					placeholder: "password",
+					componentSlots: markNativeObject({
+						prefix() {
+							return <IconLock />;
+						},
+					}),
 				},
 			],
 		});
@@ -45,14 +54,15 @@ export default defineComponent({
 			return (
 				<div class={styles.loginWrapper}>
 					<div class={styles.loginFormWrapper}>
-						<div class={styles.prompt}>登录到您的账户</div>
+						<div class={styles.prompt}>Harbor Design</div>
 						<ProForm setup={setup} />
 						<Button
+							class={styles.loginBtn}
 							type="primary"
 							loading={loading.value}
 							onClick={handleLogin}
 						>
-							登录
+							Log In
 						</Button>
 					</div>
 				</div>
