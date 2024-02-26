@@ -191,13 +191,13 @@ importers:
     dependencies:
       '@arco-design/web-vue':
         specifier: ^2.52.0
-        version: 2.52.0(vue@3.3.4)
+        version: 2.54.5(vue@3.3.4)
       '@arco-plugins/vite-vue':
         specifier: ^1.4.5
         version: 1.4.5
       '@arco-themes/vue-harbor-design-web':
         specifier: ^0.0.1
-        version: 0.0.1(@arco-design/web-vue@2.52.0)
+        version: 0.0.1(@arco-design/web-vue@2.54.5)
       '@harbor-design/arco-design-vue':
         specifier: workspace:^
         version: link:../arco-design-vue
@@ -306,8 +306,8 @@ packages:
       color: 3.2.1
     dev: false
 
-  /@arco-design/web-vue@2.52.0(vue@3.3.4):
-    resolution: {integrity: sha512-/qY/LsY9sIXP0qGtdWnOfwN9VzMsZN2psa6TfZtfGBG0F22aMJV7mG4zFpHiAlqFGHwY/jpuPq3LQSd8iMrboQ==}
+  /@arco-design/web-vue@2.54.5(vue@3.3.4):
+    resolution: {integrity: sha512-b0sOww6qWne1s74kBURqFmi8BuNl7D1RokLwKx76GP8UQTUM6soYqdCbXDY3DWHy28MC5aHsz+BF0GJUCmhlcA==}
     peerDependencies:
       vue: ^3.1.0
     dependencies:
@@ -335,12 +335,12 @@ packages:
       - supports-color
     dev: false
 
-  /@arco-themes/vue-harbor-design-web@0.0.1(@arco-design/web-vue@2.52.0):
+  /@arco-themes/vue-harbor-design-web@0.0.1(@arco-design/web-vue@2.54.5):
     resolution: {integrity: sha512-hUurZZ66ufz46x1kqge4YgFsH/on5bZgluWselcYdGYJBdP2PESopt4z4zgBUiL9DcvwcOGMU6AjjwKm/o2ESQ==}
     peerDependencies:
       '@arco-design/web-vue': ^2.54.3
     dependencies:
-      '@arco-design/web-vue': 2.52.0(vue@3.3.4)
+      '@arco-design/web-vue': 2.54.5(vue@3.3.4)
     dev: false
 
   /@babel/code-frame@7.22.13:
