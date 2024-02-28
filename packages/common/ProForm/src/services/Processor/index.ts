@@ -456,7 +456,6 @@ export default class Processor {
 				this.stableUpdaterProcessProgress.every(Boolean) &&
 				this.defaultValueEffect.effects.size === 0
 			) {
-				console.log("done once");
 				this.stableModel = deepClone(this.processedModel.value);
 				this.runtimeCore.hydrateEffect.triggerEffects();
 				this.runtimeCore.hydrateEffect.clearEffects();
