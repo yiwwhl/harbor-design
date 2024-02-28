@@ -141,12 +141,10 @@ export default class FormCustomizer {
 	}
 
 	resetModel() {
-		nextTick(() => {
-			if (this.runtimeCore?.model.value) {
-				this.runtimeCore.model.value = deepClone(
-					this.runtimeCore.processor.stableModel,
-				);
-			}
-		});
+		if (this.runtimeCore?.model.value) {
+			this.runtimeCore.model.value = deepClone(
+				this.runtimeCore.processor.stableModel,
+			);
+		}
 	}
 }

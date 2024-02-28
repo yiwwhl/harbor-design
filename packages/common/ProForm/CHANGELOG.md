@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.17
+
+### Patch Changes
+
+- update resetModel
+
 ## 1.2.16
 
 ### Patch Changes
