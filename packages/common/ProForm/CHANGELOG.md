@@ -1,5 +1,17 @@
 # @harbor-design/proform
 
+## 1.2.13
+
+### Patch Changes
+
+- update version
+
+## 1.2.12
+
+### Patch Changes
+
+- remove setReactiveModel and getReactiveModel
+
 ## 1.2.11
 
 ### Patch Changes
