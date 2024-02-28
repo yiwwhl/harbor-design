@@ -9,6 +9,7 @@ export function useForm(formCustomization: FormCustomization): UseForm {
 			submit: formCustomizer.submit.bind(formCustomizer),
 			hydrate: formCustomizer.hydrate.bind(formCustomizer),
 			share: formCustomizer.share.bind(formCustomizer),
+			subscribeModel: formCustomizer.subscribeModel.bind(formCustomizer),
 		},
 	];
 }

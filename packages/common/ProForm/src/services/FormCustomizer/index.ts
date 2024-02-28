@@ -1,10 +1,11 @@
-import { AnyObject, FormCustomization } from "../../types";
+import { AnyFunction, AnyObject, FormCustomization } from "../../types";
 import { deepAssign } from "../../utils";
 import { Context, Preset, RuntimeCore } from "../index";
-import { isReactive, isRef, nextTick, watch } from "vue";
+import { isReactive, isRef, nextTick, readonly, watch } from "vue";
 
 export default class FormCustomizer {
 	public runtimeCore!: RuntimeCore;
+	public reactiveModel!: AnyObject;
 
 	// happy path, 后续可以完善更多的 fallback 处理，fallback 处理是为了不卡住异步时的首次渲染做的优化
 	private cleanFallbackFields(data: any) {
@@ -22,6 +23,7 @@ export default class FormCustomizer {
 
 	setup(_runtimeCore: RuntimeCore) {
 		this.runtimeCore = _runtimeCore;
+		this.reactiveModel = readonly(_runtimeCore.model.value);
 		Object.assign(this.runtimeCore.native, this.formCustomization.native);
 		Object.assign(this.runtimeCore.grid, this.formCustomization.grid);
 		Object.assign(this.runtimeCore.runtime, this.formCustomization.runtime);
@@ -115,5 +117,26 @@ export default class FormCustomizer {
 			deepAssign(this.runtimeCore.shared, data);
 			this.runtimeCore.processor.schemaEffect.triggerEffects();
 		}
+	}
+
+	subscribeModel(callback: AnyFunction) {
+		nextTick(() => {
+			const stopSubscribe = watch(
+				() => this.reactiveModel,
+				(value) => {
+					callback(value, {
+						stopSubscribe() {
+							nextTick(() => {
+								stopSubscribe();
+							});
+						},
+					});
+				},
+				{
+					immediate: true,
+					deep: true,
+				},
+			);
+		});
 	}
 }

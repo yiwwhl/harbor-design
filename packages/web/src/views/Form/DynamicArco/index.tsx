@@ -30,7 +30,7 @@ export default defineComponent({
 
 		const schemas = ref<ProxyedSchema[]>([]);
 
-		const [setup, { submit }] = useForm({
+		const [setup, { submit, subscribeModel }] = useForm({
 			native: {
 				props: {
 					Form: {
@@ -40,6 +40,13 @@ export default defineComponent({
 				},
 			},
 			schemas,
+		});
+
+		subscribeModel((value, { stopSubscribe }) => {
+			console.log("value", value, stopSubscribe);
+			if (value.age === "223") {
+				stopSubscribe();
+			}
 		});
 
 		nextTick(() => {
