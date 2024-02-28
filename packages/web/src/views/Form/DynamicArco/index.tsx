@@ -30,7 +30,7 @@ export default defineComponent({
 
 		const schemas = ref<ProxyedSchema[]>([]);
 
-		const [setup, { submit, subscribeModel }] = useForm({
+		const [setup, { submit, subscribeModel, resetModel }] = useForm({
 			native: {
 				props: {
 					Form: {
@@ -171,16 +171,19 @@ export default defineComponent({
 						},
 						headerRight() {
 							return (
-								<Button
-									type="primary"
-									onClick={() => {
-										submit().then((data) => {
-											console.log("提交", data);
-										});
-									}}
-								>
-									提交
-								</Button>
+								<>
+									<Button onClick={resetModel}>重置</Button>
+									<Button
+										type="primary"
+										onClick={() => {
+											submit().then((data) => {
+												console.log("提交", data);
+											});
+										}}
+									>
+										提交
+									</Button>
+								</>
 							);
 						},
 					}}

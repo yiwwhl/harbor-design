@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.15
+
+### Patch Changes
+
+- add resetModel
+
 ## 1.2.14
 
 ### Patch Changes

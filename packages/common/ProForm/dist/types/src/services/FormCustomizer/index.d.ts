@@ -11,4 +11,5 @@ export default class FormCustomizer {
     hydrate(data: AnyObject): Promise<never> | undefined;
     share(data: AnyObject): void;
     subscribeModel(callback: AnyFunction): void;
+    resetModel(): void;
 }

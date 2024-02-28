@@ -17,5 +17,6 @@ export type UseForm = [
 		hydrate: (data: AnyObject) => any;
 		share: (data: AnyObject) => any;
 		subscribeModel: (callback: SubscribeCallback) => any;
+		resetModel: () => any;
 	},
 ];

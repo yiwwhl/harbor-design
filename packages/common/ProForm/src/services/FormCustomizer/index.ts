@@ -1,5 +1,5 @@
 import { AnyFunction, AnyObject, FormCustomization } from "../../types";
-import { deepAssign } from "../../utils";
+import { deepAssign, deepClone } from "../../utils";
 import { Context, Preset, RuntimeCore } from "../index";
 import { isReactive, isRef, nextTick, readonly, watch } from "vue";
 
@@ -138,5 +138,11 @@ export default class FormCustomizer {
 				},
 			);
 		});
+	}
+
+	resetModel() {
+		this.runtimeCore.model.value = deepClone(
+			this.runtimeCore.processor.stableModel,
+		);
 	}
 }

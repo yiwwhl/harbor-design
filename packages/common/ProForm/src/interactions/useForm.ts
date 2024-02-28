@@ -10,6 +10,7 @@ export function useForm(formCustomization: FormCustomization): UseForm {
 			hydrate: formCustomizer.hydrate.bind(formCustomizer),
 			share: formCustomizer.share.bind(formCustomizer),
 			subscribeModel: formCustomizer.subscribeModel.bind(formCustomizer),
+			resetModel: formCustomizer.resetModel.bind(formCustomizer),
 		},
 	];
 }
