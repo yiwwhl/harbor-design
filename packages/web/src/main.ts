@@ -32,6 +32,13 @@ useFormPresetConfigurer({
 	ui: "ArcoVue",
 	uiPresets: {
 		ArcoVue: {
+			native: {
+				props: {
+					Form: {
+						layout: "vertical",
+					},
+				},
+			},
 			container: {
 				Form,
 				FormItem,

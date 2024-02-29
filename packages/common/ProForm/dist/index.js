@@ -746,7 +746,7 @@ class ge {
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
       ...this.grid
-    }, t = this, s = h(P((c = (f = this.native) == null ? void 0 : f.props) == null ? void 0 : c.Form) ?? {}, this.globalNativeFormOverride.props.Form), i = h(P((y = (d = this.native) == null ? void 0 : d.slots) == null ? void 0 : y.Form) ?? {}, this.globalNativeFormOverride.slots.Form), o = V.getFormContainer(this), n = this.runtimeAdapter.getFormModelPropName();
+    }, t = this, s = h(this.globalNativeFormOverride.props.Form, P((c = (f = this.native) == null ? void 0 : f.props) == null ? void 0 : c.Form) ?? {}), i = h(this.globalNativeFormOverride.slots.Form, P((y = (d = this.native) == null ? void 0 : d.slots) == null ? void 0 : y.Form) ?? {}), o = V.getFormContainer(this), n = this.runtimeAdapter.getFormModelPropName();
     return p(o, O(s, {
       ref: this.formRef
     }, {

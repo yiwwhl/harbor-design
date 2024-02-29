@@ -34,7 +34,7 @@ export default defineComponent({
 			native: {
 				props: {
 					Form: {
-						layout: "vertical",
+						layout: "horizontal",
 						autoLabelWidth: true,
 					},
 				},
