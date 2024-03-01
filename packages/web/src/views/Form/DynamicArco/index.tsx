@@ -30,18 +30,17 @@ export default defineComponent({
 
 		const schemas = ref<ProxyedSchema[]>([]);
 
-		const [setup, { submit, share, subscribeModel, resetModel, hydrate }] =
-			useForm({
-				native: {
-					props: {
-						Form: {
-							layout: "horizontal",
-							autoLabelWidth: true,
-						},
+		const [setup, { submit, share, subscribeModel, resetModel }] = useForm({
+			native: {
+				props: {
+					Form: {
+						layout: "horizontal",
+						autoLabelWidth: true,
 					},
 				},
-				schemas,
-			});
+			},
+			schemas,
+		});
 
 		resetModel();
 
