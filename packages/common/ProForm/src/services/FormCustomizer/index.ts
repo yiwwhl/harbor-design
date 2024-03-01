@@ -1,11 +1,11 @@
 import { AnyFunction, AnyObject, FormCustomization } from "../../types";
 import { deepAssign, deepClone } from "../../utils";
 import { Context, Preset, RuntimeCore } from "../index";
-import { isReactive, isRef, nextTick, readonly, watch } from "vue";
+import { isReactive, isRef, nextTick, readonly, ref, watch } from "vue";
 
 export default class FormCustomizer {
 	public runtimeCore!: RuntimeCore;
-	public reactiveModel!: AnyObject;
+	public readonlyReactiveModel = ref({});
 
 	// happy path, 后续可以完善更多的 fallback 处理，fallback 处理是为了不卡住异步时的首次渲染做的优化
 	private cleanFallbackFields(data: any) {
@@ -23,7 +23,7 @@ export default class FormCustomizer {
 
 	setup(_runtimeCore: RuntimeCore) {
 		this.runtimeCore = _runtimeCore;
-		this.reactiveModel = readonly(_runtimeCore.model.value);
+		this.readonlyReactiveModel.value = readonly(_runtimeCore.model.value);
 		Object.assign(this.runtimeCore.native, this.formCustomization.native);
 		Object.assign(this.runtimeCore.grid, this.formCustomization.grid);
 		Object.assign(this.runtimeCore.runtime, this.formCustomization.runtime);
@@ -41,45 +41,40 @@ export default class FormCustomizer {
 	}
 
 	hydrate(data: AnyObject) {
-		// TODO: 可以考虑后续将 hydrate 和 defaultValue 的关系处理得更清晰
-		if (!this.runtimeCore) {
-			return Promise.reject({
-				code: `0002`,
-				message: `hydrate 使用时机错误，建议将 hydrate 操作放到 onMounted 等页面节点挂载完成的钩子中，或者使用响应式的值来注入数据`,
-			});
-		}
-		this.runtimeCore.hydrateEffect.trackEffect(
-			() => {
-				if (isRef(data)) {
-					watch(
-						() => data.value,
-						() => {
-							deepAssign(this.runtimeCore.model.value, data.value);
-						},
-						{
-							deep: true,
-							immediate: true,
-						},
-					);
-				} else if (isReactive(data)) {
-					watch(
-						() => data,
-						() => {
-							deepAssign(this.runtimeCore.model.value, data);
-						},
-						{
-							deep: true,
-							immediate: true,
-						},
-					);
-				} else {
-					deepAssign(this.runtimeCore.model.value, data);
-				}
-			},
-			{
-				lazy: false,
-			},
-		);
+		nextTick(() => {
+			this.runtimeCore.hydrateEffect.trackEffect(
+				() => {
+					if (isRef(data)) {
+						watch(
+							() => data.value,
+							() => {
+								deepAssign(this.runtimeCore.model.value, data.value);
+							},
+							{
+								deep: true,
+								immediate: true,
+							},
+						);
+					} else if (isReactive(data)) {
+						watch(
+							() => data,
+							() => {
+								deepAssign(this.runtimeCore.model.value, data);
+							},
+							{
+								deep: true,
+								immediate: true,
+							},
+						);
+					} else {
+						deepAssign(this.runtimeCore.model.value, data);
+					}
+				},
+				{
+					lazy: false,
+				},
+			);
+		});
 	}
 
 	share(data: AnyObject) {
@@ -122,7 +117,7 @@ export default class FormCustomizer {
 	subscribeModel(callback: AnyFunction) {
 		nextTick(() => {
 			const stopSubscribe = watch(
-				() => this.reactiveModel,
+				() => this.readonlyReactiveModel.value,
 				(value) => {
 					callback(value, {
 						stopSubscribe() {
@@ -145,6 +140,7 @@ export default class FormCustomizer {
 			this.runtimeCore.model.value = deepClone(
 				this.runtimeCore.processor.stableModel,
 			);
+			this.readonlyReactiveModel.value = readonly(this.runtimeCore.model.value);
 		}
 	}
 }

@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.19
+
+### Patch Changes
+
+- update resetModel and subscribeModel logic
+
 ## 1.2.18
 
 ### Patch Changes

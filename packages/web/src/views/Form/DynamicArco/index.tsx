@@ -30,7 +30,7 @@ export default defineComponent({
 
 		const schemas = ref<ProxyedSchema[]>([]);
 
-		const [setup, { submit, subscribeModel, resetModel }] = useForm({
+		const [setup, { submit, subscribeModel, resetModel, hydrate }] = useForm({
 			native: {
 				props: {
 					Form: {
@@ -40,6 +40,11 @@ export default defineComponent({
 				},
 			},
 			schemas,
+		});
+
+		resetModel();
+		hydrate({
+			name: "holy shit",
 		});
 
 		subscribeModel((value, { stopSubscribe }) => {
