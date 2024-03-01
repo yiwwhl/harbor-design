@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.21
+
+### Patch Changes
+
+- clearValidate when resetModel
+
 ## 1.2.20
 
 ### Patch Changes
