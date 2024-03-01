@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.20
+
+### Patch Changes
+
+- update share logic
+
 ## 1.2.19
 
 ### Patch Changes

@@ -30,21 +30,23 @@ export default defineComponent({
 
 		const schemas = ref<ProxyedSchema[]>([]);
 
-		const [setup, { submit, subscribeModel, resetModel, hydrate }] = useForm({
-			native: {
-				props: {
-					Form: {
-						layout: "horizontal",
-						autoLabelWidth: true,
+		const [setup, { submit, share, subscribeModel, resetModel, hydrate }] =
+			useForm({
+				native: {
+					props: {
+						Form: {
+							layout: "horizontal",
+							autoLabelWidth: true,
+						},
 					},
 				},
-			},
-			schemas,
-		});
+				schemas,
+			});
 
 		resetModel();
-		hydrate({
-			name: "holy shit",
+
+		share({
+			helloworld: "yes hello world",
 		});
 
 		subscribeModel((value, { stopSubscribe }) => {
@@ -63,6 +65,9 @@ export default defineComponent({
 						});
 					},
 					field: "name",
+					defaultValue({ shared }) {
+						return shared?.helloworld;
+					},
 					component({ model }) {
 						return model.age ? Input : Select;
 					},

@@ -172,34 +172,36 @@ class be {
     });
   }
   share(e) {
-    if (q(e)) {
-      const t = v(
-        () => e.value,
-        () => {
-          h(this.runtimeCore.shared, e.value), this.runtimeCore.processor.schemaEffect.triggerEffects(), P(() => {
-            t();
-          });
-        },
-        {
-          deep: !0,
-          immediate: !0
-        }
-      );
-    } else if (M(e)) {
-      const t = v(
-        () => e,
-        () => {
-          h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects(), P(() => {
-            t();
-          });
-        },
-        {
-          deep: !0,
-          immediate: !0
-        }
-      );
-    } else
-      h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects();
+    P(() => {
+      if (q(e)) {
+        const t = v(
+          () => e.value,
+          () => {
+            h(this.runtimeCore.shared, e.value), this.runtimeCore.processor.schemaEffect.triggerEffects(), P(() => {
+              t();
+            });
+          },
+          {
+            deep: !0,
+            immediate: !0
+          }
+        );
+      } else if (M(e)) {
+        const t = v(
+          () => e,
+          () => {
+            h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects(), P(() => {
+              t();
+            });
+          },
+          {
+            deep: !0,
+            immediate: !0
+          }
+        );
+      } else
+        h(this.runtimeCore.shared, e), this.runtimeCore.processor.schemaEffect.triggerEffects();
+    });
   }
   subscribeModel(e) {
     P(() => {

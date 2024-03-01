@@ -78,40 +78,42 @@ export default class FormCustomizer {
 	}
 
 	share(data: AnyObject) {
-		if (isRef(data)) {
-			const stopWatch = watch(
-				() => data.value,
-				() => {
-					deepAssign(this.runtimeCore.shared, data.value);
-					this.runtimeCore.processor.schemaEffect.triggerEffects();
-					nextTick(() => {
-						stopWatch();
-					});
-				},
-				{
-					deep: true,
-					immediate: true,
-				},
-			);
-		} else if (isReactive(data)) {
-			const stopWatch = watch(
-				() => data,
-				() => {
-					deepAssign(this.runtimeCore.shared, data);
-					this.runtimeCore.processor.schemaEffect.triggerEffects();
-					nextTick(() => {
-						stopWatch();
-					});
-				},
-				{
-					deep: true,
-					immediate: true,
-				},
-			);
-		} else {
-			deepAssign(this.runtimeCore.shared, data);
-			this.runtimeCore.processor.schemaEffect.triggerEffects();
-		}
+		nextTick(() => {
+			if (isRef(data)) {
+				const stopWatch = watch(
+					() => data.value,
+					() => {
+						deepAssign(this.runtimeCore.shared, data.value);
+						this.runtimeCore.processor.schemaEffect.triggerEffects();
+						nextTick(() => {
+							stopWatch();
+						});
+					},
+					{
+						deep: true,
+						immediate: true,
+					},
+				);
+			} else if (isReactive(data)) {
+				const stopWatch = watch(
+					() => data,
+					() => {
+						deepAssign(this.runtimeCore.shared, data);
+						this.runtimeCore.processor.schemaEffect.triggerEffects();
+						nextTick(() => {
+							stopWatch();
+						});
+					},
+					{
+						deep: true,
+						immediate: true,
+					},
+				);
+			} else {
+				deepAssign(this.runtimeCore.shared, data);
+				this.runtimeCore.processor.schemaEffect.triggerEffects();
+			}
+		});
 	}
 
 	subscribeModel(callback: AnyFunction) {
