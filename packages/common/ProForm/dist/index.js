@@ -331,11 +331,11 @@ class ve {
       const c = f.index, d = f.key, y = f.keyIndex;
       if (l.isUndefined(f.stable))
         return;
-      const F = i.parseStable(f.stable), E = s == null ? void 0 : s.index, I = s == null ? void 0 : s.key;
-      let b = F;
+      const V = i.parseStable(f.stable), F = s == null ? void 0 : s.index, I = s == null ? void 0 : s.key;
+      let b = V;
       if (l.isProcessInprogress(b) || (o[y] = !0), s) {
-        const m = i.processedSchemas.value[E][I][c][d];
-        m && l.isObject(m) && d !== "component" && (b = h(m, b)), i.processedSchemas.value[E][I][c][d] = b, i.stableUpdater(o);
+        const m = i.processedSchemas.value[F][I][c][d];
+        m && l.isObject(m) && d !== "component" && (b = h(m, b)), i.processedSchemas.value[F][I][c][d] = b, i.stableUpdater(o);
       } else {
         const m = i.processedSchemas.value[c][d];
         m && l.isObject(m) && d !== "component" && (b = h(m, b)), i.processedSchemas.value[c][d] = b, i.stableUpdater(o);
@@ -626,16 +626,15 @@ class ge {
       schema: e,
       parentSchema: i,
       index: t
-    }), y = o.name, F = e.componentProps ?? {}, E = C.placeholderPresetByComponentName;
+    }), y = o.name, V = e.componentProps ?? {}, F = C.placeholderPresetByComponentName;
     let I = e.placeholder, b = e.show;
     b === void 0 && (b = !0);
-    let m = e.label ?? "";
-    const V = (i == null ? void 0 : i.runtime) ?? this.runtime;
-    if (!l.isUndefined(t) && !l.isObjectEmpty(V) && (m = x((ee = V == null ? void 0 : V.customizeListItemLabel) == null ? void 0 : ee.call(V, e.label ?? "", t + 1), "")), !I) {
+    let m = e.label ?? "", E;
+    if (e.runtime ? E = e.runtime : E = (i == null ? void 0 : i.runtime) ?? this.runtime, !l.isUndefined(t) && !l.isObjectEmpty(E) && (m = x((ee = E == null ? void 0 : E.customizeListItemLabel) == null ? void 0 : ee.call(E, e.label ?? "", t + 1), "")), !I) {
       let w = "请输入";
-      l.isUndefined(y) ? I = `${w}${m}` : /* @ts-expect-error */ E[y.toLowerCase()] ? (w = // @ts-expect-error
-      E[y.toLowerCase()], I = `${w}${m}`) : (Object.keys(E).forEach((te) => {
-        y.toLowerCase().includes(te.toLowerCase()) && (w = E[te]);
+      l.isUndefined(y) ? I = `${w}${m}` : /* @ts-expect-error */ F[y.toLowerCase()] ? (w = // @ts-expect-error
+      F[y.toLowerCase()], I = `${w}${m}`) : (Object.keys(F).forEach((te) => {
+        y.toLowerCase().includes(te.toLowerCase()) && (w = F[te]);
       }), I = `${w}${m}`);
     }
     const ie = this.runtimeAdapter.getRuntimeRequired({
@@ -658,7 +657,7 @@ class ge {
               baseModel: s,
               placeholder: I,
               componentSlots: ae,
-              props: F
+              props: V
             });
           },
           ...n
@@ -717,11 +716,11 @@ class ge {
           delete({
             container: d
           } = {}) {
-            var F;
+            var V;
             const y = d ?? p("button", null, null);
             return fe(p(y, {
               onClick: () => s.deleteListItem(e, c)
-            }, null), [[de, ((F = s.model.value[e.field]) == null ? void 0 : F.length) > 1]]);
+            }, null), [[de, ((V = s.model.value[e.field]) == null ? void 0 : V.length) > 1]]);
           }
         }));
       },
@@ -1022,6 +1021,9 @@ a(R, "schemaPreset", {
     defaultValue: void 0
   },
   grid: {
+    default: void 0
+  },
+  runtime: {
     default: void 0
   }
 }), a(R, "componentPropsPreset", {

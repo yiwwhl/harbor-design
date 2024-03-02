@@ -206,7 +206,14 @@ export default class RuntimeCore {
 		// 	delete baseModel[schema.field];
 		// }
 		let label = schema.label ?? "";
-		const runtime = parentSchema?.runtime ?? this.runtime;
+
+		let runtime;
+		if (schema.runtime) {
+			runtime = schema.runtime;
+		} else {
+			runtime = parentSchema?.runtime ?? this.runtime;
+		}
+
 		if (!IS.isUndefined(index) && !IS.isObjectEmpty(runtime)) {
 			// 对于 list 而言会有数据 model index
 			label = replaceUndefinedInString(

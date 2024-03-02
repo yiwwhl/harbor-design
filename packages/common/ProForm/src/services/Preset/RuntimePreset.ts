@@ -46,6 +46,9 @@ export default class RuntimePreset {
 		grid: {
 			default: undefined,
 		},
+		runtime: {
+			default: undefined,
+		},
 	};
 	static componentPropsPreset: AnyObject = {
 		options: {

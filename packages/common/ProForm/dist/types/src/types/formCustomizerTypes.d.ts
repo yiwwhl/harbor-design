@@ -59,6 +59,7 @@ export interface ItemSchema {
     show?: boolean;
     required?: boolean;
     placeholder?: string;
+    runtime?: Runtime;
     native?: NativeCustomizationOptions;
     grid?: GridStyle;
     label?: string;

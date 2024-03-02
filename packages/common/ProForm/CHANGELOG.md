@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.22
+
+### Patch Changes
+
+- fix runtime logic
+
 ## 1.2.21
 
 ### Patch Changes

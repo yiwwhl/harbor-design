@@ -124,6 +124,11 @@ export default defineComponent({
 					label: "过往经历",
 					field: "experiences",
 					type: "list",
+					runtime: {
+						customizeListItemLabel(rawLabel, rawIndex) {
+							return `外面的 ${rawLabel} ${rawIndex}`;
+						},
+					},
 					children: [
 						{
 							label({ share }) {
@@ -135,6 +140,11 @@ export default defineComponent({
 										resolve("学业经历");
 									}, 200);
 								});
+							},
+							runtime: {
+								customizeListItemLabel(rawLabel, rawIndex) {
+									return `厘米的 ${rawLabel} ${rawIndex}`;
+								},
 							},
 							field: "edu",
 							component: Input,
