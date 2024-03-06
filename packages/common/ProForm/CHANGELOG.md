@@ -1,5 +1,17 @@
 # @harbor-design/proform
 
+## 1.2.24
+
+### Patch Changes
+
+- fix error case
+
+## 1.2.23
+
+### Patch Changes
+
+- store cacheable async result
+
 ## 1.2.22
 
 ### Patch Changes

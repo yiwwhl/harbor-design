@@ -1,6 +1,6 @@
 {
   "name": "@harbor-design/proform",
-  "version": "1.2.22",
+  "version": "1.2.24",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

@@ -262,7 +262,7 @@ export default class Processor {
 														this.baseDefaultValueFunctionsLength &&
 													Array.from(
 														this.defaultValueInprogressMap.values(),
-													).every((r) => !r.includes("undefined"))
+													).every((r) => !r?.includes?.("undefined"))
 												) {
 													updater(res);
 													this.defaultValueEffect.clearEffects();
@@ -282,7 +282,7 @@ export default class Processor {
 														this.baseDefaultValueFunctionsLength &&
 													Array.from(
 														this.defaultValueInprogressMap.values(),
-													).every((r) => !r.includes("undefined"))
+													).every((r) => !r?.includes?.("undefined"))
 												) {
 													updater(res);
 													this.defaultValueEffect.clearEffects();
@@ -375,8 +375,14 @@ export default class Processor {
 					}),
 				);
 			} else {
-				const computation = rootField(this.getRuntimeMeta());
-				this.promiseFieldParser(computation, updater, deepProcess);
+				if ((rootField as AnyObject).__proform_async_result) {
+					const computation = (rootField as AnyObject).__proform_async_result;
+					this.promiseFieldParser(computation, updater, deepProcess);
+				} else {
+					const computation = rootField(this.getRuntimeMeta());
+					(rootField as AnyObject).__proform_async_result = computation;
+					this.promiseFieldParser(computation, updater, deepProcess);
+				}
 			}
 		} else {
 			// 稳定态

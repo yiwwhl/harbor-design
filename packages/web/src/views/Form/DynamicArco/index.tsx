@@ -12,6 +12,7 @@ import PageWrapper from "@/components/advanced/PageWrapper";
 export default defineComponent({
 	setup() {
 		function getOptions() {
+			console.log("执行异步函数");
 			return new Promise((resolve) => {
 				setTimeout(() => {
 					resolve([
