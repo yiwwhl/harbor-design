@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.28
+
+### Patch Changes
+
+- fix clearValidate error
+
 ## 1.2.27
 
 ### Patch Changes

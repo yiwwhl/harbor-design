@@ -115,7 +115,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			});
 		},
 		clearValidate(runtimeArgs) {
-			runtimeArgs.formRef.value.clearValidate();
+			runtimeArgs.formRef.value?.clearValidate?.();
 		},
 	},
 	NutUI: {
@@ -227,7 +227,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			});
 		},
 		clearValidate(runtimeArgs) {
-			runtimeArgs.formRef.value.reset();
+			runtimeArgs.formRef.value?.reset?.();
 		},
 	},
 	NaiveUI: {
@@ -338,7 +338,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			});
 		},
 		clearValidate(runtimeArgs) {
-			runtimeArgs.formRef.value.restoreValidation();
+			runtimeArgs.formRef.value?.restoreValidation?.();
 		},
 	},
 };

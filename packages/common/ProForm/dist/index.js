@@ -1169,7 +1169,8 @@ const vr = {
       });
     },
     clearValidate(t) {
-      t.formRef.value.clearValidate();
+      var e, r;
+      (r = (e = t.formRef.value) == null ? void 0 : e.clearValidate) == null || r.call(e);
     }
   },
   NutUI: {
@@ -1241,7 +1242,8 @@ const vr = {
       });
     },
     clearValidate(t) {
-      t.formRef.value.reset();
+      var e, r;
+      (r = (e = t.formRef.value) == null ? void 0 : e.reset) == null || r.call(e);
     }
   },
   NaiveUI: {
@@ -1310,7 +1312,8 @@ const vr = {
       });
     },
     clearValidate(t) {
-      t.formRef.value.restoreValidation();
+      var e, r;
+      (r = (e = t.formRef.value) == null ? void 0 : e.restoreValidation) == null || r.call(e);
     }
   }
 }, w = class w {
