@@ -14,7 +14,7 @@ import {
 	replaceUndefinedInString,
 } from "../../utils";
 import Effect from "../Effect";
-import { set } from "lodash";
+import { set } from "lodash-es";
 
 /**
  * 基本描述

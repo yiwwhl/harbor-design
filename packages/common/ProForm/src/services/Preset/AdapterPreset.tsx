@@ -1,4 +1,4 @@
-import { get, set } from "lodash";
+import { get, set } from "lodash-es";
 import { AdaptedInterfacePreset, AnyObject } from "../../types";
 import { IS } from "../../utils";
 import { toRaw } from "vue";

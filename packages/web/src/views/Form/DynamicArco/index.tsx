@@ -65,7 +65,7 @@ export default defineComponent({
 							resolve(model.age + "姓名");
 						});
 					},
-					field: markStructuredPathParsing("name[0].value"),
+					field: markStructuredPathParsing("name[0][0].value[0]"),
 					defaultValue({ shared }) {
 						return shared?.helloworld;
 					},

@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.26
+
+### Patch Changes
+
+- improve pack size
+
 ## 1.2.25
 
 ### Patch Changes
