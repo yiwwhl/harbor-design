@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.2.27
+
+### Patch Changes
+
+- add markOnetimeFunction
+
 ## 1.2.26
 
 ### Patch Changes

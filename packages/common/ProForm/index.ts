@@ -6,6 +6,7 @@ export {
 	markNativeFunction,
 	markNativeObject,
 	markStructuredPathParsing,
+	markOnetimeFunction,
 } from "./src/interactions/useModifiers";
 // export types
 export * from "./src/types/index";

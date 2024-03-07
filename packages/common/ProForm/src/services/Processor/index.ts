@@ -385,7 +385,9 @@ export default class Processor {
 					this.promiseFieldParser(computation, updater, deepProcess);
 				} else {
 					const computation = rootField(this.getRuntimeMeta());
-					(rootField as AnyObject).__proform_async_result = computation;
+					if (rootField.name.startsWith(`__proform_onetime_`)) {
+						(rootField as AnyObject).__proform_async_result = computation;
+					}
 					this.promiseFieldParser(computation, updater, deepProcess);
 				}
 			}

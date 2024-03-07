@@ -1,6 +1,6 @@
-import { AnyObject, RuntimeMeta } from "../types";
+import { AnyFunction, AnyObject, RuntimeMeta } from "../types";
 
-type Modifier = "native" | "structured_path_parsing_mark";
+type Modifier = "native" | "structured_path_parsing_mark" | "onetime";
 
 type FunctionNative = (
 	args: {
@@ -26,6 +26,12 @@ export function useModifiers(
 			writable: true,
 		});
 	}
+	if (modifier === "onetime") {
+		Object.defineProperty(functionNative, "name", {
+			value: `__proform_onetime_${functionNative.name}`,
+			writable: true,
+		});
+	}
 	return functionNative;
 }
 
@@ -36,6 +42,10 @@ export function markNativeFunction(functionNative: FunctionNative) {
 export function markNativeObject(objectNative: AnyObject) {
 	objectNative.__proform_raw_object = true;
 	return objectNative;
+}
+
+export function markOnetimeFunction(functionNative: FunctionNative) {
+	return useModifiers(functionNative, "onetime") as AnyFunction;
 }
 
 export function markStructuredPathParsing(stringNative: string) {
