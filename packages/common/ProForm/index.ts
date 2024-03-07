@@ -5,6 +5,7 @@ export {
 	useModifiers,
 	markNativeFunction,
 	markNativeObject,
+	markStructuredPathParsing,
 } from "./src/interactions/useModifiers";
 // export types
 export * from "./src/types/index";

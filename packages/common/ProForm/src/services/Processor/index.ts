@@ -14,6 +14,7 @@ import {
 	replaceUndefinedInString,
 } from "../../utils";
 import Effect from "../Effect";
+import { set } from "lodash";
 
 /**
  * 基本描述
@@ -374,6 +375,10 @@ export default class Processor {
 						...this.getRuntimeMeta(),
 					}),
 				);
+			} else if (
+				rootField.name.startsWith(`__proform_structured_path_parsing_mark_`)
+			) {
+				updater(() => rootField());
 			} else {
 				if ((rootField as AnyObject).__proform_async_result) {
 					const computation = (rootField as AnyObject).__proform_async_result;
@@ -469,10 +474,18 @@ export default class Processor {
 		}
 	}
 
+	setModel(baseModel: AnyObject, field: string, value: any) {
+		if (IS.isFunction(field)) {
+			set(baseModel, field(), value);
+		} else {
+			baseModel[field] = value;
+		}
+	}
+
 	createModel(schema: AnyObject, baseModel: AnyObject) {
 		if (IS.isListSchema(schema)) {
 			if (!baseModel[schema.field]) {
-				baseModel[schema.field] = [{}];
+				this.setModel(baseModel, schema.field, [{}]);
 			}
 			schema.children.forEach((childSchema) => {
 				this.createModel(childSchema, baseModel[schema.field][0]);
@@ -486,13 +499,10 @@ export default class Processor {
 		if (IS.isItemSchema(schema)) {
 			// fix bug of defaultValue，需要区别看待
 			if ("defaultValue" in schema) {
-				baseModel[schema.field] = schema.defaultValue;
+				this.setModel(baseModel, schema.field, schema.defaultValue);
 			} else {
-				if (!baseModel[schema.field]) {
-					baseModel[schema.field] = undefined;
-				}
+				this.setModel(baseModel, schema.field, undefined);
 			}
-			// }
 		}
 	}
 }

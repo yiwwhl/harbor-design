@@ -1,5 +1,12 @@
 # @harbor-design/web
 
+## 0.0.42
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.2.25
+
 ## 0.0.41
 
 ### Patch Changes

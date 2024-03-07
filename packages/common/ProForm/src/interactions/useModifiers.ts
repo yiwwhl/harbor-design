@@ -1,6 +1,6 @@
 import { AnyObject, RuntimeMeta } from "../types";
 
-type Modifier = "native";
+type Modifier = "native" | "structured_path_parsing_mark";
 
 type FunctionNative = (
 	args: {
@@ -20,6 +20,12 @@ export function useModifiers(
 			writable: true,
 		});
 	}
+	if (modifier === "structured_path_parsing_mark") {
+		Object.defineProperty(functionNative, "name", {
+			value: `__proform_structured_path_parsing_mark_${functionNative.name}`,
+			writable: true,
+		});
+	}
 	return functionNative;
 }
 
@@ -30,4 +36,14 @@ export function markNativeFunction(functionNative: FunctionNative) {
 export function markNativeObject(objectNative: AnyObject) {
 	objectNative.__proform_raw_object = true;
 	return objectNative;
+}
+
+export function markStructuredPathParsing(stringNative: string) {
+	function getNativeString() {
+		return stringNative;
+	}
+	return useModifiers(
+		getNativeString,
+		"structured_path_parsing_mark",
+	) as unknown as string;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@harbor-design/proform",
-  "version": "1.2.24",
+  "version": "1.2.25",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -29,5 +29,11 @@
     "form",
     "dynamic form"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.199"
+  }
 }

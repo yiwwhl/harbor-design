@@ -1,3 +1,4 @@
+import { get, set } from "lodash";
 import { AdaptedInterfacePreset, AnyObject } from "../../types";
 import { IS } from "../../utils";
 import { toRaw } from "vue";
@@ -12,6 +13,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 	ArcoVue: {
 		getRuntimeField(runtimeArgs) {
 			const field = getGeneralField(runtimeArgs);
+			if (IS.isFunction(field)) {
+				return {
+					field: field(),
+				};
+			}
 			return {
 				field,
 			};
@@ -69,9 +75,22 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			componentSlots,
 			props,
 		}) {
+			let modelValue: AnyObject;
+			if (IS.isFunction(schema.field)) {
+				modelValue = get(baseModel, schema.field());
+			} else {
+				modelValue = baseModel[schema.field];
+			}
 			return (
 				<Component
-					v-model={baseModel[schema.field]}
+					modelValue={modelValue}
+					onUpdate:modelValue={(newValue: any) => {
+						if (IS.isFunction(schema.field)) {
+							set(baseModel, schema.field(), newValue);
+						} else {
+							baseModel[schema.field] = newValue;
+						}
+					}}
 					placeholder={placeholder}
 					{...props}
 				>
@@ -102,6 +121,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 	NutUI: {
 		getRuntimeField(runtimeArgs) {
 			const prop = getGeneralField(runtimeArgs);
+			if (IS.isFunction(prop)) {
+				return {
+					prop: prop(),
+				};
+			}
 			return {
 				prop,
 			};
@@ -160,9 +184,22 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			componentSlots,
 			props,
 		}) {
+			let modelValue: AnyObject;
+			if (IS.isFunction(schema.field)) {
+				modelValue = get(baseModel, schema.field());
+			} else {
+				modelValue = baseModel[schema.field];
+			}
 			return (
 				<Component
-					v-model={baseModel[schema.field]}
+					modelValue={modelValue}
+					onUpdate:modelValue={(newValue: any) => {
+						if (IS.isFunction(schema.field)) {
+							set(baseModel, schema.field(), newValue);
+						} else {
+							baseModel[schema.field] = newValue;
+						}
+					}}
 					placeholder={placeholder}
 					{...props}
 				>
@@ -196,6 +233,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 	NaiveUI: {
 		getRuntimeField(runtimeArgs) {
 			const path = getGeneralField(runtimeArgs);
+			if (IS.isFunction(path)) {
+				return {
+					path: path(),
+				};
+			}
 			return {
 				path,
 			};
@@ -256,9 +298,22 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			componentSlots,
 			props,
 		}) {
+			let value: AnyObject;
+			if (IS.isFunction(schema.field)) {
+				value = get(baseModel, schema.field());
+			} else {
+				value = baseModel[schema.field];
+			}
 			return (
 				<Component
-					v-model:value={baseModel[schema.field]}
+					value={value}
+					onUpdate:value={(newValue: any) => {
+						if (IS.isFunction(schema.field)) {
+							set(baseModel, schema.field(), newValue);
+						} else {
+							baseModel[schema.field] = newValue;
+						}
+					}}
 					placeholder={placeholder}
 					{...props}
 				>

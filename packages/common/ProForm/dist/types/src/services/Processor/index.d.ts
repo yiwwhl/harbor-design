@@ -34,5 +34,6 @@ export default class Processor {
     promiseFieldParser(rootField: any, updater: AnyFunction, deepProcess: boolean): void;
     fieldParser(rootField: any, updater: AnyFunction, deepProcess?: boolean): void;
     modelProcessor(schemas: Schema[]): void;
+    setModel(baseModel: AnyObject, field: string, value: any): void;
     createModel(schema: AnyObject, baseModel: AnyObject): void;
 }

@@ -3,6 +3,7 @@ import {
 	ProForm,
 	ProxyedSchema,
 	markNativeFunction,
+	markStructuredPathParsing,
 	useForm,
 } from "@harbor-design/proform";
 import { defineComponent, nextTick, ref } from "vue";
@@ -64,7 +65,7 @@ export default defineComponent({
 							resolve(model.age + "姓名");
 						});
 					},
-					field: "name",
+					field: markStructuredPathParsing("name[0].value"),
 					defaultValue({ shared }) {
 						return shared?.helloworld;
 					},
