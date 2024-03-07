@@ -36,7 +36,6 @@ export default class Processor {
 	defaultValueInprogressMap = new Map();
 	baseDefaultValueFunctionsLength!: number;
 	isModelInitialized = true;
-	createInitialModel = true;
 
 	constructor(runtimeCore: RuntimeCore) {
 		this.runtimeCore = runtimeCore;
@@ -47,9 +46,6 @@ export default class Processor {
 		watch(
 			() => this.processedModel.value,
 			() => {
-				if (this.createInitialModel) {
-					return (this.createInitialModel = false);
-				}
 				this.schemaEffect.triggerEffects();
 			},
 			{
@@ -509,7 +505,6 @@ export default class Processor {
 				} else if (IS.isString(schema.field) && baseModel[schema.field]) {
 					return;
 				} else {
-					this.createInitialModel = true;
 					this.setModel(baseModel, schema.field, undefined);
 				}
 			}

@@ -246,16 +246,16 @@ class X {
     return !r.lazy && e(), this.effects.add(e), () => this.effects.delete(e);
   }
 }
-var We = typeof global == "object" && global && global.Object === Object && global, Ke = typeof self == "object" && self && self.Object === Object && self, Z = We || Ke || Function("return this")(), V = Z.Symbol, Ee = Object.prototype, Xe = Ee.hasOwnProperty, Ye = Ee.toString, N = V ? V.toStringTag : void 0;
+var We = typeof global == "object" && global && global.Object === Object && global, Ke = typeof self == "object" && self && self.Object === Object && self, Z = We || Ke || Function("return this")(), V = Z.Symbol, Ee = Object.prototype, Xe = Ee.hasOwnProperty, Ye = Ee.toString, M = V ? V.toStringTag : void 0;
 function Ze(t) {
-  var e = Xe.call(t, N), r = t[N];
+  var e = Xe.call(t, M), r = t[M];
   try {
-    t[N] = void 0;
+    t[M] = void 0;
     var s = !0;
   } catch {
   }
   var i = Ye.call(t);
-  return s && (e ? t[N] = r : delete t[N]), i;
+  return s && (e ? t[M] = r : delete t[M]), i;
 }
 var Je = Object.prototype, Qe = Je.toString;
 function Ae(t) {
@@ -364,14 +364,14 @@ function Rt(t, e, r) {
   (!(wt.call(t, e) && Re(s, r)) || r === void 0 && !(e in t)) && Et(t, e, r);
 }
 var Vt = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, $t = /^\w*$/;
-function Mt(t, e) {
+function Nt(t, e) {
   if (Q(t))
     return !1;
   var r = typeof t;
   return r == "number" || r == "symbol" || r == "boolean" || t == null || J(t) ? !0 : $t.test(t) || !Vt.test(t) || e != null && t in Object(e);
 }
 var U = A(Object, "create");
-function Nt() {
+function Mt() {
   this.__data__ = U ? U(null) : {}, this.size = 0;
 }
 function xt(t) {
@@ -404,7 +404,7 @@ function O(t) {
     this.set(s[0], s[1]);
   }
 }
-O.prototype.clear = Nt;
+O.prototype.clear = Mt;
 O.prototype.delete = xt;
 O.prototype.get = zt;
 O.prototype.has = Gt;
@@ -522,7 +522,7 @@ function fr(t) {
   return t == null ? "" : we(t);
 }
 function Ve(t, e) {
-  return Q(t) ? t : Mt(t, e) ? [t] : cr(fr(t));
+  return Q(t) ? t : Nt(t, e) ? [t] : cr(fr(t));
 }
 var dr = 1 / 0;
 function $e(t) {
@@ -577,12 +577,9 @@ class mr {
     c(this, "defaultValueInprogressMap", /* @__PURE__ */ new Map());
     c(this, "baseDefaultValueFunctionsLength");
     c(this, "isModelInitialized", !0);
-    c(this, "createInitialModel", !0);
     this.runtimeCore = e, this.processedSchemas = e.schemas, this.processedModel = e.model, this.getRuntimeMeta = e.getRuntimeMeta.bind(e), b(
       () => this.processedModel.value,
       () => {
-        if (this.createInitialModel)
-          return this.createInitialModel = !1;
         this.schemaEffect.triggerEffects();
       },
       {
@@ -808,7 +805,7 @@ class mr {
           return;
         if (a.isString(e.field) && r[e.field])
           return;
-        this.createInitialModel = !0, this.setModel(r, e.field, void 0);
+        this.setModel(r, e.field, void 0);
       }
   }
 }
@@ -971,25 +968,25 @@ class br {
     y === void 0 && (y = !0);
     let g = e.label ?? "", I;
     if (e.runtime ? I = e.runtime : I = (i == null ? void 0 : i.runtime) ?? this.runtime, !a.isUndefined(r) && !a.isObjectEmpty(I) && (g = K((be = I == null ? void 0 : I.customizeListItemLabel) == null ? void 0 : be.call(I, e.label ?? "", r + 1), "")), !C) {
-      let M = "请输入";
-      a.isUndefined(p) ? C = `${M}${g}` : /* @ts-expect-error */ S[p.toLowerCase()] ? (M = // @ts-expect-error
-      S[p.toLowerCase()], C = `${M}${g}`) : (Object.keys(S).forEach((ve) => {
-        p.toLowerCase().includes(ve.toLowerCase()) && (M = S[ve]);
-      }), C = `${M}${g}`);
+      let N = "请输入";
+      a.isUndefined(p) ? C = `${N}${g}` : /* @ts-expect-error */ S[p.toLowerCase()] ? (N = // @ts-expect-error
+      S[p.toLowerCase()], C = `${N}${g}`) : (Object.keys(S).forEach((ve) => {
+        p.toLowerCase().includes(ve.toLowerCase()) && (N = S[ve]);
+      }), C = `${N}${g}`);
     }
-    const Me = this.runtimeAdapter.getRuntimeRequired({
+    const Ne = this.runtimeAdapter.getRuntimeRequired({
       ...e,
       label: g
-    }), Ne = j.getItemContainer(this), xe = j.getFormItemContainer(this), qe = this, Te = e.componentSlots;
+    }), Me = j.getItemContainer(this), xe = j.getFormItemContainer(this), qe = this, Te = e.componentSlots;
     return m("div", {
       style: l
-    }, [m(Ne, {
+    }, [m(Me, {
       show: y
     }, {
       default() {
         return y && m(xe, x(u, {
           label: `${g ? `${g}:` : ""}`
-        }, f, Me), {
+        }, f, Ne), {
           default() {
             return qe.runtimeAdapter.formComponentRenderer({
               Component: n,
