@@ -3,8 +3,8 @@ import {
 	ProForm,
 	ProxyedSchema,
 	markNativeFunction,
-	markStructuredPathParsing,
 	markOnetimeFunction,
+	markStructuredPathParsing,
 	useForm,
 } from "@harbor-design/proform";
 import { defineComponent, nextTick, ref } from "vue";
@@ -61,10 +61,9 @@ export default defineComponent({
 		nextTick(() => {
 			schemas.value = [
 				{
-					label: markOnetimeFunction(({ model }) => {
-						console.log("model", model);
+					label: ({ model }) => {
 						return model.age + "姓名";
-					}),
+					},
 					field: markStructuredPathParsing("name[0][0].value[0]"),
 					defaultValue({ shared }) {
 						return shared?.helloworld;
@@ -97,7 +96,7 @@ export default defineComponent({
 					component: Select,
 					required: true,
 					componentProps: {
-						options: getOptions,
+						options: markOnetimeFunction(getOptions),
 					},
 				},
 				{

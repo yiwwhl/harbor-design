@@ -14,7 +14,7 @@ import {
 	replaceUndefinedInString,
 } from "../../utils";
 import Effect from "../Effect";
-import { set } from "lodash-es";
+import { get, set } from "lodash-es";
 
 /**
  * 基本描述
@@ -36,6 +36,7 @@ export default class Processor {
 	defaultValueInprogressMap = new Map();
 	baseDefaultValueFunctionsLength!: number;
 	isModelInitialized = true;
+	createInitialModel = true;
 
 	constructor(runtimeCore: RuntimeCore) {
 		this.runtimeCore = runtimeCore;
@@ -46,6 +47,9 @@ export default class Processor {
 		watch(
 			() => this.processedModel.value,
 			() => {
+				if (this.createInitialModel) {
+					return (this.createInitialModel = false);
+				}
 				this.schemaEffect.triggerEffects();
 			},
 			{
@@ -145,10 +149,7 @@ export default class Processor {
 				}
 				this.stableUpdaterProcessProgress[this.stableUpdaterTimes] = true;
 				this.stableUpdaterTimes++;
-				// if (this.isModelInitialized) {
-				//   this.isModelInitialized = false;
 				this.modelProcessor(processedSchemas);
-				// }
 			}
 		}
 	}
@@ -378,15 +379,15 @@ export default class Processor {
 			} else if (
 				rootField.name.startsWith(`__proform_structured_path_parsing_mark_`)
 			) {
-				updater(() => rootField());
+				updater(rootField);
 			} else {
-				if ((rootField as AnyObject).__proform_async_result) {
-					const computation = (rootField as AnyObject).__proform_async_result;
+				if ((rootField as AnyObject).__proform_cached_result) {
+					const computation = (rootField as AnyObject).__proform_cached_result;
 					this.promiseFieldParser(computation, updater, deepProcess);
 				} else {
 					const computation = rootField(this.getRuntimeMeta());
 					if (rootField.name.startsWith(`__proform_onetime_`)) {
-						(rootField as AnyObject).__proform_async_result = computation;
+						(rootField as AnyObject).__proform_cached_result = computation;
 					}
 					this.promiseFieldParser(computation, updater, deepProcess);
 				}
@@ -503,7 +504,14 @@ export default class Processor {
 			if ("defaultValue" in schema) {
 				this.setModel(baseModel, schema.field, schema.defaultValue);
 			} else {
-				this.setModel(baseModel, schema.field, undefined);
+				if (IS.isFunction(schema.field) && get(baseModel, schema.field())) {
+					return;
+				} else if (IS.isString(schema.field) && baseModel[schema.field]) {
+					return;
+				} else {
+					this.createInitialModel = true;
+					this.setModel(baseModel, schema.field, undefined);
+				}
 			}
 		}
 	}
