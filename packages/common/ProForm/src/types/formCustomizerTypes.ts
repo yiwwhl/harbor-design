@@ -84,7 +84,7 @@ export interface ItemSchema {
 	field: string;
 	component: DomType;
 	componentProps?: Record<string, ProFormProxyRule<AnyLike>>;
-	componentSlots?: AnyObject;
+	componentSlots?: Record<string, ProFormProxyRule<AnyLike>>;
 	defaultValue?: PropertyKey | object;
 }
 

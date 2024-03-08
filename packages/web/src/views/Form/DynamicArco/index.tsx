@@ -2,7 +2,6 @@ import { Button, Input, Select } from "@arco-design/web-vue";
 import {
 	ProForm,
 	ProxyedSchema,
-	markNativeFunction,
 	markStructuredPathParsing,
 	useForm,
 } from "@harbor-design/proform";
@@ -109,9 +108,15 @@ export default defineComponent({
 						};
 					},
 					componentSlots: {
-						prefix: markNativeFunction(({ model }) => {
+						prefix: ({ model }) => {
 							return `前缀：${model.age ?? ""}`;
-						}),
+						},
+						suffix: ({ model, reactiveModel }) => {
+							Object.assign(reactiveModel, {
+								currentJobName: "hh",
+							});
+							return `后缀：${model.age ?? ""}`;
+						},
 					},
 				},
 				{
