@@ -108,13 +108,10 @@ export default defineComponent({
 						};
 					},
 					componentSlots: {
-						prefix: ({ model }) => {
+						prefix({ model }) {
 							return `前缀：${model.age ?? ""}`;
 						},
-						suffix: ({ model, reactiveModel }) => {
-							Object.assign(reactiveModel, {
-								currentJobName: "hh",
-							});
+						suffix({ model }) {
 							return `后缀：${model.age ?? ""}`;
 						},
 					},
