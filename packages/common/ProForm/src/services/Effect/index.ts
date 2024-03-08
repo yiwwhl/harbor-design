@@ -3,6 +3,7 @@ import { TrackEffectMeta } from "../../types/effectTypes";
 
 export default class Effect {
 	effects = new Set<Function>();
+	identifierMap = new Map();
 
 	constructor() {}
 
@@ -21,7 +22,14 @@ export default class Effect {
 		},
 	) {
 		!meta.lazy && effect();
-		this.effects.add(effect);
+		if (meta.identifier) {
+			if (!this.identifierMap.get(meta.identifier)) {
+				this.effects.add(effect);
+				this.identifierMap.set(meta.identifier, true);
+			}
+		} else {
+			this.effects.add(effect);
+		}
 		return () => this.effects.delete(effect);
 	}
 }

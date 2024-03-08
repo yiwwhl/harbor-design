@@ -84,7 +84,6 @@ export default class FormCustomizer {
 					() => data.value,
 					() => {
 						deepAssign(this.runtimeCore.shared, data.value);
-						this.runtimeCore.processor.schemaEffect.triggerEffects();
 						nextTick(() => {
 							stopWatch();
 						});
@@ -99,7 +98,6 @@ export default class FormCustomizer {
 					() => data,
 					() => {
 						deepAssign(this.runtimeCore.shared, data);
-						this.runtimeCore.processor.schemaEffect.triggerEffects();
 						nextTick(() => {
 							stopWatch();
 						});
@@ -111,7 +109,6 @@ export default class FormCustomizer {
 				);
 			} else {
 				deepAssign(this.runtimeCore.shared, data);
-				this.runtimeCore.processor.schemaEffect.triggerEffects();
 			}
 		});
 	}

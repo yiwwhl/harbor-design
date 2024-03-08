@@ -121,7 +121,6 @@ export default class RuntimeCore {
 							() => data.value,
 							() => {
 								deepAssign(this.shared, data.value);
-								this.processor.schemaEffect.triggerEffects();
 								nextTick(() => {
 									stopWatch();
 								});
@@ -136,7 +135,6 @@ export default class RuntimeCore {
 							() => data,
 							() => {
 								deepAssign(this.shared, data);
-								this.processor.schemaEffect.triggerEffects();
 								nextTick(() => {
 									stopWatch();
 								});
@@ -148,7 +146,6 @@ export default class RuntimeCore {
 						);
 					} else {
 						deepAssign(this.shared, data);
-						this.processor.schemaEffect.triggerEffects();
 					}
 				}, 0);
 			},

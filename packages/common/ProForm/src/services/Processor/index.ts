@@ -157,7 +157,7 @@ export default class Processor {
 			length: Object.keys(data).filter((k) => k !== "children").length,
 		}).fill(false) as boolean[];
 
-		this.objectParser({ data, index, updater });
+		this.objectParser({ data, index, updater, parentMeta });
 		function updater(meta: AnyObject) {
 			// TODO：优化点，可以考虑通过一定的数据结构，最终形成更少的赋值操作，但目前的性能也能接受
 			const schemaIndex = meta.index;
@@ -231,13 +231,20 @@ export default class Processor {
 							() => {
 								if (key === "component") {
 									const component = data[key](this.getRuntimeMeta());
-									this.promiseFieldParser(component, updater, false);
+									this.promiseFieldParser(component, updater, false, {
+										rootIndex: root.index,
+										parentMeta: root.parentMeta,
+									});
 								} else {
-									this.fieldParser(data[key], updater);
+									this.fieldParser(data[key], updater, {
+										rootIndex: root.index,
+										parentMeta: root.parentMeta,
+									});
 								}
 							},
 							{
 								lazy: false,
+								identifier: `${root.parentMeta?.key}${root.parentMeta?.index}${root.index}${key}${keyIndex}`,
 							},
 						);
 					} else {
@@ -247,50 +254,64 @@ export default class Processor {
 									() => {
 										// 通过正则表达式匹配使用了 model 的 defaultValue 函数
 										if (/\{\s*model\s*\}/.test(data[key].toString())) {
-											this.fieldParser(data[key], (res) => {
-												// 放开 undefined
-												if (!res) {
-													return updater(res);
-												}
-												// 可考虑后续重构此 Set
-												this.defaultValueInprogressMap.set(data[key], res);
-												if (
-													!IS.isProcessInprogress(res) &&
-													this.defaultValueInprogressMap.size ===
-														this.baseDefaultValueFunctionsLength &&
-													Array.from(
-														this.defaultValueInprogressMap.values(),
-													).every((r) => !r?.includes?.("undefined"))
-												) {
-													updater(res);
-													this.defaultValueEffect.clearEffects();
-													nextTick(() => {
-														stopTrack();
-													});
-												} else {
-													updater(res);
-												}
-											});
+											this.fieldParser(
+												data[key],
+												(res) => {
+													// 放开 undefined
+													if (!res) {
+														return updater(res);
+													}
+													// 可考虑后续重构此 Set
+													this.defaultValueInprogressMap.set(data[key], res);
+													if (
+														!IS.isProcessInprogress(res) &&
+														this.defaultValueInprogressMap.size ===
+															this.baseDefaultValueFunctionsLength &&
+														Array.from(
+															this.defaultValueInprogressMap.values(),
+														).every((r) => !r?.includes?.("undefined"))
+													) {
+														updater(res);
+														this.defaultValueEffect.clearEffects();
+														nextTick(() => {
+															stopTrack();
+														});
+													} else {
+														updater(res);
+													}
+												},
+												{
+													rootIndex: root.index,
+													parentMeta: root.parentMeta,
+												},
+											);
 										} else {
-											this.fieldParser(data[key], (res) => {
-												this.defaultValueInprogressMap.set(data[key], res);
-												if (
-													!IS.isProcessInprogress(res) &&
-													this.defaultValueInprogressMap.size ===
-														this.baseDefaultValueFunctionsLength &&
-													Array.from(
-														this.defaultValueInprogressMap.values(),
-													).every((r) => !r?.includes?.("undefined"))
-												) {
-													updater(res);
-													this.defaultValueEffect.clearEffects();
-													nextTick(() => {
-														stopTrack();
-													});
-												} else {
-													updater(res);
-												}
-											});
+											this.fieldParser(
+												data[key],
+												(res) => {
+													this.defaultValueInprogressMap.set(data[key], res);
+													if (
+														!IS.isProcessInprogress(res) &&
+														this.defaultValueInprogressMap.size ===
+															this.baseDefaultValueFunctionsLength &&
+														Array.from(
+															this.defaultValueInprogressMap.values(),
+														).every((r) => !r?.includes?.("undefined"))
+													) {
+														updater(res);
+														this.defaultValueEffect.clearEffects();
+														nextTick(() => {
+															stopTrack();
+														});
+													} else {
+														updater(res);
+													}
+												},
+												{
+													rootIndex: root.index,
+													parentMeta: root.parentMeta,
+												},
+											);
 										}
 									},
 									{
@@ -307,9 +328,15 @@ export default class Processor {
 					// TODO: consider refactor to some base preset
 					if (key === "component" || key === "slots" || key === "runtime") {
 						// 针对一些无需深层次处理的 key 做白名单
-						this.promiseFieldParser(data[key], updater, false);
+						this.promiseFieldParser(data[key], updater, false, {
+							rootIndex: root.index,
+							parentMeta: root.parentMeta,
+						});
 					} else {
-						this.fieldParser(data[key], updater);
+						this.fieldParser(data[key], updater, {
+							rootIndex: root.index,
+							parentMeta: root.parentMeta,
+						});
 					}
 				}
 			}
@@ -320,6 +347,7 @@ export default class Processor {
 		rootField: any,
 		updater: AnyFunction,
 		deepProcess: boolean,
+		meta: AnyObject,
 	) {
 		if (IS.isPromise(rootField)) {
 			rootField.then((stableComputation) => {
@@ -334,6 +362,8 @@ export default class Processor {
 					this.objectParser({
 						data: stableComputation,
 						updater,
+						index: meta.rootIndex,
+						parentMeta: meta.parentMeta,
 					});
 				} else {
 					updater(stableComputation);
@@ -354,6 +384,8 @@ export default class Processor {
 				this.objectParser({
 					data: rootField,
 					updater,
+					index: meta.rootIndex,
+					parentMeta: meta.parentMeta,
 				});
 			} else {
 				updater(rootField);
@@ -362,7 +394,12 @@ export default class Processor {
 	}
 
 	// 对任意对象中单个字段的 parse: 做基本处理
-	fieldParser(rootField: any, updater: AnyFunction, deepProcess = true) {
+	fieldParser(
+		rootField: any,
+		updater: AnyFunction,
+		meta: AnyObject,
+		deepProcess = true,
+	) {
 		if (IS.isFunction(rootField)) {
 			// 过滤需要保留原始状态的函数
 			if (rootField.name.startsWith(`__proform_raw_`)) {
@@ -379,13 +416,13 @@ export default class Processor {
 			} else {
 				if ((rootField as AnyObject).__proform_cached_result) {
 					const computation = (rootField as AnyObject).__proform_cached_result;
-					this.promiseFieldParser(computation, updater, deepProcess);
+					this.promiseFieldParser(computation, updater, deepProcess, meta);
 				} else {
 					const computation = rootField(this.getRuntimeMeta());
 					if (rootField.name.startsWith(`__proform_onetime_`)) {
 						(rootField as AnyObject).__proform_cached_result = computation;
 					}
-					this.promiseFieldParser(computation, updater, deepProcess);
+					this.promiseFieldParser(computation, updater, deepProcess, meta);
 				}
 			}
 		} else {
@@ -403,6 +440,8 @@ export default class Processor {
 								this.objectParser({
 									data: rootField.value,
 									updater,
+									index: meta.rootIndex,
+									parentMeta: meta.parentMeta,
 								});
 							} else {
 								updater(rootField.value);
@@ -427,6 +466,8 @@ export default class Processor {
 								this.objectParser({
 									data: rootField,
 									updater,
+									index: meta.rootIndex,
+									parentMeta: meta.parentMeta,
 								});
 							} else {
 								updater(rootField);
@@ -448,6 +489,8 @@ export default class Processor {
 					this.objectParser({
 						data: rootField,
 						updater,
+						index: meta.rootIndex,
+						parentMeta: meta.parentMeta,
 					});
 				} else {
 					updater(rootField);

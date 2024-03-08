@@ -53,6 +53,8 @@ interface GridStyle {
     placeSelf?: string;
     [key: string]: any;
 }
+type Primitive = string | number | boolean | null | undefined | symbol | bigint;
+type AnyLike = Primitive | Function | object | {};
 export interface ItemSchema {
     type?: "item";
     rules?: FieldRule[];
@@ -65,7 +67,7 @@ export interface ItemSchema {
     label?: string;
     field: string;
     component: DomType;
-    componentProps?: AnyObject;
+    componentProps?: Record<string, ProFormProxyRule<AnyLike>>;
     componentSlots?: AnyObject;
     defaultValue?: PropertyKey | object;
 }

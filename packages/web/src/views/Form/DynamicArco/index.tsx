@@ -3,7 +3,6 @@ import {
 	ProForm,
 	ProxyedSchema,
 	markNativeFunction,
-	markOnetimeFunction,
 	markStructuredPathParsing,
 	useForm,
 } from "@harbor-design/proform";
@@ -15,6 +14,23 @@ export default defineComponent({
 	setup() {
 		function getOptions() {
 			console.log("执行异步函数");
+			return new Promise((resolve) => {
+				setTimeout(() => {
+					resolve([
+						{
+							label: "男",
+							value: "male",
+						},
+						{
+							label: "女",
+							value: "female",
+						},
+					]);
+				}, 200);
+			});
+		}
+		function getOptions2() {
+			console.log("执行异步函数 2222222222222222");
 			return new Promise((resolve) => {
 				setTimeout(() => {
 					resolve([
@@ -52,7 +68,6 @@ export default defineComponent({
 		});
 
 		subscribeModel((value, { stopSubscribe }) => {
-			console.log("value", value, stopSubscribe);
 			if (value.age === "223") {
 				stopSubscribe();
 			}
@@ -76,6 +91,15 @@ export default defineComponent({
 					},
 				},
 				{
+					label: "性别",
+					field: "gender",
+					component: Select,
+					required: true,
+					componentProps: {
+						options: getOptions,
+					},
+				},
+				{
 					field: "age",
 					component: Input,
 					componentProps() {
@@ -88,15 +112,6 @@ export default defineComponent({
 						prefix: markNativeFunction(({ model }) => {
 							return `前缀：${model.age ?? ""}`;
 						}),
-					},
-				},
-				{
-					label: "性别",
-					field: "gender",
-					component: Select,
-					required: true,
-					componentProps: {
-						options: markOnetimeFunction(getOptions),
 					},
 				},
 				{
@@ -118,6 +133,15 @@ export default defineComponent({
 									},
 								},
 							],
+						},
+						{
+							label: "性别里面",
+							field: "gender",
+							component: Select,
+							required: true,
+							componentProps: {
+								options: getOptions2,
+							},
 						},
 					],
 				},
