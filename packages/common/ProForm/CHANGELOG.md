@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.3.0
+
+### Minor Changes
+
+- improve performance
+
 ## 1.2.30
 
 ### Patch Changes

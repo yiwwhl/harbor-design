@@ -104,7 +104,6 @@ export default class RuntimeCore {
 
 	getRuntimeMeta() {
 		const model = toRaw(deepClone(this.model.value));
-		let timer: any;
 
 		return {
 			model,
@@ -112,42 +111,37 @@ export default class RuntimeCore {
 			shared: this.shared,
 			// share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
 			share: (data: AnyObject) => {
-				if (timer) {
-					clearTimeout(timer);
+				if (isRef(data)) {
+					const stopWatch = watch(
+						() => data.value,
+						() => {
+							deepAssign(this.shared, data.value);
+							nextTick(() => {
+								stopWatch();
+							});
+						},
+						{
+							deep: true,
+							immediate: true,
+						},
+					);
+				} else if (isReactive(data)) {
+					const stopWatch = watch(
+						() => data,
+						() => {
+							deepAssign(this.shared, data);
+							nextTick(() => {
+								stopWatch();
+							});
+						},
+						{
+							deep: true,
+							immediate: true,
+						},
+					);
+				} else {
+					deepAssign(this.shared, data);
 				}
-				timer = setTimeout(() => {
-					if (isRef(data)) {
-						const stopWatch = watch(
-							() => data.value,
-							() => {
-								deepAssign(this.shared, data.value);
-								nextTick(() => {
-									stopWatch();
-								});
-							},
-							{
-								deep: true,
-								immediate: true,
-							},
-						);
-					} else if (isReactive(data)) {
-						const stopWatch = watch(
-							() => data,
-							() => {
-								deepAssign(this.shared, data);
-								nextTick(() => {
-									stopWatch();
-								});
-							},
-							{
-								deep: true,
-								immediate: true,
-							},
-						);
-					} else {
-						deepAssign(this.shared, data);
-					}
-				}, 0);
 			},
 		};
 	}
