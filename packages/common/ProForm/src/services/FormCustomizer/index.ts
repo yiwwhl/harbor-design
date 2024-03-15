@@ -83,7 +83,10 @@ export default class FormCustomizer {
 				const stopWatch = watch(
 					() => data.value,
 					() => {
-						deepAssign(this.runtimeCore.shared, data.value);
+						this.runtimeCore.shared = {
+							...this.runtimeCore.shared,
+							...(data.value as AnyObject),
+						};
 						this.runtimeCore.processor.schemaEffect.triggerEffects();
 						nextTick(() => {
 							stopWatch();
@@ -98,7 +101,10 @@ export default class FormCustomizer {
 				const stopWatch = watch(
 					() => data,
 					() => {
-						deepAssign(this.runtimeCore.shared, data);
+						this.runtimeCore.shared = {
+							...this.runtimeCore.shared,
+							...(data as AnyObject),
+						};
 						this.runtimeCore.processor.schemaEffect.triggerEffects();
 						nextTick(() => {
 							stopWatch();
@@ -110,7 +116,10 @@ export default class FormCustomizer {
 					},
 				);
 			} else {
-				deepAssign(this.runtimeCore.shared, data);
+				this.runtimeCore.shared = {
+					...this.runtimeCore.shared,
+					...(data as AnyObject),
+				};
 				this.runtimeCore.processor.schemaEffect.triggerEffects();
 			}
 		});

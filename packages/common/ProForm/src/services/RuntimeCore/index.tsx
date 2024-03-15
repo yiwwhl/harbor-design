@@ -115,7 +115,10 @@ export default class RuntimeCore {
 					const stopWatch = watch(
 						() => data.value,
 						() => {
-							deepAssign(this.shared, data.value);
+							this.shared = {
+								...this.shared,
+								...(data.value as AnyObject),
+							};
 							nextTick(() => {
 								stopWatch();
 							});
@@ -129,7 +132,10 @@ export default class RuntimeCore {
 					const stopWatch = watch(
 						() => data,
 						() => {
-							deepAssign(this.shared, data);
+							this.shared = {
+								...this.shared,
+								...(data as AnyObject),
+							};
 							nextTick(() => {
 								stopWatch();
 							});
@@ -140,7 +146,10 @@ export default class RuntimeCore {
 						},
 					);
 				} else {
-					deepAssign(this.shared, data);
+					this.shared = {
+						...this.shared,
+						...(data as AnyObject),
+					};
 				}
 			},
 		};
