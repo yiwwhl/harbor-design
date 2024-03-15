@@ -60,7 +60,7 @@ export default class RuntimeCore {
 	});
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
-	shared: AnyObject = {};
+	shared: AnyObject = reactive({});
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);
@@ -115,10 +115,7 @@ export default class RuntimeCore {
 					const stopWatch = watch(
 						() => data.value,
 						() => {
-							this.shared = {
-								...this.shared,
-								...(data.value as AnyObject),
-							};
+							deepAssign(this.shared, data.value);
 							nextTick(() => {
 								stopWatch();
 							});
@@ -132,10 +129,7 @@ export default class RuntimeCore {
 					const stopWatch = watch(
 						() => data,
 						() => {
-							this.shared = {
-								...this.shared,
-								...(data as AnyObject),
-							};
+							deepAssign(this.shared, data);
 							nextTick(() => {
 								stopWatch();
 							});
@@ -146,10 +140,7 @@ export default class RuntimeCore {
 						},
 					);
 				} else {
-					this.shared = {
-						...this.shared,
-						...(data as AnyObject),
-					};
+					deepAssign(this.shared, data);
 				}
 			},
 		};

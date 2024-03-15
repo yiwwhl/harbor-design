@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.3.12
+
+### Patch Changes
+
+- fix bug
+
 ## 1.3.11
 
 ### Patch Changes
