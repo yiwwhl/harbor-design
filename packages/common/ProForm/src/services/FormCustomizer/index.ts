@@ -102,7 +102,39 @@ export default class FormCustomizer {
 					},
 				);
 			} else {
-				deepAssign(this.runtimeCore.shared, data);
+				Object.keys(data).forEach((key) => {
+					if (isRef(data[key])) {
+						watch(
+							() => data[key].value,
+							() => {
+								deepAssign(this.runtimeCore.shared, {
+									[key]: data[key].value,
+								});
+							},
+							{
+								deep: true,
+								immediate: true,
+							},
+						);
+					} else if (isReactive(data[key])) {
+						watch(
+							() => data[key],
+							() => {
+								deepAssign(this.runtimeCore.shared, {
+									[key]: data[key],
+								});
+							},
+							{
+								deep: true,
+								immediate: true,
+							},
+						);
+					} else {
+						deepAssign(this.runtimeCore.shared, {
+							[key]: data[key],
+						});
+					}
+				});
 			}
 		});
 	}

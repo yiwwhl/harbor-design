@@ -134,7 +134,39 @@ export default class RuntimeCore {
 						},
 					);
 				} else {
-					deepAssign(this.shared, data);
+					Object.keys(data).forEach((key) => {
+						if (isRef(data[key])) {
+							watch(
+								() => data[key].value,
+								() => {
+									deepAssign(this.shared, {
+										[key]: data[key].value,
+									});
+								},
+								{
+									deep: true,
+									immediate: true,
+								},
+							);
+						} else if (isReactive(data[key])) {
+							watch(
+								() => data[key],
+								() => {
+									deepAssign(this.shared, {
+										[key]: data[key],
+									});
+								},
+								{
+									deep: true,
+									immediate: true,
+								},
+							);
+						} else {
+							deepAssign(this.shared, {
+								[key]: data[key],
+							});
+						}
+					});
 				}
 			},
 		};
