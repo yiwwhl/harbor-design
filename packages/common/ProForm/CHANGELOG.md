@@ -1,5 +1,107 @@
 # @harbor-design/proform
 
+## 1.3.33
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.32
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.31
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.30
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.29
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.28
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.27
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.26
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.25
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.24
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.23
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.22
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.21
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.20
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.19
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.18
+
+### Patch Changes
+
+- fix bug
+
+## 1.3.17
+
+### Patch Changes
+
+- fix bug
+
 ## 1.3.16
 
 ### Patch Changes

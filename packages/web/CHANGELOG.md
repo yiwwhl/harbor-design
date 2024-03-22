@@ -1,5 +1,124 @@
 # @harbor-design/web
 
+## 0.0.73
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.33
+
+## 0.0.72
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.32
+
+## 0.0.71
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.31
+
+## 0.0.70
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.30
+
+## 0.0.69
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.29
+
+## 0.0.68
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.28
+
+## 0.0.67
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.27
+
+## 0.0.66
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.26
+
+## 0.0.65
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.25
+
+## 0.0.64
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.24
+
+## 0.0.63
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.23
+
+## 0.0.62
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.22
+
+## 0.0.61
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.21
+
+## 0.0.60
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.20
+
+## 0.0.59
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.19
+
+## 0.0.58
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.18
+
+## 0.0.57
+
+### Patch Changes
+
+- Updated dependencies
+  - @harbor-design/proform@1.3.17
+
 ## 0.0.56
 
 ### Patch Changes

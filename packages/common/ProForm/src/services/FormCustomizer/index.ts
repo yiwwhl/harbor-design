@@ -80,10 +80,14 @@ export default class FormCustomizer {
 	share(data: AnyObject) {
 		nextTick(() => {
 			if (isRef(data)) {
-				watch(
+				const stopWatch = watch(
 					() => data.value,
 					() => {
 						deepAssign(this.runtimeCore.shared, data.value);
+						this.runtimeCore.processor.schemaEffect.triggerEffects();
+						nextTick(() => {
+							stopWatch();
+						});
 					},
 					{
 						deep: true,
@@ -91,10 +95,14 @@ export default class FormCustomizer {
 					},
 				);
 			} else if (isReactive(data)) {
-				watch(
+				const stopWatch = watch(
 					() => data,
 					() => {
 						deepAssign(this.runtimeCore.shared, data);
+						this.runtimeCore.processor.schemaEffect.triggerEffects();
+						nextTick(() => {
+							stopWatch();
+						});
 					},
 					{
 						deep: true,
@@ -102,39 +110,8 @@ export default class FormCustomizer {
 					},
 				);
 			} else {
-				Object.keys(data).forEach((key) => {
-					if (isRef(data[key])) {
-						watch(
-							() => data[key].value,
-							() => {
-								deepAssign(this.runtimeCore.shared, {
-									[key]: data[key].value,
-								});
-							},
-							{
-								deep: true,
-								immediate: true,
-							},
-						);
-					} else if (isReactive(data[key])) {
-						watch(
-							() => data[key],
-							() => {
-								deepAssign(this.runtimeCore.shared, {
-									[key]: data[key],
-								});
-							},
-							{
-								deep: true,
-								immediate: true,
-							},
-						);
-					} else {
-						deepAssign(this.runtimeCore.shared, {
-							[key]: data[key],
-						});
-					}
-				});
+				deepAssign(this.runtimeCore.shared, data);
+				this.runtimeCore.processor.schemaEffect.triggerEffects();
 			}
 		});
 	}

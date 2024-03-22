@@ -6,7 +6,6 @@ import {
 	nextTick,
 	reactive,
 	ref,
-	shallowReactive,
 	toRaw,
 	watch,
 } from "vue";
@@ -61,7 +60,7 @@ export default class RuntimeCore {
 	});
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
-	shared: AnyObject = shallowReactive({});
+	shared: AnyObject = reactive({});
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);
@@ -113,10 +112,13 @@ export default class RuntimeCore {
 			// share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
 			share: (data: AnyObject) => {
 				if (isRef(data)) {
-					watch(
+					const stopWatch = watch(
 						() => data.value,
 						() => {
 							deepAssign(this.shared, data.value);
+							nextTick(() => {
+								stopWatch();
+							});
 						},
 						{
 							deep: true,
@@ -124,10 +126,13 @@ export default class RuntimeCore {
 						},
 					);
 				} else if (isReactive(data)) {
-					watch(
+					const stopWatch = watch(
 						() => data,
 						() => {
 							deepAssign(this.shared, data);
+							nextTick(() => {
+								stopWatch();
+							});
 						},
 						{
 							deep: true,
@@ -135,39 +140,7 @@ export default class RuntimeCore {
 						},
 					);
 				} else {
-					Object.keys(data).forEach((key) => {
-						if (isRef(data[key])) {
-							watch(
-								() => data[key].value,
-								() => {
-									deepAssign(this.shared, {
-										[key]: data[key].value,
-									});
-								},
-								{
-									deep: true,
-									immediate: true,
-								},
-							);
-						} else if (isReactive(data[key])) {
-							watch(
-								() => data[key],
-								() => {
-									deepAssign(this.shared, {
-										[key]: data[key],
-									});
-								},
-								{
-									deep: true,
-									immediate: true,
-								},
-							);
-						} else {
-							deepAssign(this.shared, {
-								[key]: data[key],
-							});
-						}
-					});
+					deepAssign(this.shared, data);
 				}
 			},
 		};
