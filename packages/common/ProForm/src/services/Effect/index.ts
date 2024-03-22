@@ -3,7 +3,9 @@ import { TrackEffectMeta } from "../../types/effectTypes";
 
 export default class Effect {
 	effects = new Set<Function>();
+	tempClonedEffects = new Set<Function>();
 	identifierMap = new Map();
+	timer!: NodeJS.Timeout;
 
 	constructor() {}
 

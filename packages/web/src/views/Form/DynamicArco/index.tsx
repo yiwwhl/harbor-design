@@ -82,7 +82,15 @@ export default defineComponent({
 					defaultValue({ shared }) {
 						return shared?.helloworld;
 					},
-					component({ model }) {
+					component({ model, share }) {
+						share({
+							options: [
+								{
+									label: "男",
+									value: "male",
+								},
+							],
+						});
 						return model.age ? Input : Select;
 					},
 					required({ model }) {
@@ -95,7 +103,7 @@ export default defineComponent({
 					component: Select,
 					required: true,
 					componentProps: {
-						options: getOptions,
+						options: [],
 					},
 				},
 				{
@@ -145,7 +153,7 @@ export default defineComponent({
 							component: Select,
 							required: true,
 							componentProps: {
-								options: getOptions2,
+								options: ({ shared }) => shared.options,
 							},
 						},
 					],
