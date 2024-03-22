@@ -80,13 +80,10 @@ export default class FormCustomizer {
 	share(data: AnyObject) {
 		nextTick(() => {
 			if (isRef(data)) {
-				const stopWatch = watch(
+				watch(
 					() => data.value,
 					() => {
 						deepAssign(this.runtimeCore.shared, data.value);
-						nextTick(() => {
-							stopWatch();
-						});
 					},
 					{
 						deep: true,
@@ -94,13 +91,10 @@ export default class FormCustomizer {
 					},
 				);
 			} else if (isReactive(data)) {
-				const stopWatch = watch(
+				watch(
 					() => data,
 					() => {
 						deepAssign(this.runtimeCore.shared, data);
-						nextTick(() => {
-							stopWatch();
-						});
 					},
 					{
 						deep: true,

@@ -112,13 +112,10 @@ export default class RuntimeCore {
 			// share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
 			share: (data: AnyObject) => {
 				if (isRef(data)) {
-					const stopWatch = watch(
+					watch(
 						() => data.value,
 						() => {
 							deepAssign(this.shared, data.value);
-							nextTick(() => {
-								stopWatch();
-							});
 						},
 						{
 							deep: true,
@@ -126,13 +123,10 @@ export default class RuntimeCore {
 						},
 					);
 				} else if (isReactive(data)) {
-					const stopWatch = watch(
+					watch(
 						() => data,
 						() => {
 							deepAssign(this.shared, data);
-							nextTick(() => {
-								stopWatch();
-							});
 						},
 						{
 							deep: true,
