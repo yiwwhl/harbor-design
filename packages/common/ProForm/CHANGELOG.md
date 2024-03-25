@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.1
+
+### Patch Changes
+
+- fix bug of native rules required error
+
 ## 1.4.0
 
 ### Minor Changes

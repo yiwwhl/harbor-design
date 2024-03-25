@@ -50,9 +50,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					const requiredIndex = runtimeArgs.rules?.findIndex(
 						(rule: AnyObject) => !!rule.required,
 					);
-					if (requiredIndex !== -1) {
-						runtimeArgs.rules[requiredIndex].required = false;
-					} else {
+					if (requiredIndex === -1) {
 						runtimeArgs.rules.unshift({
 							required: true,
 							message: `${runtimeArgs.label}是必填项`,

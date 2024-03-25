@@ -41,7 +41,24 @@ export default defineComponent({
 					},
 				},
 			},
-			schemas,
+			schemas: [
+				{
+					label: "姓名",
+					field: "user.name",
+					component: Input,
+				},
+				{
+					type: "list",
+					field: "hello",
+					children: [
+						{
+							label: "姓名",
+							field: "user.",
+							component: Input,
+						},
+					],
+				},
+			],
 		});
 
 		resetModel();

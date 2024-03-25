@@ -1145,13 +1145,11 @@ const _r = {
             message: `${r.label}是必填项`
           });
         }
-      else if (r.rules) {
-        const t = (e = r.rules) == null ? void 0 : e.findIndex((s) => !!s.required);
-        t !== -1 ? r.rules[t].required = !1 : r.rules.unshift({
+      else
+        r.rules && ((e = r.rules) == null ? void 0 : e.findIndex((s) => !!s.required)) === -1 && r.rules.unshift({
           required: !0,
           message: `${r.label}是必填项`
         });
-      }
       return {
         rules: r.rules
       };
