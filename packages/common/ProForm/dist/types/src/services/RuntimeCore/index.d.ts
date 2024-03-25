@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { Ref } from "vue";
 import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType, Runtime, NativeCustomizationOptions } from "../../types";
 import Processor from "../Processor";
@@ -27,6 +28,8 @@ export default class RuntimeCore {
     ui: string;
     runtimeAdapter: RuntimeAdpter;
     shared: AnyObject;
+    shareTimeout: NodeJS.Timeout;
+    shareHistory: Map<any, any>;
     constructor(setup: Setup);
     getRuntimeMeta(): {
         model: AnyObject;

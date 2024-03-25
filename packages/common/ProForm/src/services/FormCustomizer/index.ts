@@ -1,11 +1,21 @@
+import { set } from "lodash-es";
 import { AnyFunction, AnyObject, FormCustomization } from "../../types";
 import { deepAssign, deepClone } from "../../utils";
 import { Context, Preset, RuntimeCore } from "../index";
-import { isReactive, isRef, nextTick, readonly, ref, watch } from "vue";
+import {
+	isReactive,
+	isRef,
+	nextTick,
+	readonly,
+	ref,
+	watch,
+	watchEffect,
+} from "vue";
 
 export default class FormCustomizer {
 	public runtimeCore!: RuntimeCore;
 	public readonlyReactiveModel = ref({});
+	public shareHistory = new Map();
 
 	// happy path, 后续可以完善更多的 fallback 处理，fallback 处理是为了不卡住异步时的首次渲染做的优化
 	private cleanFallbackFields(data: any) {
@@ -79,40 +89,31 @@ export default class FormCustomizer {
 
 	share(data: AnyObject) {
 		nextTick(() => {
-			if (isRef(data)) {
-				const stopWatch = watch(
-					() => data.value,
-					() => {
-						deepAssign(this.runtimeCore.shared, data.value);
+			Object.keys(data).forEach((key) => {
+				if (isRef(data[key])) {
+					watchEffect(() => {
+						set(this.runtimeCore.shared, key, data[key].value);
+						if (this.shareHistory.get(key) !== data[key].value) {
+							this.shareHistory.set(key, data[key].value);
+							this.runtimeCore.processor.schemaEffect.triggerEffects();
+						}
+					});
+				} else if (isReactive(data[key])) {
+					watchEffect(() => {
+						set(this.runtimeCore.shared, key, data[key]);
+						if (this.shareHistory.get(key) !== data[key]) {
+							this.shareHistory.set(key, data[key]);
+							this.runtimeCore.processor.schemaEffect.triggerEffects();
+						}
+					});
+				} else {
+					set(this.runtimeCore.shared, key, data[key]);
+					if (this.shareHistory.get(key) !== data[key]) {
+						this.shareHistory.set(key, data[key]);
 						this.runtimeCore.processor.schemaEffect.triggerEffects();
-						nextTick(() => {
-							stopWatch();
-						});
-					},
-					{
-						deep: true,
-						immediate: true,
-					},
-				);
-			} else if (isReactive(data)) {
-				const stopWatch = watch(
-					() => data,
-					() => {
-						deepAssign(this.runtimeCore.shared, data);
-						this.runtimeCore.processor.schemaEffect.triggerEffects();
-						nextTick(() => {
-							stopWatch();
-						});
-					},
-					{
-						deep: true,
-						immediate: true,
-					},
-				);
-			} else {
-				deepAssign(this.runtimeCore.shared, data);
-				this.runtimeCore.processor.schemaEffect.triggerEffects();
-			}
+					}
+				}
+			});
 		});
 	}
 

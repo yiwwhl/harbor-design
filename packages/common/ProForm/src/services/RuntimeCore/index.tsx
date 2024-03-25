@@ -8,6 +8,7 @@ import {
 	ref,
 	toRaw,
 	watch,
+	watchEffect,
 } from "vue";
 import { Context, Preset } from "..";
 import {
@@ -32,6 +33,7 @@ import {
 import Effect from "../Effect";
 import RuntimeContainer from "./RuntimeContainer";
 import RuntimeAdpter from "./RuntimeAdapter";
+import { set } from "lodash-es";
 
 // TODO: should refactor
 export default class RuntimeCore {
@@ -61,6 +63,8 @@ export default class RuntimeCore {
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
 	shared: AnyObject = reactive({});
+	shareTimeout!: NodeJS.Timeout;
+	shareHistory = new Map();
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);
@@ -111,37 +115,39 @@ export default class RuntimeCore {
 			shared: this.shared,
 			// share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
 			share: (data: AnyObject) => {
-				if (isRef(data)) {
-					const stopWatch = watch(
-						() => data.value,
-						() => {
-							deepAssign(this.shared, data.value);
-							nextTick(() => {
-								stopWatch();
-							});
-						},
-						{
-							deep: true,
-							immediate: true,
-						},
-					);
-				} else if (isReactive(data)) {
-					const stopWatch = watch(
-						() => data,
-						() => {
-							deepAssign(this.shared, data);
-							nextTick(() => {
-								stopWatch();
-							});
-						},
-						{
-							deep: true,
-							immediate: true,
-						},
-					);
-				} else {
-					deepAssign(this.shared, data);
-				}
+				nextTick(() => {
+					if (this.shareTimeout) {
+						clearTimeout(this.shareTimeout);
+					}
+					this.shareTimeout = setTimeout(() => {
+						Object.keys(data).forEach((key) => {
+							if (isRef(data[key])) {
+								watchEffect(() => {
+									set(this.shared, key, data[key].value);
+									if (this.shareHistory.get(key) !== data[key].value) {
+										this.shareHistory.set(key, data[key].value);
+										this.processor.schemaEffect.triggerEffects();
+									}
+								});
+							} else if (isReactive(data[key])) {
+								watchEffect(() => {
+									console.log("data[key]", data[key]);
+									set(this.shared, key, data[key]);
+									if (this.shareHistory.get(key) !== data[key]) {
+										this.shareHistory.set(key, data[key]);
+										this.processor.schemaEffect.triggerEffects();
+									}
+								});
+							} else {
+								set(this.shared, key, data[key]);
+								if (this.shareHistory.get(key) !== data[key]) {
+									this.shareHistory.set(key, data[key]);
+									this.processor.schemaEffect.triggerEffects();
+								}
+							}
+						});
+					}, 0);
+				});
 			},
 		};
 	}

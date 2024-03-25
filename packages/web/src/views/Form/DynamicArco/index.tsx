@@ -11,23 +11,6 @@ import PageWrapper from "@/components/advanced/PageWrapper";
 
 export default defineComponent({
 	setup() {
-		function getOptions() {
-			console.log("执行异步函数");
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve([
-						{
-							label: "男",
-							value: "male",
-						},
-						{
-							label: "女",
-							value: "female",
-						},
-					]);
-				}, 200);
-			});
-		}
 		function getOptions2() {
 			console.log("执行异步函数 2222222222222222");
 			return new Promise((resolve) => {
@@ -47,6 +30,7 @@ export default defineComponent({
 		}
 
 		const schemas = ref<ProxyedSchema[]>([]);
+		const renderList = ref([]) as any;
 
 		const [setup, { submit, share, subscribeModel, resetModel }] = useForm({
 			native: {
@@ -61,6 +45,15 @@ export default defineComponent({
 		});
 
 		resetModel();
+
+		setTimeout(() => {
+			renderList.value = [
+				{
+					label: "男",
+					value: "male",
+				},
+			];
+		}, 2000);
 
 		share({
 			helloworld: "yes hello world",
@@ -79,7 +72,8 @@ export default defineComponent({
 						return model.age + "姓名";
 					},
 					field: markStructuredPathParsing("name[0][0].value[0]"),
-					defaultValue({ shared }) {
+					defaultValue({ shared, share }) {
+						share({ renderList });
 						return shared?.helloworld;
 					},
 					component({ model }) {
@@ -95,7 +89,9 @@ export default defineComponent({
 					component: Select,
 					required: true,
 					componentProps: {
-						options: getOptions,
+						options: ({ shared }) => {
+							return shared.renderList;
+						},
 					},
 				},
 				{
@@ -145,7 +141,14 @@ export default defineComponent({
 							component: Select,
 							required: true,
 							componentProps: {
-								options: getOptions2,
+								options: ({ share }) => {
+									setTimeout(() => {
+										share({
+											name: "wtf",
+										});
+									}, 3000);
+									return getOptions2();
+								},
 							},
 						},
 					],
@@ -195,8 +198,8 @@ export default defineComponent({
 					type: "list",
 					children: [
 						{
-							label() {
-								return "爱好项";
+							label({ shared }) {
+								return "爱好项" + shared.name;
 							},
 							field: "hobbyItem",
 							component: Input,

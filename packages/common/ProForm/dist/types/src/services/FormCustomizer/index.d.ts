@@ -4,6 +4,7 @@ export default class FormCustomizer {
     formCustomization: FormCustomization;
     runtimeCore: RuntimeCore;
     readonlyReactiveModel: import("vue").Ref<{}>;
+    shareHistory: Map<any, any>;
     private cleanFallbackFields;
     constructor(formCustomization: FormCustomization);
     setup(_runtimeCore: RuntimeCore): FormCustomization;
