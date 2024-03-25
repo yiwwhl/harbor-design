@@ -63,7 +63,6 @@ export default class RuntimeCore {
 	ui: string;
 	runtimeAdapter: RuntimeAdpter;
 	shared: AnyObject = reactive({});
-	shareTimeout!: NodeJS.Timeout;
 	shareHistory = new Map();
 
 	constructor(public setup: Setup) {
@@ -116,37 +115,31 @@ export default class RuntimeCore {
 			// share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
 			share: (data: AnyObject) => {
 				nextTick(() => {
-					if (this.shareTimeout) {
-						clearTimeout(this.shareTimeout);
-					}
-					this.shareTimeout = setTimeout(() => {
-						Object.keys(data).forEach((key) => {
-							if (isRef(data[key])) {
-								watchEffect(() => {
-									set(this.shared, key, data[key].value);
-									if (this.shareHistory.get(key) !== data[key].value) {
-										this.shareHistory.set(key, data[key].value);
-										this.processor.schemaEffect.triggerEffects();
-									}
-								});
-							} else if (isReactive(data[key])) {
-								watchEffect(() => {
-									console.log("data[key]", data[key]);
-									set(this.shared, key, data[key]);
-									if (this.shareHistory.get(key) !== data[key]) {
-										this.shareHistory.set(key, data[key]);
-										this.processor.schemaEffect.triggerEffects();
-									}
-								});
-							} else {
+					Object.keys(data).forEach((key) => {
+						if (isRef(data[key])) {
+							watchEffect(() => {
+								set(this.shared, key, data[key].value);
+								if (this.shareHistory.get(key) !== data[key].value) {
+									this.shareHistory.set(key, data[key].value);
+									this.processor.schemaEffect.triggerEffects();
+								}
+							});
+						} else if (isReactive(data[key])) {
+							watchEffect(() => {
 								set(this.shared, key, data[key]);
 								if (this.shareHistory.get(key) !== data[key]) {
 									this.shareHistory.set(key, data[key]);
 									this.processor.schemaEffect.triggerEffects();
 								}
+							});
+						} else {
+							set(this.shared, key, data[key]);
+							if (this.shareHistory.get(key) !== data[key]) {
+								this.shareHistory.set(key, data[key]);
+								this.processor.schemaEffect.triggerEffects();
 							}
-						});
-					}, 0);
+						}
+					});
 				});
 			},
 		};
@@ -313,12 +306,13 @@ export default class RuntimeCore {
 	}
 
 	addListItem(schema: AnyObject) {
-		if (!this.processor.stableModel[schema.field]?.[0]) {
-			return Promise.reject({
-				code: `0001`,
-				message: `异步默认值数据正在处理中，请您耐心等待... `,
-			});
-		}
+		console.log("this", this.processor.stableModel, schema.field);
+		// if (!this.processor.stableModel[schema.field]?.[0]) {
+		// 	return Promise.reject({
+		// 		code: `0001`,
+		// 		message: `异步默认值数据正在处理中，请您耐心等待... `,
+		// 	});
+		// }
 		this.processor.stableModel[schema.field]?.[0] &&
 			this.model.value[schema.field].push(
 				deepClone(this.processor.stableModel[schema.field][0]),

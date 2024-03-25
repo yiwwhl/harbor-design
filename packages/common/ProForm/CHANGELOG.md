@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.0
+
+### Minor Changes
+
+- update share logic and default value logic
+
 ## 1.3.34
 
 ### Patch Changes

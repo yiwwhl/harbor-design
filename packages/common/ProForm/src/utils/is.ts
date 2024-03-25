@@ -80,9 +80,7 @@ export default class IS {
 				return true;
 			}
 			for (const item of data) {
-				if (this.isProcessInprogress(item)) {
-					return true;
-				}
+				return this.isProcessInprogress(item);
 			}
 		}
 

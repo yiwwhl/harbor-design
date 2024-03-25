@@ -509,9 +509,11 @@ export default class Processor {
 				this.stableUpdaterProcessProgress.every(Boolean) &&
 				this.defaultValueEffect.effects.size === 0
 			) {
-				this.stableModel = deepClone(this.processedModel.value);
-				this.runtimeCore.hydrateEffect.triggerEffects();
-				this.runtimeCore.hydrateEffect.clearEffects();
+				nextTick(() => {
+					this.stableModel = deepClone(this.processedModel.value);
+					this.runtimeCore.hydrateEffect.triggerEffects();
+					this.runtimeCore.hydrateEffect.clearEffects();
+				});
 			}
 		}
 	}
@@ -520,7 +522,9 @@ export default class Processor {
 		if (IS.isFunction(field)) {
 			set(baseModel, field(), value);
 		} else {
-			baseModel[field] = value;
+			deepAssign(baseModel, {
+				[field]: value,
+			});
 		}
 	}
 
@@ -540,17 +544,19 @@ export default class Processor {
 		}
 		if (IS.isItemSchema(schema)) {
 			// fix bug of defaultValue，需要区别看待
-			if ("defaultValue" in schema) {
-				this.setModel(baseModel, schema.field, schema.defaultValue);
-			} else {
-				if (IS.isFunction(schema.field) && get(baseModel, schema.field())) {
-					return;
-				} else if (IS.isString(schema.field) && baseModel[schema.field]) {
-					return;
+			nextTick(() => {
+				if ("defaultValue" in schema) {
+					this.setModel(baseModel, schema.field, schema.defaultValue);
 				} else {
-					this.setModel(baseModel, schema.field, undefined);
+					if (IS.isFunction(schema.field) && get(baseModel, schema.field())) {
+						return;
+					} else if (IS.isString(schema.field) && baseModel[schema.field]) {
+						return;
+					} else {
+						this.setModel(baseModel, schema.field, undefined);
+					}
 				}
-			}
+			});
 		}
 	}
 }

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { Ref } from "vue";
 import { Setup, Schema, AnyObject, ItemSchema, GroupSchema, ListSchema, ProcessorBySchemaType, Runtime, NativeCustomizationOptions } from "../../types";
 import Processor from "../Processor";
@@ -28,7 +27,6 @@ export default class RuntimeCore {
     ui: string;
     runtimeAdapter: RuntimeAdpter;
     shared: AnyObject;
-    shareTimeout: NodeJS.Timeout;
     shareHistory: Map<any, any>;
     constructor(setup: Setup);
     getRuntimeMeta(): {
@@ -39,7 +37,7 @@ export default class RuntimeCore {
     };
     runtimeItemProcessor(schema: ItemSchema, index?: number, baseModel?: AnyObject, parentSchema?: ListSchema): JSX.Element | undefined;
     runtimeGroupProcessor(schema: GroupSchema): JSX.Element;
-    addListItem(schema: AnyObject): Promise<never> | undefined;
+    addListItem(schema: AnyObject): void;
     deleteListItem(schema: AnyObject, index: number): void;
     runtimeListProcessor(schema: ListSchema): JSX.Element;
     runtimeProcessor(schemas: Schema[]): any[];
