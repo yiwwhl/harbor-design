@@ -23,12 +23,16 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			};
 		},
 		getRuntimeRequired(runtimeArgs: AnyObject) {
+			let requiredPrompt = `${runtimeArgs.label}是必填项`;
 			if (runtimeArgs.required) {
+				if (IS.isString(runtimeArgs.required)) {
+					requiredPrompt = runtimeArgs.required;
+				}
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({
 						required: true,
-						message: `${runtimeArgs.label}是必填项`,
+						message: requiredPrompt,
 					});
 				} else {
 					const requiredIndex = runtimeArgs.rules.findIndex(
@@ -36,12 +40,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					);
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = true;
-						runtimeArgs.rules[requiredIndex].message =
-							`${runtimeArgs.label}是必填项`;
+						runtimeArgs.rules[requiredIndex].message = requiredPrompt;
 					} else {
 						runtimeArgs.rules.unshift({
 							required: true,
-							message: `${runtimeArgs.label}是必填项`,
+							message: requiredPrompt,
 						});
 					}
 				}
@@ -53,7 +56,7 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					if (requiredIndex === -1) {
 						runtimeArgs.rules.unshift({
 							required: true,
-							message: `${runtimeArgs.label}是必填项`,
+							message: requiredPrompt,
 						});
 					}
 				}
@@ -129,12 +132,16 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			};
 		},
 		getRuntimeRequired(runtimeArgs: AnyObject) {
+			let requiredPrompt = `${runtimeArgs.label}是必填项`;
 			if (runtimeArgs.required) {
+				if (IS.isString(runtimeArgs.required)) {
+					requiredPrompt = runtimeArgs.required;
+				}
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({
 						required: true,
-						message: `${runtimeArgs.label}是必填项`,
+						message: requiredPrompt,
 					});
 				} else {
 					const requiredIndex = runtimeArgs.rules.findIndex(
@@ -142,12 +149,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					);
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = true;
-						runtimeArgs.rules[requiredIndex].message =
-							`${runtimeArgs.label}是必填项`;
+						runtimeArgs.rules[requiredIndex].message = requiredPrompt;
 					} else {
 						runtimeArgs.rules.unshift({
 							required: true,
-							message: `${runtimeArgs.label}是必填项`,
+							message: requiredPrompt,
 						});
 					}
 				}
@@ -156,12 +162,10 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					const requiredIndex = runtimeArgs.rules?.findIndex(
 						(rule: AnyObject) => !!rule.required,
 					);
-					if (requiredIndex !== -1) {
-						runtimeArgs.rules[requiredIndex].required = false;
-					} else {
+					if (requiredIndex === -1) {
 						runtimeArgs.rules.unshift({
 							required: true,
-							message: `${runtimeArgs.label}是必填项`,
+							message: requiredPrompt,
 						});
 					}
 				}
@@ -241,12 +245,16 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			};
 		},
 		getRuntimeRequired(runtimeArgs: AnyObject) {
+			let requiredPrompt = `${runtimeArgs.label}是必填项`;
 			if (runtimeArgs.required) {
+				if (IS.isString(runtimeArgs.required)) {
+					requiredPrompt = runtimeArgs.required;
+				}
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({
 						required: true,
-						message: `${runtimeArgs.label}是必填项`,
+						message: requiredPrompt,
 						trigger: ["input", "blur"],
 					});
 				} else {
@@ -255,12 +263,11 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					);
 					if (requiredIndex !== -1) {
 						runtimeArgs.rules[requiredIndex].required = true;
-						runtimeArgs.rules[requiredIndex].message =
-							`${runtimeArgs.label}是必填项`;
+						runtimeArgs.rules[requiredIndex].message = requiredPrompt;
 					} else {
 						runtimeArgs.rules.unshift({
 							required: true,
-							message: `${runtimeArgs.label}是必填项`,
+							message: requiredPrompt,
 							trigger: ["input", "blur"],
 						});
 					}
@@ -270,12 +277,10 @@ const AdapterPreset: AdaptedInterfacePreset = {
 					const requiredIndex = runtimeArgs.rules?.findIndex(
 						(rule: AnyObject) => !!rule.required,
 					);
-					if (requiredIndex !== -1) {
-						runtimeArgs.rules[requiredIndex].required = false;
-					} else {
+					if (requiredIndex === -1) {
 						runtimeArgs.rules.unshift({
 							required: true,
-							message: `${runtimeArgs.label}是必填项`,
+							message: requiredPrompt,
 							trigger: ["input", "blur"],
 						});
 					}

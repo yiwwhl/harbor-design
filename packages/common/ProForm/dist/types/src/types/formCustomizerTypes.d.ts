@@ -59,7 +59,7 @@ export interface ItemSchema {
     type?: "item";
     rules?: FieldRule[];
     show?: boolean;
-    required?: boolean;
+    required?: boolean | string;
     placeholder?: string;
     runtime?: Runtime;
     native?: NativeCustomizationOptions;
