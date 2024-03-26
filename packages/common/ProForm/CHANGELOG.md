@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.4
+
+### Patch Changes
+
+- fix default value calc error
+
 ## 1.4.3
 
 ### Patch Changes

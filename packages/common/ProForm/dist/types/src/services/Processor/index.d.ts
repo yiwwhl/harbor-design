@@ -23,13 +23,14 @@ export default class Processor {
     baseDefaultValueFunctionsLength: number;
     isModelInitialized: boolean;
     schemaEffectHistory: Map<any, any>;
+    stableUpdaterHistory: Map<any, any>;
     constructor(runtimeCore: RuntimeCore);
     parse<T extends object = any>(data: T[], parentMeta?: AnyObject): void;
     initSchemas(schemas: AnyObject[]): AnyObject[];
     countFunctionDefaultValues(input: AnyObject): number;
     parseSchemas(schemas: ProxyedSchema[], parentMeta?: AnyObject): void;
     parseStable(stable: AnyObject): AnyObject;
-    stableUpdater(parseProcess?: boolean[]): void;
+    stableUpdater(parseProcess?: boolean[], parentMeta?: AnyObject, index?: number, key?: string, keyIndex?: number): void;
     parseItem(data: AnyObject, index: number, parentMeta?: AnyObject): void;
     objectParser(root: ObjectParserRoot): void;
     promiseFieldParser(rootField: any, updater: AnyFunction, deepProcess: boolean, meta: AnyObject): void;

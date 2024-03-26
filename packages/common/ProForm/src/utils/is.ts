@@ -64,6 +64,9 @@ export default class IS {
 			if (this.isObjectEmpty(data)) {
 				return true;
 			}
+			if (data.__proform_raw_object) {
+				return false;
+			}
 			for (const key in data) {
 				// 绕过对 componentProps 的检测，避免因为 componentProps 中的一些配置阻塞了默认值的计算
 				if (key === "componentProps") {

@@ -37,6 +37,7 @@ export default class Processor {
 	baseDefaultValueFunctionsLength!: number;
 	isModelInitialized = true;
 	schemaEffectHistory = new Map();
+	stableUpdaterHistory = new Map();
 
 	constructor(runtimeCore: RuntimeCore) {
 		this.runtimeCore = runtimeCore;
@@ -132,13 +133,26 @@ export default class Processor {
 	}
 
 	// 对于稳定初始化更新的抽象
-	stableUpdater(parseProcess: boolean[] = []) {
+	stableUpdater(
+		parseProcess: boolean[] = [],
+		parentMeta?: AnyObject,
+		index?: number,
+		key?: string,
+		keyIndex?: number,
+	) {
 		if (parseProcess.every(Boolean)) {
 			const processedSchemas = toRaw(this.processedSchemas.value) as Schema[];
 			if (
-				!IS.isProcessInprogress(processedSchemas) &&
-				IS.isObjectEmpty(this.stableModel)
+				(!IS.isProcessInprogress(processedSchemas) &&
+					IS.isObjectEmpty(this.stableModel),
+				!this.stableUpdaterHistory.get(
+					`${parentMeta?.key}parentIndex:${parentMeta?.index}childIndex:${index}${key}${keyIndex}`,
+				))
 			) {
+				this.stableUpdaterHistory.set(
+					`${parentMeta?.key}parentIndex:${parentMeta?.index}childIndex:${index}${key}${keyIndex}`,
+					true,
+				);
 				if (!this.stableUpdaterProcessProgress) {
 					this.stableUpdaterProcessProgress = Array.from({
 						length: processedSchemas.length,
@@ -190,7 +204,13 @@ export default class Processor {
 				that.processedSchemas.value[parentIndex][parentKey][schemaIndex][
 					schemaKey
 				] = stable;
-				that.stableUpdater(parseProcess);
+				that.stableUpdater(
+					parseProcess,
+					parentMeta,
+					index,
+					schemaKey,
+					schemaIndex,
+				);
 			} else {
 				// schema 处理
 				const exist = that.processedSchemas.value[schemaIndex][schemaKey];
@@ -200,7 +220,14 @@ export default class Processor {
 					}
 				}
 				that.processedSchemas.value[schemaIndex][schemaKey] = stable;
-				that.stableUpdater(parseProcess);
+
+				that.stableUpdater(
+					parseProcess,
+					parentMeta,
+					index,
+					schemaKey,
+					schemaIndex,
+				);
 			}
 		}
 	}
@@ -501,9 +528,9 @@ export default class Processor {
 	}
 
 	modelProcessor(schemas: Schema[]) {
-		schemas.map((schema) =>
-			this.createModel(schema, this.processedModel.value),
-		);
+		schemas.map((schema) => {
+			this.createModel(schema, this.processedModel.value);
+		});
 
 		if (IS.isObjectEmpty(this.stableModel)) {
 			if (
