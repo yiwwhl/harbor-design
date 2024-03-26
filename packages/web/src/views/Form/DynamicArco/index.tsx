@@ -5,7 +5,7 @@ import {
 	markStructuredPathParsing,
 	useForm,
 } from "@harbor-design/proform";
-import { defineComponent, nextTick, ref } from "vue";
+import { defineComponent, nextTick, reactive, ref } from "vue";
 import styles from "./index.module.scss";
 import PageWrapper from "@/components/advanced/PageWrapper";
 
@@ -41,24 +41,18 @@ export default defineComponent({
 					},
 				},
 			},
-			schemas: [
-				{
-					label: "姓名",
-					field: "user.name",
-					component: Input,
-				},
-				{
-					type: "list",
-					field: "hello",
-					children: [
-						{
-							label: "姓名",
-							field: "user.",
-							component: Input,
-						},
-					],
-				},
-			],
+			schemas,
+		});
+		const what = reactive({});
+
+		setTimeout(() => {
+			Object.assign(what, {
+				content: Date.now(),
+			});
+		}, 200);
+
+		share({
+			what,
 		});
 
 		resetModel();

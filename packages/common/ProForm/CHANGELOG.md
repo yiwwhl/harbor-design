@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.3
+
+### Patch Changes
+
+- fix maximum call stack size exceeded error
+
 ## 1.4.2
 
 ### Patch Changes

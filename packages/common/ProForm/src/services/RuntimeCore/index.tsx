@@ -87,14 +87,11 @@ export default class RuntimeCore {
 				},
 			);
 		} else if (isReactive(formCustomization.schemas)) {
-			const stopWatch = watch(
+			watch(
 				() => formCustomization.schemas,
 				() => {
 					// @ts-expect-error
 					this.processor.parseSchemas(formCustomization.schemas);
-					nextTick(() => {
-						stopWatch();
-					});
 				},
 				{
 					deep: true,

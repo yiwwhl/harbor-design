@@ -36,6 +36,7 @@ export default class Processor {
 	defaultValueInprogressMap = new Map();
 	baseDefaultValueFunctionsLength!: number;
 	isModelInitialized = true;
+	schemaEffectHistory = new Map();
 
 	constructor(runtimeCore: RuntimeCore) {
 		this.runtimeCore = runtimeCore;
@@ -244,7 +245,7 @@ export default class Processor {
 							},
 							{
 								lazy: false,
-								identifier: `${root.parentMeta?.key}${root.parentMeta?.index}${root.index}${key}${keyIndex}`,
+								identifier: `${root.parentMeta?.key}parentIndex:${root.parentMeta?.index}childIndex:${root.index}${key}${keyIndex}`,
 							},
 						);
 					} else {

@@ -1,13 +1,14 @@
 {
   "name": "@harbor-design/proform",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "type": "module",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "vue-tsc && vite build"
+    "build": "vue-tsc && vite build",
+    "dev:watch": "nodemon -e .ts,.tsx --ignore dist --exec 'vite build'"
   },
   "peerDependencies": {
     "vue": "^3.3.4"

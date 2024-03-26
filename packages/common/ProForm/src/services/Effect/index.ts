@@ -23,13 +23,14 @@ export default class Effect {
 			lazy: true,
 		},
 	) {
-		!meta.lazy && effect();
 		if (meta.identifier) {
 			if (!this.identifierMap.get(meta.identifier)) {
-				this.effects.add(effect);
 				this.identifierMap.set(meta.identifier, true);
+				!meta.lazy && effect();
+				this.effects.add(effect);
 			}
 		} else {
+			!meta.lazy && effect();
 			this.effects.add(effect);
 		}
 		return () => this.effects.delete(effect);
