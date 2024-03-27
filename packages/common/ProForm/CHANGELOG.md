@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.7
+
+### Patch Changes
+
+- fix new Date error
+
 ## 1.4.6
 
 ### Patch Changes

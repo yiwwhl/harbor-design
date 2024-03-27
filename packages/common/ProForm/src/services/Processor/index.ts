@@ -185,6 +185,7 @@ export default class Processor {
 			const parentIndex = parentMeta?.index;
 			const parentKey = parentMeta?.key;
 			let stable = parsedStable;
+
 			if (!IS.isProcessInprogress(stable)) {
 				// 认为已经结束了中间态，process 可以被看作完成
 				parseProcess[keyIndex] = true;
@@ -196,6 +197,7 @@ export default class Processor {
 					that.processedSchemas.value[parentIndex][parentKey][schemaIndex][
 						schemaKey
 					];
+
 				if (exist && IS.isObject(exist)) {
 					if (schemaKey !== "component") {
 						stable = deepAssign(exist, stable);

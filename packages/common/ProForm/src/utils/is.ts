@@ -77,6 +77,10 @@ export default class IS {
 					return false;
 				}
 				if (data.hasOwnProperty(key)) {
+					// 对日期关闭检查
+					if (data[key] instanceof Date) {
+						return false;
+					}
 					if (this.isProcessInprogress(data[key])) {
 						return true;
 					}

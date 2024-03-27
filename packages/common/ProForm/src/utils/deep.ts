@@ -8,7 +8,11 @@ export function deepAssign(
 				target = [];
 			}
 			source.forEach((item, index) => {
-				if (typeof item === "object" && item !== null) {
+				if (
+					typeof item === "object" &&
+					item !== null &&
+					!(item instanceof Date)
+				) {
 					target[index] = deepAssign(Array.isArray(item) ? [] : {}, item);
 				} else {
 					target[index] = item;
@@ -17,8 +21,15 @@ export function deepAssign(
 		} else {
 			for (const key in source) {
 				if (source.hasOwnProperty(key)) {
-					if (typeof source[key] === "object" && source[key] !== null) {
-						target[key] = deepAssign(target[key] || {}, source[key]);
+					if (
+						typeof source[key] === "object" &&
+						source[key] !== null &&
+						!(source[key] instanceof Date)
+					) {
+						target[key] = deepAssign(
+							target[key] || (Array.isArray(source[key]) ? [] : {}),
+							source[key],
+						);
 					} else {
 						target[key] = source[key];
 					}

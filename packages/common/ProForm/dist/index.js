@@ -372,8 +372,12 @@ class o {
       for (const t in e) {
         if (t === "componentProps")
           return !1;
-        if (e.hasOwnProperty(t) && this.isProcessInprogress(e[t]))
-          return !0;
+        if (e.hasOwnProperty(t)) {
+          if (e[t] instanceof Date)
+            return !1;
+          if (this.isProcessInprogress(e[t]))
+            return !0;
+        }
       }
     } else if (this.isArray(e)) {
       if (this.isArrayEmpty(e))
@@ -391,11 +395,14 @@ function b(r, ...e) {
   return e.forEach((t) => {
     if (Array.isArray(t))
       Array.isArray(r) || (r = []), t.forEach((i, s) => {
-        typeof i == "object" && i !== null ? r[s] = b(Array.isArray(i) ? [] : {}, i) : r[s] = i;
+        typeof i == "object" && i !== null && !(i instanceof Date) ? r[s] = b(Array.isArray(i) ? [] : {}, i) : r[s] = i;
       });
     else
       for (const i in t)
-        t.hasOwnProperty(i) && (typeof t[i] == "object" && t[i] !== null ? r[i] = b(r[i] || {}, t[i]) : r[i] = t[i]);
+        t.hasOwnProperty(i) && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) ? r[i] = b(
+          r[i] || (Array.isArray(t[i]) ? [] : {}),
+          t[i]
+        ) : r[i] = t[i]);
   }), r;
 }
 function I(r) {
