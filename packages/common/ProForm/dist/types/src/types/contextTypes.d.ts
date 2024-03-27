@@ -1,4 +1,4 @@
-import { AdaptedInterface, NativeCustomizationOptions } from ".";
+import { AdaptedInterface, DisplayOptions, NativeCustomizationOptions } from ".";
 import { AnyObject } from "./utilTypes";
 export type DomType = new (...args: any) => AnyObject & {
     $props: AnyObject;
@@ -15,6 +15,7 @@ export interface FormPreset {
     };
     adapter?: AdaptedInterface;
     native?: NativeCustomizationOptions;
+    display?: DisplayOptions;
 }
 export type UIName = "ArcoVue" | "NutUI" | "NaiveUI" | (string & {});
 export type AdaptedInterfacePreset = Record<UIName, AdaptedInterface>;

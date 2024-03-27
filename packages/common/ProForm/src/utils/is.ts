@@ -32,6 +32,10 @@ export default class IS {
 		return data === undefined;
 	}
 
+	static isNull(data: any): data is null {
+		return data === null;
+	}
+
 	static isArrayEmpty(data: any[]) {
 		return data?.length < 1;
 	}

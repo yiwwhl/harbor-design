@@ -242,6 +242,16 @@ export default class RuntimeCore {
 		const FormItem = RuntimeContainer.getFormItemContainer(this);
 		const that = this;
 		const componentSlots = schema.componentSlots;
+		const displayOptions = Context.presets.uiPresets[this.ui]?.display;
+		let labelDisplay: string;
+		if (
+			!IS.isUndefined(displayOptions?.labelPrefix) &&
+			!IS.isNull(displayOptions?.labelPrefix)
+		) {
+			labelDisplay = `${label}${displayOptions?.labelPrefix}`;
+		} else {
+			labelDisplay = `${label}:`;
+		}
 		return (
 			<div style={defaultItemStyle}>
 				<Item show={show}>
@@ -251,7 +261,7 @@ export default class RuntimeCore {
 								show && (
 									<FormItem
 										{...formItemNativeProps}
-										label={`${label ? `${label}:` : ""}`}
+										label={`${label ? labelDisplay : ""}`}
 										{...runtimeField}
 										{...runtimeRequired}
 									>

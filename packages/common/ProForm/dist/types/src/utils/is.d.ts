@@ -8,6 +8,7 @@ export default class IS {
     static isObject(data: any): data is AnyObject;
     static isAsyncFunction(data: any): data is (...args: any) => Promise<any>;
     static isUndefined(data: any): data is undefined;
+    static isNull(data: any): data is null;
     static isArrayEmpty(data: any[]): boolean;
     static isObjectEmpty(data: Record<PropertyKey, any>): boolean;
     static isListSchema(data: any): data is ListSchema;

@@ -119,4 +119,7 @@ export type NativeCustomizationOptions = {
         FormItem?: AnyObject;
     };
 };
+export type DisplayOptions = {
+    labelPrefix: string;
+};
 export {};

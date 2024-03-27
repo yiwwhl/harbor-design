@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.5
+
+### Patch Changes
+
+- update display control
+
 ## 1.4.4
 
 ### Patch Changes
