@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.6
+
+### Patch Changes
+
+- fix stable value logic
+
 ## 1.4.5
 
 ### Patch Changes

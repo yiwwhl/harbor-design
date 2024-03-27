@@ -124,7 +124,7 @@ export default class Processor {
 
 	parseStable(stable: AnyObject) {
 		const result: AnyObject = {};
-		if (!IS.isUndefined(stable.stable)) {
+		if (!IS.isUndefined(stable.stable) && !IS.isNull(stable.stable)) {
 			result[stable.key] = this.parseStable(stable.stable);
 		} else {
 			return stable;
@@ -178,7 +178,7 @@ export default class Processor {
 			const schemaIndex = meta.index;
 			const schemaKey = meta.key;
 			const keyIndex = meta.keyIndex;
-			if (IS.isUndefined(meta.stable)) {
+			if (IS.isUndefined(meta.stable) || IS.isNull(meta.stable)) {
 				return;
 			}
 			const parsedStable = that.parseStable(meta.stable);
