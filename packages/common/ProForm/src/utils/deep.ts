@@ -24,7 +24,8 @@ export function deepAssign(
 					if (
 						typeof source[key] === "object" &&
 						source[key] !== null &&
-						!(source[key] instanceof Date)
+						!(source[key] instanceof Date) &&
+						!(source[key] instanceof RegExp)
 					) {
 						target[key] = deepAssign(
 							target[key] || (Array.isArray(source[key]) ? [] : {}),

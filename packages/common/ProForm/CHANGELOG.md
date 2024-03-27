@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.8
+
+### Patch Changes
+
+- ensure RegExp work great
+
 ## 1.4.7
 
 ### Patch Changes

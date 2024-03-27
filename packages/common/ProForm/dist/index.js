@@ -33,14 +33,14 @@ function at(r, e) {
     s[t] = e(r[t], t, r);
   return s;
 }
-var re = Array.isArray, lt = 1 / 0, we = M ? M.prototype : void 0, Fe = we ? we.toString : void 0;
+var re = Array.isArray, lt = 1 / 0, we = M ? M.prototype : void 0, xe = we ? we.toString : void 0;
 function Me(r) {
   if (typeof r == "string")
     return r;
   if (re(r))
     return at(r, Me) + "";
   if (te(r))
-    return Fe ? Fe.call(r) : "";
+    return xe ? xe.call(r) : "";
   var e = r + "";
   return e == "0" && 1 / r == -lt ? "-0" : e;
 }
@@ -55,12 +55,12 @@ function ht(r) {
   var e = $e(r);
   return e == ft || e == ct || e == ut || e == dt;
 }
-var Z = ee["__core-js_shared__"], je = function() {
+var Z = ee["__core-js_shared__"], Fe = function() {
   var r = /[^.]+$/.exec(Z && Z.keys && Z.keys.IE_PROTO || "");
   return r ? "Symbol(src)_1." + r : "";
 }();
 function pt(r) {
-  return !!je && je in r;
+  return !!Fe && Fe in r;
 }
 var mt = Function.prototype, gt = mt.toString;
 function bt(r) {
@@ -92,19 +92,19 @@ function ie(r, e) {
   var t = Ot(r, e);
   return Et(t) ? t : void 0;
 }
-var xe = function() {
+var je = function() {
   try {
     var r = ie(Object, "defineProperty");
     return r({}, "", {}), r;
   } catch {
   }
-}(), wt = 9007199254740991, Ft = /^(?:0|[1-9]\d*)$/;
-function jt(r, e) {
+}(), wt = 9007199254740991, xt = /^(?:0|[1-9]\d*)$/;
+function Ft(r, e) {
   var t = typeof r;
-  return e = e ?? wt, !!e && (t == "number" || t != "symbol" && Ft.test(r)) && r > -1 && r % 1 == 0 && r < e;
+  return e = e ?? wt, !!e && (t == "number" || t != "symbol" && xt.test(r)) && r > -1 && r % 1 == 0 && r < e;
 }
-function xt(r, e, t) {
-  e == "__proto__" && xe ? xe(r, e, {
+function jt(r, e, t) {
+  e == "__proto__" && je ? je(r, e, {
     configurable: !0,
     enumerable: !0,
     value: t,
@@ -117,7 +117,7 @@ function Ve(r, e) {
 var Rt = Object.prototype, $t = Rt.hasOwnProperty;
 function Mt(r, e, t) {
   var i = r[e];
-  (!($t.call(r, e) && Ve(i, t)) || t === void 0 && !(e in r)) && xt(r, e, t);
+  (!($t.call(r, e) && Ve(i, t)) || t === void 0 && !(e in r)) && jt(r, e, t);
 }
 var Vt = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, Nt = /^\w*$/;
 function qt(r, e) {
@@ -153,18 +153,18 @@ function Xt(r, e) {
   var t = this.__data__;
   return this.size += this.has(r) ? 0 : 1, t[r] = L && e === void 0 ? Wt : e, this;
 }
-function F(r) {
+function x(r) {
   var e = -1, t = r == null ? 0 : r.length;
   for (this.clear(); ++e < t; ) {
     var i = r[e];
     this.set(i[0], i[1]);
   }
 }
-F.prototype.clear = Ut;
-F.prototype.delete = Tt;
-F.prototype.get = Dt;
-F.prototype.has = Kt;
-F.prototype.set = Xt;
+x.prototype.clear = Ut;
+x.prototype.delete = Tt;
+x.prototype.get = Dt;
+x.prototype.has = Kt;
+x.prototype.set = Xt;
 function Yt() {
   this.__data__ = [], this.size = 0;
 }
@@ -208,9 +208,9 @@ V.prototype.set = er;
 var tr = ie(ee, "Map");
 function rr() {
   this.size = 0, this.__data__ = {
-    hash: new F(),
+    hash: new x(),
     map: new (tr || V)(),
-    string: new F()
+    string: new x()
   };
 }
 function ir(r) {
@@ -235,18 +235,18 @@ function ar(r, e) {
   var t = W(this, r), i = t.size;
   return t.set(r, e), this.size += t.size == i ? 0 : 1, this;
 }
-function j(r) {
+function F(r) {
   var e = -1, t = r == null ? 0 : r.length;
   for (this.clear(); ++e < t; ) {
     var i = r[e];
     this.set(i[0], i[1]);
   }
 }
-j.prototype.clear = rr;
-j.prototype.delete = sr;
-j.prototype.get = nr;
-j.prototype.has = or;
-j.prototype.set = ar;
+F.prototype.clear = rr;
+F.prototype.delete = sr;
+F.prototype.get = nr;
+F.prototype.has = or;
+F.prototype.set = ar;
 var lr = "Expected a function";
 function se(r, e) {
   if (typeof r != "function" || e != null && typeof e != "function")
@@ -258,9 +258,9 @@ function se(r, e) {
     var a = r.apply(this, i);
     return t.cache = n.set(s, a) || n, a;
   };
-  return t.cache = new (se.Cache || j)(), t;
+  return t.cache = new (se.Cache || F)(), t;
 }
-se.Cache = j;
+se.Cache = F;
 var ur = 500;
 function fr(r) {
   var e = se(r, function(i) {
@@ -307,7 +307,7 @@ function br(r, e, t, i) {
       return r;
     if (s != a) {
       var h = u[f];
-      c = i ? i(h, f, u) : void 0, c === void 0 && (c = B(h) ? h : jt(e[s + 1]) ? [] : {});
+      c = i ? i(h, f, u) : void 0, c === void 0 && (c = B(h) ? h : Ft(e[s + 1]) ? [] : {});
     }
     Mt(u, f, c), u = u[f];
   }
@@ -399,7 +399,7 @@ function b(r, ...e) {
       });
     else
       for (const i in t)
-        t.hasOwnProperty(i) && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) ? r[i] = b(
+        t.hasOwnProperty(i) && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) && !(t[i] instanceof RegExp) ? r[i] = b(
           r[i] || (Array.isArray(t[i]) ? [] : {}),
           t[i]
         ) : r[i] = t[i]);
@@ -865,7 +865,7 @@ class yr {
     });
   }
 }
-class x {
+class j {
   static getFormContainer({ ui: e } = {}) {
     return d.presets.uiPresets[e ?? d.presets.ui].container.Form;
   }
@@ -1012,7 +1012,7 @@ class Ir {
     const Ue = this.runtimeAdapter.getRuntimeRequired({
       ...e,
       label: g
-    }), Te = x.getItemContainer(this), ze = x.getFormItemContainer(this), Le = this, He = e.componentSlots, P = (Ce = d.presets.uiPresets[this.ui]) == null ? void 0 : Ce.display;
+    }), Te = j.getItemContainer(this), ze = j.getFormItemContainer(this), Le = this, He = e.componentSlots, P = (Ce = d.presets.uiPresets[this.ui]) == null ? void 0 : Ce.display;
     let X;
     return !o.isUndefined(P == null ? void 0 : P.labelPrefix) && !o.isNull(P == null ? void 0 : P.labelPrefix) ? X = `${g}${P == null ? void 0 : P.labelPrefix}` : X = `${g}:`, m("div", {
       style: u
@@ -1044,7 +1044,7 @@ class Ir {
       display: "grid",
       gridColumn: "1 / -1",
       ...e.grid
-    }, s = x.getGroupContainer(this);
+    }, s = j.getGroupContainer(this);
     let n = e.show;
     return n === void 0 && (n = !0), m("div", {
       style: i
@@ -1070,7 +1070,7 @@ class Ir {
     i.model.value[e.field] || (i.model.value[e.field] = [{}]);
     let s = e.show;
     s === void 0 && (s = !0);
-    const n = x.getListContainer(this), a = x.getListItemContainer(this);
+    const n = j.getListContainer(this), a = j.getListItemContainer(this);
     return m("div", {
       style: t
     }, [s && m(n, {
@@ -1112,7 +1112,7 @@ class Ir {
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
       ...this.grid
-    }, t = this, i = b(this.globalNativeFormOverride.props.Form, I((f = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : f.Form) ?? {}), s = b(this.globalNativeFormOverride.slots.Form, I((h = (c = this.native) == null ? void 0 : c.slots) == null ? void 0 : h.Form) ?? {}), n = x.getFormContainer(this), a = this.runtimeAdapter.getFormModelPropName();
+    }, t = this, i = b(this.globalNativeFormOverride.props.Form, I((f = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : f.Form) ?? {}), s = b(this.globalNativeFormOverride.slots.Form, I((h = (c = this.native) == null ? void 0 : c.slots) == null ? void 0 : h.Form) ?? {}), n = j.getFormContainer(this), a = this.runtimeAdapter.getFormModelPropName();
     return m(n, U(i, {
       ref: this.formRef
     }, {
@@ -1449,7 +1449,7 @@ function wr(r) {
     }
   ];
 }
-function Fr(r) {
+function xr(r) {
   d.presets = r;
 }
 function ne(r, e) {
@@ -1464,10 +1464,10 @@ function ne(r, e) {
     writable: !0
   }), r;
 }
-function jr(r) {
+function Fr(r) {
   return ne(r, "native");
 }
-function xr(r) {
+function jr(r) {
   return r.__proform_raw_object = !0, r;
 }
 function Rr(r) {
@@ -1484,11 +1484,11 @@ function $r(r) {
 }
 export {
   Or as ProForm,
-  jr as markNativeFunction,
-  xr as markNativeObject,
+  Fr as markNativeFunction,
+  jr as markNativeObject,
   Rr as markOnetimeFunction,
   $r as markStructuredPathParsing,
   wr as useForm,
-  Fr as useFormPresetConfigurer,
+  xr as useFormPresetConfigurer,
   ne as useModifiers
 };
