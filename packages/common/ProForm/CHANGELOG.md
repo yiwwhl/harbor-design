@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.9
+
+### Patch Changes
+
+- fix bug of defaultValue retrive
+
 ## 1.4.8
 
 ### Patch Changes

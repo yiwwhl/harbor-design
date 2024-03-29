@@ -575,7 +575,7 @@ export default class Processor {
 		if (IS.isItemSchema(schema)) {
 			// fix bug of defaultValue，需要区别看待
 			nextTick(() => {
-				if ("defaultValue" in schema) {
+				if ("defaultValue" in schema && !baseModel[schema.field]) {
 					this.setModel(baseModel, schema.field, schema.defaultValue);
 				} else {
 					if (IS.isFunction(schema.field) && get(baseModel, schema.field())) {

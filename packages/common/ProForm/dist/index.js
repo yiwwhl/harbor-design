@@ -853,7 +853,7 @@ class yr {
     })), o.isGroupSchema(e) && e.children.forEach((i) => {
       this.createModel(i, t);
     }), o.isItemSchema(e) && S(() => {
-      if ("defaultValue" in e)
+      if ("defaultValue" in e && !t[e.field])
         this.setModel(t, e.field, e.defaultValue);
       else {
         if (o.isFunction(e.field) && D(t, e.field()))
