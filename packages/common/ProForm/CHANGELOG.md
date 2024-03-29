@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.10
+
+### Patch Changes
+
+- fix deepAssign logic
+
 ## 1.4.9
 
 ### Patch Changes

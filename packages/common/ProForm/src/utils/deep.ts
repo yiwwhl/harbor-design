@@ -4,20 +4,8 @@ export function deepAssign(
 ) {
 	sources.forEach((source) => {
 		if (Array.isArray(source)) {
-			if (!Array.isArray(target)) {
-				target = [];
-			}
-			source.forEach((item, index) => {
-				if (
-					typeof item === "object" &&
-					item !== null &&
-					!(item instanceof Date)
-				) {
-					target[index] = deepAssign(Array.isArray(item) ? [] : {}, item);
-				} else {
-					target[index] = item;
-				}
-			});
+			// 直接用 source 数组替换 target 数组，不进行合并
+			target = [...source];
 		} else {
 			for (const key in source) {
 				if (source.hasOwnProperty(key)) {
@@ -27,11 +15,15 @@ export function deepAssign(
 						!(source[key] instanceof Date) &&
 						!(source[key] instanceof RegExp)
 					) {
-						target[key] = deepAssign(
-							target[key] || (Array.isArray(source[key]) ? [] : {}),
-							source[key],
-						);
+						// 当源属性是数组时，直接使用源数组替代目标数组
+						if (Array.isArray(source[key])) {
+							target[key] = [...source[key]];
+						} else {
+							// 深度合并对象
+							target[key] = deepAssign(target[key] || {}, source[key]);
+						}
 					} else {
+						// 对于非对象，直接覆盖目标属性
 						target[key] = source[key];
 					}
 				}
