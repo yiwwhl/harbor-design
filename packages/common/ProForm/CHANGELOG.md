@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.11
+
+### Patch Changes
+
+- fix validate error
+
 ## 1.4.10
 
 ### Patch Changes

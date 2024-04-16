@@ -48,18 +48,6 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						});
 					}
 				}
-			} else {
-				if (runtimeArgs.rules) {
-					const requiredIndex = runtimeArgs.rules?.findIndex(
-						(rule: AnyObject) => !!rule.required,
-					);
-					if (requiredIndex === -1) {
-						runtimeArgs.rules.unshift({
-							required: true,
-							message: requiredPrompt,
-						});
-					}
-				}
 			}
 			return {
 				rules: runtimeArgs.rules,
@@ -151,18 +139,6 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].required = true;
 						runtimeArgs.rules[requiredIndex].message = requiredPrompt;
 					} else {
-						runtimeArgs.rules.unshift({
-							required: true,
-							message: requiredPrompt,
-						});
-					}
-				}
-			} else {
-				if (runtimeArgs.rules) {
-					const requiredIndex = runtimeArgs.rules?.findIndex(
-						(rule: AnyObject) => !!rule.required,
-					);
-					if (requiredIndex === -1) {
 						runtimeArgs.rules.unshift({
 							required: true,
 							message: requiredPrompt,
@@ -265,19 +241,6 @@ const AdapterPreset: AdaptedInterfacePreset = {
 						runtimeArgs.rules[requiredIndex].required = true;
 						runtimeArgs.rules[requiredIndex].message = requiredPrompt;
 					} else {
-						runtimeArgs.rules.unshift({
-							required: true,
-							message: requiredPrompt,
-							trigger: ["input", "blur"],
-						});
-					}
-				}
-			} else {
-				if (runtimeArgs.rules) {
-					const requiredIndex = runtimeArgs.rules?.findIndex(
-						(rule: AnyObject) => !!rule.required,
-					);
-					if (requiredIndex === -1) {
 						runtimeArgs.rules.unshift({
 							required: true,
 							message: requiredPrompt,

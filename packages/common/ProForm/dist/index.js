@@ -1,17 +1,17 @@
 var De = Object.defineProperty;
 var Ge = (r, e, t) => e in r ? De(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
 var l = (r, e, t) => (Ge(r, typeof e != "symbol" ? e + "" : e, t), t);
-import { ref as H, readonly as Ee, nextTick as S, isRef as T, watch as w, isReactive as z, watchEffect as G, toRaw as $, reactive as Y, createVNode as m, mergeProps as U, withDirectives as Be, vShow as Ke, createTextVNode as We, isVNode as Xe, defineComponent as Ye } from "vue";
-var Ze = typeof global == "object" && global && global.Object === Object && global, Je = typeof self == "object" && self && self.Object === Object && self, ee = Ze || Je || Function("return this")(), M = ee.Symbol, Re = Object.prototype, Qe = Re.hasOwnProperty, Ae = Re.toString, q = M ? M.toStringTag : void 0;
+import { ref as H, readonly as Ee, nextTick as S, isRef as T, watch as w, isReactive as z, watchEffect as G, toRaw as $, reactive as Y, createVNode as m, mergeProps as q, withDirectives as Be, vShow as Ke, createTextVNode as We, isVNode as Xe, defineComponent as Ye } from "vue";
+var Ze = typeof global == "object" && global && global.Object === Object && global, Je = typeof self == "object" && self && self.Object === Object && self, ee = Ze || Je || Function("return this")(), M = ee.Symbol, Re = Object.prototype, Qe = Re.hasOwnProperty, Ae = Re.toString, U = M ? M.toStringTag : void 0;
 function ke(r) {
-  var e = Qe.call(r, q), t = r[q];
+  var e = Qe.call(r, U), t = r[U];
   try {
-    r[q] = void 0;
+    r[U] = void 0;
     var i = !0;
   } catch {
   }
   var s = Ae.call(r);
-  return i && (e ? r[q] = t : delete r[q]), s;
+  return i && (e ? r[U] = t : delete r[U]), s;
 }
 var et = Object.prototype, tt = et.toString;
 function rt(r) {
@@ -33,14 +33,14 @@ function at(r, e) {
     s[t] = e(r[t], t, r);
   return s;
 }
-var re = Array.isArray, lt = 1 / 0, we = M ? M.prototype : void 0, xe = we ? we.toString : void 0;
+var re = Array.isArray, lt = 1 / 0, we = M ? M.prototype : void 0, Fe = we ? we.toString : void 0;
 function Me(r) {
   if (typeof r == "string")
     return r;
   if (re(r))
     return at(r, Me) + "";
   if (te(r))
-    return xe ? xe.call(r) : "";
+    return Fe ? Fe.call(r) : "";
   var e = r + "";
   return e == "0" && 1 / r == -lt ? "-0" : e;
 }
@@ -55,12 +55,12 @@ function ht(r) {
   var e = $e(r);
   return e == ft || e == ct || e == ut || e == dt;
 }
-var Z = ee["__core-js_shared__"], Fe = function() {
+var Z = ee["__core-js_shared__"], je = function() {
   var r = /[^.]+$/.exec(Z && Z.keys && Z.keys.IE_PROTO || "");
   return r ? "Symbol(src)_1." + r : "";
 }();
 function pt(r) {
-  return !!Fe && Fe in r;
+  return !!je && je in r;
 }
 var mt = Function.prototype, gt = mt.toString;
 function bt(r) {
@@ -76,8 +76,8 @@ function bt(r) {
   }
   return "";
 }
-var vt = /[\\^$.*+?()[\]{}|]/g, yt = /^\[object .+?Constructor\]$/, _t = Function.prototype, Pt = Object.prototype, It = _t.toString, Ct = Pt.hasOwnProperty, St = RegExp(
-  "^" + It.call(Ct).replace(vt, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+var vt = /[\\^$.*+?()[\]{}|]/g, yt = /^\[object .+?Constructor\]$/, _t = Function.prototype, Pt = Object.prototype, Ct = _t.toString, It = Pt.hasOwnProperty, St = RegExp(
+  "^" + Ct.call(It).replace(vt, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
 function Et(r) {
   if (!B(r) || pt(r))
@@ -92,19 +92,19 @@ function ie(r, e) {
   var t = Ot(r, e);
   return Et(t) ? t : void 0;
 }
-var je = function() {
+var xe = function() {
   try {
     var r = ie(Object, "defineProperty");
     return r({}, "", {}), r;
   } catch {
   }
-}(), wt = 9007199254740991, xt = /^(?:0|[1-9]\d*)$/;
-function Ft(r, e) {
+}(), wt = 9007199254740991, Ft = /^(?:0|[1-9]\d*)$/;
+function jt(r, e) {
   var t = typeof r;
-  return e = e ?? wt, !!e && (t == "number" || t != "symbol" && xt.test(r)) && r > -1 && r % 1 == 0 && r < e;
+  return e = e ?? wt, !!e && (t == "number" || t != "symbol" && Ft.test(r)) && r > -1 && r % 1 == 0 && r < e;
 }
-function jt(r, e, t) {
-  e == "__proto__" && je ? je(r, e, {
+function xt(r, e, t) {
+  e == "__proto__" && xe ? xe(r, e, {
     configurable: !0,
     enumerable: !0,
     value: t,
@@ -117,17 +117,17 @@ function Ve(r, e) {
 var Rt = Object.prototype, $t = Rt.hasOwnProperty;
 function Mt(r, e, t) {
   var i = r[e];
-  (!($t.call(r, e) && Ve(i, t)) || t === void 0 && !(e in r)) && jt(r, e, t);
+  (!($t.call(r, e) && Ve(i, t)) || t === void 0 && !(e in r)) && xt(r, e, t);
 }
 var Vt = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, Nt = /^\w*$/;
-function qt(r, e) {
+function Ut(r, e) {
   if (re(r))
     return !1;
   var t = typeof r;
   return t == "number" || t == "symbol" || t == "boolean" || r == null || te(r) ? !0 : Nt.test(r) || !Vt.test(r) || e != null && r in Object(e);
 }
 var L = ie(Object, "create");
-function Ut() {
+function qt() {
   this.__data__ = L ? L(null) : {}, this.size = 0;
 }
 function Tt(r) {
@@ -153,18 +153,18 @@ function Xt(r, e) {
   var t = this.__data__;
   return this.size += this.has(r) ? 0 : 1, t[r] = L && e === void 0 ? Wt : e, this;
 }
-function x(r) {
+function F(r) {
   var e = -1, t = r == null ? 0 : r.length;
   for (this.clear(); ++e < t; ) {
     var i = r[e];
     this.set(i[0], i[1]);
   }
 }
-x.prototype.clear = Ut;
-x.prototype.delete = Tt;
-x.prototype.get = Dt;
-x.prototype.has = Kt;
-x.prototype.set = Xt;
+F.prototype.clear = qt;
+F.prototype.delete = Tt;
+F.prototype.get = Dt;
+F.prototype.has = Kt;
+F.prototype.set = Xt;
 function Yt() {
   this.__data__ = [], this.size = 0;
 }
@@ -208,9 +208,9 @@ V.prototype.set = er;
 var tr = ie(ee, "Map");
 function rr() {
   this.size = 0, this.__data__ = {
-    hash: new x(),
+    hash: new F(),
     map: new (tr || V)(),
-    string: new x()
+    string: new F()
   };
 }
 function ir(r) {
@@ -235,18 +235,18 @@ function ar(r, e) {
   var t = W(this, r), i = t.size;
   return t.set(r, e), this.size += t.size == i ? 0 : 1, this;
 }
-function F(r) {
+function j(r) {
   var e = -1, t = r == null ? 0 : r.length;
   for (this.clear(); ++e < t; ) {
     var i = r[e];
     this.set(i[0], i[1]);
   }
 }
-F.prototype.clear = rr;
-F.prototype.delete = sr;
-F.prototype.get = nr;
-F.prototype.has = or;
-F.prototype.set = ar;
+j.prototype.clear = rr;
+j.prototype.delete = sr;
+j.prototype.get = nr;
+j.prototype.has = or;
+j.prototype.set = ar;
 var lr = "Expected a function";
 function se(r, e) {
   if (typeof r != "function" || e != null && typeof e != "function")
@@ -258,9 +258,9 @@ function se(r, e) {
     var a = r.apply(this, i);
     return t.cache = n.set(s, a) || n, a;
   };
-  return t.cache = new (se.Cache || F)(), t;
+  return t.cache = new (se.Cache || j)(), t;
 }
-se.Cache = F;
+se.Cache = j;
 var ur = 500;
 function fr(r) {
   var e = se(r, function(i) {
@@ -278,10 +278,10 @@ function pr(r) {
   return r == null ? "" : Me(r);
 }
 function Ne(r, e) {
-  return re(r) ? r : qt(r, e) ? [r] : hr(pr(r));
+  return re(r) ? r : Ut(r, e) ? [r] : hr(pr(r));
 }
 var mr = 1 / 0;
-function qe(r) {
+function Ue(r) {
   if (typeof r == "string" || te(r))
     return r;
   var e = r + "";
@@ -290,7 +290,7 @@ function qe(r) {
 function gr(r, e) {
   e = Ne(e, r);
   for (var t = 0, i = e.length; r != null && t < i; )
-    r = r[qe(e[t++])];
+    r = r[Ue(e[t++])];
   return t && t == i ? r : void 0;
 }
 function D(r, e, t) {
@@ -302,12 +302,12 @@ function br(r, e, t, i) {
     return r;
   e = Ne(e, r);
   for (var s = -1, n = e.length, a = n - 1, u = r; u != null && ++s < n; ) {
-    var f = qe(e[s]), c = t;
+    var f = Ue(e[s]), c = t;
     if (f === "__proto__" || f === "constructor" || f === "prototype")
       return r;
     if (s != a) {
       var h = u[f];
-      c = i ? i(h, f, u) : void 0, c === void 0 && (c = B(h) ? h : Ft(e[s + 1]) ? [] : {});
+      c = i ? i(h, f, u) : void 0, c === void 0 && (c = B(h) ? h : jt(e[s + 1]) ? [] : {});
     }
     Mt(u, f, c), u = u[f];
   }
@@ -400,7 +400,7 @@ function v(r, ...e) {
         t.hasOwnProperty(i) && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) && !(t[i] instanceof RegExp) ? Array.isArray(t[i]) ? r[i] = [...t[i]] : r[i] = v(r[i] || {}, t[i]) : r[i] = t[i]);
   }), r;
 }
-function I(r) {
+function C(r) {
   const e = /* @__PURE__ */ new WeakMap();
   function t(i) {
     if (i === null || typeof i != "object")
@@ -459,7 +459,7 @@ class vr {
   }
   submit() {
     var i;
-    const e = (i = d.getPreset(this.runtimeCore.ui)) == null ? void 0 : i.adapter, t = C.adapters[d.getUI(this.runtimeCore.ui)];
+    const e = (i = d.getPreset(this.runtimeCore.ui)) == null ? void 0 : i.adapter, t = I.adapters[d.getUI(this.runtimeCore.ui)];
     return (e == null ? void 0 : e.validateForm(this)) ?? (t == null ? void 0 : t.validateForm(this));
   }
   hydrate(e) {
@@ -525,7 +525,7 @@ class vr {
   }
   resetModel() {
     var e;
-    (e = this.runtimeCore) != null && e.model.value && (this.runtimeCore.model.value = I(
+    (e = this.runtimeCore) != null && e.model.value && (this.runtimeCore.model.value = C(
       this.runtimeCore.processor.stableModel
     ), this.readonlyReactiveModel.value = Ee(this.runtimeCore.model.value), this.runtimeCore.runtimeAdapter.clearValidate(this.runtimeCore));
   }
@@ -557,8 +557,8 @@ class yr {
     l(this, "getRuntimeMeta");
     l(this, "stableSchemas", []);
     l(this, "stableModel", {});
-    l(this, "schemaPreset", C.schemaPreset);
-    l(this, "componentPropsPreset", C.componentPropsPreset);
+    l(this, "schemaPreset", I.schemaPreset);
+    l(this, "componentPropsPreset", I.componentPropsPreset);
     l(this, "stableUpdaterProcessProgress");
     l(this, "stableUpdaterTimes", 0);
     l(this, "schemaEffect", new A());
@@ -606,7 +606,7 @@ class yr {
   // 派生过程，用于外部应用
   parseSchemas(e, t) {
     o.isArrayEmpty(this.processedSchemas.value) && (this.baseDefaultValueFunctionsLength = this.countFunctionDefaultValues(
-      I(e)
+      C(e)
     ), this.processedSchemas.value = this.initSchemas(e)), this.parse(e, t);
   }
   parseStable(e) {
@@ -834,7 +834,7 @@ class yr {
     e.map((t) => {
       this.createModel(t, this.processedModel.value);
     }), o.isObjectEmpty(this.stableModel) && this.stableUpdaterProcessProgress.every(Boolean) && this.defaultValueEffect.effects.size === 0 && S(() => {
-      this.stableModel = I(this.processedModel.value), this.runtimeCore.hydrateEffect.triggerEffects(), this.runtimeCore.hydrateEffect.clearEffects();
+      this.stableModel = C(this.processedModel.value), this.runtimeCore.hydrateEffect.triggerEffects(), this.runtimeCore.hydrateEffect.clearEffects();
     });
   }
   setModel(e, t, i) {
@@ -860,7 +860,7 @@ class yr {
     });
   }
 }
-class j {
+class x {
   static getFormContainer({ ui: e } = {}) {
     return d.presets.uiPresets[e ?? d.presets.ui].container.Form;
   }
@@ -890,34 +890,34 @@ class _r {
   }
   getRuntimeField(e) {
     var s;
-    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = C.adapters[d.getUI(this.ui)];
+    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = I.adapters[d.getUI(this.ui)];
     return (t == null ? void 0 : t.getRuntimeField(e)) ?? (i == null ? void 0 : i.getRuntimeField(e));
   }
   getRuntimeRequired(e) {
     var s;
-    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = C.adapters[d.getUI(this.ui)];
+    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = I.adapters[d.getUI(this.ui)];
     return (t == null ? void 0 : t.getRuntimeRequired(e)) ?? (i == null ? void 0 : i.getRuntimeRequired(e));
   }
   getFormModelPropName() {
     var i;
-    const e = (i = d.presets.uiPresets[this.ui]) == null ? void 0 : i.adapter, t = C.adapters[d.getUI(this.ui)];
+    const e = (i = d.presets.uiPresets[this.ui]) == null ? void 0 : i.adapter, t = I.adapters[d.getUI(this.ui)];
     return (e == null ? void 0 : e.getFormModelPropName()) ?? (t == null ? void 0 : t.getFormModelPropName());
   }
   formComponentRenderer(e) {
     var s;
-    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = C.adapters[d.getUI(this.ui)];
+    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = I.adapters[d.getUI(this.ui)];
     return (t == null ? void 0 : t.formComponentRenderer(e)) ?? (i == null ? void 0 : i.formComponentRenderer(e));
   }
   clearValidate(e) {
     var s;
-    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = C.adapters[d.getUI(this.ui)];
+    const t = (s = d.presets.uiPresets[this.ui]) == null ? void 0 : s.adapter, i = I.adapters[d.getUI(this.ui)];
     return (t == null ? void 0 : t.clearValidate(e)) ?? (i == null ? void 0 : i.clearValidate(e));
   }
 }
 function Pr(r) {
   return typeof r == "function" || Object.prototype.toString.call(r) === "[object Object]" && !Xe(r);
 }
-class Ir {
+class Cr {
   constructor(e) {
     l(this, "schemas", H([]));
     l(this, "model", H({}));
@@ -962,7 +962,7 @@ class Ir {
   }
   getRuntimeMeta() {
     return {
-      model: $(I(this.model.value)),
+      model: $(C(this.model.value)),
       reactiveModel: this.model.value,
       shared: this.shared,
       // share 增加防抖，当开发者在过程中进行 share 时避免频繁触发爆栈
@@ -980,34 +980,34 @@ class Ir {
     };
   }
   runtimeItemProcessor(e, t, i = this.model.value, s) {
-    var oe, ae, le, ue, fe, ce, de, he, pe, me, ge, be, ve, ye, _e, Pe, Ie, Ce;
+    var oe, ae, le, ue, fe, ce, de, he, pe, me, ge, be, ve, ye, _e, Pe, Ce, Ie;
     const n = $(e.component);
     if (!n)
       return;
     (ae = (oe = e.native) == null ? void 0 : oe.props) != null && ae.Form && v(this.globalNativeFormOverride.props.Form, (ue = (le = e.native) == null ? void 0 : le.props) == null ? void 0 : ue.Form), (ce = (fe = e.native) == null ? void 0 : fe.slots) != null && ce.Form && v(this.globalNativeFormOverride.slots.Form, (he = (de = e.native) == null ? void 0 : de.slots) == null ? void 0 : he.Form);
-    const a = v(I((me = (pe = this.native) == null ? void 0 : pe.slots) == null ? void 0 : me.FormItem) ?? {}, (be = (ge = e.native) == null ? void 0 : ge.slots) == null ? void 0 : be.FormItem), u = {
+    const a = v(C((me = (pe = this.native) == null ? void 0 : pe.slots) == null ? void 0 : me.FormItem) ?? {}, (be = (ge = e.native) == null ? void 0 : ge.slots) == null ? void 0 : be.FormItem), u = {
       display: "grid",
       gridColumn: "1 / -1",
       ...e.grid
-    }, f = v(I((ye = (ve = this.native) == null ? void 0 : ve.props) == null ? void 0 : ye.FormItem) ?? {}, (Pe = (_e = e.native) == null ? void 0 : _e.props) == null ? void 0 : Pe.FormItem), c = this.runtimeAdapter.getRuntimeField({
+    }, f = v(C((ye = (ve = this.native) == null ? void 0 : ve.props) == null ? void 0 : ye.FormItem) ?? {}, (Pe = (_e = e.native) == null ? void 0 : _e.props) == null ? void 0 : Pe.FormItem), c = this.runtimeAdapter.getRuntimeField({
       schema: e,
       parentSchema: s,
       index: t
-    }), h = n.name, p = e.componentProps ?? {}, b = C.placeholderPresetByComponentName;
+    }), h = n.name, p = e.componentProps ?? {}, b = I.placeholderPresetByComponentName;
     let E = e.placeholder, y = e.show;
     y === void 0 && (y = !0);
     let g = e.label ?? "", O;
-    if (e.runtime ? O = e.runtime : O = (s == null ? void 0 : s.runtime) ?? this.runtime, !o.isUndefined(t) && !o.isObjectEmpty(O) && (g = Q((Ie = O == null ? void 0 : O.customizeListItemLabel) == null ? void 0 : Ie.call(O, e.label ?? "", t + 1), "")), !E) {
+    if (e.runtime ? O = e.runtime : O = (s == null ? void 0 : s.runtime) ?? this.runtime, !o.isUndefined(t) && !o.isObjectEmpty(O) && (g = Q((Ce = O == null ? void 0 : O.customizeListItemLabel) == null ? void 0 : Ce.call(O, e.label ?? "", t + 1), "")), !E) {
       let N = "请输入";
       o.isUndefined(h) ? E = `${N}${g}` : /* @ts-expect-error */ b[h.toLowerCase()] ? (N = // @ts-expect-error
       b[h.toLowerCase()], E = `${N}${g}`) : (Object.keys(b).forEach((Se) => {
         h.toLowerCase().includes(Se.toLowerCase()) && (N = b[Se]);
       }), E = `${N}${g}`);
     }
-    const Ue = this.runtimeAdapter.getRuntimeRequired({
+    const qe = this.runtimeAdapter.getRuntimeRequired({
       ...e,
       label: g
-    }), Te = j.getItemContainer(this), ze = j.getFormItemContainer(this), Le = this, He = e.componentSlots, P = (Ce = d.presets.uiPresets[this.ui]) == null ? void 0 : Ce.display;
+    }), Te = x.getItemContainer(this), ze = x.getFormItemContainer(this), Le = this, He = e.componentSlots, P = (Ie = d.presets.uiPresets[this.ui]) == null ? void 0 : Ie.display;
     let X;
     return !o.isUndefined(P == null ? void 0 : P.labelPrefix) && !o.isNull(P == null ? void 0 : P.labelPrefix) ? X = `${g}${P == null ? void 0 : P.labelPrefix}` : X = `${g}:`, m("div", {
       style: u
@@ -1015,9 +1015,9 @@ class Ir {
       show: y
     }, {
       default() {
-        return y && m(ze, U(f, {
+        return y && m(ze, q(f, {
           label: `${g ? X : ""}`
-        }, c, Ue), {
+        }, c, qe), {
           default() {
             return Le.runtimeAdapter.formComponentRenderer({
               Component: n,
@@ -1039,7 +1039,7 @@ class Ir {
       display: "grid",
       gridColumn: "1 / -1",
       ...e.grid
-    }, s = j.getGroupContainer(this);
+    }, s = x.getGroupContainer(this);
     let n = e.show;
     return n === void 0 && (n = !0), m("div", {
       style: i
@@ -1051,7 +1051,7 @@ class Ir {
   }
   addListItem(e) {
     var t;
-    console.log("this", this.processor.stableModel, e.field), (t = this.processor.stableModel[e.field]) != null && t[0] && this.model.value[e.field].push(I(this.processor.stableModel[e.field][0])), this.runtimeAdapter.clearValidate(this);
+    console.log("this", this.processor.stableModel, e.field), (t = this.processor.stableModel[e.field]) != null && t[0] && this.model.value[e.field].push(C(this.processor.stableModel[e.field][0])), this.runtimeAdapter.clearValidate(this);
   }
   deleteListItem(e, t) {
     this.model.value[e.field].splice(t, 1), this.runtimeAdapter.clearValidate(this);
@@ -1065,7 +1065,7 @@ class Ir {
     i.model.value[e.field] || (i.model.value[e.field] = [{}]);
     let s = e.show;
     s === void 0 && (s = !0);
-    const n = j.getListContainer(this), a = j.getListItemContainer(this);
+    const n = x.getListContainer(this), a = x.getListItemContainer(this);
     return m("div", {
       style: t
     }, [s && m(n, {
@@ -1107,8 +1107,8 @@ class Ir {
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
       ...this.grid
-    }, t = this, i = v(this.globalNativeFormOverride.props.Form, I((f = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : f.Form) ?? {}), s = v(this.globalNativeFormOverride.slots.Form, I((h = (c = this.native) == null ? void 0 : c.slots) == null ? void 0 : h.Form) ?? {}), n = j.getFormContainer(this), a = this.runtimeAdapter.getFormModelPropName();
-    return m(n, U(i, {
+    }, t = this, i = v(this.globalNativeFormOverride.props.Form, C((f = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : f.Form) ?? {}), s = v(this.globalNativeFormOverride.slots.Form, C((h = (c = this.native) == null ? void 0 : c.slots) == null ? void 0 : h.Form) ?? {}), n = x.getFormContainer(this), a = this.runtimeAdapter.getFormModelPropName();
+    return m(n, q(i, {
       ref: this.formRef
     }, {
       [a]: this.model.value
@@ -1140,7 +1140,7 @@ function J({
 }) {
   return r ? `${r.field}.${t}.${e.field}` : e.field;
 }
-const Cr = {
+const Ir = {
   ArcoVue: {
     getRuntimeField(r) {
       const e = J(r);
@@ -1151,7 +1151,6 @@ const Cr = {
       };
     },
     getRuntimeRequired(r) {
-      var t;
       let e = `${r.label}是必填项`;
       if (r.required)
         if (o.isString(r.required) && (e = r.required), !r.rules)
@@ -1160,17 +1159,12 @@ const Cr = {
             message: e
           });
         else {
-          const i = r.rules.findIndex((s) => !o.isUndefined(s.required));
-          i !== -1 ? (r.rules[i].required = !0, r.rules[i].message = e) : r.rules.unshift({
+          const t = r.rules.findIndex((i) => !o.isUndefined(i.required));
+          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = e) : r.rules.unshift({
             required: !0,
             message: e
           });
         }
-      else
-        r.rules && ((t = r.rules) == null ? void 0 : t.findIndex((s) => !!s.required)) === -1 && r.rules.unshift({
-          required: !0,
-          message: e
-        });
       return {
         rules: r.rules
       };
@@ -1187,7 +1181,7 @@ const Cr = {
       props: n
     }) {
       let a;
-      return o.isFunction(t.field) ? a = D(e, t.field()) : a = e[t.field], m(r, U({
+      return o.isFunction(t.field) ? a = D(e, t.field()) : a = e[t.field], m(r, q({
         modelValue: a,
         "onUpdate:modelValue": (u) => {
           o.isFunction(t.field) ? _(e, t.field(), u) : e[t.field] = u;
@@ -1217,7 +1211,6 @@ const Cr = {
       };
     },
     getRuntimeRequired(r) {
-      var t;
       let e = `${r.label}是必填项`;
       if (r.required)
         if (o.isString(r.required) && (e = r.required), !r.rules)
@@ -1226,17 +1219,12 @@ const Cr = {
             message: e
           });
         else {
-          const i = r.rules.findIndex((s) => !o.isUndefined(s.required));
-          i !== -1 ? (r.rules[i].required = !0, r.rules[i].message = e) : r.rules.unshift({
+          const t = r.rules.findIndex((i) => !o.isUndefined(i.required));
+          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = e) : r.rules.unshift({
             required: !0,
             message: e
           });
         }
-      else
-        r.rules && ((t = r.rules) == null ? void 0 : t.findIndex((s) => !!s.required)) === -1 && r.rules.unshift({
-          required: !0,
-          message: e
-        });
       return {
         rules: r.rules,
         required: r.required
@@ -1254,7 +1242,7 @@ const Cr = {
       props: n
     }) {
       let a;
-      return o.isFunction(t.field) ? a = D(e, t.field()) : a = e[t.field], m(r, U({
+      return o.isFunction(t.field) ? a = D(e, t.field()) : a = e[t.field], m(r, q({
         modelValue: a,
         "onUpdate:modelValue": (u) => {
           o.isFunction(t.field) ? _(e, t.field(), u) : e[t.field] = u;
@@ -1289,7 +1277,6 @@ const Cr = {
       };
     },
     getRuntimeRequired(r) {
-      var t;
       let e = `${r.label}是必填项`;
       if (r.required)
         if (o.isString(r.required) && (e = r.required), !r.rules)
@@ -1299,19 +1286,13 @@ const Cr = {
             trigger: ["input", "blur"]
           });
         else {
-          const i = r.rules.findIndex((s) => !o.isUndefined(s.required));
-          i !== -1 ? (r.rules[i].required = !0, r.rules[i].message = e) : r.rules.unshift({
+          const t = r.rules.findIndex((i) => !o.isUndefined(i.required));
+          t !== -1 ? (r.rules[t].required = !0, r.rules[t].message = e) : r.rules.unshift({
             required: !0,
             message: e,
             trigger: ["input", "blur"]
           });
         }
-      else
-        r.rules && ((t = r.rules) == null ? void 0 : t.findIndex((s) => !!s.required)) === -1 && r.rules.unshift({
-          required: !0,
-          message: e,
-          trigger: ["input", "blur"]
-        });
       return {
         rule: r.rules
       };
@@ -1328,7 +1309,7 @@ const Cr = {
       props: n
     }) {
       let a;
-      return o.isFunction(t.field) ? a = D(e, t.field()) : a = e[t.field], m(r, U({
+      return o.isFunction(t.field) ? a = D(e, t.field()) : a = e[t.field], m(r, q({
         value: a,
         "onUpdate:value": (u) => {
           o.isFunction(t.field) ? _(e, t.field(), u) : e[t.field] = u;
@@ -1414,10 +1395,10 @@ l(R, "schemaPreset", {
 }), // 基于基本功能提出基本预设
 l(R, "placeholderPresetByComponentName", R.getPlaceholderPrefixPresetByComponentName());
 let k = R;
-const C = {
+const I = {
   ...k,
   adapters: {
-    ...Cr
+    ...Ir
   }
 }, Or = /* @__PURE__ */ Ye({
   props: {
@@ -1427,7 +1408,7 @@ const C = {
     }
   },
   setup(r) {
-    const e = new Ir(r.setup);
+    const e = new Cr(r.setup);
     return () => e.exec();
   }
 });
@@ -1444,7 +1425,7 @@ function wr(r) {
     }
   ];
 }
-function xr(r) {
+function Fr(r) {
   d.presets = r;
 }
 function ne(r, e) {
@@ -1459,10 +1440,10 @@ function ne(r, e) {
     writable: !0
   }), r;
 }
-function Fr(r) {
+function jr(r) {
   return ne(r, "native");
 }
-function jr(r) {
+function xr(r) {
   return r.__proform_raw_object = !0, r;
 }
 function Rr(r) {
@@ -1479,11 +1460,11 @@ function $r(r) {
 }
 export {
   Or as ProForm,
-  Fr as markNativeFunction,
-  jr as markNativeObject,
+  jr as markNativeFunction,
+  xr as markNativeObject,
   Rr as markOnetimeFunction,
   $r as markStructuredPathParsing,
   wr as useForm,
-  xr as useFormPresetConfigurer,
+  Fr as useFormPresetConfigurer,
   ne as useModifiers
 };
