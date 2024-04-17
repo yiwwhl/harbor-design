@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.12
+
+### Patch Changes
+
+- fix bug of hydrate
+
 ## 1.4.11
 
 ### Patch Changes

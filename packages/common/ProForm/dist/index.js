@@ -397,7 +397,7 @@ function v(r, ...e) {
       r = [...t];
     else
       for (const i in t)
-        t.hasOwnProperty(i) && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) && !(t[i] instanceof RegExp) ? Array.isArray(t[i]) ? r[i] = [...t[i]] : r[i] = v(r[i] || {}, t[i]) : r[i] = t[i]);
+        t.hasOwnProperty(i) && t[i] !== void 0 && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) && !(t[i] instanceof RegExp) ? Array.isArray(t[i]) ? r[i] = [...t[i]] : r[i] = v(r[i] || {}, t[i]) : r[i] = t[i]);
   }), r;
 }
 function C(r) {

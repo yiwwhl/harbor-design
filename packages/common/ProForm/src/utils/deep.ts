@@ -8,7 +8,7 @@ export function deepAssign(
 			target = [...source];
 		} else {
 			for (const key in source) {
-				if (source.hasOwnProperty(key)) {
+				if (source.hasOwnProperty(key) && source[key] !== undefined) {
 					if (
 						typeof source[key] === "object" &&
 						source[key] !== null &&

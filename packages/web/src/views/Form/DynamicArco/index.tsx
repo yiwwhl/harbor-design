@@ -1,7 +1,9 @@
-import { Button, Input, Select } from "@arco-design/web-vue";
+import { Button, Input, Radio, RadioGroup, Select } from "@arco-design/web-vue";
 import {
 	ProForm,
 	ProxyedSchema,
+	markNativeFunction,
+	markOnetimeFunction,
 	markStructuredPathParsing,
 	useForm,
 } from "@harbor-design/proform";
@@ -32,16 +34,121 @@ export default defineComponent({
 		const schemas = ref<ProxyedSchema[]>([]);
 		const renderList = ref([]) as any;
 
-		const [setup, { submit, share, subscribeModel, resetModel }] = useForm({
-			native: {
-				props: {
-					Form: {
-						layout: "horizontal",
-						autoLabelWidth: true,
+		const [setup, { submit, hydrate, share, subscribeModel, resetModel }] =
+			useForm({
+				native: {
+					props: {
+						Form: {
+							layout: "horizontal",
+							autoLabelWidth: true,
+						},
 					},
 				},
-			},
-			schemas,
+				schemas: [
+					{
+						label: "测试",
+						field: "testa",
+						component: RadioGroup,
+						componentProps: {
+							options: [
+								{
+									label: "测试A",
+									value: true,
+								},
+								{
+									label: "测试B",
+									value: false,
+								},
+							],
+						},
+					},
+					{
+						label: "姓名",
+						field: markStructuredPathParsing("user.name"),
+						component: Input,
+						defaultValue: "",
+						componentSlots: {
+							append: "hi",
+						},
+						rules: [
+							{
+								validator(val, cb) {
+									if (val === "2") {
+										cb("错误");
+									}
+								},
+							},
+						],
+					},
+					{
+						type: "list",
+						label: "list",
+						field: "users",
+						runtime: {
+							customizeListItemLabel(rawLabel: string, rawIndex: number) {
+								return `${rawLabel} ${rawIndex}`;
+							},
+						},
+						children: [
+							{
+								label: "测试",
+								component: Input,
+								field: "1",
+							},
+						],
+					},
+					{
+						label: "性别",
+						field: "gender",
+						component: Select,
+						componentProps: {
+							onChange: markNativeFunction(({ share, rawArgs }) => {
+								share({
+									display: rawArgs[0] === "male" ? "选中男" : "选中女",
+								});
+							}),
+							options: markOnetimeFunction(() => {
+								return new Promise((r) => {
+									setTimeout(() => {
+										r([
+											{
+												label: "男",
+												value: "male",
+											},
+											{
+												label: "女",
+												value: "female",
+											},
+										]);
+									}, 2000);
+								});
+							}),
+						},
+					},
+					{
+						label: ({ shared }) => shared.display,
+						field: "display",
+						component: Input,
+						componentProps: {
+							disabled: true,
+							modelValue({ shared }) {
+								return shared.display;
+							},
+						},
+					},
+					{
+						label: "年龄",
+						field: "age",
+						component: ({ model }) => (model.name === "1" ? Radio : Input),
+						show({ model }) {
+							return model.name === "1";
+						},
+					},
+				],
+			});
+
+		hydrate({
+			testa: false,
 		});
 		const what = reactive({});
 
