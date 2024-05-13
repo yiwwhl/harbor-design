@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.13
+
+### Patch Changes
+
+- add reactiveModel on SubscribeUtils
+
 ## 1.4.12
 
 ### Patch Changes

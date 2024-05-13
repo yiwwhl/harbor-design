@@ -63,7 +63,7 @@ function pt(r) {
   return !!je && je in r;
 }
 var mt = Function.prototype, gt = mt.toString;
-function bt(r) {
+function vt(r) {
   if (r != null) {
     try {
       return gt.call(r);
@@ -76,14 +76,14 @@ function bt(r) {
   }
   return "";
 }
-var vt = /[\\^$.*+?()[\]{}|]/g, yt = /^\[object .+?Constructor\]$/, _t = Function.prototype, Pt = Object.prototype, Ct = _t.toString, It = Pt.hasOwnProperty, St = RegExp(
-  "^" + Ct.call(It).replace(vt, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+var bt = /[\\^$.*+?()[\]{}|]/g, yt = /^\[object .+?Constructor\]$/, _t = Function.prototype, Pt = Object.prototype, Ct = _t.toString, It = Pt.hasOwnProperty, St = RegExp(
+  "^" + Ct.call(It).replace(bt, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
 function Et(r) {
   if (!B(r) || pt(r))
     return !1;
   var e = ht(r) ? St : yt;
-  return e.test(bt(r));
+  return e.test(vt(r));
 }
 function Ot(r, e) {
   return r == null ? void 0 : r[e];
@@ -297,7 +297,7 @@ function D(r, e, t) {
   var i = r == null ? void 0 : gr(r, e);
   return i === void 0 ? t : i;
 }
-function br(r, e, t, i) {
+function vr(r, e, t, i) {
   if (!B(r))
     return r;
   e = Ne(e, r);
@@ -314,7 +314,7 @@ function br(r, e, t, i) {
   return r;
 }
 function _(r, e, t) {
-  return r == null ? r : br(r, e, t);
+  return r == null ? r : vr(r, e, t);
 }
 class o {
   static typeChecker(e) {
@@ -391,13 +391,13 @@ class o {
     return !!e.__proform_raw_object;
   }
 }
-function v(r, ...e) {
+function b(r, ...e) {
   return e.forEach((t) => {
     if (Array.isArray(t))
       r = [...t];
     else
       for (const i in t)
-        t.hasOwnProperty(i) && t[i] !== void 0 && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) && !(t[i] instanceof RegExp) ? Array.isArray(t[i]) ? r[i] = [...t[i]] : r[i] = v(r[i] || {}, t[i]) : r[i] = t[i]);
+        t.hasOwnProperty(i) && t[i] !== void 0 && (typeof t[i] == "object" && t[i] !== null && !(t[i] instanceof Date) && !(t[i] instanceof RegExp) ? Array.isArray(t[i]) ? r[i] = [...t[i]] : r[i] = b(r[i] || {}, t[i]) : r[i] = t[i]);
   }), r;
 }
 function C(r) {
@@ -441,7 +441,7 @@ function C(r) {
 function Q(r, e) {
   return r.replace(/undefined/g, e);
 }
-class vr {
+class br {
   constructor(e) {
     l(this, "runtimeCore");
     l(this, "readonlyReactiveModel", H({}));
@@ -469,7 +469,7 @@ class vr {
           T(e) ? w(
             () => e.value,
             () => {
-              v(this.runtimeCore.model.value, e.value);
+              b(this.runtimeCore.model.value, e.value);
             },
             {
               deep: !0,
@@ -478,13 +478,13 @@ class vr {
           ) : z(e) ? w(
             () => e,
             () => {
-              v(this.runtimeCore.model.value, e);
+              b(this.runtimeCore.model.value, e);
             },
             {
               deep: !0,
               immediate: !0
             }
-          ) : v(this.runtimeCore.model.value, e);
+          ) : b(this.runtimeCore.model.value, e);
         },
         {
           lazy: !1
@@ -509,6 +509,7 @@ class vr {
         () => this.readonlyReactiveModel.value,
         (i) => {
           e(i, {
+            reactiveModel: this.runtimeCore.model.value,
             stopSubscribe() {
               S(() => {
                 t();
@@ -641,11 +642,11 @@ class yr {
       const f = u.index, c = u.key, h = u.keyIndex;
       if (o.isUndefined(u.stable) || o.isNull(u.stable))
         return;
-      const p = s.parseStable(u.stable), b = i == null ? void 0 : i.index, E = i == null ? void 0 : i.key;
+      const p = s.parseStable(u.stable), v = i == null ? void 0 : i.index, E = i == null ? void 0 : i.key;
       let y = p;
       if (o.isProcessInprogress(y) || (n[h] = !0), i) {
-        const g = s.processedSchemas.value[b][E][f][c];
-        g && o.isObject(g) && c !== "component" && (y = v(g, y)), s.processedSchemas.value[b][E][f][c] = y, s.stableUpdater(
+        const g = s.processedSchemas.value[v][E][f][c];
+        g && o.isObject(g) && c !== "component" && (y = b(g, y)), s.processedSchemas.value[v][E][f][c] = y, s.stableUpdater(
           n,
           i,
           t,
@@ -654,7 +655,7 @@ class yr {
         );
       } else {
         const g = s.processedSchemas.value[f][c];
-        g && o.isObject(g) && c !== "component" && (y = v(g, y)), s.processedSchemas.value[f][c] = y, s.stableUpdater(
+        g && o.isObject(g) && c !== "component" && (y = b(g, y)), s.processedSchemas.value[f][c] = y, s.stableUpdater(
           n,
           i,
           t,
@@ -714,8 +715,8 @@ class yr {
                     this.defaultValueInprogressMap.set(t[s], h), !o.isProcessInprogress(h) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
                       this.defaultValueInprogressMap.values()
                     ).every((p) => {
-                      var b;
-                      return !((b = p == null ? void 0 : p.includes) != null && b.call(p, "undefined"));
+                      var v;
+                      return !((v = p == null ? void 0 : p.includes) != null && v.call(p, "undefined"));
                     }) ? (f(h), this.defaultValueEffect.clearEffects(), S(() => {
                       c();
                     })) : f(h);
@@ -730,8 +731,8 @@ class yr {
                     this.defaultValueInprogressMap.set(t[s], h), !o.isProcessInprogress(h) && this.defaultValueInprogressMap.size === this.baseDefaultValueFunctionsLength && Array.from(
                       this.defaultValueInprogressMap.values()
                     ).every((p) => {
-                      var b;
-                      return !((b = p == null ? void 0 : p.includes) != null && b.call(p, "undefined"));
+                      var v;
+                      return !((v = p == null ? void 0 : p.includes) != null && v.call(p, "undefined"));
                     }) ? (f(h), this.defaultValueEffect.clearEffects(), S(() => {
                       c();
                     })) : f(h);
@@ -838,7 +839,7 @@ class yr {
     });
   }
   setModel(e, t, i) {
-    o.isFunction(t) ? _(e, t(), i) : v(e, {
+    o.isFunction(t) ? _(e, t(), i) : b(e, {
       [t]: i
     });
   }
@@ -980,28 +981,28 @@ class Cr {
     };
   }
   runtimeItemProcessor(e, t, i = this.model.value, s) {
-    var oe, ae, le, ue, fe, ce, de, he, pe, me, ge, be, ve, ye, _e, Pe, Ce, Ie;
+    var oe, ae, le, ue, fe, ce, de, he, pe, me, ge, ve, be, ye, _e, Pe, Ce, Ie;
     const n = $(e.component);
     if (!n)
       return;
-    (ae = (oe = e.native) == null ? void 0 : oe.props) != null && ae.Form && v(this.globalNativeFormOverride.props.Form, (ue = (le = e.native) == null ? void 0 : le.props) == null ? void 0 : ue.Form), (ce = (fe = e.native) == null ? void 0 : fe.slots) != null && ce.Form && v(this.globalNativeFormOverride.slots.Form, (he = (de = e.native) == null ? void 0 : de.slots) == null ? void 0 : he.Form);
-    const a = v(C((me = (pe = this.native) == null ? void 0 : pe.slots) == null ? void 0 : me.FormItem) ?? {}, (be = (ge = e.native) == null ? void 0 : ge.slots) == null ? void 0 : be.FormItem), u = {
+    (ae = (oe = e.native) == null ? void 0 : oe.props) != null && ae.Form && b(this.globalNativeFormOverride.props.Form, (ue = (le = e.native) == null ? void 0 : le.props) == null ? void 0 : ue.Form), (ce = (fe = e.native) == null ? void 0 : fe.slots) != null && ce.Form && b(this.globalNativeFormOverride.slots.Form, (he = (de = e.native) == null ? void 0 : de.slots) == null ? void 0 : he.Form);
+    const a = b(C((me = (pe = this.native) == null ? void 0 : pe.slots) == null ? void 0 : me.FormItem) ?? {}, (ve = (ge = e.native) == null ? void 0 : ge.slots) == null ? void 0 : ve.FormItem), u = {
       display: "grid",
       gridColumn: "1 / -1",
       ...e.grid
-    }, f = v(C((ye = (ve = this.native) == null ? void 0 : ve.props) == null ? void 0 : ye.FormItem) ?? {}, (Pe = (_e = e.native) == null ? void 0 : _e.props) == null ? void 0 : Pe.FormItem), c = this.runtimeAdapter.getRuntimeField({
+    }, f = b(C((ye = (be = this.native) == null ? void 0 : be.props) == null ? void 0 : ye.FormItem) ?? {}, (Pe = (_e = e.native) == null ? void 0 : _e.props) == null ? void 0 : Pe.FormItem), c = this.runtimeAdapter.getRuntimeField({
       schema: e,
       parentSchema: s,
       index: t
-    }), h = n.name, p = e.componentProps ?? {}, b = I.placeholderPresetByComponentName;
+    }), h = n.name, p = e.componentProps ?? {}, v = I.placeholderPresetByComponentName;
     let E = e.placeholder, y = e.show;
     y === void 0 && (y = !0);
     let g = e.label ?? "", O;
     if (e.runtime ? O = e.runtime : O = (s == null ? void 0 : s.runtime) ?? this.runtime, !o.isUndefined(t) && !o.isObjectEmpty(O) && (g = Q((Ce = O == null ? void 0 : O.customizeListItemLabel) == null ? void 0 : Ce.call(O, e.label ?? "", t + 1), "")), !E) {
       let N = "请输入";
-      o.isUndefined(h) ? E = `${N}${g}` : /* @ts-expect-error */ b[h.toLowerCase()] ? (N = // @ts-expect-error
-      b[h.toLowerCase()], E = `${N}${g}`) : (Object.keys(b).forEach((Se) => {
-        h.toLowerCase().includes(Se.toLowerCase()) && (N = b[Se]);
+      o.isUndefined(h) ? E = `${N}${g}` : /* @ts-expect-error */ v[h.toLowerCase()] ? (N = // @ts-expect-error
+      v[h.toLowerCase()], E = `${N}${g}`) : (Object.keys(v).forEach((Se) => {
+        h.toLowerCase().includes(Se.toLowerCase()) && (N = v[Se]);
       }), E = `${N}${g}`);
     }
     const qe = this.runtimeAdapter.getRuntimeRequired({
@@ -1107,7 +1108,7 @@ class Cr {
       gridColumn: "1 / -1",
       gridAutoColumns: "1fr",
       ...this.grid
-    }, t = this, i = v(this.globalNativeFormOverride.props.Form, C((f = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : f.Form) ?? {}), s = v(this.globalNativeFormOverride.slots.Form, C((h = (c = this.native) == null ? void 0 : c.slots) == null ? void 0 : h.Form) ?? {}), n = x.getFormContainer(this), a = this.runtimeAdapter.getFormModelPropName();
+    }, t = this, i = b(this.globalNativeFormOverride.props.Form, C((f = (u = this.native) == null ? void 0 : u.props) == null ? void 0 : f.Form) ?? {}), s = b(this.globalNativeFormOverride.slots.Form, C((h = (c = this.native) == null ? void 0 : c.slots) == null ? void 0 : h.Form) ?? {}), n = x.getFormContainer(this), a = this.runtimeAdapter.getFormModelPropName();
     return m(n, q(i, {
       ref: this.formRef
     }, {
@@ -1413,7 +1414,7 @@ const I = {
   }
 });
 function wr(r) {
-  const e = new vr(r);
+  const e = new br(r);
   return [
     e.setup.bind(e),
     {

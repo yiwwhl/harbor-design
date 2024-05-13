@@ -5,6 +5,7 @@ import { WatchStopHandle } from "vue";
 export type Setup = (runtimeCore: RuntimeCore) => any;
 
 export type SubscribeUtils = {
+	reactiveModel: AnyObject;
 	stopSubscribe: WatchStopHandle;
 };
 

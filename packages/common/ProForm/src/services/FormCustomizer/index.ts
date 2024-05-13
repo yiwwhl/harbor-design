@@ -123,6 +123,7 @@ export default class FormCustomizer {
 				() => this.readonlyReactiveModel.value,
 				(value) => {
 					callback(value, {
+						reactiveModel: this.runtimeCore.model.value,
 						stopSubscribe() {
 							nextTick(() => {
 								stopSubscribe();
