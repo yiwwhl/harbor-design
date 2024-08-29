@@ -33,7 +33,7 @@ import {
 import Effect from "../Effect";
 import RuntimeContainer from "./RuntimeContainer";
 import RuntimeAdpter from "./RuntimeAdapter";
-import { set } from "lodash-es";
+import { isFunction, set } from "lodash-es";
 
 // TODO: should refactor
 export default class RuntimeCore {
@@ -192,7 +192,8 @@ export default class RuntimeCore {
 		// if (!show) {
 		// 	delete baseModel[schema.field];
 		// }
-		let label = schema.label ?? "";
+		let label =
+			(isFunction(schema.label) ? schema.label() : schema.label) ?? "";
 
 		let runtime;
 		if (schema.runtime) {

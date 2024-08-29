@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.14
+
+### Patch Changes
+
+- update label process
+
 ## 1.4.13
 
 ### Patch Changes

@@ -28,6 +28,9 @@ const AdapterPreset: AdaptedInterfacePreset = {
 				if (IS.isString(runtimeArgs.required)) {
 					requiredPrompt = runtimeArgs.required;
 				}
+				if (IS.isFunction(runtimeArgs.required)) {
+					requiredPrompt = runtimeArgs.required();
+				}
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({
