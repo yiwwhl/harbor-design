@@ -1154,7 +1154,7 @@ const Ir = {
     getRuntimeRequired(r) {
       let e = `${r.label}是必填项`;
       if (r.required)
-        if (o.isString(r.required) && (e = r.required), !r.rules)
+        if (o.isString(r.required) && (e = r.required), o.isFunction(r.required) && (e = r.required()), !r.rules)
           r.rules = [], r.rules.push({
             required: !0,
             message: e
