@@ -1,4 +1,4 @@
-# ProForm in HarborDesign is Deprecated, the new ProForm project is https://github.com/sorceries/proform
+# ProForm in HarborDesign is Deprecated, the new ProForm project is [https://github.com/](https://github.com/techlodge/proform)
 
 # Harbor Design
 
