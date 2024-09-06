@@ -1,3 +1,5 @@
+# ProForm in HarborDesign is Deprecated, the new ProForm project is https://github.com/sorceries/proform
+
 # Harbor Design
 
 accumulation of personal experience in component encapsulation.
