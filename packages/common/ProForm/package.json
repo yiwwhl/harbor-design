@@ -1,41 +1,41 @@
 {
-  "name": "@harbor-design/proform",
-  "version": "1.4.15",
-  "description": "",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "type": "module",
-  "types": "./dist/types/index.d.ts",
-  "scripts": {
-    "build": "vue-tsc && vite build",
-    "dev:watch": "nodemon -e .ts,.tsx --ignore dist --exec 'vite build'"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.4"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.js"
-    }
-  },
-  "files": [
-    "dist/"
-  ],
-  "author": "yiwwhl<yiwwhl@qq.com>",
-  "repository": "yiwwhl/harbor-design",
-  "keywords": [
-    "form",
-    "dynamic form"
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "lodash-es": "^4.17.21"
-  },
-  "devDependencies": {
-    "@types/lodash-es": "^4.17.12",
-    "nodemon": "^3.1.0"
-  }
+	"name": "@harbor-design/proform",
+	"version": "1.4.17",
+	"description": "",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"type": "module",
+	"types": "./dist/types/index.d.ts",
+	"scripts": {
+		"build": "vue-tsc && vite build",
+		"dev:watch": "nodemon -e .ts,.tsx --ignore dist --exec 'vite build'"
+	},
+	"peerDependencies": {
+		"vue": "^3.3.4"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist/"
+	],
+	"author": "yiwwhl<yiwwhl@qq.com>",
+	"repository": "yiwwhl/harbor-design",
+	"keywords": [
+		"form",
+		"dynamic form"
+	],
+	"license": "MIT",
+	"dependencies": {
+		"lodash-es": "^4.17.21"
+	},
+	"devDependencies": {
+		"@types/lodash-es": "^4.17.12",
+		"nodemon": "^3.1.0"
+	}
 }

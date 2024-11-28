@@ -155,10 +155,10 @@ export default class RuntimeCore {
 				this.globalNativeFormOverride.props.Form,
 				schema.native?.props?.Form,
 			);
-		schema.native?.slots?.Form &&
+		schema.native?.slots?.FormItem &&
 			deepAssign(
-				this.globalNativeFormOverride.slots.Form,
-				schema.native?.slots?.Form,
+				this.globalNativeFormOverride.slots.FormItem,
+				schema.native?.slots?.FormItem,
 			);
 		const formItemNativeSlots = deepAssign(
 			deepClone(this.native?.slots?.FormItem) ?? {},
@@ -169,9 +169,18 @@ export default class RuntimeCore {
 			gridColumn: "1 / -1",
 			...schema.grid,
 		};
+		let merge = {
+			...schema.native?.props?.FormItem,
+		};
+		if (isFunction(schema.native?.props?.FormItem?.tooltip)) {
+			merge = {
+				...schema.native?.props?.FormItem,
+				tooltip: schema.native?.props?.FormItem?.tooltip(),
+			};
+		}
 		const formItemNativeProps = deepAssign(
 			deepClone(this.native?.props?.FormItem) ?? {},
-			schema.native?.props?.FormItem,
+			merge,
 		);
 		const runtimeField = this.runtimeAdapter.getRuntimeField({
 			schema,
@@ -182,7 +191,10 @@ export default class RuntimeCore {
 		const props = schema.componentProps ?? {};
 		const placeholderPresetByComponentName =
 			Preset.placeholderPresetByComponentName;
-		let placeholder = schema.placeholder;
+
+		let placeholder = isFunction(schema.placeholder)
+			? schema.placeholder()
+			: schema.placeholder;
 
 		let show = schema.show;
 		if (show === undefined) {
@@ -255,7 +267,7 @@ export default class RuntimeCore {
 		}
 		return (
 			<div style={defaultItemStyle}>
-				<Item show={show}>
+				<Item show={show} schema={schema}>
 					{{
 						default() {
 							return (
@@ -314,7 +326,6 @@ export default class RuntimeCore {
 	}
 
 	addListItem(schema: AnyObject) {
-		console.log("this", this.processor.stableModel, schema.field);
 		// if (!this.processor.stableModel[schema.field]?.[0]) {
 		// 	return Promise.reject({
 		// 		code: `0001`,

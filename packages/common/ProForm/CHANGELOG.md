@@ -1,5 +1,17 @@
 # @harbor-design/proform
 
+## 1.4.17
+
+### Patch Changes
+
+- update tooltip
+
+## 1.4.16
+
+### Patch Changes
+
+- update proform
+
 ## 1.4.15
 
 ### Patch Changes
