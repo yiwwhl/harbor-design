@@ -1021,7 +1021,8 @@ class Rr {
     return !o.isUndefined(P == null ? void 0 : P.labelPrefix) && !o.isNull(P == null ? void 0 : P.labelPrefix) ? Z = `${F}${P == null ? void 0 : P.labelPrefix}` : Z = `${F}:`, m("div", {
       style: u
     }, [m(Ye, {
-      show: b
+      show: b,
+      schema: e
     }, {
       default() {
         return b && m(Ze, T(c, {
