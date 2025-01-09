@@ -1,5 +1,11 @@
 # @harbor-design/proform
 
+## 1.4.19
+
+### Patch Changes
+
+- set to defunct
+
 ## 1.4.18
 
 ### Patch Changes
