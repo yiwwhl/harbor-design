@@ -64,12 +64,14 @@ export default class RuntimeCore {
 	runtimeAdapter: RuntimeAdpter;
 	shared: AnyObject = reactive({});
 	shareHistory = new Map();
+	specialFormIdPrefix = "";
 
 	constructor(public setup: Setup) {
 		this.processor = new Processor(this);
 		const formCustomization = this.setup(this) as FormCustomization;
 		this.ui = formCustomization.ui ?? Context.presets.ui;
 		this.runtimeAdapter = new RuntimeAdpter(this.ui);
+		this.specialFormIdPrefix = formCustomization.specialFormIdPrefix ?? "";
 		Object.assign(
 			this.globalNativeFormOverride,
 			this.runtimeAdapter.getRuntimeNative(),
@@ -267,7 +269,15 @@ export default class RuntimeCore {
 		}
 		return (
 			<div style={defaultItemStyle}>
-				<Item show={show} schema={schema}>
+				<Item
+					show={show}
+					schema={schema}
+					id={
+						index
+							? `${this.specialFormIdPrefix}${schema.field}-${index}`
+							: `${this.specialFormIdPrefix}${schema.field}`
+					}
+				>
 					{{
 						default() {
 							return (

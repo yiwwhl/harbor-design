@@ -108,6 +108,7 @@ export interface FormCustomization {
     native?: NativeCustomizationOptions;
     runtime?: Runtime;
     schemas: Ref<ProxyedSchema[]> | ProxyedSchema[];
+    specialFormIdPrefix?: any;
 }
 export type NativeCustomizationOptions = {
     props?: {

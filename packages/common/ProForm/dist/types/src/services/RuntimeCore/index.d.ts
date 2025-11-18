@@ -28,6 +28,7 @@ export default class RuntimeCore {
     runtimeAdapter: RuntimeAdpter;
     shared: AnyObject;
     shareHistory: Map<any, any>;
+    specialFormIdPrefix: string;
     constructor(setup: Setup);
     getRuntimeMeta(): {
         model: AnyObject;
