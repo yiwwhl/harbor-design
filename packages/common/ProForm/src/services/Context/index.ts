@@ -64,7 +64,7 @@ export default class Context {
 		}
 		const task = config
 			.loadLocalePack(locale)
-			.then((pack) => {
+			.then((pack: any) => {
 				if (pack) {
 					this.localePackCache[locale] = pack;
 				}
