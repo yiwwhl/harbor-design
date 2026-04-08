@@ -2,6 +2,17 @@ import { get, set } from "lodash-es";
 import { AdaptedInterfacePreset, AnyObject } from "../../types";
 import { IS } from "../../utils";
 import { toRaw } from "vue";
+import Context from "../Context";
+
+function getRequiredPrompt(runtimeArgs: AnyObject) {
+	if (IS.isString(runtimeArgs.required)) {
+		return Context.translateMessage(runtimeArgs.required);
+	}
+	if (IS.isFunction(runtimeArgs.required)) {
+		return runtimeArgs.required();
+	}
+	return Context.buildRequiredMessage(runtimeArgs.label);
+}
 
 function getGeneralField({ parentSchema, schema, index }: AnyObject) {
 	return parentSchema
@@ -23,14 +34,9 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			};
 		},
 		getRuntimeRequired(runtimeArgs: AnyObject) {
-			let requiredPrompt = `${runtimeArgs.label}是必填项`;
+			let requiredPrompt = Context.buildRequiredMessage(runtimeArgs.label);
 			if (runtimeArgs.required) {
-				if (IS.isString(runtimeArgs.required)) {
-					requiredPrompt = runtimeArgs.required;
-				}
-				if (IS.isFunction(runtimeArgs.required)) {
-					requiredPrompt = runtimeArgs.required();
-				}
+				requiredPrompt = getRequiredPrompt(runtimeArgs);
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({
@@ -123,11 +129,9 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			};
 		},
 		getRuntimeRequired(runtimeArgs: AnyObject) {
-			let requiredPrompt = `${runtimeArgs.label}是必填项`;
+			let requiredPrompt = Context.buildRequiredMessage(runtimeArgs.label);
 			if (runtimeArgs.required) {
-				if (IS.isString(runtimeArgs.required)) {
-					requiredPrompt = runtimeArgs.required;
-				}
+				requiredPrompt = getRequiredPrompt(runtimeArgs);
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({
@@ -224,11 +228,9 @@ const AdapterPreset: AdaptedInterfacePreset = {
 			};
 		},
 		getRuntimeRequired(runtimeArgs: AnyObject) {
-			let requiredPrompt = `${runtimeArgs.label}是必填项`;
+			let requiredPrompt = Context.buildRequiredMessage(runtimeArgs.label);
 			if (runtimeArgs.required) {
-				if (IS.isString(runtimeArgs.required)) {
-					requiredPrompt = runtimeArgs.required;
-				}
+				requiredPrompt = getRequiredPrompt(runtimeArgs);
 				if (!runtimeArgs.rules) {
 					runtimeArgs.rules = [];
 					runtimeArgs.rules.push({

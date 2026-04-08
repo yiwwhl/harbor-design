@@ -2,6 +2,7 @@ import { FormCustomizer } from "../services";
 import { FormCustomization, UseForm } from "../types";
 
 export function useForm(formCustomization: FormCustomization): UseForm {
+	console.log("new ffffffffffff========123===");
 	const formCustomizer = new FormCustomizer(formCustomization);
 	return [
 		formCustomizer.setup.bind(formCustomizer),
